@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author tairanliu
  */
-@Service(interfaceClass=CorgierProfileService.class,timeout = 60000,version = "${provider.server.version}")
+@Service(interfaceClass=CorgierProfileService.class,timeout = 60000,version = "${dubbo.provider.version}")
 @Slf4j
 @Component
 public class CorgierProfileServiceImpl implements CorgierProfileService {
