@@ -5,8 +5,8 @@ set -x
 TAG=$1
 
 DATE=`date +%s`
-WORK_DIR="/root/data/corgi-api"
-GIT_DIR=$WORK_DIR"/corgi-api"
+WORK_DIR="/root/data/corgi-user"
+GIT_DIR=$WORK_DIR"/corgi-user/corgi-user-service"
 TAG_DIR=$WORK_DIR"/code"
 SOURCE_DIR=$WORK_DIR"/source"
 PACKAGE_NAME="corgi-api.jar"
