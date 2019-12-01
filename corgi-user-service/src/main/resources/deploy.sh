@@ -9,7 +9,7 @@ WORK_DIR="/root/data/corgi-user"
 GIT_DIR=$WORK_DIR"/corgi-user/corgi-user-service"
 TAG_DIR=$WORK_DIR"/code"
 SOURCE_DIR=$WORK_DIR"/source"
-PACKAGE_NAME="corgi-api.jar"
+PACKAGE_NAME="corgi-user.jar"
 PID=$(ps aux | grep " ${PACKAGE_NAME}$" | grep -v grep | awk '{print $2}' )
 echo $PID
 JAVA_OPTS=""
@@ -49,14 +49,5 @@ cd ./target
 sleep 3
 #java -jar $JAVA_OPTS $PACKAGE_NAME
 nohup java -jar $JAVA_OPTS $PACKAGE_NAME > log.out 2>&1&
-
-curl -X POST \
-#  http://59.110.141.94/robot/sendmsg \
-  -H 'Content-Type: application/json' \
-  -H 'x-custom-header: bot' \
-  -d '{
-	"msg" : "激励后端上线了",
-	"channel" : "测试环境"
-}'
 
 echo "finished"

@@ -68,7 +68,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>inspire-api</finalName>
+        <finalName>corgi-user</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
