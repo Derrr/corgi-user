@@ -8,10 +8,11 @@ import org.springframework.stereotype.Component;
 /**
  * @author tairanliu
  */
-@Service(interfaceClass=CorgierProfileService.class,registry = "${dubbo.registries.corgi.id}",version = "${provider.server.version}")
+@Service(interfaceClass=CorgierProfileService.class,timeout = 60000,version = "${provider.server.version}")
 @Slf4j
 @Component
 public class CorgierProfileServiceImpl implements CorgierProfileService {
+    @Override
     public String register() {
         log.info("into the service");
         return "test";

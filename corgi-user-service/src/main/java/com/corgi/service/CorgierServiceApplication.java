@@ -1,10 +1,8 @@
 package com.corgi.service;
 
+import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 
 /**
@@ -13,9 +11,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @Date: 2019/12/1
  */
 @SpringBootApplication
-@EnableAsync
-@EnableCaching
-@PropertySource("classpath:application.properties")
+@EnableDubboConfiguration
 public class CorgierServiceApplication {
 
     public static void main(String[] args) {
