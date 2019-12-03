@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.profile.CorgiUserMapper">
+    <select id="getUserLoginByTelNo" resultType="com.corgi.user.entity.UserLogin">
+        select id userId, tel_no telNo, im_id imId
+        from corgi_user_login
+        where tel_no = #{telNo}
+    </select>
+
+    <update id="updateImId">
+        update corgi_user_login
+        set im_id = #{userLogin.imId}
+        where id = #{userLogin.userId}
+    </update>
+
+    <insert id="addUserLogin" useGeneratedKeys="true" keyProperty="userId" keyColumn="id"
+            parameterType="com.corgi.user.entity.UserLogin">
+        insert into corgi_user_login (`tel_no`, `im_id`) values (#{userLogin.telNo}, #{userLogin.imId});
+    </insert>
+</mapper>
