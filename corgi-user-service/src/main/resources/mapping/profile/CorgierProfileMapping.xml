@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.corgi.mapper.profile.CorgiUserMapper">
+<mapper namespace="com.corgi.mapper.CorgiUserMapper">
     <select id="getUserLoginByTelNo" resultType="com.corgi.user.entity.UserLogin">
         select id userId, tel_no telNo, im_id imId
         from corgi_user_login
@@ -17,4 +17,109 @@
             parameterType="com.corgi.user.entity.UserLogin">
         insert into corgi_user_login (`tel_no`, `im_id`) values (#{userLogin.telNo}, #{userLogin.imId});
     </insert>
+
+    <select id="countUserDetail" resultType="java.lang.Integer">
+        select count(id) from corgi_user_detail
+        where user_id = #{userId}
+    </select>
+
+    <insert id="addUserDetail" parameterType="com.corgi.user.entity.UserDetail">
+        insert into corgi_user_detail (`user_id`, `nickname`, `avatar`, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`)
+        values (#{userDetail.userId}, #{userDetail.nickname}, #{userDetail.avatar}, #{userDetail.height}, #{userDetail.weight}, #{userDetail.desc}, #{userDetail.role}, #{userDetail.character}, #{userDetail.group}, #{userDetail.birthday}, #{userDetail.con})
+    </insert>
+
+    <select id="getUserDetail" resultType="com.corgi.user.entity.UserDetail">
+        select user_id userId, nickname, avatar, height, weight, desc, role, character, group, birthday, con
+        from corgi_user_detail
+        where user_id = #{userId}
+    </select>
+
+    <insert id="addPreferGroup">
+        insert into corgi_prefer_group (`user_id`, `group`)
+        values (#{userId}, #{group})
+    </insert>
+
+    <delete id="deletePreferGroup">
+        delete from corgi_prefer_group
+        where user_id = #{userId}
+    </delete>
+
+    <select id="getPreferGroup" resultType="java.lang.String">
+        select group from corgi_prefer_group
+        where user_id = #{userId}
+    </select>
+
+    <update id="updateUserDetail">
+        update corgi_user_detail
+        <set>
+            <if test="userDetail.avatar != null and userDetail.avatar != ''">
+                avatar = #{userDetail.avatar},
+            </if>
+            <if test="userDetail.nickName != null and userDetail.nickName != ''">
+                nickName = #{userDetail.nickName},
+            </if>
+            <if test="userDetail.height != null and userDetail.height != 0">
+                height = #{userDetail.height},
+            </if>
+            <if test="userDetail.weight != null and userDetail.weight != 0">
+                weight = #{userDetail.weight},
+            </if>
+            <if test="userDetail.desc != null and userDetail.desc != ''">
+                desc = #{userDetail.desc},
+            </if>
+            <if test="userDetail.role != null and userDetail.role != ''">
+                role = #{userDetail.role},
+            </if>
+            <if test="userDetail.character != null and userDetail.character != ''">
+                character = #{userDetail.character},
+            </if>
+            <if test="userDetail.group != null and userDetail.group != ''">
+                group = #{userDetail.group},
+            </if>
+            <if test="userDetail.birthday != null and userDetail.birthday != ''">
+                birthday = #{userDetail.birthday},
+            </if>
+            <if test="userDetail.con != null and userDetail.con != ''">
+                con = #{userDetail.con},
+            </if>
+        </set>
+        where user_id = #{userDetail.userId}
+    </update>
+
+    <insert id="addUserPic" useGeneratedKeys="true" keyProperty="picId" keyColumn="id"
+            parameterType="com.corgi.user.entity.UserPic">
+      insert into corgi_user_pic (`user_id`, `pic_url`)
+      values (#{userPic.userId}, #{userPic.picUrl})
+    </insert>
+
+    <delete id="deleteUserPic">
+        delete from corgi_user_pic
+        where id = #{picId}
+    </delete>
+
+    <select id="getUserPic" resultType="com.corgi.user.entity.UserPic">
+        select id picId, user_id userId, pic_url picUrl
+        from corgi_user_pic
+        where user_id = #{userId}
+    </select>
+
+    <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">
+      insert into (`user_id`, `lat`, `lng`, `uptime`)
+      values (#{userId}, #{lat}, #{lng}, );
+    </insert>
+
+    <select id="getUserPosition" resultType="com.corgi.user.entity.UserPosition">
+        select user_id userId, lat, lng from corgi_user_position
+        where user_id = #{userId}
+    </select>
+
+    <update id="updateUserPosition" parameterType="com.corgi.user.entity.UserPosition">
+        update corgi_user_position set lat = #{lat}, lng = #{lng}, uptime = #{uptime}
+        where user_id = #{userId}
+    </update>
+
+    <update id="updateUserPositionUptime">
+        update corgi_user_position set uptime = #{uptime}
+        where user_id = #{userId}
+    </update>
 </mapper>

@@ -12,4 +12,6 @@ public class UserLogin implements Serializable{
     String userId;
     String telNo;
     String imId;
+    String code;
+    String status;
 }
