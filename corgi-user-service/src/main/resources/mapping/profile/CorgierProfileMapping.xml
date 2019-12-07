@@ -122,4 +122,25 @@
         update corgi_user_position set uptime = #{uptime}
         where user_id = #{userId}
     </update>
+
+    <select id="getNearByUser" resultType="java.lang.String">
+        select user_id from corgi_user_position
+        where lat >= range.beginLat and lat &lt;= range.endLat
+        and lng >= range.beginLng and lng &lt;= range.endLng
+    </select>
+
+    <select id="getUserProfileList" resultType="com.corgi.user.entity.UserProfile">
+        select
+        p.user_id userId,
+        p.lat lat,
+        p.lng lng,
+        p.uptime time,
+        d.nickname nickname,
+        d.avatar avatar,
+        d.role role,
+        d.group group,
+        d.con con;
+        from corgi_user_position p left join corgi_user_detail d on d.user_id = p.user_id
+        where p.user_id in ${inValue}
+    </select>
 </mapper>

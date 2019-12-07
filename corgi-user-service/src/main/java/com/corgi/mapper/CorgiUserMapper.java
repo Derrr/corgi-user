@@ -1,9 +1,7 @@
 package com.corgi.mapper;
 
-import com.corgi.user.entity.UserLogin;
-import com.corgi.user.entity.UserDetail;
-import com.corgi.user.entity.UserPic;
-import com.corgi.user.entity.UserPosition;
+import com.corgi.support.UserPositionSupporter;
+import com.corgi.user.entity.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -144,5 +142,20 @@ public interface CorgiUserMapper {
      * @param uptime
      */
     void updateUserPositionUptime(@Param("userId") String userId, @Param("uptime") Long uptime);
+
+    /**
+     * 获取周围人信息
+     *
+     * @param supporter
+     * @return
+     */
+    List<String> getNearByUser(@Param("range") UserPositionSupporter supporter);
+
+    /**
+     * 获取人员信息列表
+     * @param inValue
+     * @return
+     */
+    List<UserProfile> getUserProfileList(@Param("inValue") String inValue);
 
 }

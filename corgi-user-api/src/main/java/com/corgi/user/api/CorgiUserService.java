@@ -1,9 +1,6 @@
 package com.corgi.user.api;
 
-import com.corgi.user.entity.UserLogin;
-import com.corgi.user.entity.UserDetail;
-import com.corgi.user.entity.UserPic;
-import com.corgi.user.entity.UserPosition;
+import com.corgi.user.entity.*;
 
 import java.util.List;
 
@@ -26,4 +23,6 @@ public interface CorgiUserService {
     String deleteUserPic(String picId);
 
     String updateUserPosition(UserPosition userPosition);
+
+    List<UserProfile> getNearByUser(UserPosition userPosition, Double range);
 }

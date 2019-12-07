@@ -3,11 +3,9 @@ package com.corgi.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.common.CorgiConstants;
 import com.corgi.mapper.CorgiUserMapper;
-import com.corgi.user.entity.UserLogin;
+import com.corgi.support.UserPositionSupporter;
+import com.corgi.user.entity.*;
 import com.corgi.user.api.CorgiUserService;
-import com.corgi.user.entity.UserDetail;
-import com.corgi.user.entity.UserPic;
-import com.corgi.user.entity.UserPosition;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author tairanliu
@@ -24,6 +24,7 @@ import java.util.List;
 @Slf4j
 @Component
 public class CorgiUserServiceImpl implements CorgiUserService {
+    private static int MAX_PROFILE_SIZE = 16;
     @Autowired
     private CorgiUserMapper corgiUserMapper;
 
@@ -123,6 +124,52 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             corgiUserMapper.updateUserPositionUptime(userPosition.getUserId(), now);
         }
         return CorgiConstants.SUCCESS;
+    }
+
+    @Override
+    public List<UserProfile> getNearByUser(UserPosition userPosition, Double range) {
+        UserPositionSupporter supporter = new UserPositionSupporter(userPosition, range);
+        List<String> userIds = corgiUserMapper.getNearByUser(supporter);
+        String inValue = getUserSql(userIds, userPosition.getUserId());
+        if (StringUtils.isEmpty(inValue)) {
+            return new ArrayList<>();
+        }
+        return corgiUserMapper.getUserProfileList(inValue);
+    }
+
+    private String getUserSql(List<String> userIds, String loginUserId) {
+        //若没有人则返回空
+        if (userIds == null || userIds.size() <= 1) {
+            return "";
+        }
+
+        if (userIds.size() > MAX_PROFILE_SIZE * 2) {
+            //若人数很多则随机取16人
+            Random r = new Random();
+            List<String> tmpUserIds = new ArrayList<>();
+            for (int i = 0; i < MAX_PROFILE_SIZE; i++) {
+                int index = r.nextInt(userIds.size() - i);
+                tmpUserIds.add(userIds.remove(index));
+            }
+            userIds = tmpUserIds;
+        } else if (userIds.size() > MAX_PROFILE_SIZE) {
+            //若人数不多，则剔除多余人
+            Random r = new Random();
+            for (int i = 0; i < userIds.size() - MAX_PROFILE_SIZE; i++) {
+                int index = r.nextInt(userIds.size() - i);
+                userIds.remove(index);
+            }
+
+        }
+
+        StringBuilder sb = new StringBuilder("('");
+        for (String userId : userIds) {
+            if (!userId.equals(loginUserId)) {
+                sb.append(userId + "','");
+            }
+        }
+
+        return sb.delete(sb.length() - 2, sb.length()).append(")").toString();
     }
 
 
