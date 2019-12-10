@@ -5,12 +5,13 @@ import com.corgi.mapper.CorgiUserMatchMapper;
 import com.corgi.support.MatchSupporter;
 import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.UserDetail;
-import com.corgi.user.entity.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author tairanliu
  */
+@Service
 public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     @Autowired
     private CorgiUserMatchMapper userMatchMapper;
