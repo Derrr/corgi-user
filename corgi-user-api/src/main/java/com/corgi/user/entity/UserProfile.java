@@ -19,4 +19,12 @@ public class UserProfile implements Serializable {
     private Double lng;
     private Long time;
     private Double match;
+
+    public void setMatchStr(String match){
+        try {
+            this.match = Double.valueOf(match);
+        }catch (Exception e){
+
+        }
+    }
 }

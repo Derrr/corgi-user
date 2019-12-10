@@ -10,6 +10,7 @@ import com.corgi.user.api.CorgiUserService;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author tairanliu
@@ -30,6 +32,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     private CorgiUserMapper corgiUserMapper;
     @Autowired
     private CorgiUserMatchService corgiUserMatchService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Override
     public UserLogin login(UserLogin userLogin) {
@@ -138,11 +142,28 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return new ArrayList<>();
         }
         List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
-        UserDetail loginUserDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
+        String userId1 = userPosition.getUserId();
+        UserDetail loginUserDetail = null;
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
-                UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
-                userProfile.setMatch(corgiUserMatchService.getUserMatchDetail(loginUserDetail, userDetail));
+                String userId2 = userProfile.getUserId();
+                String matchKey = CorgiUserMatchService.MATCH_PREFIX + userId1 + "_" + userId2;
+                String matchStr = redisTemplate.opsForValue().get(matchKey);
+                if (StringUtils.isEmpty(matchStr)) {
+                    Double match = corgiUserMatchService.getUserMatch(userId1, userId2);
+                    if (match == null || match.equals(0)) {
+                        if (loginUserDetail == null) {
+                            loginUserDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
+                        }
+                        UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
+                        match = corgiUserMatchService.getUserMatchDetail(loginUserDetail, userDetail);
+                    }
+                    userProfile.setMatch(match);
+                    redisTemplate.opsForValue().set(matchKey, match.toString(), 90L, TimeUnit.DAYS);
+                } else {
+                    userProfile.setMatchStr(matchStr);
+                    redisTemplate.expire(matchKey, 90L, TimeUnit.DAYS);
+                }
             }
         }
         return userProfiles;

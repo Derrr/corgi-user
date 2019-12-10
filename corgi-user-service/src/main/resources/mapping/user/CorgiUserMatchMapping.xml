@@ -10,4 +10,18 @@
         select sumt(match) from corgi_match_character
         where ctr1 = #{ctr1} and ctr2 = #{ctr2}
     </select>
+
+    <insert id="addMatchCache">
+        insert into corgi_match_cache (`user_id1`, `user_id2`, `match`)
+        values (#{userId1}, #{userId2}, #{match});
+    </insert>
+
+    <update id="updateMatchCache">
+        update corgi_match_cache set match = #{match}
+        where userId1 = #{userId1} and userId2 = #{userId2}
+    </update>
+
+    <select id="getMatchCache" resultType="java.lang.Double">
+        select match from corgi_match_cache where userId1 = #{userId1} and userId2 = #{userId2}
+    </select>
 </mapper>
