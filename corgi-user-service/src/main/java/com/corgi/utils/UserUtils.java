@@ -6,6 +6,7 @@ import org.springframework.util.StringUtils;
  * @author tairanliu
  */
 public class UserUtils {
+
     public static String getConByBirthDay(String birthday) {
         if (StringUtils.isEmpty(birthday)) {
             return "";

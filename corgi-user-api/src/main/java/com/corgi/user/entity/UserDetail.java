@@ -25,4 +25,11 @@ public class UserDetail implements Serializable{
     List<String> preferGroup;
 
     List<UserPic> userPics;
+
+    public String getNatureCharacter() {
+        if (this.character == null) {
+            return "";
+        }
+        return character.substring(0, 4);
+    }
 }

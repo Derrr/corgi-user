@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.common.CorgiConstants;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.support.UserPositionSupporter;
+import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.*;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.utils.UserUtils;
@@ -27,6 +28,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     private static int MAX_PROFILE_SIZE = 16;
     @Autowired
     private CorgiUserMapper corgiUserMapper;
+    @Autowired
+    private CorgiUserMatchService corgiUserMatchService;
 
     @Override
     public UserLogin login(UserLogin userLogin) {
@@ -134,7 +137,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (StringUtils.isEmpty(inValue)) {
             return new ArrayList<>();
         }
-        return corgiUserMapper.getUserProfileList(inValue);
+        List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
+        UserDetail loginUserDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
+        if (!CollectionUtils.isEmpty(userProfiles)) {
+            for (UserProfile userProfile : userProfiles) {
+                UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
+                userProfile.setMatch(corgiUserMatchService.getUserMatchDetail(loginUserDetail, userDetail));
+            }
+        }
+        return userProfiles;
     }
 
     private String getUserSql(List<String> userIds, String loginUserId) {

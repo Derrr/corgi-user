@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author tairanliu
  */
 @Data
-public class UserProfile implements Serializable{
+public class UserProfile implements Serializable {
     private String userId;
     private String nickname;
     private String avatar;
@@ -18,4 +18,5 @@ public class UserProfile implements Serializable{
     private Double lat;
     private Double lng;
     private Long time;
+    private Double match;
 }

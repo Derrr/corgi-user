@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiUserMatchMapper">
+    <select id="getGroupMatch" resultType="java.lang.Integer">
+        select sum(match) from corgi_match_group
+        where group1 = #{group2} and group2 = #{group2}
+    </select>
+
+    <select id="getCharacterMatch" resultType="java.lang.Integer">
+        select sumt(match) from corgi_match_character
+        where ctr1 = #{ctr1} and ctr2 = #{ctr2}
+    </select>
+</mapper>
