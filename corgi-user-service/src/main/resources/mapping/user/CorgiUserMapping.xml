@@ -29,7 +29,7 @@
     </insert>
 
     <select id="getUserDetail" resultType="com.corgi.user.entity.UserDetail">
-        select user_id userId, nickname, avatar, height, weight, desc, role, character, group, birthday, con
+        select `user_id` userId, `nickname`, `avatar`, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`
         from corgi_user_detail
         where user_id = #{userId}
     </select>
