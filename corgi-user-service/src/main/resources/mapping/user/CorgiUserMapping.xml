@@ -24,7 +24,7 @@
     </select>
 
     <insert id="addUserDetail" parameterType="com.corgi.user.entity.UserDetail">
-        insert into corgi_user_detail (`user_id`, `nickname`, `avatar`, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`)
+        insert ignore into corgi_user_detail (`user_id`, `nickname`, `avatar`, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`)
         values (#{userDetail.userId}, #{userDetail.nickname}, #{userDetail.avatar}, #{userDetail.height}, #{userDetail.weight}, #{userDetail.desc}, #{userDetail.role}, #{userDetail.character}, #{userDetail.group}, #{userDetail.birthday}, #{userDetail.con})
     </insert>
 
@@ -65,16 +65,16 @@
                 weight = #{userDetail.weight},
             </if>
             <if test="userDetail.desc != null and userDetail.desc != ''">
-                desc = #{userDetail.desc},
+                `desc` = #{userDetail.desc},
             </if>
             <if test="userDetail.role != null and userDetail.role != ''">
                 role = #{userDetail.role},
             </if>
             <if test="userDetail.character != null and userDetail.character != ''">
-                character = #{userDetail.character},
+                `character` = #{userDetail.character},
             </if>
             <if test="userDetail.group != null and userDetail.group != ''">
-                group = #{userDetail.group},
+                `group` = #{userDetail.group},
             </if>
             <if test="userDetail.birthday != null and userDetail.birthday != ''">
                 birthday = #{userDetail.birthday},
