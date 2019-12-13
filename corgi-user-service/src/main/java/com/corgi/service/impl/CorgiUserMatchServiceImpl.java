@@ -46,7 +46,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
         double cMatch1 = userMatchMapper.getCharacterMatch(userDetail1.getNatureCharacter(), userDetail2.getNatureCharacter());
         double cMatch2 = userMatchMapper.getCharacterMatch(userDetail2.getNatureCharacter(), userDetail1.getNatureCharacter());
-        match += cMatch1 * cMatch2 * 0.1;
+        match += cMatch1 * cMatch2 * 0.001;
 
         List<String> userGroups1 = userDetail1.getPreferGroup();
         if (CollectionUtils.isEmpty(userGroups1)) {
@@ -59,7 +59,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (!CollectionUtils.isEmpty(userGroups1) && !CollectionUtils.isEmpty(userGroups1)) {
             double match1 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups1) + "'", userDetail2.getGroup());
             double match2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", userDetail1.getGroup());
-            match += match1 * match2 * 0.45;
+            match += match1 * match2 * 0.0045;
         }
         return match;
     }
