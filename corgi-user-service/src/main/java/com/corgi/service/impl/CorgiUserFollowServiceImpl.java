@@ -1,14 +1,16 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiUserFollowMapper;
 import com.corgi.user.api.CorgiUserFollowService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * @author tairanliu
  */
-@Service
+@Service(interfaceClass = CorgiUserFollowService.class)
+@Component
 public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
     @Autowired
     private CorgiUserFollowMapper corgiUserFollowMapper;

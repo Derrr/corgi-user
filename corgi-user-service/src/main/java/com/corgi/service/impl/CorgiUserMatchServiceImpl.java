@@ -1,5 +1,6 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.common.CorgiConstants;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.mapper.CorgiUserMatchMapper;
@@ -10,7 +11,7 @@ import com.corgi.user.entity.UserMatch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -21,7 +22,8 @@ import java.util.concurrent.TimeUnit;
  * @author tairanliu
  */
 @Slf4j
-@Service
+@Service(interfaceClass = CorgiUserMatchService.class)
+@Component
 public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     @Autowired
     private CorgiUserMatchMapper userMatchMapper;

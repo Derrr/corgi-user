@@ -37,10 +37,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Autowired
     private CorgiUserMatchService corgiUserMatchService;
     @Autowired
-    private CorgiUserMatchMapper corgiUserMatchMapper;
-    @Autowired
-    private StringRedisTemplate redisTemplate;
-    @Autowired
     private AmqpTemplate rabbitTemplate;
 
     @Override
