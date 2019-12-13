@@ -6,7 +6,7 @@ package com.corgi.user.api;
 public interface CorgiUserFollowService {
     boolean follow(String userId, String followUserId);
 
-    boolean unFollow(String userId, String unFollowUserId);
+    boolean unfollow(String userId, String unFollowUserId);
 
     int isFollowed(String userId, String targetUserId);
 }

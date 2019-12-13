@@ -22,7 +22,7 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
     }
 
     @Override
-    public boolean unFollow(String userId, String unFollowUserId) {
+    public boolean unfollow(String userId, String unFollowUserId) {
         corgiUserFollowMapper.deleteFollowUser(userId, unFollowUserId);
         return true;
     }
