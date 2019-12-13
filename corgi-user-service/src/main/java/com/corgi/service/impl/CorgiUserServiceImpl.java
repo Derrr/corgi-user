@@ -173,6 +173,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 userProfile.setMatch(match);
             }
         }
+        log.info("profiles...." + userProfiles);
         return userProfiles;
     }
 
