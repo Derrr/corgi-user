@@ -104,7 +104,7 @@
     </select>
 
     <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">
-      insert into (`user_id`, `lat`, `lng`, `uptime`)
+      insert into (`user_id`, `lat`, `lng`)
       values (#{userId}, #{lat}, #{lng} );
     </insert>
 
