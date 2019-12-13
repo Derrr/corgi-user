@@ -153,7 +153,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
         String userId1 = userPosition.getUserId();
         UserDetail loginUserDetail = null;
-        log.info("profiles in...." + userProfiles);
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
                 String userId2 = userProfile.getUserId();
@@ -161,11 +160,13 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 if (match == null) {
                     if (loginUserDetail == null) {
                         loginUserDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
+                        if(loginUserDetail == null){
+                            continue;
+                        }
                         loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userPosition.getUserId()));
                     }
                     UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
                     userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
-                    log.info(".... out prefer group");
                     try {
                         match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
                     } catch (Exception e) {
@@ -175,7 +176,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 userProfile.setMatch(match);
             }
         }
-        log.info("profiles out...." + userProfiles);
         return userProfiles;
     }
 
