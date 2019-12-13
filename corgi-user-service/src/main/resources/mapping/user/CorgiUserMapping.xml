@@ -45,7 +45,7 @@
     </delete>
 
     <select id="getPreferGroup" resultType="java.lang.String">
-        select group from corgi_prefer_group
+        select `group` from corgi_prefer_group
         where user_id = #{userId}
     </select>
 
@@ -53,22 +53,22 @@
         update corgi_user_detail
         <set>
             <if test="userDetail.avatar != null and userDetail.avatar != ''">
-                avatar = #{userDetail.avatar},
+                `avatar` = #{userDetail.avatar},
             </if>
             <if test="userDetail.nickname != null and userDetail.nickname != ''">
-                nickName = #{userDetail.nickname},
+                `nickName` = #{userDetail.nickname},
             </if>
             <if test="userDetail.height != null and userDetail.height != 0">
-                height = #{userDetail.height},
+                `height` = #{userDetail.height},
             </if>
             <if test="userDetail.weight != null and userDetail.weight != 0">
-                weight = #{userDetail.weight},
+                `weight` = #{userDetail.weight},
             </if>
             <if test="userDetail.desc != null and userDetail.desc != ''">
                 `desc` = #{userDetail.desc},
             </if>
             <if test="userDetail.role != null and userDetail.role != ''">
-                role = #{userDetail.role},
+                `role` = #{userDetail.role},
             </if>
             <if test="userDetail.character != null and userDetail.character != ''">
                 `character` = #{userDetail.character},
@@ -77,10 +77,10 @@
                 `group` = #{userDetail.group},
             </if>
             <if test="userDetail.birthday != null and userDetail.birthday != ''">
-                birthday = #{userDetail.birthday},
+                `birthday` = #{userDetail.birthday},
             </if>
             <if test="userDetail.con != null and userDetail.con != ''">
-                con = #{userDetail.con},
+                `con` = #{userDetail.con},
             </if>
         </set>
         where user_id = #{userDetail.userId}
