@@ -55,8 +55,8 @@
             <if test="userDetail.avatar != null and userDetail.avatar != ''">
                 avatar = #{userDetail.avatar},
             </if>
-            <if test="userDetail.nickName != null and userDetail.nickName != ''">
-                nickName = #{userDetail.nickName},
+            <if test="userDetail.nickname != null and userDetail.nickname != ''">
+                nickName = #{userDetail.nickname},
             </if>
             <if test="userDetail.height != null and userDetail.height != 0">
                 height = #{userDetail.height},
