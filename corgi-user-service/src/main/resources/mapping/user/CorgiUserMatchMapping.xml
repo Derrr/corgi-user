@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiUserMatchMapper">
     <select id="getGroupMatch" resultType="java.lang.Integer">
-        select max(match) from corgi_match_group
+        select max(`match`) from corgi_match_group
         where group1 in (${group2}) and group2 = #{group2}
     </select>
 
     <select id="getCharacterMatch" resultType="java.lang.Integer">
-        select sumt(match) from corgi_match_character
+        select sumt(`match`) from corgi_match_character
         where ctr1 = #{ctr1} and ctr2 = #{ctr2}
     </select>
 
@@ -17,18 +17,18 @@
     </insert>
 
     <update id="updateMatchCache">
-        update corgi_match_cache set match = #{match}
+        update corgi_match_cache set `match` = #{match}
         where userId1 = #{userId1} and userId2 = #{userId2}
     </update>
 
     <select id="getMatchCache" resultType="java.lang.Double">
-        select match from corgi_match_cache
+        select `match` from corgi_match_cache
         where (userId1 = #{userId1} and userId2 = #{userId2})
         or (userId2 = #{userId1} and userId1 = #{userId2})
     </select>
 
     <select id="getMatchByPage" resultType="com.corgi.user.entity.UserMatch">
-        select user_id1 userId1, user_id2 userId2, match
+        select user_id1 userId1, user_id2 userId2, `match`
         from corgi_match_cache where user_id1 = #{userId} or user_id2 = #{userId}
         limit #{start},#{size}
     </select>
