@@ -1,9 +1,12 @@
 package com.corgi;
 
 import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
+import com.corgi.common.CorgiQueueName;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 
 /**
@@ -20,5 +23,8 @@ public class CorgiUserServiceApplication {
         SpringApplication.run(CorgiUserServiceApplication.class, args);
     }
 
-
+    @Bean
+    public Queue refreshMatchQueue() {
+        return new Queue(CorgiQueueName.REFRESH_MATCH_QUEUE);
+    }
 }

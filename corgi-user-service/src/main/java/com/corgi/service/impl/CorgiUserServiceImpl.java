@@ -2,13 +2,17 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.common.CorgiConstants;
+import com.corgi.common.CorgiQueueName;
+import com.corgi.common.messages.MatchRefresher;
 import com.corgi.mapper.CorgiUserMapper;
+import com.corgi.mapper.CorgiUserMatchMapper;
 import com.corgi.support.UserPositionSupporter;
 import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.*;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -33,7 +37,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Autowired
     private CorgiUserMatchService corgiUserMatchService;
     @Autowired
+    private CorgiUserMatchMapper corgiUserMatchMapper;
+    @Autowired
     private StringRedisTemplate redisTemplate;
+    @Autowired
+    private AmqpTemplate rabbitTemplate;
 
     @Override
     public UserLogin login(UserLogin userLogin) {
@@ -72,6 +80,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
         userDetail.setCon(UserUtils.getConByBirthDay(userDetail.getBirthday()));
         corgiUserMapper.updateUserDetail(userDetail);
+
+        MatchRefresher matchRefresher = new MatchRefresher();
+        matchRefresher.setUserId(userDetail.getUserId());
+        rabbitTemplate.convertAndSend(CorgiQueueName.REFRESH_MATCH_QUEUE, matchRefresher);
+
         return CorgiConstants.SUCCESS;
     }
 
@@ -147,23 +160,17 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
                 String userId2 = userProfile.getUserId();
-                String matchKey = CorgiUserMatchService.MATCH_PREFIX + userId1 + "_" + userId2;
-                String matchStr = redisTemplate.opsForValue().get(matchKey);
-                if (StringUtils.isEmpty(matchStr)) {
-                    Double match = corgiUserMatchService.getUserMatch(userId1, userId2);
-                    if (match == null || match.equals(0)) {
-                        if (loginUserDetail == null) {
-                            loginUserDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
-                        }
-                        UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
-                        match = corgiUserMatchService.getUserMatchDetail(loginUserDetail, userDetail);
+                Double match = corgiUserMatchService.getUserMatch(userId1, userId2);
+                if (match == null) {
+                    if (loginUserDetail == null) {
+                        loginUserDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
+                        loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userPosition.getUserId()));
                     }
-                    userProfile.setMatch(match);
-                    redisTemplate.opsForValue().set(matchKey, match.toString(), 90L, TimeUnit.DAYS);
-                } else {
-                    userProfile.setMatchStr(matchStr);
-                    redisTemplate.expire(matchKey, 90L, TimeUnit.DAYS);
+                    UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
+                    userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
+                    match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
                 }
+                userProfile.setMatch(match);
             }
         }
         return userProfiles;
