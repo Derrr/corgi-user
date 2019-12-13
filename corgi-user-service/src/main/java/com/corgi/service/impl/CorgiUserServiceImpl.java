@@ -164,7 +164,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                     }
                     UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
                     userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
-                    match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
+                    try {
+                        match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
+                    } catch (Exception e) {
+                        log.error(e.getMessage(), e);
+                    }
                 }
                 userProfile.setMatch(match);
             }
