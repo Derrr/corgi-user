@@ -19,7 +19,7 @@
     </insert>
 
     <select id="countUserDetail" resultType="java.lang.Integer">
-        select count(id) from corgi_user_detail
+        select count(1) from corgi_user_detail
         where user_id = #{userId}
     </select>
 
