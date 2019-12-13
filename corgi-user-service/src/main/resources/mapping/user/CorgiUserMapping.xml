@@ -125,8 +125,8 @@
 
     <select id="getNearByUser" resultType="java.lang.String">
         select user_id from corgi_user_position
-        where lat >= range.beginLat and lat &lt;= range.endLat
-        and lng >= range.beginLng and lng &lt;= range.endLng
+        where lat >= #{range.beginLat} and lat &lt;= #{range.endLat}
+        and lng >= #{range.beginLng} and lng &lt;= #{range.endLng}
     </select>
 
     <select id="getUserProfileList" resultType="com.corgi.user.entity.UserProfile">
