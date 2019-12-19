@@ -48,10 +48,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             if (!StringUtils.isEmpty(userLogin.getImId())) {
                 corgiUserMapper.updateImId(userLogin);
             }
-            userLogin.setStatus(corgiUserMapper.countUserDetail(tmpUserLogin.getUserId()) + "");
+            userLogin.setStatus(String.valueOf(corgiUserMapper.countUserDetail(tmpUserLogin.getUserId())));
             return tmpUserLogin;
         }
         corgiUserMapper.addUserLogin(userLogin);
+        userLogin.setStatus("0");
         return tmpUserLogin;
     }
 
@@ -160,7 +161,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 if (match == null) {
                     if (loginUserDetail == null) {
                         loginUserDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
-                        if(loginUserDetail == null){
+                        if (loginUserDetail == null) {
                             continue;
                         }
                         loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userPosition.getUserId()));

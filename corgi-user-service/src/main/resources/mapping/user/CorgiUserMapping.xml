@@ -13,7 +13,7 @@
         where id = #{userLogin.userId}
     </update>
 
-    <insert id="addUserLogin" useGeneratedKeys="true" keyProperty="userId" keyColumn="id"
+    <insert id="addUserLogin" useGeneratedKeys="true" keyProperty="userId"
             parameterType="com.corgi.user.entity.UserLogin">
         insert into corgi_user_login (`tel_no`, `im_id`) values (#{userLogin.telNo}, #{userLogin.imId});
     </insert>

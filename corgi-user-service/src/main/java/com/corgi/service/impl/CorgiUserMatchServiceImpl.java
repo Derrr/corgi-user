@@ -84,15 +84,20 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             Double match = userMatchMapper.getMatchCache(userId1, userId2);
             if (match != null) {
                 redisTemplate.opsForValue().set(matchKey, match.toString(), 90L, TimeUnit.DAYS);
+            } else {
+                match = 0.0;
             }
             return match;
         }
+        double match = 0.0;
         try {
-            redisTemplate.expire(matchKey, 90L, TimeUnit.DAYS);
-            return Double.valueOf(matchKey);
+            match = Double.valueOf(matchKey);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return null;
+            match = 0.0;
+        } finally {
+            redisTemplate.opsForValue().set(matchKey, String.valueOf(match), 90L, TimeUnit.DAYS);
         }
+        return match;
     }
 }
