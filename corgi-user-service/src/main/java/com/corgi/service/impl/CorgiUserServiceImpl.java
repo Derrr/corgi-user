@@ -52,8 +52,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return tmpUserLogin;
         }
         corgiUserMapper.addUserLogin(userLogin);
-        userLogin.setStatus("0");
-        return tmpUserLogin;
+        return userLogin;
     }
 
     @Override
