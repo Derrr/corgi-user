@@ -49,7 +49,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 corgiUserMapper.updateImId(userLogin);
             }
             userLogin.setStatus(String.valueOf(corgiUserMapper.countUserDetail(tmpUserLogin.getUserId())));
-            return tmpUserLogin;
+            return userLogin;
         }
         corgiUserMapper.addUserLogin(userLogin);
         return userLogin;
