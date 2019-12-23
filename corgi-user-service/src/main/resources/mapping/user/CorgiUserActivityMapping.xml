@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiUserActivityMapper">
+
+    <insert id="addSignUp" parameterType="com.corgi.user.entity.UserSignUp">
+        insert ignore into corgi_activity_attender (`user_id`, `activity_id`, `status`)
+        values (#{userSignUp.userId}, #{userSignUp.activityId}, #{userSignUp.status});
+    </insert>
+
+    <update id="updateSignUp" parameterType="com.corgi.user.entity.UserSignUp">
+        update corgi_activity_attender
+        set `status` = #{userSignUp.status}
+        where user_id = #{userSignUp.userId} and activity_id = #{userSignUp.activityId}
+    </update>
+
+    <select id="getUser" resultType="com.corgi.user.entity.UserProfile">
+        select
+        p.user_id userId,
+        p.lat lat,
+        p.lng lng,
+        p.uptime `time`,
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.role role,
+        d.group `group`,
+        d.con con,
+        a.`status` signUpStatus
+        from corgi_activity_attender a
+        left join corgi_user_position p on a.user_id = p.user_id
+        left join corgi_user_detail d on d.user_id = p.user_id
+        where a.activity_id = #{activityId}
+    </select>
+</mapper>

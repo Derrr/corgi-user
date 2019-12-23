@@ -19,4 +19,5 @@ public class UserProfile implements Serializable {
     private Double lng;
     private Long time;
     private Double match;
+    private int signUpStatus;
 }
