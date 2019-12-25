@@ -17,6 +17,7 @@ public class UserDetail implements Serializable{
     private int weight;
     private String desc;
     private String role;
+    private String city;
     private String character;
     private String group;
     private String birthday;
