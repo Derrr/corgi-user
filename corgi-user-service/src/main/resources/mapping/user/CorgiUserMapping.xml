@@ -52,37 +52,37 @@
     <update id="updateUserDetail">
         update corgi_user_detail
         <set>
-            <if test="userDetail.avatar != null and userDetail.avatar != ''">
+            <if test="userDetail.avatar != null">
                 `avatar` = #{userDetail.avatar},
             </if>
-            <if test="userDetail.nickname != null and userDetail.nickname != ''">
+            <if test="userDetail.nickname != null">
                 `nickName` = #{userDetail.nickname},
             </if>
-            <if test="userDetail.height != null and userDetail.height != 0">
+            <if test="userDetail.height != null">
                 `height` = #{userDetail.height},
             </if>
-            <if test="userDetail.weight != null and userDetail.weight != 0">
+            <if test="userDetail.weight != null">
                 `weight` = #{userDetail.weight},
             </if>
-            <if test="userDetail.desc != null and userDetail.desc != ''">
+            <if test="userDetail.desc != null">
                 `desc` = #{userDetail.desc},
             </if>
-            <if test="userDetail.role != null and userDetail.role != ''">
+            <if test="userDetail.role != null">
                 `role` = #{userDetail.role},
             </if>
-            <if test="userDetail.character != null and userDetail.character != ''">
+            <if test="userDetail.character != null">
                 `character` = #{userDetail.character},
             </if>
-            <if test="userDetail.group != null and userDetail.group != ''">
+            <if test="userDetail.group != null">
                 `group` = #{userDetail.group},
             </if>
-            <if test="userDetail.birthday != null and userDetail.birthday != ''">
+            <if test="userDetail.birthday != null">
                 `birthday` = #{userDetail.birthday},
             </if>
-            <if test="userDetail.city != null and userDetail.city != ''">
+            <if test="userDetail.city != null">
                 `city` = #{userDetail.city},
             </if>
-            <if test="userDetail.con != null and userDetail.con != ''">
+            <if test="userDetail.con != null">
                 `con` = #{userDetail.con},
             </if>
         </set>

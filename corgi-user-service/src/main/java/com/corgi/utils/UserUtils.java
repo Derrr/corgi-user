@@ -8,6 +8,9 @@ import org.springframework.util.StringUtils;
 public class UserUtils {
 
     public static String getConByBirthDay(String birthday) {
+        if (birthday == null) {
+            return null;
+        }
         if (StringUtils.isEmpty(birthday)) {
             return "";
         }
