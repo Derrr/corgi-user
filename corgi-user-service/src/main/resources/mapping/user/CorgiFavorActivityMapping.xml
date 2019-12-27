@@ -14,7 +14,7 @@
 
     <select id="getActivity" resultType="java.lang.String">
         select activity_id from corgi_favor_activity
-        where user_id = #{userId1}
+        where user_id = #{userId}
         order by id desc
         limit #{start}, #{size}
     </select>
