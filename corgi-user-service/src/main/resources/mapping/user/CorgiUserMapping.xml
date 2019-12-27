@@ -58,10 +58,10 @@
             <if test="userDetail.nickname != null">
                 `nickName` = #{userDetail.nickname},
             </if>
-            <if test="userDetail.height != null">
+            <if test="userDetail.height != null and userDetail.height != 0">
                 `height` = #{userDetail.height},
             </if>
-            <if test="userDetail.weight != null">
+            <if test="userDetail.weight != null and userDetail.weight != 0">
                 `weight` = #{userDetail.weight},
             </if>
             <if test="userDetail.desc != null">
