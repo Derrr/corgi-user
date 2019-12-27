@@ -1,14 +1,18 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiFavorActivityMapper;
 import com.corgi.user.api.CorgiFavorActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * @author tairanliu
  */
+@Service
+@Component
 public class CorgiFavorActivityImpl implements CorgiFavorActivityService {
     @Autowired
     private CorgiFavorActivityMapper favorActivityMapper;
