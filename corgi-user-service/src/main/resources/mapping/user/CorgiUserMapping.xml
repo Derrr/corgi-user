@@ -24,8 +24,8 @@
     </select>
 
     <insert id="addUserDetail" parameterType="com.corgi.user.entity.UserDetail">
-        insert ignore into corgi_user_detail (`user_id`, `nickname`, `avatar`, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`)
-        values (#{userDetail.userId}, #{userDetail.nickname}, #{userDetail.avatar}, #{userDetail.height}, #{userDetail.weight}, #{userDetail.desc}, #{userDetail.role}, #{userDetail.character}, #{userDetail.group}, #{userDetail.birthday}, #{userDetail.con})
+        insert ignore into corgi_user_detail (`user_id`, `nickname`, `avatar`, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`,`city`)
+        values (#{userDetail.userId}, #{userDetail.nickname}, #{userDetail.avatar}, #{userDetail.height}, #{userDetail.weight}, #{userDetail.desc}, #{userDetail.role}, #{userDetail.character}, #{userDetail.group}, #{userDetail.birthday}, #{userDetail.con},#{userDetail.city})
     </insert>
 
     <select id="getUserDetail" resultType="com.corgi.user.entity.UserDetail">
@@ -145,5 +145,49 @@
         d.con con
         from corgi_user_position p left join corgi_user_detail d on d.user_id = p.user_id
         where p.user_id in ${inValue}
+    </select>
+
+    <select id="queryUserProfile" resultType="com.corgi.user.entity.UserProfile">
+        select d.nickname `nickname`,
+        d.avatar avatar,
+        d.role role,
+        d.group `group`,
+        d.con con
+        corgi_user_detail d
+        where 1=1
+        <if test="userDetail.nickname != null">
+            and `nickName` like concat('%',#{userDetail.nickname},'%'),
+        </if>
+        <if test="userDetail.height != null and userDetail.height != 0">
+            and `height` = #{userDetail.height},
+        </if>
+        <if test="userDetail.weight != null and userDetail.weight != 0">
+            and `weight` = #{userDetail.weight},
+        </if>
+        <if test="userDetail.desc != null">
+            and `desc` like concat('%',#{userDetail.desc},'%'),
+        </if>
+        <if test="userDetail.role != null">
+            and `role` = #{userDetail.role},
+        </if>
+        <if test="userDetail.character != null">
+            and `character` = #{userDetail.character},
+        </if>
+        <if test="userDetail.group != null">
+            and `group` = #{userDetail.group},
+        </if>
+        <if test="userDetail.birthday != null">
+            and `birthday` = #{userDetail.birthday},
+        </if>
+        <if test="userDetail.city != null">
+            and `city` = #{userDetail.city},
+        </if>
+        <if test="userDetail.con != null">
+            and `con` = #{userDetail.con},
+        </if>
+        <if test="userDetail.userId != null">
+            and user_id = #{userDetail.userId}
+        </if>
+        limit 20
     </select>
 </mapper>

@@ -179,6 +179,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         return userProfiles;
     }
 
+    @Override
+    public List<UserProfile> searchUsers(UserDetail userDetail) {
+        return corgiUserMapper.queryUserProfile(userDetail);
+    }
+
     private String getUserSql(List<String> userIds, String loginUserId) {
         //若没有人则返回空
         if (userIds == null || userIds.size() <= 1) {

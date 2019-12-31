@@ -158,4 +158,11 @@ public interface CorgiUserMapper {
      */
     List<UserProfile> getUserProfileList(@Param("inValue") String inValue);
 
+    /**
+     * 查询用户
+     * @param userDetail
+     * @return
+     */
+    List<UserProfile> queryUserProfile(@Param("userDetail") UserDetail userDetail);
+
 }
