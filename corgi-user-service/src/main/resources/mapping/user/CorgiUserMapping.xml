@@ -158,34 +158,34 @@
         from corgi_user_detail d
         where 1=1
         <if test="userDetail.nickname != null">
-            and `nickName` like concat('%',#{userDetail.nickname},'%'),
+            and `nickName` like concat('%',#{userDetail.nickname},'%')
         </if>
         <if test="userDetail.height != null and userDetail.height != 0">
-            and `height` = #{userDetail.height},
+            and `height` = #{userDetail.height}
         </if>
         <if test="userDetail.weight != null and userDetail.weight != 0">
-            and `weight` = #{userDetail.weight},
+            and `weight` = #{userDetail.weight}
         </if>
         <if test="userDetail.desc != null">
-            and `desc` like concat('%',#{userDetail.desc},'%'),
+            and `desc` like concat('%',#{userDetail.desc},'%')
         </if>
         <if test="userDetail.role != null">
-            and `role` = #{userDetail.role},
+            and `role` = #{userDetail.role}
         </if>
         <if test="userDetail.character != null">
-            and `character` = #{userDetail.character},
+            and `character` = #{userDetail.character}
         </if>
         <if test="userDetail.group != null">
-            and `group` = #{userDetail.group},
+            and `group` = #{userDetail.group}
         </if>
         <if test="userDetail.birthday != null">
-            and `birthday` = #{userDetail.birthday},
+            and `birthday` = #{userDetail.birthday}
         </if>
         <if test="userDetail.city != null">
-            and `city` = #{userDetail.city},
+            and `city` = #{userDetail.city}
         </if>
         <if test="userDetail.con != null">
-            and `con` = #{userDetail.con},
+            and `con` = #{userDetail.con}
         </if>
         <if test="userDetail.userId != null">
             and user_id = #{userDetail.userId}
