@@ -148,7 +148,9 @@
     </select>
 
     <select id="queryUserProfile" resultType="com.corgi.user.entity.UserProfile">
-        select d.nickname `nickname`,
+        select
+        d.user_id userId,
+        d.nickname nickname,
         d.avatar avatar,
         d.role role,
         d.group `group`,
