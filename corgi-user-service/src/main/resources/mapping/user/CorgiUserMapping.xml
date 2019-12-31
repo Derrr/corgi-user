@@ -153,7 +153,7 @@
         d.role role,
         d.group `group`,
         d.con con
-        corgi_user_detail d
+        from corgi_user_detail d
         where 1=1
         <if test="userDetail.nickname != null">
             and `nickName` like concat('%',#{userDetail.nickname},'%'),
