@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiUserTagMapper">
+    <select id="getTags" resultType="java.lang.String">
+        select tag_name from corgi_tags
+    </select>
+
+    <select id="getUserTag" resultType="java.lang.String">
+        select `tag` from corgi_user_tag
+        where user_id = #{userId}
+    </select>
+
+    <delete id="deleteUserTag">
+        delete from corgi_user_tag
+        where user_id = #{userId}
+    </delete>
+
+    <insert id="addUserTag">
+        insert ignore into `corgi_user_tag` (`user_id`, `tag`)
+        values (#{userId}, #{tag});
+    </insert>
+
+    <select id="getCategoryInterests" resultType="java.lang.String">
+        select int_name from corgi_interests
+        where int_category = #{category}
+    </select>
+
+    <select id="getUserInterests" resultType="com.corgi.user.entity.UserInterest">
+        select `name`, `category`, user_id userId
+        from corgi_user_interest
+        where user_id = #{userId}
+    </select>
+
+    <delete id="deleteUserInterests">
+        delete from corgi_user_interest
+        where user_id = #{userId} and `category` = #{category}
+    </delete>
+
+    <insert id="addUserInterests">
+        insert ignore into `corgi_user_interest` (`user_id`, `name`, `category`)
+        values (#{userId}, #{interest}, #{category});
+    </insert>
+</mapper>

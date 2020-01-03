@@ -7,8 +7,10 @@ import com.corgi.common.messages.MatchRefresher;
 import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.mapper.CorgiUserMatchMapper;
+import com.corgi.mapper.CorgiUserTagMapper;
 import com.corgi.support.UserPositionSupporter;
 import com.corgi.user.api.CorgiUserMatchService;
+import com.corgi.user.api.CorgiUserTagService;
 import com.corgi.user.entity.*;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.utils.UserUtils;
@@ -39,6 +41,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     private CorgiUserMatchService corgiUserMatchService;
     @Autowired
     private CorgiPicMapper corgiPicMapper;
+    @Autowired
+    private CorgiUserTagMapper corgiUserTagMapper;
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
@@ -99,6 +103,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setPreferGroup(groups);
         userDetail.setUserPics(userPics);
 
+        userDetail.setTags(corgiUserTagMapper.getUserTag(userId));
+        userDetail.setInterests(corgiUserTagMapper.getUserInterests(userId));
         return userDetail;
     }
 

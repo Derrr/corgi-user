@@ -27,6 +27,10 @@ public class UserDetail implements Serializable{
 
     List<UserPic> userPics;
 
+    List<String> tags;
+
+    List<UserInterest> interests;
+
     public String getNatureCharacter() {
         if (this.character == null) {
             return "";
