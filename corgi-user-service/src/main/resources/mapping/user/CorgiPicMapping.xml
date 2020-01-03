@@ -22,7 +22,7 @@
     <insert id="addActivityPic" useGeneratedKeys="true" keyProperty="picId" keyColumn="id"
             parameterType="com.corgi.activity.entity.ActivityPic">
         insert into corgi_activity_pic (`activity_id`, `pic_url`, `data_id`, `status`, `result`)
-        values (#{userPic.activityId}, #{userPic.picUrl}, #{userPic.dataId}, #{userPic.status}, #{userPic.result})
+        values (#{activityPic.activityId}, #{activityPic.picUrl}, #{activityPic.dataId}, #{activityPic.status}, #{activityPic.result})
     </insert>
 
     <delete id="deleteActivityPic">
