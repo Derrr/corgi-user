@@ -18,10 +18,6 @@ public interface CorgiUserService {
 
     String updatePreferGroup(String userId, List<String> groups);
 
-    String addUserPic(UserPic userPic);
-
-    String deleteUserPic(String picId);
-
     String updateUserPosition(UserPosition userPosition);
 
     List<UserProfile> getNearByUser(UserPosition userPosition, Double range);

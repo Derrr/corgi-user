@@ -1,5 +1,6 @@
 package com.corgi.user.entity;
 
+import com.corgi.entity.CorgiPic;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,8 +9,6 @@ import java.io.Serializable;
  * @author tairanliu
  */
 @Data
-public class UserPic implements Serializable{
-    private String picId;
+public class UserPic extends CorgiPic implements Serializable{
     private String userId;
-    private String picUrl;
 }

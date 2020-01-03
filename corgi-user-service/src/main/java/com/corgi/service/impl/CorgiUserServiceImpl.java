@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.common.CorgiConstants;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
+import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.mapper.CorgiUserMatchMapper;
 import com.corgi.support.UserPositionSupporter;
@@ -36,6 +37,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     private CorgiUserMapper corgiUserMapper;
     @Autowired
     private CorgiUserMatchService corgiUserMatchService;
+    @Autowired
+    private CorgiPicMapper corgiPicMapper;
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
@@ -91,7 +94,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return null;
         }
         List<String> groups = corgiUserMapper.getPreferGroup(userId);
-        List<UserPic> userPics = corgiUserMapper.getUserPic(userId);
+        List<UserPic> userPics = corgiPicMapper.getUserPic(userId);
 
         userDetail.setPreferGroup(groups);
         userDetail.setUserPics(userPics);
@@ -110,18 +113,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 corgiUserMapper.addPreferGroup(userId, group);
             }
         }
-        return CorgiConstants.SUCCESS;
-    }
-
-    @Override
-    public String addUserPic(UserPic userPic) {
-        corgiUserMapper.addUserPic(userPic);
-        return userPic.getPicId();
-    }
-
-    @Override
-    public String deleteUserPic(String picId) {
-        corgiUserMapper.deleteUserPic(picId);
         return CorgiConstants.SUCCESS;
     }
 

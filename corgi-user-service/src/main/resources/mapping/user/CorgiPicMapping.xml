@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiPicMapper">
+
+    <insert id="addUserPic" useGeneratedKeys="true" keyProperty="picId" keyColumn="id"
+            parameterType="com.corgi.user.entity.UserPic">
+      insert into corgi_user_pic (`user_id`, `pic_url`, `data_id`, `status`, `result`)
+      values (#{userPic.userId}, #{userPic.picUrl}, #{userPic.dataId}, #{userPic.status}, #{userPic.result})
+    </insert>
+
+    <delete id="deleteUserPic">
+        delete from corgi_user_pic
+        where id = #{picId}
+    </delete>
+
+    <select id="getUserPic" resultType="com.corgi.user.entity.UserPic">
+        select id picId, user_id userId, pic_url picUrl, data_id dataId, `status`, `result`
+        from corgi_user_pic
+        where user_id = #{userId}
+    </select>
+
+    <insert id="addActivityPic" useGeneratedKeys="true" keyProperty="picId" keyColumn="id"
+            parameterType="com.corgi.activity.entity.ActivityPic">
+        insert into corgi_activity_pic (`activity_id`, `pic_url`, `data_id`, `status`, `result`)
+        values (#{userPic.activityId}, #{userPic.picUrl}, #{userPic.dataId}, #{userPic.status}, #{userPic.result})
+    </insert>
+
+    <delete id="deleteActivityPic">
+        delete from corgi_activity_pic
+        where id = #{picId}
+    </delete>
+
+    <select id="getActivityPic" resultType="com.corgi.activity.entity.ActivityPic">
+        select id picId, activity_id activityId, pic_url picUrl, data_id dataId, `status`, `result`
+        from corgi_activity_pic
+        where activity_id = #{activityId}
+    </select>
+</mapper>

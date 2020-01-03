@@ -89,23 +89,6 @@
         where user_id = #{userDetail.userId}
     </update>
 
-    <insert id="addUserPic" useGeneratedKeys="true" keyProperty="picId" keyColumn="id"
-            parameterType="com.corgi.user.entity.UserPic">
-      insert into corgi_user_pic (`user_id`, `pic_url`)
-      values (#{userPic.userId}, #{userPic.picUrl})
-    </insert>
-
-    <delete id="deleteUserPic">
-        delete from corgi_user_pic
-        where id = #{picId}
-    </delete>
-
-    <select id="getUserPic" resultType="com.corgi.user.entity.UserPic">
-        select id picId, user_id userId, pic_url picUrl
-        from corgi_user_pic
-        where user_id = #{userId}
-    </select>
-
     <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">
       insert into corgi_user_position (`user_id`, `lat`, `lng`, `uptime`)
       values (#{userId}, #{lat}, #{lng}, #{uptime} );

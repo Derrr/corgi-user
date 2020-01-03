@@ -86,28 +86,6 @@ public interface CorgiUserMapper {
     List<String> getPreferGroup(@Param("userId") String userId);
 
     /**
-     * 添加用户图片
-     *
-     * @param userPic
-     */
-    void addUserPic(@Param("userPic") UserPic userPic);
-
-    /**
-     * 删除用户图片
-     *
-     * @param picId
-     */
-    void deleteUserPic(@Param("picId") String picId);
-
-    /**
-     * 获取用户图片
-     *
-     * @param userId
-     * @return
-     */
-    List<UserPic> getUserPic(@Param("userId") String userId);
-
-    /**
      * 添加用户位置
      *
      * @param userId
