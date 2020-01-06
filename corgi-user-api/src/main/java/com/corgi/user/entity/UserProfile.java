@@ -12,6 +12,7 @@ public class UserProfile implements Serializable {
     private String userId;
     private String nickname;
     private String avatar;
+    private String avatarStatus;
     private String role;
     private String group;
     private String con;

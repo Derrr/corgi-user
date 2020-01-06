@@ -23,4 +23,8 @@ public interface CorgiUserService {
     List<UserProfile> getNearByUser(UserPosition userPosition, Double range);
 
     List<UserProfile> searchUsers(UserDetail userDetail);
+
+    long countActiveUser(long beginTime, long endTime);
+
+    long countRegisterUser(String date);
 }

@@ -1,5 +1,6 @@
 package com.corgi.user.api;
 
+import com.corgi.entity.CorgiStatistic;
 import com.corgi.user.entity.*;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * @author tairanliu
  */
-public interface CorgiUserTagService {
+public interface CorgiToolService {
     List<String> getTags();
 
     List<String> getUserTags(String userId);
@@ -20,4 +21,17 @@ public interface CorgiUserTagService {
 
     void updateUserInterest(String userId, String category, List<String> interests);
 
+    List<String> getTopics();
+
+    void addTopic(String topic);
+
+    void deleteTopic(String topicId);
+
+    void addCount(String table, String date, Long count);
+
+    List<CorgiStatistic> getCount(String table, String beginDate, String endDate);
+
+    List<String> getActivityTopic(String activityId);
+
+    void updateActivityTopic(String activityId, List<String> topics);
 }

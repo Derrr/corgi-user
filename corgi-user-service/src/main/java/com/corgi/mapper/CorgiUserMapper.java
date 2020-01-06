@@ -131,6 +131,7 @@ public interface CorgiUserMapper {
 
     /**
      * 获取人员信息列表
+     *
      * @param inValue
      * @return
      */
@@ -138,9 +139,24 @@ public interface CorgiUserMapper {
 
     /**
      * 查询用户
+     *
      * @param userDetail
      * @return
      */
     List<UserProfile> queryUserProfile(@Param("userDetail") UserDetail userDetail);
 
+    /**
+     * 获取活跃用户数
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    long countActiveUser(@Param("beginTime") long beginTime, @Param("endTime") long endTime);
+
+    /**
+     * 获取注册用户数
+     * @param date
+     * @return
+     */
+    long countRegisterUser(@Param("date") String date);
 }

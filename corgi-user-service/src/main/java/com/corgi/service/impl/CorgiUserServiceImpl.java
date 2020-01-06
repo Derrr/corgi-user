@@ -6,18 +6,15 @@ import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
 import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserMapper;
-import com.corgi.mapper.CorgiUserMatchMapper;
 import com.corgi.mapper.CorgiUserTagMapper;
 import com.corgi.support.UserPositionSupporter;
 import com.corgi.user.api.CorgiUserMatchService;
-import com.corgi.user.api.CorgiUserTagService;
 import com.corgi.user.entity.*;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -25,7 +22,6 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author tairanliu
@@ -179,6 +175,17 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public List<UserProfile> searchUsers(UserDetail userDetail) {
         return corgiUserMapper.queryUserProfile(userDetail);
+    }
+
+    @Override
+    public long countActiveUser(long beginTime, long endTime) {
+        return corgiUserMapper.countActiveUser(beginTime, endTime);
+    }
+
+
+    @Override
+    public long countRegisterUser(String date) {
+        return corgiUserMapper.countRegisterUser(date);
     }
 
     private String getUserSql(List<String> userIds, String loginUserId) {

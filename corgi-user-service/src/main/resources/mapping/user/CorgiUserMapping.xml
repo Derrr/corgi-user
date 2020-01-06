@@ -24,12 +24,12 @@
     </select>
 
     <insert id="addUserDetail" parameterType="com.corgi.user.entity.UserDetail">
-        insert ignore into corgi_user_detail (`user_id`, `nickname`, `avatar`, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`,`city`)
-        values (#{userDetail.userId}, #{userDetail.nickname}, #{userDetail.avatar}, #{userDetail.height}, #{userDetail.weight}, #{userDetail.desc}, #{userDetail.role}, #{userDetail.character}, #{userDetail.group}, #{userDetail.birthday}, #{userDetail.con},#{userDetail.city})
+        insert ignore into corgi_user_detail (`user_id`, `nickname`, `avatar`,`avatar_data_id`,`avatar_status`, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`,`city`)
+        values (#{userDetail.userId}, #{userDetail.nickname}, #{userDetail.avatar},#{userDetail.avatarDataId},#{userDetail.avatarStatus}, #{userDetail.height}, #{userDetail.weight}, #{userDetail.desc}, #{userDetail.role}, #{userDetail.character}, #{userDetail.group}, #{userDetail.birthday}, #{userDetail.con},#{userDetail.city})
     </insert>
 
     <select id="getUserDetail" resultType="com.corgi.user.entity.UserDetail">
-        select `user_id` userId, `nickname`, `avatar`, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`, `city`
+        select `user_id` userId, `nickname`, `avatar`, avatar_status avatarStatus, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`, `city`
         from corgi_user_detail
         where user_id = #{userId}
     </select>
@@ -123,6 +123,7 @@
         p.uptime `time`,
         d.nickname `nickname`,
         d.avatar avatar,
+        d.avatar_status avatarStatus,
         d.role role,
         d.group `group`,
         d.con con
@@ -135,6 +136,7 @@
         d.user_id userId,
         d.nickname nickname,
         d.avatar avatar,
+        d.avatar_status avatarStatus,
         d.role role,
         d.group `group`,
         d.con con
@@ -174,5 +176,15 @@
             and user_id = #{userDetail.userId}
         </if>
         limit 20
+    </select>
+
+    <select id="countActiveUser" resultType="java.lang.Long">
+        select count(1) from corgi_user_position
+        where uptime >= #{beginTime} and uptime &lt;= #{endTime}
+    </select>
+
+    <select id="countRegisterUser" resultType="java.lang.Long">
+        select count(1) from corgi_user_login
+        where ctime like concat(#{date},'%')
     </select>
 </mapper>

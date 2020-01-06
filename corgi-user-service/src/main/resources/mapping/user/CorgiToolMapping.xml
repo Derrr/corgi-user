@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiToolMapper">
+    <select id="getTopics" resultType="java.lang.String">
+        select `topic`
+        from corgi_topics
+    </select>
+
+    <insert id="addTopic">
+        insert into `corgi_topics` (`topic`) VALUES (#{topic});
+    </insert>
+
+    <delete id="deleteTopic">
+        delete from corgi_topics where id = #{topicId}
+    </delete>
+
+    <insert id="addCount">
+        insert into corgi_statistic_${table} (`date`, `count`) VALUES (#{date}, #{count});
+    </insert>
+
+    <delete id="deleteCount">
+        delete from corgi_statistic_${table} where `date` = #{date}
+    </delete>
+
+    <select id="getCount" resultType="com.corgi.entity.CorgiStatistic">
+        select `date`, `count` from corgi_statistic_${table}
+        where `date` >= #{beginDate} and `date` &lt;= #{endDate}
+    </select>
+
+    <select id="getActivityTopic" resultType="java.lang.String">
+        select topic from corgi_activity_topic
+        where activity_id = #{activityId}
+    </select>
+
+    <insert id="addActivityTopic">
+        insert ignore into corgi_activity_topic(`activity_id`, `topic`)
+        values (#{activityId}, #{topic});
+    </insert>
+
+    <delete id="deleteActivityTopic">
+        delete from corgi_activity_topic
+        where activity_id = #{activityId}
+    </delete>
+</mapper>

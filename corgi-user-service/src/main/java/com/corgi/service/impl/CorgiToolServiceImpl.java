@@ -1,23 +1,30 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.entity.CorgiStatistic;
+import com.corgi.mapper.CorgiToolMapper;
 import com.corgi.mapper.CorgiUserTagMapper;
-import com.corgi.user.api.CorgiUserTagService;
+import com.corgi.user.api.CorgiToolService;
 import com.corgi.user.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
 import java.util.List;
 
 /**
  * @author tairanliu
  */
-@Service(interfaceClass = CorgiUserTagService.class)
+@Service(interfaceClass = CorgiToolService.class)
 @Slf4j
 @Component
-public class CorgiUserTagServiceImpl implements CorgiUserTagService {
+public class CorgiToolServiceImpl implements CorgiToolService {
     @Autowired
     private CorgiUserTagMapper corgiUserTagMapper;
+
+    @Autowired
+    private CorgiToolMapper corgiToolMapper;
 
     @Override
     public List<String> getTags() {
@@ -52,6 +59,47 @@ public class CorgiUserTagServiceImpl implements CorgiUserTagService {
         corgiUserTagMapper.deleteUserInterests(userId, category);
         for (String interest : interests) {
             corgiUserTagMapper.addUserInterests(userId, category, interest);
+        }
+    }
+
+    @Override
+    public List<String> getTopics() {
+        return corgiToolMapper.getTopics();
+    }
+
+    @Override
+    public void addTopic(String topic) {
+        corgiToolMapper.addTopic(topic);
+    }
+
+    @Override
+    public void deleteTopic(String topicId) {
+        corgiToolMapper.deleteTopic(topicId);
+    }
+
+    @Override
+    public void addCount(String table, String date, Long count) {
+        corgiToolMapper.deleteCount(table, date);
+        corgiToolMapper.addCount(table, date, count);
+    }
+
+    @Override
+    public List<CorgiStatistic> getCount(String table, String beginDate, String endDate) {
+        return corgiToolMapper.getCount(table, beginDate, endDate);
+    }
+
+    @Override
+    public List<String> getActivityTopic(String activityId) {
+        return corgiToolMapper.getActivityTopic(activityId);
+    }
+
+    @Override
+    public void updateActivityTopic(String activityId, List<String> topics) {
+        corgiToolMapper.deleteActivityTopic(activityId);
+        if (topics != null) {
+            for (String topic : topics) {
+                corgiToolMapper.addActivityTopic(activityId, topic);
+            }
         }
     }
 }
