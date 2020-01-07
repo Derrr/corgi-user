@@ -55,6 +55,12 @@
             <if test="userDetail.avatar != null">
                 `avatar` = #{userDetail.avatar},
             </if>
+            <if test="userDetail.avatarDataId != null">
+                `avatar_data_id` = #{userDetail.avatarDataId},
+            </if>
+            <if test="userDetail.avatarStatus != null">
+                `avatar_status` = #{userDetail.avatarStatus},
+            </if>
             <if test="userDetail.nickname != null">
                 `nickName` = #{userDetail.nickname},
             </if>
@@ -87,6 +93,18 @@
             </if>
         </set>
         where user_id = #{userDetail.userId}
+    </update>
+
+    <update id="updateUserAvatar">
+        update corgi_user_detail
+        set avatar_status = #{status}
+        where avatar_data_id = #{dataId}
+    </update>
+
+    <update id="deleteUserAvatar">
+        update corgi_user_detail
+        set avatar = null, avatar_status = null, avatar_data_id = null
+        where avatar_data_id = #{dataId}
     </update>
 
     <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">

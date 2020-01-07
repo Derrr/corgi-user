@@ -26,9 +26,9 @@ public interface CorgiToolMapper {
     /**
      * 删除话题
      *
-     * @param topicId
+     * @param topic
      */
-    void deleteTopic(@Param("topicId") String topicId);
+    void deleteTopic(@Param("topic") String topic);
 
     /**
      * 添加统计

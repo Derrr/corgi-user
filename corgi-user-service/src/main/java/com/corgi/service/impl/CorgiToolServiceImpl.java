@@ -73,8 +73,8 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public void deleteTopic(String topicId) {
-        corgiToolMapper.deleteTopic(topicId);
+    public void deleteTopic(String topic) {
+        corgiToolMapper.deleteTopic(topic);
     }
 
     @Override

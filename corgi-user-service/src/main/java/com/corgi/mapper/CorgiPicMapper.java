@@ -1,6 +1,7 @@
 package com.corgi.mapper;
 
 import com.corgi.activity.entity.ActivityPic;
+import com.corgi.entity.CheckPic;
 import com.corgi.support.UserPositionSupporter;
 import com.corgi.user.entity.*;
 import org.apache.ibatis.annotations.Param;
@@ -26,6 +27,21 @@ public interface CorgiPicMapper {
     void deleteUserPic(@Param("picId") String picId);
 
     /**
+     * 删除用户图片
+     *
+     * @param dataId
+     */
+    void deleteUserPicByDataId(@Param("dataId") String dataId);
+
+    /**
+     * 修改用户图片状态
+     * @param dataId
+     * @param status
+     */
+    void updateUserPicByDataId(@Param("dataId") String dataId, @Param("status") String status);
+
+
+    /**
      * 获取用户图片
      *
      * @param userId
@@ -48,10 +64,62 @@ public interface CorgiPicMapper {
     void deleteActivityPic(@Param("picId") String picId);
 
     /**
+     * 删除活动图片
+     *
+     * @param dataId
+     */
+    void deleteActivityPicByDataId(@Param("dataId") String dataId);
+
+    /**
+     * 更新活动图片状态
+     *
+     * @param dataId
+     * @param status
+     */
+    void updateActivityPicByDataId(@Param("dataId") String dataId, @Param("status") String status);
+
+
+    /**
      * 获取活动图片
      *
      * @param activityId
      * @return
      */
     List<ActivityPic> getActivityPic(@Param("activityId") String activityId);
+
+
+    /**
+     * 添加待审核图片
+     *
+     * @param checkPic
+     */
+    void addCheckPic(@Param("checkPic") CheckPic checkPic);
+
+    /**
+     * 更新审核图片状态
+     *
+     * @param dataId
+     * @param status
+     * @param userId
+     */
+    void updateCheckPic(@Param("dataId") String dataId, @Param("status") String status, @Param("userId") String userId);
+
+    /**
+     * 审核图片计数
+     *
+     * @param status
+     * @return
+     */
+    long countCheckPic(@Param("status") String status);
+
+    /**
+     * 获取审核图片
+     *
+     * @param status
+     * @param start
+     * @param size
+     * @return
+     */
+    List<CheckPic> getCheckPic(@Param("status") String status, @Param("start") long start, @Param("size") int size);
+
 }

@@ -13,6 +13,17 @@
         where id = #{picId}
     </delete>
 
+    <delete id="deleteUserPicByDataId">
+        delete from corgi_user_pic
+        where data_id = #{dataId}
+    </delete>
+
+    <update id="updateUserPicByDataId">
+        update corgi_user_pic
+        set `status` = #{status}
+        where data_id = #{dataId}
+    </update>
+
     <select id="getUserPic" resultType="com.corgi.user.entity.UserPic">
         select id picId, user_id userId, pic_url picUrl, data_id dataId, `status`, `result`
         from corgi_user_pic
@@ -30,9 +41,49 @@
         where id = #{picId}
     </delete>
 
+    <delete id="deleteActivityPicByDataId">
+        delete from corgi_activity_pic
+        where data_id = #{dataId}
+    </delete>
+
+    <update id="updateActivityPicByDataId">
+        update corgi_activity_pic
+        set `status` = #{status}
+        where data_id = #{dataId}
+    </update>
+
     <select id="getActivityPic" resultType="com.corgi.activity.entity.ActivityPic">
         select id picId, activity_id activityId, pic_url picUrl, data_id dataId, `status`, `result`
         from corgi_activity_pic
         where activity_id = #{activityId}
+    </select>
+
+    <insert id="addCheckPic" useGeneratedKeys="true" keyProperty="picId" keyColumn="id"
+            parameterType="com.corgi.entity.CheckPic">
+        insert ignore into `corgi_check_pic` (`data_id`, `pic_url`, `type`, `result`, `status`)
+        values (#{checkPic.dataId}, #{checkPic.picUrl}, #{checkPic.type}, #{checkPic.result}, #{checkPic.status});
+    </insert>
+
+    <update id="updateCheckPic">
+        update corgi_check_pic set
+        `status` = #{status}, opuid = #{userId}
+        where data_id = #{dataId}
+    </update>
+
+    <select id="countCheckPic" resultType="java.lang.Long">
+        select count(1) from corgi_check_pic
+        <if test="status != null and status != ''">
+            where `status` = #{status}
+        </if>
+    </select>
+
+    <select id="getCheckPic" resultType="com.corgi.entity.CheckPic">
+        select id picId, data_id dataId, pic_url picUrl, `type`,
+        `result`, `status`, opuid userId, ctime, uptime
+        from corgi_check_pic
+        <if test="status != null and status != ''">
+            where `status` = #{status}
+        </if>
+        limit #{start}, #{size}
     </select>
 </mapper>

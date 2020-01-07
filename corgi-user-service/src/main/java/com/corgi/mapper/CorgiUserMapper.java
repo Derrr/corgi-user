@@ -54,6 +54,19 @@ public interface CorgiUserMapper {
      */
     void updateUserDetail(@Param("userDetail") UserDetail userDetail);
 
+
+    /**
+     * 修改头像状态
+     * @param dataId
+     * @param status
+     */
+    void updateUserAvatar(@Param("dataId") String dataId, @Param("status") String status);
+
+    /**
+     * 删除头像
+     * @param dataId
+     */
+    void deleteUserAvatar(@Param("dataId")String dataId);
     /**
      * 获取用户资料
      *
@@ -147,6 +160,7 @@ public interface CorgiUserMapper {
 
     /**
      * 获取活跃用户数
+     *
      * @param beginTime
      * @param endTime
      * @return
@@ -155,6 +169,7 @@ public interface CorgiUserMapper {
 
     /**
      * 获取注册用户数
+     *
      * @param date
      * @return
      */

@@ -25,7 +25,7 @@ public interface CorgiToolService {
 
     void addTopic(String topic);
 
-    void deleteTopic(String topicId);
+    void deleteTopic(String topic);
 
     void addCount(String table, String date, Long count);
 

@@ -11,7 +11,7 @@
     </insert>
 
     <delete id="deleteTopic">
-        delete from corgi_topics where id = #{topicId}
+        delete from corgi_topics where `topic` = #{topic}
     </delete>
 
     <insert id="addCount">

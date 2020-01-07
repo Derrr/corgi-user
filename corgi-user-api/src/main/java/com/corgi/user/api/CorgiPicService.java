@@ -1,6 +1,7 @@
 package com.corgi.user.api;
 
 import com.corgi.activity.entity.ActivityPic;
+import com.corgi.entity.CheckPic;
 import com.corgi.user.entity.*;
 
 import java.util.List;
@@ -18,4 +19,14 @@ public interface CorgiPicService {
     String deleteActivityPic(String picId);
 
     List<ActivityPic> getActivityPic(String activityId);
+
+    String addCheckPic(CheckPic checkPic);
+
+    String failCheckPic(CheckPic checkPic);
+
+    String passCheckPic(CheckPic checkPic);
+
+    List<CheckPic> getCheckPic(String status, int page, int size);
+
+    long countCheckPic(String status);
 }
