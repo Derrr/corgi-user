@@ -89,6 +89,11 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public long sumCount(String table) {
+        return corgiToolMapper.sumCount(table);
+    }
+
+    @Override
     public List<String> getActivityTopic(String activityId) {
         return corgiToolMapper.getActivityTopic(activityId);
     }

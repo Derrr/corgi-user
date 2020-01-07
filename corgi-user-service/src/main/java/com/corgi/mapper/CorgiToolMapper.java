@@ -59,6 +59,14 @@ public interface CorgiToolMapper {
     List<CorgiStatistic> getCount(@Param("table") String table, @Param("beginDate") String beginDate, @Param("endDate") String endDate);
 
     /**
+     * 总计统计
+     *
+     * @param table
+     * @return
+     */
+    long sumCount(@Param("table") String table);
+
+    /**
      * 获取活动话题
      * @param activityId
      * @return

@@ -27,6 +27,10 @@
         where `date` >= #{beginDate} and `date` &lt;= #{endDate}
     </select>
 
+    <select id="sumCount" resultType="java.lang.Long">
+        select sum(`count`) from corgi_statistic_${table}
+    </select>
+
     <select id="getActivityTopic" resultType="java.lang.String">
         select topic from corgi_activity_topic
         where activity_id = #{activityId}
