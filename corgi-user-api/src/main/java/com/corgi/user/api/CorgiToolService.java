@@ -1,6 +1,7 @@
 package com.corgi.user.api;
 
 import com.corgi.entity.CorgiStatistic;
+import com.corgi.entity.CorgiTopic;
 import com.corgi.user.entity.*;
 
 import java.util.List;
@@ -21,11 +22,11 @@ public interface CorgiToolService {
 
     void updateUserInterest(String userId, String category, List<String> interests);
 
-    List<String> getTopics();
+    List<CorgiTopic> getTopics(String status);
 
-    void addTopic(String topic);
+    void addTopic(CorgiTopic topic);
 
-    void deleteTopic(String topic);
+    void updateTopic(CorgiTopic topic);
 
     void addCount(String table, String date, Long count);
 

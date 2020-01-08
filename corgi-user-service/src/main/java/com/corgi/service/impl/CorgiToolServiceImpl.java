@@ -2,6 +2,7 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.entity.CorgiStatistic;
+import com.corgi.entity.CorgiTopic;
 import com.corgi.mapper.CorgiToolMapper;
 import com.corgi.mapper.CorgiUserTagMapper;
 import com.corgi.user.api.CorgiToolService;
@@ -63,18 +64,18 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public List<String> getTopics() {
-        return corgiToolMapper.getTopics();
+    public List<CorgiTopic> getTopics(String status) {
+        return corgiToolMapper.getTopics(status);
     }
 
     @Override
-    public void addTopic(String topic) {
+    public void addTopic(CorgiTopic topic) {
         corgiToolMapper.addTopic(topic);
     }
 
     @Override
-    public void deleteTopic(String topic) {
-        corgiToolMapper.deleteTopic(topic);
+    public void updateTopic(CorgiTopic topic) {
+        corgiToolMapper.updateTopic(topic);
     }
 
     @Override

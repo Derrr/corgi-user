@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiToolMapper">
-    <select id="getTopics" resultType="java.lang.String">
-        select `topic`
+    <select id="getTopics" resultType="com.corgi.entity.CorgiTopic">
+        select id topicId, `topic`, ctime, uptime, `status`, cuid, opuid, `content`
         from corgi_topics
     </select>
 
-    <insert id="addTopic">
-        insert into `corgi_topics` (`topic`) VALUES (#{topic});
+    <insert id="addTopic" parameterType="com.corgi.entity.CorgiTopic">
+        insert into `corgi_topics` (`topic`,`status`, cuid, opuid, `content`)
+        values (#{topic.topic}, #{topic.status}, #{topic.cuid}, #{topic.opuid}, #{topic.content});
     </insert>
 
-    <delete id="deleteTopic">
-        delete from corgi_topics where `topic` = #{topic}
-    </delete>
+    <update id="updateTopic" parameterType="com.corgi.entity.CorgiTopic">
+        update corgi_topics
+        set topic = #{topic.topic}, content = #{topic.content}, opuid = #{topic.opuid}
+        where id = #{topic.topicId}
+    </update>
 
     <insert id="addCount">
         insert into corgi_statistic_${table} (`date`, `count`) VALUES (#{date}, #{count});

@@ -1,6 +1,7 @@
 package com.corgi.mapper;
 
 import com.corgi.entity.CorgiStatistic;
+import com.corgi.entity.CorgiTopic;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,21 +15,21 @@ public interface CorgiToolMapper {
      *
      * @return
      */
-    List<String> getTopics();
+    List<CorgiTopic> getTopics(@Param("status") String status);
 
     /**
      * 添加话题
      *
      * @param topic
      */
-    void addTopic(@Param("topic") String topic);
+    void addTopic(@Param("topic") CorgiTopic topic);
 
     /**
-     * 删除话题
+     * 修改话题
      *
      * @param topic
      */
-    void deleteTopic(@Param("topic") String topic);
+    void updateTopic(@Param("topic") CorgiTopic topic);
 
     /**
      * 添加统计
