@@ -4,6 +4,10 @@
     <select id="getTopics" resultType="com.corgi.entity.CorgiTopic">
         select id topicId, `topic`, ctime, uptime, `status`, cuid, opuid, `content`
         from corgi_topics
+        <if test="status != null and status != ''">
+            where `status` = #{status}
+        </if>
+        order by id desc
     </select>
 
     <insert id="addTopic" parameterType="com.corgi.entity.CorgiTopic">
@@ -13,7 +17,7 @@
 
     <update id="updateTopic" parameterType="com.corgi.entity.CorgiTopic">
         update corgi_topics
-        set topic = #{topic.topic}, content = #{topic.content}, opuid = #{topic.opuid}
+        set topic = #{topic.topic}, content = #{topic.content}, opuid = #{topic.opuid}, `status` = #{topic.status}
         where id = #{topic.topicId}
     </update>
 
