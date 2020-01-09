@@ -2,7 +2,6 @@ package com.corgi.mapper;
 
 import com.corgi.activity.entity.ActivityPic;
 import com.corgi.entity.CheckPic;
-import com.corgi.support.UserPositionSupporter;
 import com.corgi.user.entity.*;
 import org.apache.ibatis.annotations.Param;
 

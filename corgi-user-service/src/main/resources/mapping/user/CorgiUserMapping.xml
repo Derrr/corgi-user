@@ -128,9 +128,28 @@
     </update>
 
     <select id="getNearByUser" resultType="java.lang.String">
-        select user_id from corgi_user_position
-        where lat >= #{range.beginLat} and lat &lt;= #{range.endLat}
-        and lng >= #{range.beginLng} and lng &lt;= #{range.endLng}
+        select p.user_id from corgi_user_position p left join corgi_user_detail d on p.user_id = d.user_id
+        where p.lat >= #{range.beginLat} and p.lat &lt;= #{range.endLat}
+        and p.lng >= #{range.beginLng} and p.lng &lt;= #{range.endLng}
+        <if test="range.startHeight != null">
+            and d.height >= #{range.startHeight}
+        </if>
+        <if test="range.endHeight != null">
+            and d.height &lt;= #{range.endHeight}
+        </if>
+        <if test="range.startWeight != null">
+            and d.height >= #{range.startWeight}
+        </if>
+        <if test="range.endWeight != null">
+            and d.height &lt;= #{range.endWeight}
+        </if>
+
+        <if test="range.role != null and range.role != ''">
+            and d.role in #{range.role}
+        </if>
+        <if test="range.group != null and range.group != ''">
+            and d.group in #{range.group}
+        </if>
     </select>
 
     <select id="getUserProfileList" resultType="com.corgi.user.entity.UserProfile">

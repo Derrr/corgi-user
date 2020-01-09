@@ -20,7 +20,7 @@ public interface CorgiUserService {
 
     String updateUserPosition(UserPosition userPosition);
 
-    List<UserProfile> getNearByUser(UserPosition userPosition, Double range);
+    List<UserProfile> getNearByUser(UserQuery userQuery);
 
     List<UserProfile> searchUsers(UserDetail userDetail);
 

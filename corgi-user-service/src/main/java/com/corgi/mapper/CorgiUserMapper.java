@@ -1,6 +1,6 @@
 package com.corgi.mapper;
 
-import com.corgi.support.UserPositionSupporter;
+import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.entity.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -140,7 +140,7 @@ public interface CorgiUserMapper {
      * @param supporter
      * @return
      */
-    List<String> getNearByUser(@Param("range") UserPositionSupporter supporter);
+    List<String> getNearByUser(@Param("range") UserQuerySupporter supporter);
 
     /**
      * 获取人员信息列表

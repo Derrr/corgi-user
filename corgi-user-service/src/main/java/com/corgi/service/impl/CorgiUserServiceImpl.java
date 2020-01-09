@@ -7,7 +7,7 @@ import com.corgi.common.messages.MatchRefresher;
 import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.mapper.CorgiUserTagMapper;
-import com.corgi.support.UserPositionSupporter;
+import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.*;
 import com.corgi.user.api.CorgiUserService;
@@ -136,15 +136,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
-    public List<UserProfile> getNearByUser(UserPosition userPosition, Double range) {
-        UserPositionSupporter supporter = new UserPositionSupporter(userPosition, range);
+    public List<UserProfile> getNearByUser(UserQuery userQuery) {
+        UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
         List<String> userIds = corgiUserMapper.getNearByUser(supporter);
-        String inValue = getUserSql(userIds, userPosition.getUserId());
+        String inValue = getUserSql(userIds, userQuery.getUserId());
         if (StringUtils.isEmpty(inValue)) {
             return new ArrayList<>();
         }
         List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
-        String userId1 = userPosition.getUserId();
+        String userId1 = userQuery.getUserId();
         UserDetail loginUserDetail = null;
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
@@ -152,11 +152,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 Double match = corgiUserMatchService.getUserMatch(userId1, userId2);
                 if (match == null) {
                     if (loginUserDetail == null) {
-                        loginUserDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
+                        loginUserDetail = corgiUserMapper.getUserDetail(userQuery.getUserId());
                         if (loginUserDetail == null) {
                             continue;
                         }
-                        loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userPosition.getUserId()));
+                        loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userQuery.getUserId()));
                     }
                     UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
                     userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
