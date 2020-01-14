@@ -6,6 +6,8 @@ import com.corgi.user.api.CorgiUserFollowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author tairanliu
  */
@@ -30,5 +32,10 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
     @Override
     public int isFollowed(String userId, String targetUserId) {
         return corgiUserFollowMapper.countFollow(userId, targetUserId) + corgiUserFollowMapper.countFollow(targetUserId, userId) * 2;
+    }
+
+    @Override
+    public List<String> getFollowUser(String userId) {
+        return corgiUserFollowMapper.getFollowUser(userId);
     }
 }

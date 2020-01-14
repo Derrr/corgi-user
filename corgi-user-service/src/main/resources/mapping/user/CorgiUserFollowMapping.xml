@@ -16,4 +16,9 @@
         select count(1) from corgi_user_follow
         where user_id = #{userId1} and follow_user_id = #{userId2}
     </select>
+
+    <select id="getFollowUser" resultType="java.lang.String">
+        select follow_user_id from corgi_user_follow
+        where user_id = #{userId}
+    </select>
 </mapper>

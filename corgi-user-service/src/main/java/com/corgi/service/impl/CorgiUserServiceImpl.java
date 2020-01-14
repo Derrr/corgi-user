@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.common.CorgiConstants;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
+import com.corgi.entity.ActivityQuery;
 import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.mapper.CorgiUserTagMapper;
@@ -186,6 +187,22 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public long countRegisterUser(String date) {
         return corgiUserMapper.countRegisterUser(date);
+    }
+
+    @Override
+    public List<String> filterUser(List<String> userIds, ActivityQuery activityQuery) {
+        if (CollectionUtils.isEmpty(userIds)) {
+            return userIds;
+        }
+        StringBuilder sb = new StringBuilder("(");
+        for (String userId : userIds) {
+            sb.append("'").append(userId).append("',");
+        }
+        sb.deleteCharAt(sb.length() - 1).append(")");
+        return corgiUserMapper.filterUser(sb.toString(),
+                activityQuery.getRoleStr(),
+                activityQuery.getGroupStr(),
+                activityQuery.getPreferGroupStr());
     }
 
     private String getUserSql(List<String> userIds, String loginUserId) {

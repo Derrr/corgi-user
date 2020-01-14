@@ -57,6 +57,7 @@ public interface CorgiUserMapper {
 
     /**
      * 修改头像状态
+     *
      * @param dataId
      * @param status
      */
@@ -64,9 +65,11 @@ public interface CorgiUserMapper {
 
     /**
      * 删除头像
+     *
      * @param dataId
      */
-    void deleteUserAvatar(@Param("dataId")String dataId);
+    void deleteUserAvatar(@Param("dataId") String dataId);
+
     /**
      * 获取用户资料
      *
@@ -174,4 +177,14 @@ public interface CorgiUserMapper {
      * @return
      */
     long countRegisterUser(@Param("date") String date);
+
+    /**
+     * 过滤用户
+     * @param userId
+     * @param role
+     * @param group
+     * @param preferGroup
+     * @return
+     */
+    List<String> filterUser(@Param("userId") String userId, @Param("role") String role, @Param("group") String group, @Param("preferGroup") String preferGroup);
 }

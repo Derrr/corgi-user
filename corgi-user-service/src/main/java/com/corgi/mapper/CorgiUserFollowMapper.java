@@ -2,6 +2,8 @@ package com.corgi.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author tairanliu
  */
@@ -24,9 +26,17 @@ public interface CorgiUserFollowMapper {
 
     /**
      * 判断是否关注
+     *
      * @param userId1
      * @param userId2
      * @return
      */
     int countFollow(@Param("userId1") String userId1, @Param("userId2") String userId2);
+
+    /**
+     * 获取关注人
+     * @param userId
+     * @return
+     */
+    List<String> getFollowUser(@Param("userId") String userId);
 }

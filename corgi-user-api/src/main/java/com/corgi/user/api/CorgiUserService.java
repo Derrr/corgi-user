@@ -1,5 +1,6 @@
 package com.corgi.user.api;
 
+import com.corgi.entity.ActivityQuery;
 import com.corgi.user.entity.*;
 
 import java.util.List;
@@ -27,4 +28,6 @@ public interface CorgiUserService {
     long countActiveUser(long beginTime, long endTime);
 
     long countRegisterUser(String date);
+
+    List<String> filterUser(List<String> userIds, ActivityQuery activityQuery);
 }
