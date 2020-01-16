@@ -13,6 +13,15 @@
         where id = #{picId}
     </delete>
 
+    <update id="updateUserPic">
+        update corgi_user_pic set
+        `status` = #{pic.status},
+        data_id = #{pic.dataId},
+        pic_url = #{pic.picUrl},
+        `result` = #{pic.result}
+        where id = #{pic.picId}
+    </update>
+
     <delete id="deleteUserPicByDataId">
         delete from corgi_user_pic
         where data_id = #{dataId}
@@ -86,4 +95,6 @@
         </if>
         limit #{start}, #{size}
     </select>
+
+
 </mapper>

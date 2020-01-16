@@ -33,7 +33,14 @@ public interface CorgiPicMapper {
     void deleteUserPicByDataId(@Param("dataId") String dataId);
 
     /**
+     * 修改用户图片
+     * @param userPic
+     */
+    void updateUserPic(@Param("pic") UserPic userPic);
+
+    /**
      * 修改用户图片状态
+     *
      * @param dataId
      * @param status
      */

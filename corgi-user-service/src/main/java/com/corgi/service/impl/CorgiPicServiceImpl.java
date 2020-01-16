@@ -108,5 +108,11 @@ public class CorgiPicServiceImpl implements CorgiPicService {
         return corgiPicMapper.countCheckPic(status);
     }
 
+    @Override
+    public String updateUserPic(UserPic userPic) {
+        corgiPicMapper.updateUserPic(userPic);
+        return CorgiConstants.SUCCESS;
+    }
+
 
 }
