@@ -3,6 +3,7 @@ package com.corgi.user.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author tairanliu
@@ -21,4 +22,5 @@ public class UserProfile implements Serializable {
     private Long time;
     private Double match;
     private int signUpStatus;
+    List<UserPic> pics;
 }

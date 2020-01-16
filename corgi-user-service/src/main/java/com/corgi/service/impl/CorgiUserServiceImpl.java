@@ -149,6 +149,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         UserDetail loginUserDetail = null;
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
+                userProfile.setPics(corgiPicMapper.getUserPic(userProfile.getUserId()));
                 String userId2 = userProfile.getUserId();
                 Double match = corgiUserMatchService.getUserMatch(userId1, userId2);
                 if (match == null) {
