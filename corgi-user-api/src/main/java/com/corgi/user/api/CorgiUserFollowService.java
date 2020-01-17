@@ -1,5 +1,7 @@
 package com.corgi.user.api;
 
+import com.corgi.user.entity.UserProfile;
+
 import java.util.List;
 
 /**
@@ -13,4 +15,6 @@ public interface CorgiUserFollowService {
     int isFollowed(String userId, String targetUserId);
 
     List<String> getFollowUser(String userId);
+
+    List<UserProfile> getFollowUserByPage(String userId, String type, Double lat, Double lng, Integer page, Integer pageSize);
 }

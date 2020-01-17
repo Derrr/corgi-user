@@ -108,8 +108,8 @@
     </update>
 
     <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">
-      insert into corgi_user_position (`user_id`, `lat`, `lng`, `uptime`)
-      values (#{userId}, #{lat}, #{lng}, #{uptime} );
+      insert into corgi_user_position (`user_id`, `lat`, `lng`,`pt` `uptime`)
+      values (#{userId}, #{lat}, #{lng},point(#{lng},#{lat}), #{uptime} );
     </insert>
 
     <select id="getUserPosition" resultType="com.corgi.user.entity.UserPosition">
@@ -118,9 +118,11 @@
     </select>
 
     <update id="updateUserPosition" parameterType="com.corgi.user.entity.UserPosition">
-        update corgi_user_position set lat = #{lat}, lng = #{lng}, uptime = #{uptime}
+        update corgi_user_position set lat = #{lat}, lng = #{lng}, uptime = #{uptime}, pt=point(#{lng},#{lat})
         where user_id = #{userId}
     </update>
+
+
 
     <update id="updateUserPositionUptime">
         update corgi_user_position set uptime = #{uptime}

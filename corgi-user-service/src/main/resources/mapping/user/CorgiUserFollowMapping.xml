@@ -21,4 +21,31 @@
         select follow_user_id from corgi_user_follow
         where user_id = #{userId}
     </select>
+
+    <select id="getFollowUserByPage" resultType="com.corgi.user.entity.UserProfile">
+      select
+      p.user_id userId,
+      p.lat lat,
+      p.lng lng,
+      p.uptime `time`,
+      d.nickname `nickname`,
+      d.avatar avatar,
+      d.role role,
+      d.group `group`,
+      d.con con
+      from corgi_user_follow f
+      left join corgi_user_position p on a.user_id = p.user_id
+      left join corgi_user_detail d on d.user_id = p.user_id
+      where f.user_id = #{userId}
+      <if test="type = 'new'">
+          order by f.id desc
+      </if>
+      <if test="type = 'active'">
+          order by p.uptime desc
+      </if>
+      <if test="type = 'distance'">
+          order by st_distance_sphere(point(#{lng},#{lat}),p.pt)
+      </if>
+        limit #{start},#{size}
+    </select>
 </mapper>
