@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiAreaMapper">
+    <select id="getArea" resultType="com.corgi.entity.CorgiArea">
+        select `id`, `city`, adname, area_name areaName, `type`
+        from corgi_area
+        where city = #{area.city}
+        <if test="area.type != null and area.type != ''">
+            and `type` = #{area.type}
+        </if>
+        <if test="area.adname != null and area.adname != ''">
+            and adname = #{area.adname}
+        </if>
+        <if test="area.areaName != null and area.areaName != ''">
+            and area_name = #{area.areaName}
+        </if>
+    </select>
+
+    <insert id="addArea" parameterType="com.corgi.entity.CorgiArea">
+        insert ignore into `corgi`.`corgi_area` (`city`, `adname`, `area_name`, `type`)
+        values (#{area.city}, #{area.adname}, #{area.areaname}, '1');
+    </insert>
+
+</mapper>
