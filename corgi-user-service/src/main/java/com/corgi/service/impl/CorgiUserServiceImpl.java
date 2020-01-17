@@ -146,31 +146,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
         List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
         String userId1 = userQuery.getUserId();
-        UserDetail loginUserDetail = null;
-        if (!CollectionUtils.isEmpty(userProfiles)) {
-            for (UserProfile userProfile : userProfiles) {
-                userProfile.setPics(corgiPicMapper.getUserPic(userProfile.getUserId()));
-                String userId2 = userProfile.getUserId();
-                Double match = corgiUserMatchService.getUserMatch(userId1, userId2);
-                if (match == null) {
-                    if (loginUserDetail == null) {
-                        loginUserDetail = corgiUserMapper.getUserDetail(userQuery.getUserId());
-                        if (loginUserDetail == null) {
-                            continue;
-                        }
-                        loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userQuery.getUserId()));
-                    }
-                    UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
-                    userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
-                    try {
-                        match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
-                    } catch (Exception e) {
-                        log.error(e.getMessage(), e);
-                    }
-                }
-                userProfile.setMatch(match);
-            }
-        }
+        userProfiles = this.populateUserProfile(userProfiles, userId1);
         return userProfiles;
     }
 
@@ -204,6 +180,36 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 activityQuery.getRoleStr(),
                 activityQuery.getGroupStr(),
                 activityQuery.getPreferGroupStr());
+    }
+
+    @Override
+    public List<UserProfile> populateUserProfile(List<UserProfile> userProfiles, String userId) {
+        UserDetail loginUserDetail = null;
+        if (!CollectionUtils.isEmpty(userProfiles)) {
+            for (UserProfile userProfile : userProfiles) {
+                userProfile.setPics(corgiPicMapper.getUserPic(userProfile.getUserId()));
+                String userId2 = userProfile.getUserId();
+                Double match = corgiUserMatchService.getUserMatch(userId, userId2);
+                if (match == null) {
+                    if (loginUserDetail == null) {
+                        loginUserDetail = corgiUserMapper.getUserDetail(userId);
+                        if (loginUserDetail == null) {
+                            continue;
+                        }
+                        loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userId));
+                    }
+                    UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
+                    userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
+                    try {
+                        match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
+                    } catch (Exception e) {
+                        log.error(e.getMessage(), e);
+                    }
+                }
+                userProfile.setMatch(match);
+            }
+        }
+        return userProfiles;
     }
 
     private String getUserSql(List<String> userIds, String loginUserId) {

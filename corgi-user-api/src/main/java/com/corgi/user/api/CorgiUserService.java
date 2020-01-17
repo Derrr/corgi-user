@@ -30,4 +30,6 @@ public interface CorgiUserService {
     long countRegisterUser(String date);
 
     List<String> filterUser(List<String> userIds, ActivityQuery activityQuery);
+
+    List<UserProfile> populateUserProfile(List<UserProfile> userProfiles, String userId);
 }

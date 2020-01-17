@@ -3,6 +3,7 @@ package com.corgi.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiUserFollowMapper;
 import com.corgi.user.api.CorgiUserFollowService;
+import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,8 @@ import java.util.List;
 public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
     @Autowired
     private CorgiUserFollowMapper corgiUserFollowMapper;
+    @Autowired
+    private CorgiUserService corgiUserService;
 
     @Override
     public boolean follow(String userId, String followUserId) {
@@ -42,6 +45,7 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
 
     @Override
     public List<UserProfile> getFollowUserByPage(String userId, String type, Double lat, Double lng, Integer page, Integer pageSize) {
-        return corgiUserFollowMapper.getFollowUserByPage(userId, type, lat, lng, (page - 1) * pageSize, pageSize);
+        List<UserProfile> userProfiles = corgiUserFollowMapper.getFollowUserByPage(userId, type, lat, lng, (page - 1) * pageSize, pageSize);
+        return corgiUserService.populateUserProfile(userProfiles, userId);
     }
 }

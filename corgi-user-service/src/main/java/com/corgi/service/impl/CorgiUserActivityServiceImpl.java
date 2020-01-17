@@ -3,6 +3,7 @@ package com.corgi.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiUserActivityMapper;
 import com.corgi.user.api.CorgiUserActivityService;
+import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.UserProfile;
 import com.corgi.user.entity.UserSignUp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import java.util.List;
 public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     @Autowired
     private CorgiUserActivityMapper corgiUserActivityMapper;
+    @Autowired
+    private CorgiUserService corgiUserService;
 
     @Override
     public boolean signUp(UserSignUp userSignUp) {
@@ -32,7 +35,8 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
-    public List<UserProfile> getUsers(String activityId) {
-        return corgiUserActivityMapper.getUser(activityId);
+    public List<UserProfile> getUsers(String activityId, String userId) {
+        List<UserProfile> userProfiles = corgiUserActivityMapper.getUser(activityId);
+        return corgiUserService.populateUserProfile(userProfiles, userId);
     }
 }
