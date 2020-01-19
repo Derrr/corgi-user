@@ -37,13 +37,13 @@
       left join corgi_user_position p on a.user_id = p.user_id
       left join corgi_user_detail d on d.user_id = p.user_id
       where f.user_id = #{userId}
-      <if test="type = 'new'">
+      <if test="type == 'new'">
           order by f.id desc
       </if>
-      <if test="type = 'active'">
+      <if test="type == 'active'">
           order by p.uptime desc
       </if>
-      <if test="type = 'distance'">
+      <if test="type == 'distance'">
           order by st_distance_sphere(point(#{lng},#{lat}),p.pt)
       </if>
         limit #{start},#{size}
