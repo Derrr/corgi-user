@@ -39,7 +39,7 @@
         where user_id = #{userId}
     </select>
 
-    <insert id="addActivityPic" useGeneratedKeys="true" keyProperty="picId" keyColumn="id"
+    <insert id="addActivityPic" useGeneratedKeys="true" keyProperty="activityPic.picId" keyColumn="id"
             parameterType="com.corgi.activity.entity.ActivityPic">
         insert into corgi_activity_pic (`activity_id`, `pic_url`, `data_id`, `status`, `result`)
         values (#{activityPic.activityId}, #{activityPic.picUrl}, #{activityPic.dataId}, #{activityPic.status}, #{activityPic.result})
@@ -67,7 +67,7 @@
         where activity_id = #{activityId}
     </select>
 
-    <insert id="addCheckPic" useGeneratedKeys="true" keyProperty="picId" keyColumn="id"
+    <insert id="addCheckPic" useGeneratedKeys="true" keyProperty="checkPic.picId" keyColumn="id"
             parameterType="com.corgi.entity.CheckPic">
         insert ignore into `corgi_check_pic` (`data_id`, `pic_url`, `type`, `result`, `status`)
         values (#{checkPic.dataId}, #{checkPic.picUrl}, #{checkPic.type}, #{checkPic.result}, #{checkPic.status});
