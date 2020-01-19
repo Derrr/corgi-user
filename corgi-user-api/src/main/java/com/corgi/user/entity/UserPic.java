@@ -11,4 +11,5 @@ import java.io.Serializable;
 @Data
 public class UserPic extends CorgiPic{
     private String userId;
+    private Long testId;
 }
