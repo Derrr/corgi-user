@@ -22,7 +22,7 @@
 
     <insert id="addArea" parameterType="com.corgi.entity.CorgiArea">
         insert ignore into `corgi`.`corgi_area` (`city`, `adname`, `area_name`, `type`,`address`)
-        values (#{area.city}, #{area.adname}, #{area.areaname}, #{area.type},#{area.address});
+        values (#{area.city}, #{area.adname}, #{area.areaName}, #{area.type},#{area.address});
     </insert>
 
 </mapper>
