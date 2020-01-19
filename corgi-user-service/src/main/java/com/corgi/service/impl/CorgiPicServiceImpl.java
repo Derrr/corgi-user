@@ -30,7 +30,6 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     @Override
     public String addUserPic(UserPic userPic) {
         corgiPicMapper.addUserPic(userPic);
-        log.info(userPic + "-" + userPic.getTestId());
         return userPic.getPicId();
     }
 
