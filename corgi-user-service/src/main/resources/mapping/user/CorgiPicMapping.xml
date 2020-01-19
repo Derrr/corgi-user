@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiPicMapper">
 
-    <insert id="addUserPic" useGeneratedKeys="true" keyProperty="testId"
+    <insert id="addUserPic" useGeneratedKeys="true" keyProperty="userPic.picId"
             parameterType="com.corgi.user.entity.UserPic">
       insert into corgi_user_pic (`user_id`, `pic_url`, `data_id`, `status`, `result`)
       values (#{userPic.userId}, #{userPic.picUrl}, #{userPic.dataId}, #{userPic.status}, #{userPic.result})
