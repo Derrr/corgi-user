@@ -11,6 +11,8 @@ import java.util.List;
 public interface CorgiUserActivityService {
     boolean signUp(UserSignUp userSignUp);
 
+    boolean signOut(UserSignUp userSignUp);
+
     boolean updateSignUp(UserSignUp userSignUp);
 
     List<UserProfile> getUsers(String activityId, String userId);

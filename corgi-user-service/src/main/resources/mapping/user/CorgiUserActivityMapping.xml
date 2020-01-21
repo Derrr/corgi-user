@@ -7,6 +7,12 @@
         values (#{userSignUp.userId}, #{userSignUp.activityId}, #{userSignUp.status});
     </insert>
 
+    <delete id="deleteSignUp" parameterType="com.corgi.user.entity.UserSignUp">
+        delete from corgi_activity_attender
+        where user_id = #{userSignUp.userId}
+        and activity_id = #{userSignUp.activityId}
+    </delete>
+
     <update id="updateSignUp" parameterType="com.corgi.user.entity.UserSignUp">
         update corgi_activity_attender
         set `status` = #{userSignUp.status}

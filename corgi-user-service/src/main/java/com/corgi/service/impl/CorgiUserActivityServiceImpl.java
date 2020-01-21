@@ -29,6 +29,12 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public boolean signOut(UserSignUp userSignUp) {
+        corgiUserActivityMapper.deleteSignUp(userSignUp);
+        return true;
+    }
+
+    @Override
     public boolean updateSignUp(UserSignUp userSignUp) {
         corgiUserActivityMapper.updateSignUp(userSignUp);
         return true;

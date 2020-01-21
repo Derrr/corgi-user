@@ -18,6 +18,13 @@ public interface CorgiUserActivityMapper {
      */
     void addSignUp(@Param("userSignUp") UserSignUp userSignUp);
 
+
+    /**
+     * 取消报名
+     * @param userSignUp
+     */
+    void deleteSignUp(@Param("userSignUp") UserSignUp userSignUp);
+
     /**
      * 修改报名人状态
      *
