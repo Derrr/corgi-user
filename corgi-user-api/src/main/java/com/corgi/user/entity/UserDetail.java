@@ -11,6 +11,8 @@ import java.util.List;
 @Data
 public class UserDetail implements Serializable{
     private String userId;
+    private String telNo;
+    private String imId;
     private String nickname;
     private String avatar;
     private String avatarDataId;

@@ -12,6 +12,8 @@ import java.util.List;
 public class UserProfile implements Serializable {
     private String userId;
     private String nickname;
+    private String telNo;
+    private String imId;
     private String avatar;
     private String avatarStatus;
     private String role;
