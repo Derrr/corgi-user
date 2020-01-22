@@ -157,9 +157,20 @@ public interface CorgiUserMapper {
      * 查询用户
      *
      * @param userDetail
+     * @param size
+     * @param start
      * @return
      */
-    List<UserProfile> queryUserProfile(@Param("userDetail") UserDetail userDetail);
+    List<UserProfile> queryUserProfile(@Param("userDetail") UserDetail userDetail, @Param("start") int start, @Param("size") int size);
+
+    /**
+     * 统计用户
+     *
+     * @param userDetail
+     * @return
+     */
+    long countUserProfile(@Param("userDetail") UserDetail userDetail);
+
 
     /**
      * 获取活跃用户数
@@ -180,6 +191,7 @@ public interface CorgiUserMapper {
 
     /**
      * 过滤用户
+     *
      * @param userId
      * @param role
      * @param group
