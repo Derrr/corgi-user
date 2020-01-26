@@ -14,6 +14,8 @@ public interface CorgiPicService {
 
     String deleteUserPic(String picId);
 
+    List<UserPic> getUserPic(String userId);
+
     String addActivityPic(ActivityPic activityPic);
 
     String deleteActivityPic(String picId);

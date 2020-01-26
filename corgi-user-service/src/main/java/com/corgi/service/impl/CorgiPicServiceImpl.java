@@ -40,6 +40,11 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     }
 
     @Override
+    public List<UserPic> getUserPic(String userId) {
+        return corgiPicMapper.getUserPic(userId);
+    }
+
+    @Override
     public String addActivityPic(ActivityPic activityPic) {
         corgiPicMapper.addActivityPic(activityPic);
         return activityPic.getPicId();
