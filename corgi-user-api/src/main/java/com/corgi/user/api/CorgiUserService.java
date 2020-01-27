@@ -34,4 +34,6 @@ public interface CorgiUserService {
     List<String> filterUser(List<String> userIds, ActivityQuery activityQuery);
 
     List<UserProfile> populateUserProfile(List<UserProfile> userProfiles, String userId);
+
+    String updateUserLogin(UserLogin userLogin);
 }

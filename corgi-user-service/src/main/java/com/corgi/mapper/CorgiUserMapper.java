@@ -26,6 +26,14 @@ public interface CorgiUserMapper {
     void updateImId(@Param("userLogin") UserLogin userLogin);
 
     /**
+     * 更新用户推送ID
+     *
+     * @param userLogin
+     */
+    void updateLogin(@Param("userLogin") UserLogin userLogin);
+
+
+    /**
      * 注册用户登录信息
      *
      * @param userLogin

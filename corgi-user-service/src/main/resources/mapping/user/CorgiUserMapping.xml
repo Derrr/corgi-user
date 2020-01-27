@@ -13,6 +13,13 @@
         where id = #{userLogin.userId}
     </update>
 
+    <update id="updateLogin">
+        update corgi_user_login
+        set im_id = #{userLogin.imId},
+        tel_no = #{userLogin.telNo}
+        where id = #{userLogin.userId}
+    </update>
+
     <insert id="addUserLogin" useGeneratedKeys="true" keyProperty="userLogin.userId"
             parameterType="com.corgi.user.entity.UserLogin">
         insert into corgi_user_login (`tel_no`, `im_id`) values (#{userLogin.telNo}, #{userLogin.imId});
