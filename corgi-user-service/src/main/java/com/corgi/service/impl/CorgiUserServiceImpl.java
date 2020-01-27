@@ -219,7 +219,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public String updateUserLogin(UserLogin userLogin) {
-        return null;
+        corgiUserMapper.updateLogin(userLogin);
+        return CorgiConstants.SUCCESS;
     }
 
     private String getUserSql(List<String> userIds, String loginUserId) {
