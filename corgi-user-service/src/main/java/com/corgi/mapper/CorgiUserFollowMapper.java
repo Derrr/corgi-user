@@ -57,4 +57,7 @@ public interface CorgiUserFollowMapper {
     List<UserProfile> getFollowUserByPage(@Param("userId") String userId, @Param("type") String type,
                                           @Param("lat") double lat, @Param("lng") double lng,
                                           @Param("start") Integer start, @Param("size") Integer size);
+
+    List<UserProfile> getFollowedUserByPage(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
 }

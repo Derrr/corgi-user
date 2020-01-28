@@ -32,10 +32,12 @@
       d.avatar avatar,
       d.role role,
       d.group `group`,
-      d.con con
+      d.con con,
+      l.im_id imId
       from corgi_user_follow f
       left join corgi_user_position p on f.follow_user_id = p.user_id
       left join corgi_user_detail d on d.user_id = p.user_id
+      left join corgi_user_login l on l.id = p.user_id
       where f.user_id = #{userId}
       <if test="type == 'new'">
           order by f.id desc
@@ -46,6 +48,20 @@
       <if test="type == 'distance'">
           order by st_distance_sphere(point(#{lng},#{lat}),p.pt)
       </if>
+        limit #{start},#{size}
+    </select>
+
+    <select id="getFollowedUserByPage" resultType="com.corgi.user.entity.UserProfile">
+        select
+        p.user_id userId,
+        p.lat lat,
+        p.lng lng,
+        p.uptime `time`,
+        l.im_id imId
+        from corgi_user_follow f
+        left join corgi_user_position p on f.user_id = p.user_id
+        left join corgi_user_login l on l.id = p.user_id
+        where f.follow_user_id = #{userId}
         limit #{start},#{size}
     </select>
 </mapper>

@@ -25,6 +25,8 @@ public interface CorgiUserService {
 
     List<UserProfile> getNearByUser(UserQuery userQuery);
 
+    List<String> getAllNearByUser(UserQuery userQuery);
+
     List<UserProfile> searchUsers(UserDetail userDetail, Integer page, Integer pageSize);
 
     long countUsers(UserDetail userDetail);
