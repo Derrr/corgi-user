@@ -60,6 +60,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
+    public UserLogin getUserLogin(String userId) {
+        return corgiUserMapper.getUserLogin(userId);
+    }
+
+    @Override
     public String addDetail(UserDetail userDetail) {
         if (StringUtils.isEmpty(userDetail.getUserId())) {
             return "user id is null";

@@ -19,6 +19,13 @@ public interface CorgiUserMapper {
     UserLogin getUserLoginByTelNo(@Param("telNo") String telNo);
 
     /**
+     * 通过用户ID获取登录信息
+     * @param userId
+     * @return
+     */
+    UserLogin getUserLogin(@Param("userId")String userId);
+
+    /**
      * 更新用户推送ID
      *
      * @param userLogin

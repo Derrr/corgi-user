@@ -7,6 +7,12 @@
         where tel_no = #{telNo}
     </select>
 
+    <select id="getUserLogin" resultType="com.corgi.user.entity.UserLogin">
+        select id userId, tel_no telNo, im_id imId
+        from corgi_user_login
+        where id = #{userId}
+    </select>
+
     <update id="updateImId">
         update corgi_user_login
         set im_id = #{userLogin.imId}

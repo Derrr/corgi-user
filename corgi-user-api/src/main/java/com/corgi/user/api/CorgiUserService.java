@@ -11,6 +11,8 @@ import java.util.List;
 public interface CorgiUserService {
     UserLogin login(UserLogin userLogin);
 
+    UserLogin getUserLogin(String userId);
+
     String addDetail(UserDetail userDetail);
 
     String updateDetail(UserDetail userDetail);
