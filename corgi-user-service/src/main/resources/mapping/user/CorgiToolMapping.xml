@@ -11,6 +11,14 @@
         order by id desc
     </select>
 
+    <select id="searchTopic" resultType="com.corgi.entity.CorgiTopic">
+        select id topicId, `topic`, ctime, uptime, `status`, cuid, opuid, `content`
+        from corgi_topics
+        where `status` != 'deleted'
+        and `topic` like concat('%',#{text},'%')
+        order by id desc
+    </select>
+
     <insert id="addTopic" parameterType="com.corgi.entity.CorgiTopic">
         insert into `corgi_topics` (`topic`,`status`, cuid, opuid, `content`)
         values (#{topic.topic}, #{topic.status}, #{topic.cuid}, #{topic.opuid}, #{topic.content});

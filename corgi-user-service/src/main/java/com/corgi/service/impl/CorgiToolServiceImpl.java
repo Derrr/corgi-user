@@ -69,6 +69,11 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public List<CorgiTopic> searchTopic(String text) {
+        return corgiToolMapper.searchTopic(text);
+    }
+
+    @Override
     public void addTopic(CorgiTopic topic) {
         corgiToolMapper.addTopic(topic);
     }

@@ -13,9 +13,19 @@ public interface CorgiToolMapper {
     /**
      * 获取话题
      *
+     * @param status
      * @return
      */
     List<CorgiTopic> getTopics(@Param("status") String status);
+
+    /**
+     * 搜索话题
+     *
+     * @param text
+     * @return
+     */
+    List<CorgiTopic> searchTopic(@Param("text") String text);
+
 
     /**
      * 添加话题

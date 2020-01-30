@@ -24,6 +24,8 @@ public interface CorgiToolService {
 
     List<CorgiTopic> getTopics(String status);
 
+    List<CorgiTopic> searchTopic(String text);
+
     void addTopic(CorgiTopic topic);
 
     void updateTopic(CorgiTopic topic);
