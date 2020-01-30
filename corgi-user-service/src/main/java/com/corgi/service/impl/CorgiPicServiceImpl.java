@@ -98,19 +98,19 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     }
 
     @Override
-    public List<CheckPic> getCheckPic(String status,String type, int page, int size) {
+    public List<CheckPic> getCheckPic(String status, String type, int page, int size) {
         if (page < 1) {
             page = 1;
         }
         if (size <= 0) {
             size = 20;
         }
-        return corgiPicMapper.getCheckPic(status, (page - 1) * size, size);
+        return corgiPicMapper.getCheckPic(status, type, (page - 1) * size, size);
     }
 
     @Override
-    public long countCheckPic(String status,String type) {
-        return corgiPicMapper.countCheckPic(status);
+    public long countCheckPic(String status, String type) {
+        return corgiPicMapper.countCheckPic(status, type);
     }
 
     @Override
