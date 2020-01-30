@@ -27,6 +27,6 @@ public class UserProfile implements Serializable {
     private Long time;
     private Double match;
     private int signUpStatus;
-    private int isFollowed;
+    private Integer isFollowed;
     List<UserPic> pics;
 }
