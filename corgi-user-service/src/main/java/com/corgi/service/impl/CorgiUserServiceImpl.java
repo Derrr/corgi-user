@@ -236,12 +236,12 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
-    public String updateUserNickname(String userId, String nickname) {
-        int count = corgiUserMapper.countNickname(nickname);
+    public String updateUserNickname(String userId, String nickname, String checkNickname) {
+        int count = corgiUserMapper.countNickname(nickname, checkNickname);
         if (count > 0) {
             return "nickname exists";
         }
-        corgiUserMapper.updateNickname(userId, nickname);
+        corgiUserMapper.updateNickname(userId, nickname,checkNickname);
         return CorgiConstants.SUCCESS;
     }
 

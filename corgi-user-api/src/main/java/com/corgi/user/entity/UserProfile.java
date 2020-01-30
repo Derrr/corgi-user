@@ -12,6 +12,9 @@ import java.util.List;
 public class UserProfile implements Serializable {
     private String userId;
     private String nickname;
+    private String checkNickname;
+    private String desc;
+    private String checkDesc;
     private String telNo;
     private String imId;
     private String avatar;

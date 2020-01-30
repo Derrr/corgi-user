@@ -20,10 +20,11 @@ public interface CorgiUserMapper {
 
     /**
      * 通过用户ID获取登录信息
+     *
      * @param userId
      * @return
      */
-    UserLogin getUserLogin(@Param("userId")String userId);
+    UserLogin getUserLogin(@Param("userId") String userId);
 
     /**
      * 更新用户推送ID
@@ -71,18 +72,22 @@ public interface CorgiUserMapper {
 
     /**
      * 更新昵称
+     *
      * @param userId
      * @param nickname
+     * @param checkNickname
      */
-    void updateNickname(@Param("userId") String userId,@Param("nickname")String nickname);
+    void updateNickname(@Param("userId") String userId, @Param("nickname") String nickname, @Param("checkNickname") String checkNickname);
 
 
     /**
      * 统计昵称
+     *
      * @param nickname
+     * @param checkNickname
      * @return
      */
-    int countNickname(@Param("nickname")String nickname);
+    int countNickname(@Param("nickname") String nickname, @Param("checkNickname") String checkNickname);
 
     /**
      * 修改头像状态

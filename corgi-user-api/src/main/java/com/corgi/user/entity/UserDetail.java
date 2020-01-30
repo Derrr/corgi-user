@@ -14,12 +14,15 @@ public class UserDetail implements Serializable{
     private String telNo;
     private String imId;
     private String nickname;
+    private String checkNickname;
+    private String nicknameDataId;
     private String avatar;
     private String avatarDataId;
     private String avatarStatus;
     private int height;
     private int weight;
     private String desc;
+    private String checkDesc;
     private String role;
     private String city;
     private String character;
