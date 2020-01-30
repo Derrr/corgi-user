@@ -48,7 +48,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public UserLogin login(UserLogin userLogin) {
-        userLogin.setStatus("0");
+        userLogin.setStatus("-1");
         UserLogin tmpUserLogin = corgiUserMapper.getUserLoginByTelNo(userLogin.getTelNo());
         if (tmpUserLogin != null && !StringUtils.isEmpty(tmpUserLogin.getUserId())) {
             userLogin.setUserId(tmpUserLogin.getUserId());
@@ -209,6 +209,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             for (UserProfile userProfile : userProfiles) {
                 userProfile.setPics(corgiPicMapper.getUserPic(userProfile.getUserId()));
                 String userId2 = userProfile.getUserId();
+                int count = corgiUserFollowMapper.countFollow(userId2, userId);
+                userProfile.setIsFollowed(count);
                 Double match = corgiUserMatchService.getUserMatch(userId, userId2);
                 if (match == null) {
                     if (loginUserDetail == null) {
