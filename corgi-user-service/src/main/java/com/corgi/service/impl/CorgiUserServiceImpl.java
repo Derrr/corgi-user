@@ -235,6 +235,16 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         return CorgiConstants.SUCCESS;
     }
 
+    @Override
+    public String updateUserNickname(String userId, String nickname) {
+        int count = corgiUserMapper.countNickname(nickname);
+        if (count > 0) {
+            return "nickname exists";
+        }
+        corgiUserMapper.updateNickname(userId, nickname);
+        return CorgiConstants.SUCCESS;
+    }
+
     private String getUserSql(List<String> userIds, String loginUserId) {
         //若没有人则返回空
         if (userIds == null || userIds.size() <= 1) {

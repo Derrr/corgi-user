@@ -40,4 +40,6 @@ public interface CorgiUserService {
     List<UserProfile> populateUserProfile(List<UserProfile> userProfiles, String userId);
 
     String updateUserLogin(UserLogin userLogin);
+
+    String updateUserNickname(String userId, String nickname);
 }

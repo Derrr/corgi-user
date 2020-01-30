@@ -69,6 +69,20 @@ public interface CorgiUserMapper {
      */
     void updateUserDetail(@Param("userDetail") UserDetail userDetail);
 
+    /**
+     * 更新昵称
+     * @param userId
+     * @param nickname
+     */
+    void updateNickname(@Param("userId") String userId,@Param("nickname")String nickname);
+
+
+    /**
+     * 统计昵称
+     * @param nickname
+     * @return
+     */
+    int countNickname(@Param("nickname")String nickname);
 
     /**
      * 修改头像状态

@@ -75,9 +75,6 @@
             <if test="userDetail.avatarStatus != null">
                 `avatar_status` = #{userDetail.avatarStatus},
             </if>
-            <if test="userDetail.nickname != null">
-                `nickName` = #{userDetail.nickname},
-            </if>
             <if test="userDetail.height != null and userDetail.height != 0">
                 `height` = #{userDetail.height},
             </if>
@@ -107,6 +104,17 @@
             </if>
         </set>
         where user_id = #{userDetail.userId}
+    </update>
+
+    <select id="countNickname" resultType="java.lang.Integer">
+        select count(1) from corgi_user_detail
+        where `nickname` = #{nickname}
+    </select>
+
+    <update id="updateNickname">
+        update corgi_user_detail
+        set `nickname` = #{nickname}
+        where user_id = #{userId}
     </update>
 
     <update id="updateUserAvatar">
