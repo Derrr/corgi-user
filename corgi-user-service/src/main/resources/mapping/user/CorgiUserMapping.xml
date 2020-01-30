@@ -357,4 +357,19 @@
             and g.group in ${preferGroup}
         </if>
     </select>
+
+    <delete id="deleteUserLogin">
+        delete from corgi_user_login
+        where id = #{userId}
+    </delete>
+
+    <delete id="deleteUserDetail">
+        delete from corgi_user_detail
+        where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteUserPosition">
+        delete from corgi_user_position
+        where user_id = #{userId}
+    </delete>
 </mapper>

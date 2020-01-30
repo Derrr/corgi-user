@@ -60,4 +60,9 @@ public interface CorgiUserFollowMapper {
 
     List<UserProfile> getFollowedUserByPage(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
+    /**
+     * 删除所有用户相关关注
+     * @param userId
+     */
+    void deleteAllUserFollow(@Param("userId") String userId);
 }

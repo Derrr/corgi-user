@@ -233,4 +233,25 @@ public interface CorgiUserMapper {
      * @return
      */
     List<String> filterUser(@Param("userId") String userId, @Param("role") String role, @Param("group") String group, @Param("preferGroup") String preferGroup);
+
+
+    /**
+     * 删除用户董路信息
+     *
+     * @param userId
+     */
+    void deleteUserLogin(@Param("userId") String userId);
+
+    /**
+     * 删除用户详情
+     * @param userId
+     */
+    void deleteUserDetail(@Param("userId") String userId);
+
+    /**
+     * 删除用户位置信息
+     * @param userId
+     */
+    void deleteUserPosition(@Param("userId") String userId);
+
 }

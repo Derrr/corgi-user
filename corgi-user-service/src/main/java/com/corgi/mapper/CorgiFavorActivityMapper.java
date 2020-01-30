@@ -39,9 +39,16 @@ public interface CorgiFavorActivityMapper {
 
     /**
      * 获取是否收藏了某店铺
+     *
      * @param userId
      * @param activityId
      * @return
      */
     int countActivity(@Param("userId") String userId, @Param("activityId") String activityId);
+
+    /**
+     * 删除相关收藏
+     * @param activityId
+     */
+    void deleteByActivity(@Param("activityId") String activityId);
 }

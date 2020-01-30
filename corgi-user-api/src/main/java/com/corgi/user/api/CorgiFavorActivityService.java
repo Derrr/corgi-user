@@ -15,4 +15,6 @@ public interface CorgiFavorActivityService {
     List<String> getActivity(String userId, int start, int size);
 
     int countActivity(String userId, String activityId);
+
+    void deleteByActivityId(String activityId);
 }

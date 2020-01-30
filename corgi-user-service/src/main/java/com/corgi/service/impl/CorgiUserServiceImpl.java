@@ -6,6 +6,7 @@ import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
 import com.corgi.entity.ActivityQuery;
 import com.corgi.mapper.CorgiPicMapper;
+import com.corgi.mapper.CorgiUserFollowMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.mapper.CorgiUserTagMapper;
 import com.corgi.support.UserQuerySupporter;
@@ -40,6 +41,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     private CorgiPicMapper corgiPicMapper;
     @Autowired
     private CorgiUserTagMapper corgiUserTagMapper;
+    @Autowired
+    private CorgiUserFollowMapper corgiUserFollowMapper;
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
@@ -241,8 +244,17 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (count > 0) {
             return "nickname exists";
         }
-        corgiUserMapper.updateNickname(userId, nickname,checkNickname);
+        corgiUserMapper.updateNickname(userId, nickname, checkNickname);
         return CorgiConstants.SUCCESS;
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+        corgiUserMapper.deleteUserLogin(userId);
+        corgiUserMapper.deleteUserDetail(userId);
+        corgiUserMapper.deleteUserPosition(userId);
+        corgiUserMapper.deletePreferGroup(userId);
+        corgiUserFollowMapper.deleteAllUserFollow(userId);
     }
 
     private String getUserSql(List<String> userIds, String loginUserId) {

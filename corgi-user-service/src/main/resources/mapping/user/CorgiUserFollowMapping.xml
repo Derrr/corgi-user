@@ -64,4 +64,10 @@
         where f.follow_user_id = #{userId}
         limit #{start},#{size}
     </select>
+
+    <delete id="deleteAllUserFollow">
+        delete from corgi_user_follow
+        where user_id = #{userId}
+        or follow_user_id = #{userId}
+    </delete>
 </mapper>

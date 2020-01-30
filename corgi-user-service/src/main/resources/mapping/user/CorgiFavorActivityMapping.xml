@@ -23,4 +23,9 @@
         select count(1) from corgi_favor_activity
         where user_id = #{userId} and activity_id = #{activityId}
     </select>
+
+    <delete id="deleteByActivity">
+        delete from corgi_favor_activity
+        where activity_id = #{activityId}
+    </delete>
 </mapper>

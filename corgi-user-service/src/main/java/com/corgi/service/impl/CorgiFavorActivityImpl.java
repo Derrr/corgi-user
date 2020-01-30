@@ -38,4 +38,9 @@ public class CorgiFavorActivityImpl implements CorgiFavorActivityService {
     public int countActivity(String userId, String activityId) {
         return favorActivityMapper.countActivity(userId, activityId);
     }
+
+    @Override
+    public void deleteByActivityId(String activityId) {
+        favorActivityMapper.deleteByActivity(activityId);
+    }
 }
