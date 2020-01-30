@@ -4,8 +4,9 @@
     <select id="getTopics" resultType="com.corgi.entity.CorgiTopic">
         select id topicId, `topic`, ctime, uptime, `status`, cuid, opuid, `content`
         from corgi_topics
+        where `status` != 'deleted'
         <if test="status != null and status != ''">
-            where `status` = #{status}
+             and `status` = #{status}
         </if>
         order by id desc
     </select>

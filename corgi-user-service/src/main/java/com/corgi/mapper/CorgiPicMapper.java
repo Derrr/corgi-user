@@ -4,6 +4,7 @@ import com.corgi.activity.entity.ActivityPic;
 import com.corgi.entity.CheckPic;
 import com.corgi.user.entity.*;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public interface CorgiPicMapper {
 
     /**
      * 修改用户图片
+     *
      * @param userPic
      */
     void updateUserPic(@Param("pic") UserPic userPic);
@@ -116,16 +118,17 @@ public interface CorgiPicMapper {
      * @param status
      * @return
      */
-    long countCheckPic(@Param("status") String status);
+    long countCheckPic(@Param("status") String status, @Param("type") String type);
 
     /**
      * 获取审核图片
      *
      * @param status
+     * @param type
      * @param start
      * @param size
      * @return
      */
-    List<CheckPic> getCheckPic(@Param("status") String status, @Param("start") long start, @Param("size") int size);
+    List<CheckPic> getCheckPic(@Param("status") String status, @Param("type") String type, @Param("start") long start, @Param("size") int size);
 
 }

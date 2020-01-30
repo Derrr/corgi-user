@@ -98,7 +98,7 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     }
 
     @Override
-    public List<CheckPic> getCheckPic(String status, int page, int size) {
+    public List<CheckPic> getCheckPic(String status,String type, int page, int size) {
         if (page < 1) {
             page = 1;
         }
@@ -109,7 +109,7 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     }
 
     @Override
-    public long countCheckPic(String status) {
+    public long countCheckPic(String status,String type) {
         return corgiPicMapper.countCheckPic(status);
     }
 

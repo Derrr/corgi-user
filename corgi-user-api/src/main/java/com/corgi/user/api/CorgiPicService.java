@@ -28,9 +28,9 @@ public interface CorgiPicService {
 
     String passCheckPic(CheckPic checkPic);
 
-    List<CheckPic> getCheckPic(String status, int page, int size);
+    List<CheckPic> getCheckPic(String status,String type, int page, int size);
 
-    long countCheckPic(String status);
+    long countCheckPic(String status,String type);
 
     String updateUserPic(UserPic userPic);
 }
