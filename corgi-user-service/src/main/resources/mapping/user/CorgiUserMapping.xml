@@ -255,6 +255,10 @@
         <if test="userDetail.nickname != null">
             and `nickName` like concat('%',#{userDetail.nickname},'%')
         </if>
+        <if test="userDetail.telNo != null">
+            and l.tel_no = #{userDetail.telNo}
+        </if>
+
         <if test="userDetail.height != null and userDetail.height != 0">
             and `height` = #{userDetail.height}
         </if>
@@ -283,7 +287,7 @@
             and `con` = #{userDetail.con}
         </if>
         <if test="userDetail.userId != null">
-            and user_id = #{userDetail.userId}
+            and d.user_id = #{userDetail.userId}
         </if>
         <if test="userDetail.userId != null">
             and tel_no = #{userDetail.telNo}
