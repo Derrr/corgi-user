@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiToolMapper">
-    <select id="getTopics" resultType="com.corgi.entity.CorgiTopic">
-        select id topicId, `topic`, ctime, uptime, `status`, cuid, opuid, `content`
-        from corgi_topics
-        where `status` != 'deleted'
-        <if test="status != null and status != ''">
-             and `status` = #{status}
-        </if>
-        order by id desc
-    </select>
-
     <select id="searchTopic" resultType="com.corgi.entity.CorgiTopic">
         select id topicId, `topic`, ctime, uptime, `status`, cuid, opuid, `content`
         from corgi_topics
         where `status` != 'deleted'
-        and `topic` like concat('%',#{text},'%')
+        <if test="status != null and status != ''">
+            and `status` = #{status}
+        </if>
+        <if test="text != null and text != ''">
+            and `topic` like concat('%',#{text},'%')
+        </if>
         order by id desc
     </select>
 

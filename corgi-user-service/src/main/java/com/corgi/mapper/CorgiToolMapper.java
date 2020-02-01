@@ -10,21 +10,15 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiToolMapper {
-    /**
-     * 获取话题
-     *
-     * @param status
-     * @return
-     */
-    List<CorgiTopic> getTopics(@Param("status") String status);
 
     /**
      * 搜索话题
      *
      * @param text
+     * @param status
      * @return
      */
-    List<CorgiTopic> searchTopic(@Param("text") String text);
+    List<CorgiTopic> searchTopic(@Param("text") String text, @Param("status") String status);
 
 
     /**
@@ -79,6 +73,7 @@ public interface CorgiToolMapper {
 
     /**
      * 获取活动话题
+     *
      * @param activityId
      * @return
      */
@@ -86,6 +81,7 @@ public interface CorgiToolMapper {
 
     /**
      * 添加活动话题
+     *
      * @param activityId
      * @param topic
      */
@@ -93,6 +89,7 @@ public interface CorgiToolMapper {
 
     /**
      * 删除活动话题
+     *
      * @param activityId
      */
     void deleteActivityTopic(@Param("activityId") String activityId);

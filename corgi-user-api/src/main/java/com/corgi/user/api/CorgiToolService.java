@@ -22,9 +22,7 @@ public interface CorgiToolService {
 
     void updateUserInterest(String userId, String category, List<String> interests);
 
-    List<CorgiTopic> getTopics(String status);
-
-    List<CorgiTopic> searchTopic(String text);
+    List<CorgiTopic> searchTopic(String text,String status);
 
     void addTopic(CorgiTopic topic);
 
