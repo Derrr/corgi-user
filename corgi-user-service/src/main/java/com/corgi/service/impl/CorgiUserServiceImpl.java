@@ -78,6 +78,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setCon(UserUtils.getConByBirthDay(userDetail.getBirthday()));
         corgiUserMapper.addUserDetail(userDetail);
         this.updatePreferGroup(userDetail.getUserId(), userDetail.getPreferGroup());
+        if(userDetail.getUserPics() != null){
+            for(UserPic userPic:userDetail.getUserPics()){
+                corgiPicMapper.addUserPic(userPic);
+            }
+        }
         return CorgiConstants.SUCCESS;
     }
 
