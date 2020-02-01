@@ -39,6 +39,16 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
     }
 
     @Override
+    public int countFollow(String userId) {
+        return countFollow(userId);
+    }
+
+    @Override
+    public int countFollowed(String userId) {
+        return countFollowed(userId);
+    }
+
+    @Override
     public List<String> getFollowUser(String userId) {
         return corgiUserFollowMapper.getFollowUser(userId);
     }

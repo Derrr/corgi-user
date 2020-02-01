@@ -22,6 +22,16 @@
         where user_id = #{userId}
     </select>
 
+    <select id="countFollowUser" resultType="java.lang.Integer">
+        select count(1) from corgi_user_follow
+        where user_id = #{userId}
+    </select>
+
+    <select id="countFollowedUser" resultType="java.lang.Integer">
+        select count(1) from corgi_user_follow
+        where follow_user_id = #{userId}
+    </select>
+
     <select id="getFollowUserByPage" resultType="com.corgi.user.entity.UserProfile">
       select
       p.user_id userId,

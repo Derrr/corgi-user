@@ -42,6 +42,19 @@ public interface CorgiUserFollowMapper {
      */
     List<String> getFollowUser(@Param("userId") String userId);
 
+    /**
+     * 获取用户关注数
+     * @param userId
+     * @return
+     */
+    int countFollowUser(@Param("userId") String userId);
+
+    /**
+     * 获取用户被关注数
+     * @param userId
+     * @return
+     */
+    int countFollowedUser(@Param("userId") String userId);
 
     /**
      * 对关注人排序
@@ -58,6 +71,13 @@ public interface CorgiUserFollowMapper {
                                           @Param("lat") double lat, @Param("lng") double lng,
                                           @Param("start") Integer start, @Param("size") Integer size);
 
+    /**
+     * 分页获取被关注列表
+     * @param userId
+     * @param start
+     * @param size
+     * @return
+     */
     List<UserProfile> getFollowedUserByPage(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
     /**

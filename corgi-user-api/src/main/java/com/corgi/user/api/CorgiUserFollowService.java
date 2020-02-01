@@ -14,6 +14,10 @@ public interface CorgiUserFollowService {
 
     int isFollowed(String userId, String targetUserId);
 
+    int countFollow(String userId);
+
+    int countFollowed(String userId);
+
     List<String> getFollowUser(String userId);
 
     List<UserProfile> getFollowUserByPage(String userId, String type, Double lat, Double lng, Integer page, Integer pageSize);
