@@ -72,9 +72,27 @@
     </insert>
 
     <select id="getUserDetail" resultType="com.corgi.user.entity.UserDetail">
-        select `user_id` userId, `nickname`, `avatar`, avatar_status avatarStatus, `height`, `weight`, `desc`, `role`, `character`, `group`, `birthday`, `con`, `city`,l.im_id imId, l.tel_no telNo
+        select `user_id` userId,
+        `nickname`,
+        `avatar`,
+        avatar_status avatarStatus,
+        `height`,
+        `weight`,
+        `desc`,
+        `role`,
+        `character`,
+        `group`,
+        `birthday`,
+        `con`,
+        `city`,
+        l.im_id imId,
+        l.tel_no telNo,
+        p.lat lat,
+        p.lng lng,
+        p.uptime `time`
         from corgi_user_detail d
         left join corgi_user_login l on l.id = d.user_id
+        left join corgi_user_position p on p.user_id = d.user_id
         where d.user_id = #{userId}
     </select>
 
@@ -247,6 +265,8 @@
         d.check_desc checkDesc,
         l.im_id imId,
         l.tel_no telNo,
+        p.lat lat,
+        p.lng lng,
         p.uptime `time`
         from corgi_user_detail d
         left join corgi_user_login l on l.id = d.user_id

@@ -29,6 +29,9 @@ public class UserDetail implements Serializable{
     private String group;
     private String birthday;
     private String con;
+    private Long time;
+    private Double lat;
+    private Double lng;
 
     List<String> preferGroup;
 
