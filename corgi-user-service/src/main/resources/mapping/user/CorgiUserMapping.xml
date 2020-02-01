@@ -184,7 +184,7 @@
     </update>
 
     <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">
-      insert into corgi_user_position (`user_id`, `lat`, `lng`,`pt` `uptime`)
+      insert into corgi_user_position (`user_id`, `lat`, `lng`,`pt`, `uptime`)
       values (#{userId}, #{lat}, #{lng},point(#{lng},#{lat}), #{uptime} );
     </insert>
 
