@@ -252,10 +252,10 @@
         left join corgi_user_login l on l.id = d.user_id
         left join corgi_user_position p on p.user_id = d.user_id
         where 1=1
-        <if test="userDetail.nickname != null">
+        <if test="userDetail.nickname != null and userDetail.nickname != ''">
             and `nickName` like concat('%',#{userDetail.nickname},'%')
         </if>
-        <if test="userDetail.telNo != null">
+        <if test="userDetail.telNo != null and userDetail.telNo != ''">
             and l.tel_no = #{userDetail.telNo}
         </if>
         <if test="userDetail.height != null and userDetail.height != 0">
@@ -264,28 +264,28 @@
         <if test="userDetail.weight != null and userDetail.weight != 0">
             and `weight` = #{userDetail.weight}
         </if>
-        <if test="userDetail.desc != null">
+        <if test="userDetail.desc != null and userDetail.desc != ''">
             and `desc` like concat('%',#{userDetail.desc},'%')
         </if>
-        <if test="userDetail.role != null">
+        <if test="userDetail.role != null and userDetail.role != ''">
             and `role` = #{userDetail.role}
         </if>
-        <if test="userDetail.character != null">
+        <if test="userDetail.character != null and userDetail.character != ''">
             and `character` = #{userDetail.character}
         </if>
-        <if test="userDetail.group != null">
+        <if test="userDetail.group != null and userDetail.group != '' ">
             and `group` = #{userDetail.group}
         </if>
-        <if test="userDetail.birthday != null">
+        <if test="userDetail.birthday != null and userDetail.birthday != ''">
             and `birthday` = #{userDetail.birthday}
         </if>
-        <if test="userDetail.city != null">
+        <if test="userDetail.city != null and userDetail.city != ''">
             and `city` = #{userDetail.city}
         </if>
-        <if test="userDetail.con != null">
+        <if test="userDetail.con != null and userDetail.con != ''">
             and `con` = #{userDetail.con}
         </if>
-        <if test="userDetail.userId != null">
+        <if test="userDetail.userId != null and userDetail.userId != ''">
             and d.user_id = #{userDetail.userId}
         </if>
         limit #{start},#{size}
