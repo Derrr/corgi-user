@@ -78,8 +78,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setCon(UserUtils.getConByBirthDay(userDetail.getBirthday()));
         corgiUserMapper.addUserDetail(userDetail);
         this.updatePreferGroup(userDetail.getUserId(), userDetail.getPreferGroup());
-        if(userDetail.getUserPics() != null){
-            for(UserPic userPic:userDetail.getUserPics()){
+        if (userDetail.getUserPics() != null) {
+            for (UserPic userPic : userDetail.getUserPics()) {
                 corgiPicMapper.addUserPic(userPic);
             }
         }
@@ -253,6 +253,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
         corgiUserMapper.updateNickname(userId, nickname, checkNickname);
         return CorgiConstants.SUCCESS;
+    }
+
+    @Override
+    public int countUserNickname(String nickname) {
+        return corgiUserMapper.countNickname(nickname, "");
     }
 
     @Override

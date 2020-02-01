@@ -43,5 +43,7 @@ public interface CorgiUserService {
 
     String updateUserNickname(String userId, String nickname, String checkNickname);
 
+    int countUserNickname(String nickname);
+
     void deleteUser(String userId);
 }
