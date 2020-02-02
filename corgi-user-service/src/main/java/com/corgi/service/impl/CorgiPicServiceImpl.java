@@ -9,13 +9,11 @@ import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.user.api.CorgiPicService;
 import com.corgi.user.entity.*;
-import com.sun.tools.javac.comp.Check;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
