@@ -27,4 +27,10 @@ public interface CorgiAreaMapper {
      */
     void addArea(@Param("area") CorgiArea corgiArea);
 
+    /**
+     * 获取城市列表
+     * @return
+     */
+    List<String> getCity();
+
 }

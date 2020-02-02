@@ -48,6 +48,13 @@ public interface CorgiPicMapper {
      */
     void updateUserPicByDataId(@Param("dataId") String dataId, @Param("status") String status);
 
+    /**
+     * 根据DataId获取用户图片
+     * @param dataId
+     * @return
+     */
+    UserPic getUserPicByDataId(@Param("dataId")String dataId);
+
 
     /**
      * 获取用户图片

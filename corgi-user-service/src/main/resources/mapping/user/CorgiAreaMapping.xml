@@ -25,4 +25,8 @@
         values (#{area.city}, #{area.adname}, #{area.areaName}, #{area.type},#{area.address},#{area.lng},#{area.lat});
     </insert>
 
+    <select id="getCity" resultType="java.lang.String">
+        select city from corgi_city
+    </select>
+
 </mapper>

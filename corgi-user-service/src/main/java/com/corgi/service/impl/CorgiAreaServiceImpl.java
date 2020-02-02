@@ -34,4 +34,11 @@ public class CorgiAreaServiceImpl implements CorgiAreaService {
     public void addArea(CorgiArea corgiArea) {
         corgiAreaMapper.addArea(corgiArea);
     }
+
+    @Override
+    public List<String> getCity() {
+        return null;
+    }
+
+
 }

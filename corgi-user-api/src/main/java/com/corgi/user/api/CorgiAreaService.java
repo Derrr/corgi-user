@@ -14,4 +14,6 @@ public interface CorgiAreaService {
     List<CorgiArea> getAreaByType(String city, String type);
 
     void addArea(CorgiArea corgiArea);
+
+    List<String> getCity();
 }

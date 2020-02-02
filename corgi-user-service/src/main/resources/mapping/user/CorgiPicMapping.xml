@@ -33,6 +33,12 @@
         where data_id = #{dataId}
     </update>
 
+    <select id="getUserPicByDataId" resultType="com.corgi.user.entity.UserPic">
+        select id picId, user_id userId, pic_url picUrl, data_id dataId, `status`, `result`
+        from corgi_user_pic
+        where data_id = #{dataId}
+    </select>
+
     <select id="getUserPic" resultType="com.corgi.user.entity.UserPic">
         select id picId, user_id userId, pic_url picUrl, data_id dataId, `status`, `result`
         from corgi_user_pic
@@ -92,7 +98,7 @@
 
     <select id="getCheckPic" resultType="com.corgi.entity.CheckPic">
         select id picId, data_id dataId, pic_url picUrl, `type`,
-        `result`, `status`, opuid userId, ctime, uptime
+        `result`, `status`, ctime, uptime
         from corgi_check_pic
         where 1=1
         <if test="status != null and status != ''">
