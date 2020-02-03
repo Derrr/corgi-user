@@ -35,7 +35,7 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
 
     @Override
     public long sumCount(String table, String beginDate, String endDate) {
-        return corgiStatisticMapper.sumCount(table);
+        return corgiStatisticMapper.sumCount(table, beginDate, endDate);
     }
 
     @Override
