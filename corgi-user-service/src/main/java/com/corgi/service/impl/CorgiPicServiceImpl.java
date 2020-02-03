@@ -111,7 +111,9 @@ public class CorgiPicServiceImpl implements CorgiPicService {
             for (CheckPic checkPic : checkPics) {
                 if (CheckPic.USER.equals(checkPic.getType())) {
                     UserPic userPic = corgiPicMapper.getUserPicByDataId(checkPic.getDataId());
-                    checkPic.setUserId(userPic.getUserId());
+                    if (userPic != null) {
+                        checkPic.setUserId(userPic.getUserId());
+                    }
                 }
             }
         }
