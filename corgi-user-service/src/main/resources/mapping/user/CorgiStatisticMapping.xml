@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiStatisticMapper">
+
+    <insert id="addCount">
+        insert into corgi_statistic_${table} (`date`, `count`) VALUES (#{date}, #{count});
+    </insert>
+
+    <delete id="deleteCount">
+        delete from corgi_statistic_${table} where `date` = #{date}
+    </delete>
+
+    <select id="getCount" resultType="com.corgi.entity.CorgiStatistic">
+        select `date`, `count` from corgi_statistic_${table}
+        where `date` >= #{beginDate} and `date` &lt;= #{endDate}
+    </select>
+
+    <select id="sumCount" resultType="java.lang.Long">
+        select sum(`count`) from corgi_statistic_${table}
+        where 1=1
+        <if test="beginDate != null and beginDate != ''">
+            and `date`>= #{beginDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            and `date` &lt;= #{endDate}
+        </if>
+    </select>
+
+    <insert id="initMap">
+        insert ignore into corig_statistic_${table}
+        (`date`) values (#{date});
+    </insert>
+
+    <update id="updateMap">
+        update corig_statistic_${table}
+        set '${key}' = #{count}
+        where `date` = #{date}
+    </update>
+
+    <select id="getMap" resultType="java.util.HashMap">
+        select * from corgi_statistic_${table}
+        where `date` >= #{beginDate} and `date` &lt;= #{endDate}
+    </select>
+</mapper>

@@ -25,23 +25,6 @@
         where id = #{topic.topicId}
     </update>
 
-    <insert id="addCount">
-        insert into corgi_statistic_${table} (`date`, `count`) VALUES (#{date}, #{count});
-    </insert>
-
-    <delete id="deleteCount">
-        delete from corgi_statistic_${table} where `date` = #{date}
-    </delete>
-
-    <select id="getCount" resultType="com.corgi.entity.CorgiStatistic">
-        select `date`, `count` from corgi_statistic_${table}
-        where `date` >= #{beginDate} and `date` &lt;= #{endDate}
-    </select>
-
-    <select id="sumCount" resultType="java.lang.Long">
-        select sum(`count`) from corgi_statistic_${table}
-    </select>
-
     <select id="getActivityTopic" resultType="java.lang.String">
         select topic from corgi_activity_topic
         where activity_id = #{activityId}

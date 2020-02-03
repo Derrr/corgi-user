@@ -133,6 +133,16 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
+    public long countPreferGroup(String group) {
+        return corgiUserMapper.countPreferGroup(group);
+    }
+
+    @Override
+    public long countBirthday(String beginDate, String endDate) {
+        return corgiUserMapper.countBirthday(beginDate, endDate);
+    }
+
+    @Override
     public String updateUserPosition(UserPosition userPosition) {
         if (userPosition == null || StringUtils.isEmpty(userPosition.getUserId())) {
             return "user id is empty";

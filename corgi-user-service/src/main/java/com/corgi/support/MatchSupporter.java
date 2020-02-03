@@ -15,7 +15,7 @@ public class MatchSupporter {
 
     private static Double CON_FACTOR = 0.05;
 
-    private static List<String> ROLE_LIST = Arrays.asList("BTM", "VERSBTM", "VERS", "VERSTOP", "TOP");
+    private static List<String> ROLE_LIST = Arrays.asList("0", "0.5-", "0.5", "0.5+", "1");
 
     private static Double ROLE_FACTOR = 0.45;
 

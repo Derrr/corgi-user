@@ -36,42 +36,6 @@ public interface CorgiToolMapper {
     void updateTopic(@Param("topic") CorgiTopic topic);
 
     /**
-     * 添加统计
-     *
-     * @param table
-     * @param date
-     * @param count
-     */
-    void addCount(@Param("table") String table, @Param("date") String date, @Param("count") Long count);
-
-    /**
-     * 删除统计
-     *
-     * @param table
-     * @param date
-     */
-    void deleteCount(@Param("table") String table, @Param("date") String date);
-
-
-    /**
-     * 获取统计
-     *
-     * @param table
-     * @param beginDate
-     * @param endDate
-     * @return
-     */
-    List<CorgiStatistic> getCount(@Param("table") String table, @Param("beginDate") String beginDate, @Param("endDate") String endDate);
-
-    /**
-     * 总计统计
-     *
-     * @param table
-     * @return
-     */
-    long sumCount(@Param("table") String table);
-
-    /**
      * 获取活动话题
      *
      * @param activityId

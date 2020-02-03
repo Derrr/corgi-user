@@ -28,12 +28,6 @@ public interface CorgiToolService {
 
     void updateTopic(CorgiTopic topic);
 
-    void addCount(String table, String date, Long count);
-
-    List<CorgiStatistic> getCount(String table, String beginDate, String endDate);
-
-    long sumCount(String table);
-
     List<String> getActivityTopic(String activityId);
 
     void updateActivityTopic(String activityId, List<String> topics);

@@ -79,22 +79,6 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public void addCount(String table, String date, Long count) {
-        corgiToolMapper.deleteCount(table, date);
-        corgiToolMapper.addCount(table, date, count);
-    }
-
-    @Override
-    public List<CorgiStatistic> getCount(String table, String beginDate, String endDate) {
-        return corgiToolMapper.getCount(table, beginDate, endDate);
-    }
-
-    @Override
-    public long sumCount(String table) {
-        return corgiToolMapper.sumCount(table);
-    }
-
-    @Override
     public List<String> getActivityTopic(String activityId) {
         return corgiToolMapper.getActivityTopic(activityId);
     }

@@ -21,6 +21,10 @@ public interface CorgiUserService {
 
     String updatePreferGroup(String userId, List<String> groups);
 
+    long countPreferGroup(String group);
+
+    long countBirthday(String beginDate, String endDate);
+
     String updateUserPosition(UserPosition userPosition);
 
     List<UserProfile> getNearByUser(UserQuery userQuery);

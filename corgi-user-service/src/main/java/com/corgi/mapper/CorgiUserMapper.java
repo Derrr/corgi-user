@@ -128,6 +128,22 @@ public interface CorgiUserMapper {
     void addPreferGroup(@Param("userId") String userId, @Param("group") String group);
 
     /**
+     * 统计喜欢类型
+     *
+     * @param group
+     * @return
+     */
+    long countPreferGroup(@Param("group") String group);
+
+    /**
+     * 统计年龄范围
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    long countBirthday(@Param("beginDate") String beginDate, @Param("endDate") String endDate);
+
+    /**
      * 获取喜欢类型
      *
      * @param userId
@@ -244,12 +260,14 @@ public interface CorgiUserMapper {
 
     /**
      * 删除用户详情
+     *
      * @param userId
      */
     void deleteUserDetail(@Param("userId") String userId);
 
     /**
      * 删除用户位置信息
+     *
      * @param userId
      */
     void deleteUserPosition(@Param("userId") String userId);
