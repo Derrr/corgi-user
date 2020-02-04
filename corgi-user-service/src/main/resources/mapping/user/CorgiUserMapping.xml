@@ -166,7 +166,6 @@
             <if test="userDetail.checkStatus != null">
                 `check_status` = #{userDetail.checkStatus},
             </if>
-
         </set>
         where user_id = #{userDetail.userId}
     </update>
