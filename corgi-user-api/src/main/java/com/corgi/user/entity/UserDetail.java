@@ -32,6 +32,7 @@ public class UserDetail implements Serializable{
     private Long time;
     private Double lat;
     private Double lng;
+    private String checkStatus;
 
     List<String> preferGroup;
 

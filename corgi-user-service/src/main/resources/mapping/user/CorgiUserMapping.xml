@@ -51,7 +51,8 @@
         `group`,
         `birthday`,
         `con`,
-        `city`)
+        `city`,
+        `check_status`)
         values (#{userDetail.userId},
         #{userDetail.nickname},
         #{userDetail.checkNickname},
@@ -66,7 +67,8 @@
         #{userDetail.group},
         #{userDetail.birthday},
         #{userDetail.con},
-        #{userDetail.city})
+        #{userDetail.city},
+        #{userDetail.checkStatus})
     </insert>
 
     <select id="getUserDetail" resultType="com.corgi.user.entity.UserDetail">
@@ -87,7 +89,8 @@
         l.tel_no telNo,
         p.lat lat,
         p.lng lng,
-        p.uptime `time`
+        p.uptime `time`,
+        `check_status` checkStatus
         from corgi_user_detail d
         left join corgi_user_login l on l.id = d.user_id
         left join corgi_user_position p on p.user_id = d.user_id
@@ -160,6 +163,10 @@
             <if test="userDetail.con != null">
                 `con` = #{userDetail.con},
             </if>
+            <if test="userDetail.checkStatus != null">
+                `check_status` = #{userDetail.checkStatus},
+            </if>
+
         </set>
         where user_id = #{userDetail.userId}
     </update>
@@ -255,6 +262,7 @@
         d.role role,
         d.group `group`,
         d.con con,
+        d.check_status checkStatus,
         l.tel_no telNo,
         l.im_id imId
         from corgi_user_position p
@@ -280,6 +288,7 @@
         p.lat lat,
         p.lng lng,
         p.uptime `time`
+        d.check_status checkStatus
         from corgi_user_detail d
         left join corgi_user_login l on l.id = d.user_id
         left join corgi_user_position p on p.user_id = d.user_id
@@ -320,6 +329,10 @@
         <if test="userDetail.userId != null and userDetail.userId != ''">
             and d.user_id = #{userDetail.userId}
         </if>
+        <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
+            and d.check_status = #{userDetail.checkStatus}
+        </if>
+
         limit #{start},#{size}
     </select>
 
