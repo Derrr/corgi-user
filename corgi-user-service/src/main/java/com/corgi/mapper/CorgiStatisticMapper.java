@@ -44,6 +44,8 @@ public interface CorgiStatisticMapper {
      * 总计统计
      *
      * @param table
+     * @param beginDate
+     * @param endDate
      * @return
      */
     long sumCount(@Param("table") String table, @Param("beginDate") String beginDate, @Param("endDate") String endDate);
@@ -74,4 +76,43 @@ public interface CorgiStatisticMapper {
      * @return
      */
     List<HashMap> getMap(@Param("table") String table, @Param("beginDate") String beginDate, @Param("endDate") String endDate);
+
+    /**
+     * 获取所有时间段List
+     *
+     * @param table
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    List<CorgiStatistic> getList(@Param("table") String table, @Param("beginDate") String beginDate, @Param("endDate") String endDate);
+
+    /**
+     * 添加List
+     *
+     * @param table
+     * @param date
+     * @param name
+     * @param count
+     */
+    void addList(@Param("table") String table, @Param("date") String date, @Param("name") String name, @Param("count") Long count);
+
+    /**
+     * 删除List
+     *
+     * @param table
+     * @param name
+     * @param date
+     */
+    void deleteList(@Param("table") String table, @Param("date") String date, @Param("name") String name);
+
+    /**
+     * 更新List
+     *
+     * @param table
+     * @param date
+     * @param name
+     * @param count
+     */
+    void updateList(@Param("table") String table, @Param("date") String date, @Param("name") String name, @Param("count") Long count);
 }

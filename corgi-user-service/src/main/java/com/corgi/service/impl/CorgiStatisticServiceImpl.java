@@ -56,4 +56,9 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
         }
         corgiStatisticMapper.updateMap(table, date, key, count);
     }
+
+    @Override
+    public void addList(String table, String date, String name, Long count) {
+        corgiStatisticMapper.addList(table, date, name, count);
+    }
 }

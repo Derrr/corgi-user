@@ -17,4 +17,6 @@ public interface CorgiStatisticService {
     void initMap(String table, String date);
 
     void updateMap(String table, String date, String key, Long count);
+
+    void addList(String table, String date, String name, Long count);
 }

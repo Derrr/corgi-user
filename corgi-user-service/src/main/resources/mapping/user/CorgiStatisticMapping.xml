@@ -41,4 +41,29 @@
         select * from corgi_statistic_${table}
         where `date` >= #{beginDate} and `date` &lt;= #{endDate}
     </select>
+
+    <select id="getList" resultType="com.corgi.entity.CorgiStatistic">
+        select `name`,`date`,`count`
+        from corgi_statistic_agg_${table}
+        where `date` >= #{beginDate} and `date` &lt;= #{endDate}
+    </select>
+
+    <select id="addList">
+        insert ignore into corgi_statistic_agg_${table}
+        (`date`,`name`,`count`) values(#{date},#{name},#{count})
+    </select>
+
+    <delete id="deleteList">
+        delete from corgi_statistic_agg_${table}
+        where `date` = #{date}
+        <if test="name != null and name != ''">
+            and `name` = #{name}
+        </if>
+    </delete>
+
+    <update id="updateList">
+        update corgi_statistic_agg_${table}
+        set `count` = #{count}
+        where `date` = #{date} and `name` = #{name}
+    </update>
 </mapper>
