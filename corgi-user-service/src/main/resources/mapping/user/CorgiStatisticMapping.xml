@@ -27,12 +27,12 @@
     </select>
 
     <insert id="initMap">
-        insert ignore into corig_statistic_${table}
+        insert ignore into corgi_statistic_${table}
         (`date`) values (#{date});
     </insert>
 
     <update id="updateMap">
-        update corig_statistic_${table}
+        update corgi_statistic_${table}
         set '${key}' = #{count}
         where `date` = #{date}
     </update>
