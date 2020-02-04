@@ -186,8 +186,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
-    public List<UserProfile> searchUsers(UserDetail userDetail, Integer page, Integer pageSize) {
-        return corgiUserMapper.queryUserProfile(userDetail, page < 1 ? 0 : (page - 1) * pageSize, pageSize);
+    public List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize) {
+        List<UserProfile> userProfiles = corgiUserMapper.queryUserProfile(userDetail, page < 1 ? 0 : (page - 1) * pageSize, pageSize);
+        return populateUserProfile(userProfiles, userId);
     }
 
     @Override
@@ -228,6 +229,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
                 userProfile.setPics(corgiPicMapper.getUserPic(userProfile.getUserId()));
+                if (StringUtils.isEmpty(userId)) {
+                    continue;
+                }
                 String userId2 = userProfile.getUserId();
                 int count = corgiUserFollowMapper.countFollow(userId2, userId);
                 userProfile.setIsFollowed(count);

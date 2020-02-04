@@ -33,7 +33,7 @@ public interface CorgiUserService {
 
     List<String> getAllNearByUser(UserQuery userQuery);
 
-    List<UserProfile> searchUsers(UserDetail userDetail, Integer page, Integer pageSize);
+    List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize);
 
     long countUsers(UserDetail userDetail);
 

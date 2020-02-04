@@ -14,6 +14,7 @@ public class UserQuery implements Serializable{
     private Double lat;
     private Double lng;
     private Double range;
+    private String nickname;
     private List<String> role;
     private List<String> group;
     private Integer startHeight;
