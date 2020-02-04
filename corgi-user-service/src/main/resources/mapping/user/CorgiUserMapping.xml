@@ -106,13 +106,7 @@
 
     <select id="countBirthday" resultType="java.lang.Long">
         select count(1) from corgi_user_detail
-        where 1=0
-        <if test="beginDate != null and beginDate != ''">
-            and birthday >= #{beginDate}
-        </if>
-        <if test="endDate != null and endDate != ''">
-            and birthday &lt; #{endDate}
-        </if>
+        where birthday >= #{beginDate} and birthday &lt; #{endDate}
     </select>
     <delete id="deletePreferGroup">
         delete from corgi_prefer_group
