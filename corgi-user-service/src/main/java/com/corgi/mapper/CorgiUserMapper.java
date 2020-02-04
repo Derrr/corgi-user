@@ -137,6 +137,7 @@ public interface CorgiUserMapper {
 
     /**
      * 统计年龄范围
+     *
      * @param beginDate
      * @param endDate
      * @return
@@ -168,6 +169,14 @@ public interface CorgiUserMapper {
      * @return
      */
     UserPosition getUserPosition(@Param("userId") String userId);
+
+    /**
+     * 分页获取用户位置信息
+     * @param start
+     * @param size
+     * @return
+     */
+    List<UserPosition> getUserPositionByPage(@Param("start") Integer start, @Param("size") Integer size);
 
     /**
      * 更新用户位置

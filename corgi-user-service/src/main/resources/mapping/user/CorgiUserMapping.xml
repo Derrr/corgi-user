@@ -202,6 +202,11 @@
         where user_id = #{userId}
     </select>
 
+    <select id="getUserPositionByPage" resultType="com.corgi.user.entity.UserPosition">
+        select user_id userId, lat, lng from corgi_user_position
+        limit #{start}, #{size}
+    </select>
+
     <update id="updateUserPosition" parameterType="com.corgi.user.entity.UserPosition">
         update corgi_user_position set lat = #{lat}, lng = #{lng}, uptime = #{uptime}, pt=point(#{lng},#{lat})
         where user_id = #{userId}

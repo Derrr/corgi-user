@@ -160,6 +160,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
+    public List<UserPosition> getUserPositionByPage(Integer page, Integer pageSize) {
+        return corgiUserMapper.getUserPositionByPage((page - 1) * pageSize, pageSize);
+    }
+
+    @Override
     public List<UserProfile> getNearByUser(UserQuery userQuery) {
         UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
         List<String> userIds = corgiUserMapper.getNearByUser(supporter);
