@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,5 +61,25 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
     @Override
     public void addList(String table, String date, String name, Long count) {
         corgiStatisticMapper.addList(table, date, name, count);
+    }
+
+    @Override
+    public List<HashMap> getList(String table, String beginDate, String endDate) {
+        List<CorgiStatistic> results = corgiStatisticMapper.getList(table, beginDate, endDate);
+        if (CollectionUtils.isEmpty(results)) {
+            return new ArrayList<>();
+        }
+        HashMap<String, HashMap> hashResult = new HashMap<>();
+        for (CorgiStatistic corgiStatistic : results) {
+            String date = corgiStatistic.getDate();
+            HashMap dateResult = hashResult.get(corgiStatistic.getDate());
+            if(dateResult == null){
+                dateResult = new HashMap();
+                dateResult.put("date",date);
+            }
+            dateResult.put(corgiStatistic.getName(),corgiStatistic.getCount());
+            hashResult.put(date,dateResult);
+        }
+        return new ArrayList<>(hashResult.values());
     }
 }
