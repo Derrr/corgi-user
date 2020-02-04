@@ -33,7 +33,7 @@
 
     <update id="updateMap">
         update corgi_statistic_${table}
-        set '${key}' = #{count}
+        set `${key}` = #{count}
         where `date` = #{date}
     </update>
 
