@@ -241,6 +241,14 @@ public interface CorgiUserMapper {
     long countActiveUser(@Param("beginTime") long beginTime, @Param("endTime") long endTime);
 
     /**
+     * 获取用户留存数
+     * @param time
+     * @param registerDate
+     * @return
+     */
+    long countUserStay(@Param("time") long time, @Param("date") String registerDate);
+
+    /**
      * 获取注册用户数
      *
      * @param date

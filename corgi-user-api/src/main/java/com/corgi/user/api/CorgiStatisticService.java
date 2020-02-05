@@ -21,4 +21,8 @@ public interface CorgiStatisticService {
     void addList(String table, String date, String name, Long count);
 
     List<HashMap> getList(String table, String beginDate, String endDate);
+
+    void addUserStay(String date, String registerDate, String stayCount, Long count);
+
+    List<HashMap> getUserStay(String beginDate, String endDate, String stayCount);
 }

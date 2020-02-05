@@ -39,6 +39,8 @@ public interface CorgiUserService {
 
     long countActiveUser(long beginTime, long endTime);
 
+    long countUserStay(long time,String registerDate);
+
     long countRegisterUser(String date);
 
     List<String> filterUser(List<String> userIds, ActivityQuery activityQuery);

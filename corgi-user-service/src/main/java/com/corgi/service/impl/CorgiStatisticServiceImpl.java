@@ -73,13 +73,23 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
         for (CorgiStatistic corgiStatistic : results) {
             String date = corgiStatistic.getDate();
             HashMap dateResult = hashResult.get(corgiStatistic.getDate());
-            if(dateResult == null){
+            if (dateResult == null) {
                 dateResult = new HashMap();
-                dateResult.put("date",date);
+                dateResult.put("date", date);
             }
-            dateResult.put(corgiStatistic.getName(),corgiStatistic.getCount());
-            hashResult.put(date,dateResult);
+            dateResult.put(corgiStatistic.getName(), corgiStatistic.getCount());
+            hashResult.put(date, dateResult);
         }
         return new ArrayList<>(hashResult.values());
+    }
+
+    @Override
+    public void addUserStay(String date, String registerDate, String stayCount, Long count) {
+        corgiStatisticMapper.addUserStay(date, registerDate, stayCount, count);
+    }
+
+    @Override
+    public List<HashMap> getUserStay(String beginDate, String endDate, String stayCount) {
+        return null;
     }
 }

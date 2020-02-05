@@ -66,4 +66,19 @@
         set `count` = #{count}
         where `date` = #{date} and `name` = #{name}
     </update>
+
+    <insert id="addUserStay">
+        insert ignore into corgi_statistic_user_stay
+        (`login_date`,`stay_date`,`stay_count`,`count`)
+        values(#{registerDate},#{date},#{stayCount},#{count})
+    </insert>
+
+    <select id="getUserStay">
+        select login_date loginDate,
+        stay_date stayDate,
+        stay_count stayCount,
+        `count`
+        where `login_date` >= #{beginDate} and `login_date` &lt;= #{endDate}
+        and stay_count &lt;= #{stayCount}
+    </select>
 </mapper>

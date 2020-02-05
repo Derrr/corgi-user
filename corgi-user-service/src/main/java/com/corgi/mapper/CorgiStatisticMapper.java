@@ -115,4 +115,23 @@ public interface CorgiStatisticMapper {
      * @param count
      */
     void updateList(@Param("table") String table, @Param("date") String date, @Param("name") String name, @Param("count") Long count);
+
+    /**
+     * 天加用户留存数
+     *
+     * @param date
+     * @param registerDate
+     * @param stayCount
+     * @param count
+     */
+    void addUserStay(@Param("date") String date, @Param("registerDate") String registerDate, @Param("stayCount") String stayCount, @Param("count") Long count);
+
+    /**
+     * 获取用户留存
+     * @param beginDate
+     * @param endDate
+     * @param stayCount
+     * @return
+     */
+    List<HashMap> getUserStay(@Param("beginDate") String beginDate, @Param("endDate") String endDate, @Param("sayCount") String stayCount);
 }

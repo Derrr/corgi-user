@@ -201,6 +201,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         return corgiUserMapper.countActiveUser(beginTime, endTime);
     }
 
+    @Override
+    public long countUserStay(long time, String registerDate) {
+        return corgiUserMapper.countUserStay(time, registerDate);
+    }
+
 
     @Override
     public long countRegisterUser(String date) {
