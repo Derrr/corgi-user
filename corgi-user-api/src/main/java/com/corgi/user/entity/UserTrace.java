@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author tairanliu
  */
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserTrace {
+public class UserTrace implements Serializable{
     public static final String STAYING = "staying";
     public static final String CHANGED = "skipped";
 
