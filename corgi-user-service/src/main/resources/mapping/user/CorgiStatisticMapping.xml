@@ -115,7 +115,7 @@
 
     <insert id="addUserTrace" parameterType="com.corgi.user.entity.UserTrace">
         INSERT IGNORE INTO `corgi`.`corgi_statistic_trace` (`user_id`, `type`, `next_type`, `uptime`,`stay_count`,`stay_status`)
-        VALUES (#{userTrace.userId},#{userTrace.type},#{userTrace.nextType}, #{userTrace.uptime},#{userTrace.stayCount},#{stayStatus});
+        VALUES (#{userTrace.userId},#{userTrace.type},#{userTrace.nextType}, #{userTrace.uptime},#{userTrace.stayCount},#{userTrace.stayStatus});
     </insert>
 
     <update id="updateTraceStatus" parameterType="com.corgi.user.entity.UserTrace">
