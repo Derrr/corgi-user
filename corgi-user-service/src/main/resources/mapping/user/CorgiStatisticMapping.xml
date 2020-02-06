@@ -107,6 +107,7 @@
         `uptime`,
         stay_count stayCount,
         stay_status stayStatus
+        from corgi_statistic_trace
         where stay_status = 'staying'
         and user_id = #{userId}
         order by id desc
