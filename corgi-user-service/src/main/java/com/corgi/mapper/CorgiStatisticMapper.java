@@ -171,8 +171,41 @@ public interface CorgiStatisticMapper {
 
     /**
      * 更新用户停留
+     *
      * @param userTrace
      */
     void updateTraceStay(@Param("userTrace") UserTrace userTrace);
 
+    /**
+     * 统计用户轨迹
+     *
+     * @param date
+     * @return
+     */
+    List<HashMap> countUserTrace(@Param("date") String date);
+
+    /**
+     * 统计用户耗时
+     *
+     * @param date
+     * @return
+     */
+    Double countTotalUserTrace(@Param("date") String date);
+
+    /**
+     * 添加用户轨迹统计
+     *
+     * @param type
+     * @param date
+     * @param time
+     */
+    void addUserTraceSum(@Param("type") String type, @Param("date") String date, @Param("time") Double time);
+
+    /**
+     * 获取用户轨迹统计
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    List<HashMap> getUserTraceSum(@Param("beginDate") String beginDate, @Param("endDate") String endDate);
 }

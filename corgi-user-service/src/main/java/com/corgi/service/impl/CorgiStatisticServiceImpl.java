@@ -119,4 +119,25 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
         corgiStatisticMapper.updateTraceStay(userTrace);
     }
 
+    @Override
+    public List<HashMap> countUserTrace(String date) {
+        return corgiStatisticMapper.countUserTrace(date);
+    }
+
+    @Override
+    public Double countTotalUserTrace(String date) {
+        return corgiStatisticMapper.countTotalUserTrace(date);
+    }
+
+    @Override
+    public void addUserTraceSum(String date, String type, Double time) {
+        corgiStatisticMapper.addUserTraceSum(type, date, time);
+    }
+
+    @Override
+    public List<HashMap> getUserTraceSum(String beginDate, String endDate) {
+        return corgiStatisticMapper.getUserTraceSum(beginDate, endDate);
+    }
+
+
 }

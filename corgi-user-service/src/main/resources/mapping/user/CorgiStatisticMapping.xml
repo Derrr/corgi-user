@@ -132,5 +132,27 @@
         where id = #{userTrace.id}
     </update>
 
+    <select id="countUserTrace" resultType="java.util.HashMap">
+        select `type`,sum(stay_count)/count(distinct user_id) from corgi_statistic_trace
+        where ctime like concat(#{date},'%')
+        group by `type`
+    </select>
+
+    <select id="countTotalUserTrace" resultType="java.lang.Double">
+        select sum(stay_count)/count(distinct user_id) from corgi_statistic_trace
+        where ctime like concat(#{date},'%')
+    </select>
+
+    <insert id="addUserTraceSum">
+        insert ignore into corgi_statistic_trace_total
+        (`date`,`type`,`time`)
+        values(#{date},#{type},#{time})
+    </insert>
+
+    <select id="getUserTraceSum" resultType="java.util.HashMap">
+        select `date`,`type`,`time`
+        from corgi_statistic_trace_total
+        where `date` >= #{beginDate} and `date` &lt;= #{endDate}
+    </select>
 
 </mapper>

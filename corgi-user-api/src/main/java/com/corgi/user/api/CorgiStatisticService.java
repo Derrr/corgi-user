@@ -36,4 +36,13 @@ public interface CorgiStatisticService {
     void updateTraceStatus(UserTrace userTrace);
 
     void updateTraceStay(UserTrace userTrace);
+
+    List<HashMap> countUserTrace(String date);
+
+    Double countTotalUserTrace(String date);
+
+    void addUserTraceSum(String date, String type, Double time);
+
+    List<HashMap> getUserTraceSum(String beginDate, String endDate);
+
 }
