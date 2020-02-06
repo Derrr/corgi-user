@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.entity.CorgiStatistic;
 import com.corgi.mapper.CorgiStatisticMapper;
 import com.corgi.user.api.CorgiStatisticService;
+import com.corgi.user.entity.UserTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -90,6 +91,32 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
 
     @Override
     public List<HashMap> getUserStay(String beginDate, String endDate, String stayCount) {
-        return null;
+        return corgiStatisticMapper.getUserStay(beginDate, endDate, stayCount);
     }
+
+    @Override
+    public List<UserTrace> getUserTrace(String beginDate, String endDate, String userId) {
+        return corgiStatisticMapper.getUserTrace(beginDate, endDate, userId);
+    }
+
+    @Override
+    public List<UserTrace> getLastUserTrace(String userId) {
+        return corgiStatisticMapper.getLastUserTrace(userId);
+    }
+
+    @Override
+    public void addUserTrace(UserTrace userTrace) {
+        corgiStatisticMapper.addUserTrace(userTrace);
+    }
+
+    @Override
+    public void updateTraceStatus(UserTrace userTrace) {
+        corgiStatisticMapper.updateTraceStatus(userTrace);
+    }
+
+    @Override
+    public void updateTraceStay(UserTrace userTrace) {
+        corgiStatisticMapper.updateTraceStay(userTrace);
+    }
+
 }

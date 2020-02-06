@@ -73,7 +73,7 @@
         values(#{registerDate},#{date},#{stayCount},#{count})
     </insert>
 
-    <select id="getUserStay">
+    <select id="getUserStay" resultType="java.util.HashMap">
         select login_date loginDate,
         stay_date stayDate,
         stay_count stayCount,
@@ -81,4 +81,56 @@
         where `login_date` >= #{beginDate} and `login_date` &lt;= #{endDate}
         and stay_count &lt;= #{stayCount}
     </select>
+
+    <select id="getUserTrace" resultType="com.corgi.user.entity.UserTrace">
+        select
+        `id`,
+        user_id userId,
+        `type`,
+        next_type nextType,
+        `ctime`,
+        `uptime`,
+        stay_count stayCount,
+        stay_status stayStatus
+        where `ctime` >= #{beginDate}
+        and `ctime` &lt;= concat(#{endDate},' 9')
+        and user_id = #{userId}
+    </select>
+
+    <select id="getLastUserTrace" resultType="com.corgi.user.entity.UserTrace">
+        select
+        `id`,
+        user_id userId,
+        `type`,
+        next_type nextType,
+        `ctime`,
+        `uptime`,
+        stay_count stayCount,
+        stay_status stayStatus
+        where stay_status = 'staying'
+        and user_id = #{userId}
+        order by id desc
+    </select>
+
+    <insert id="addUserTrace" parameterType="com.corgi.user.entity.UserTrace">
+        INSERT IGNORE INTO `corgi`.`corgi_statistic_trace` (`user_id`, `type`, `next_type`, `uptime`,`stay_count`,`stay_status`)
+        VALUES (#{userTrace.userId},#{userTrace.type},#{userTrace.nextType}, #{userTrace.uptime},#{userTrace.stayCount},#{stayStatus});
+    </insert>
+
+    <update id="updateTraceStatus" parameterType="com.corgi.user.entity.UserTrace">
+        update corgi_statistic_trace
+        set `stay_status` = #{userTrace.stayStauts},
+        `uptime` = #{userTrace.uptime},
+        next_type = #{userTrace.nextType}
+        where id = #{userTrace.id}
+    </update>
+
+    <update id="updateTraceStay" parameterType="com.corgi.user.entity.UserTrace">
+        update corgi_statistic_trace
+        set `stay_count` = #{userTrace.stayCount},
+        `uptime` = #{userTrace.uptime}
+        where id = #{userTrace.id}
+    </update>
+
+
 </mapper>

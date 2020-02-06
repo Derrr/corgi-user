@@ -1,6 +1,7 @@
 package com.corgi.user.api;
 
 import com.corgi.entity.CorgiStatistic;
+import com.corgi.user.entity.UserTrace;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,4 +26,14 @@ public interface CorgiStatisticService {
     void addUserStay(String date, String registerDate, String stayCount, Long count);
 
     List<HashMap> getUserStay(String beginDate, String endDate, String stayCount);
+
+    List<UserTrace> getUserTrace(String beginDate, String endDate, String userId);
+
+    List<UserTrace> getLastUserTrace(String userId);
+
+    void addUserTrace(UserTrace userTrace);
+
+    void updateTraceStatus(UserTrace userTrace);
+
+    void updateTraceStay(UserTrace userTrace);
 }

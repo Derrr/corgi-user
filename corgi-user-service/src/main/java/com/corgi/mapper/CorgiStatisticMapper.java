@@ -2,6 +2,7 @@ package com.corgi.mapper;
 
 import com.corgi.entity.CorgiStatistic;
 import com.corgi.entity.CorgiTopic;
+import com.corgi.user.entity.UserTrace;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
@@ -128,10 +129,50 @@ public interface CorgiStatisticMapper {
 
     /**
      * 获取用户留存
+     *
      * @param beginDate
      * @param endDate
      * @param stayCount
      * @return
      */
     List<HashMap> getUserStay(@Param("beginDate") String beginDate, @Param("endDate") String endDate, @Param("sayCount") String stayCount);
+
+    /**
+     * 获取用户路径
+     *
+     * @param beginDate
+     * @param endDate
+     * @param userId
+     * @return
+     */
+    List<UserTrace> getUserTrace(@Param("beginDate") String beginDate, @Param("endDate") String endDate, @Param("userId") String userId);
+
+    /**
+     * 获取最后的trace
+     *
+     * @param userId
+     * @return
+     */
+    List<UserTrace> getLastUserTrace(@Param("userId") String userId);
+
+    /**
+     * 添加用户路径
+     *
+     * @param userTrace
+     */
+    void addUserTrace(@Param("userTrace") UserTrace userTrace);
+
+    /**
+     * 更新类型
+     *
+     * @param userTrace
+     */
+    void updateTraceStatus(@Param("userTrace") UserTrace userTrace);
+
+    /**
+     * 更新用户停留
+     * @param userTrace
+     */
+    void updateTraceStay(@Param("userTrace") UserTrace userTrace);
+
 }
