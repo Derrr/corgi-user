@@ -133,7 +133,7 @@
     </update>
 
     <select id="countUserTrace" resultType="java.util.HashMap">
-        select `type`,sum(stay_count)/count(distinct user_id) from corgi_statistic_trace
+        select `type`,sum(stay_count)/count(distinct user_id) `time` from corgi_statistic_trace
         where ctime like concat(#{date},'%')
         group by `type`
     </select>
