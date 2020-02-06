@@ -36,7 +36,7 @@ public class UserQuerySupporter {
         this.beginLat = userQuery.getLat() - dtheta;
         this.endLat = userQuery.getLat() + dtheta;
 
-        Double dphi = range / (EARTH_RADIUS * (Math.cos((userQuery.getLat() * Math.PI / 180.0)) + INFINITY_SMALL));
+        Double dphi = (range * 180) / (EARTH_RADIUS * Math.PI * (Math.cos(Math.toRadians(userQuery.getLat())) + INFINITY_SMALL));
         this.beginLng = userQuery.getLng() - dphi;
         this.endLng = userQuery.getLng() + dphi;
 
@@ -57,16 +57,16 @@ public class UserQuerySupporter {
         if (!CollectionUtils.isEmpty(userQuery.getRole())) {
             StringBuilder sb = new StringBuilder("('");
             for (String role : userQuery.getRole()) {
-                sb.append(role+"','");
+                sb.append(role + "','");
             }
             sb.append("')");
             this.role = sb.toString();
         }
 
-        if(!CollectionUtils.isEmpty(userQuery.getGroup())){
+        if (!CollectionUtils.isEmpty(userQuery.getGroup())) {
             StringBuilder sb = new StringBuilder("('");
             for (String group : userQuery.getGroup()) {
-                sb.append(group+"','");
+                sb.append(group + "','");
             }
             sb.append("')");
             this.group = sb.toString();
