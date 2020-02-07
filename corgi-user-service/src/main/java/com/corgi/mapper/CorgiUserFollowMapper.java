@@ -18,6 +18,14 @@ public interface CorgiUserFollowMapper {
     void addFollowUser(@Param("userId") String userId, @Param("followId") String followId);
 
     /**
+     * 添加关注
+     *
+     * @param userId
+     * @param followId
+     */
+    void createFollowUser(@Param("userId") String userId, @Param("followId") String followId);
+
+    /**
      * 取消关注
      *
      * @param userId
@@ -44,6 +52,7 @@ public interface CorgiUserFollowMapper {
 
     /**
      * 获取用户关注数
+     *
      * @param userId
      * @return
      */
@@ -51,6 +60,7 @@ public interface CorgiUserFollowMapper {
 
     /**
      * 获取用户被关注数
+     *
      * @param userId
      * @return
      */
@@ -73,6 +83,7 @@ public interface CorgiUserFollowMapper {
 
     /**
      * 分页获取被关注列表
+     *
      * @param userId
      * @param start
      * @param size
@@ -81,8 +92,27 @@ public interface CorgiUserFollowMapper {
     List<UserProfile> getFollowedUserByPage(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
+     * 获取被关注历史
+     *
+     * @param userId
+     * @param start
+     * @param size
+     * @return
+     */
+    List<UserProfile> getFollowedHistoryByPage(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
+
+    /**
      * 删除所有用户相关关注
+     *
      * @param userId
      */
     void deleteAllUserFollow(@Param("userId") String userId);
+
+    /**
+     * 已读关注
+     * @param userId
+     * @param followedUserId
+     */
+    void readFollowedUser(@Param("userId") String userId, @Param("followedUserId") String followedUserId);
 }

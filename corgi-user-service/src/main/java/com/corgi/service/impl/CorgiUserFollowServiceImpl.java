@@ -24,6 +24,7 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
     @Override
     public boolean follow(String userId, String followUserId) {
         corgiUserFollowMapper.addFollowUser(userId, followUserId);
+        corgiUserFollowMapper.createFollowUser(userId, followUserId);
         return true;
     }
 
@@ -61,7 +62,18 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
 
     @Override
     public List<UserProfile> getFollowedUserByPage(String userId, long time, Integer page, Integer pageSize) {
-        List<UserProfile> userProfiles = corgiUserFollowMapper.getFollowedUserByPage(userId, (page - 1) * pageSize, pageSize);
+        return corgiUserFollowMapper.getFollowedUserByPage(userId, (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
+    public List<UserProfile> getFollowUserHistoryByPage(String userId, Integer page, Integer pageSize) {
+        List<UserProfile> userProfiles = corgiUserFollowMapper.getFollowedHistoryByPage(userId, (page - 1) * pageSize, pageSize);
         return corgiUserService.populateUserProfile(userProfiles, userId);
     }
+
+    @Override
+    public void readFollowUser(String userId, String followedUserId) {
+        corgiUserFollowMapper.readFollowedUser(userId, followedUserId);
+    }
+
 }

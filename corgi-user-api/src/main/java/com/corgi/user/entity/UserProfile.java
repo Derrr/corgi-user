@@ -29,5 +29,6 @@ public class UserProfile implements Serializable {
     private int signUpStatus;
     private Integer isFollowed;
     private String checkStatus;
+    private String isRead;
     List<UserPic> pics;
 }
