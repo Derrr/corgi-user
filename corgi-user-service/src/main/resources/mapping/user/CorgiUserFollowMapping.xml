@@ -85,6 +85,13 @@
 
     <select id="getFollowedHistoryByPage" resultType="com.corgi.user.entity.UserProfile">
         select
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.avatar_status avatarStatus,
+        d.role role,
+        d.group `group`,
+        d.con con,
+        d.check_status checkStatus,
         p.user_id userId,
         p.lat lat,
         p.lng lng,
@@ -92,7 +99,8 @@
         l.im_id imId,
         f.is_read isRead
         from corgi_user_follow f
-        left join corgi_user_position p on f.user_id = p.user_id
+        left join corgi_user_detail d on d.user_id = f.follow_user_id
+        left join corgi_user_position p on f.follow_user_id = p.user_id
         left join corgi_user_login l on l.id = p.user_id
         where f.follow_user_id = #{userId}
         order by p.uptime desc
