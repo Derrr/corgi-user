@@ -21,6 +21,7 @@ public interface CorgiUserActivityMapper {
 
     /**
      * 取消报名
+     *
      * @param userSignUp
      */
     void deleteSignUp(@Param("userSignUp") UserSignUp userSignUp);
@@ -32,5 +33,19 @@ public interface CorgiUserActivityMapper {
      */
     void updateSignUp(@Param("userSignUp") UserSignUp userSignUp);
 
+    /**
+     * 获取用户报名状态
+     * @param userId
+     * @param activityId
+     * @return
+     */
+    Integer getStatus(@Param("userId")String userId, @Param("activityId") String activityId);
+
+    /**
+     * 获取所有报名人
+     *
+     * @param activityId
+     * @return
+     */
     List<UserProfile> getUser(@Param("activityId") String activityId);
 }

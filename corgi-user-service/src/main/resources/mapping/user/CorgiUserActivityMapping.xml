@@ -19,6 +19,11 @@
         where user_id = #{userSignUp.userId} and activity_id = #{userSignUp.activityId}
     </update>
 
+    <select id="getStatus" resultType="java.lang.Integer">
+        select `status`
+        from corgi_activity_attender
+        where user_id = #{userId} and activity_id = #{activityId}
+    </select>
     <select id="getUser" resultType="com.corgi.user.entity.UserProfile">
         select
         p.user_id userId,

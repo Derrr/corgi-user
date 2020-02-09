@@ -41,6 +41,11 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public Integer getStatus(String userId, String activityId) {
+        return corgiUserActivityMapper.getStatus(userId, activityId);
+    }
+
+    @Override
     public List<UserProfile> getUsers(String activityId, String userId) {
         List<UserProfile> userProfiles = corgiUserActivityMapper.getUser(activityId);
         return corgiUserService.populateUserProfile(userProfiles, userId);
