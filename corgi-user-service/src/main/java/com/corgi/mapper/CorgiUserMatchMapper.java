@@ -25,7 +25,7 @@ public interface CorgiUserMatchMapper {
      * @param ctr2
      * @return
      */
-    Integer getCharacterMatch(@Param("ctr1") String ctr1, @Param("ctr1") String ctr2);
+    Integer getCharacterMatch(@Param("ctr1") String ctr1, @Param("ctr2") String ctr2);
 
     /**
      * 添加匹配缓存
