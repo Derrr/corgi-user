@@ -89,8 +89,8 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             Double match = userMatchMapper.getMatchCache(userId1, userId2);
             if (match == null) {
                 match = this.calculateUserMatch(userId1, userId2);
+                userMatchMapper.addMatchCache(userId1, userId2, match);
             }
-            userMatchMapper.addMatchCache(userId1, userId2, match);
             redisTemplate.opsForValue().set(matchKey, match.toString(), 90L, TimeUnit.DAYS);
             return match;
         }
@@ -102,9 +102,8 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         if (match == null) {
             match = this.calculateUserMatch(userId1, userId2);
+            redisTemplate.opsForValue().set(matchKey, String.valueOf(match), 90L, TimeUnit.DAYS);
         }
-        userMatchMapper.addMatchCache(userId1, userId2, match);
-        redisTemplate.opsForValue().set(matchKey, String.valueOf(match), 90L, TimeUnit.DAYS);
         return match;
     }
 }
