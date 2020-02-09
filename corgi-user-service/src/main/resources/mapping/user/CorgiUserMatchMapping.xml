@@ -3,7 +3,7 @@
 <mapper namespace="com.corgi.mapper.CorgiUserMatchMapper">
     <select id="getGroupMatch" resultType="java.lang.Integer">
         select max(`match`) from corgi_match_group
-        where group1 in (${group2}) and group2 = #{group2}
+        where group1 in (${group1}) and group2 = #{group2}
     </select>
 
     <select id="getCharacterMatch" resultType="java.lang.Integer">
