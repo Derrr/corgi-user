@@ -41,6 +41,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public Double calculateUserMatchByDetail(UserDetail userDetail1, UserDetail userDetail2) {
+        if (userDetail1 == null || userDetail2 == null) {
+            return 0.0;
+        }
         Double match = 0.0;
         match += MatchSupporter.getConMatch(userDetail1.getCon(), userDetail2.getCon());
         match += MatchSupporter.getRoleMatch(userDetail1.getRole(), userDetail2.getRole());
@@ -82,23 +85,24 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         String matchStr = redisTemplate.opsForValue().get(matchKey);
         if (StringUtils.isEmpty(matchStr)) {
             Double match = userMatchMapper.getMatchCache(userId1, userId2);
-            if (match != null) {
-                redisTemplate.opsForValue().set(matchKey, match.toString(), 90L, TimeUnit.DAYS);
-            } else {
-                match = null;
+            if (match == null) {
+                match = this.calculateUserMatch(userId1, userId2);
             }
+            userMatchMapper.addMatchCache(userId1, userId2, match);
+            redisTemplate.opsForValue().set(matchKey, match.toString(), 90L, TimeUnit.DAYS);
             return match;
         }
-        Double match;
+        Double match = null;
         try {
             match = Double.valueOf(matchKey);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            match = null;
         }
-        if (match != null) {
-            redisTemplate.opsForValue().set(matchKey, String.valueOf(match), 90L, TimeUnit.DAYS);
+        if (match == null) {
+            match = this.calculateUserMatch(userId1, userId2);
         }
+        userMatchMapper.addMatchCache(userId1, userId2, match);
+        redisTemplate.opsForValue().set(matchKey, String.valueOf(match), 90L, TimeUnit.DAYS);
         return match;
     }
 }
