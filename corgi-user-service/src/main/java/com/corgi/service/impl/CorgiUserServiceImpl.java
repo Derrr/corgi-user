@@ -32,7 +32,7 @@ import java.util.Random;
 @Slf4j
 @Component
 public class CorgiUserServiceImpl implements CorgiUserService {
-    private static int MAX_PROFILE_SIZE = 16;
+    private static int MAX_PROFILE_SIZE = Integer.MAX_VALUE;
     @Autowired
     private CorgiUserMapper corgiUserMapper;
     @Autowired
