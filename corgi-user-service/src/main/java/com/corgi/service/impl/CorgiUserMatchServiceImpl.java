@@ -85,17 +85,18 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             if (match != null) {
                 redisTemplate.opsForValue().set(matchKey, match.toString(), 90L, TimeUnit.DAYS);
             } else {
-                match = 0.0;
+                match = null;
             }
             return match;
         }
-        double match = 0.0;
+        Double match;
         try {
             match = Double.valueOf(matchKey);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            match = 0.0;
-        } finally {
+            match = null;
+        }
+        if (match != null) {
             redisTemplate.opsForValue().set(matchKey, String.valueOf(match), 90L, TimeUnit.DAYS);
         }
         return match;
