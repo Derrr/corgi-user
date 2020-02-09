@@ -7,7 +7,7 @@
     </select>
 
     <select id="getCharacterMatch" resultType="java.lang.Integer">
-        select sumt(`match`) from corgi_match_character
+        select sum(`match`) from corgi_match_character
         where ctr1 = #{ctr1} and ctr2 = #{ctr2}
     </select>
 
