@@ -12,7 +12,7 @@
     </select>
 
     <insert id="addMatchCache">
-        insert into corgi_match_cache (`user_id1`, `user_id2`, `match`)
+        insert ignore into corgi_match_cache (`user_id1`, `user_id2`, `match`)
         values (#{userId1}, #{userId2}, #{match});
     </insert>
 
