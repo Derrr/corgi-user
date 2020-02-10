@@ -299,7 +299,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return "";
         }
 
-        if (userIds.size() > MAX_PROFILE_SIZE * 2) {
+
+        /*if (userIds.size() > MAX_PROFILE_SIZE * 2) {
             //若人数很多则随机取16人
             Random r = new Random();
             List<String> tmpUserIds = new ArrayList<>();
@@ -316,7 +317,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 userIds.remove(index);
             }
 
-        }
+        }*/
 
         StringBuilder sb = new StringBuilder("('");
         for (String userId : userIds) {
