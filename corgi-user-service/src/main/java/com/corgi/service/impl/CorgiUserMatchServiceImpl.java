@@ -67,9 +67,11 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             userGroups2 = userMapper.getPreferGroup(userDetail2.getUserId());
         }
         if (!CollectionUtils.isEmpty(userGroups1) && !CollectionUtils.isEmpty(userGroups2)) {
-            double match1 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups1) + "'", userDetail2.getGroup());
-            double match2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", userDetail1.getGroup());
-            match += match1 * match2 * 0.0045;
+            Integer match1 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups1) + "'", userDetail2.getGroup());
+            Integer match2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", userDetail1.getGroup());
+            if (match1 != null && match2 != null) {
+                match += match1 * match2 * 0.0045;
+            }
         }
         return match;
     }
