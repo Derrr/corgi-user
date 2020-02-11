@@ -50,10 +50,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         match += MatchSupporter.getFactorMatch(userDetail1.getCharacter(), userDetail2.getCharacter());
 
         if (!StringUtils.isEmpty(userDetail1.getNatureCharacter()) && !StringUtils.isEmpty(userDetail2.getNatureCharacter())) {
-            log.info("userDetail1:"+userDetail1+" userDetail2:"+userDetail2);
-            double cMatch1 = userMatchMapper.getCharacterMatch(userDetail1.getNatureCharacter(), userDetail2.getNatureCharacter());
-            double cMatch2 = userMatchMapper.getCharacterMatch(userDetail2.getNatureCharacter(), userDetail1.getNatureCharacter());
-            match += cMatch1 * cMatch2 * 0.001;
+            log.info("userDetail1:" + userDetail1 + " userDetail2:" + userDetail2);
+            Integer cMatch1 = userMatchMapper.getCharacterMatch(userDetail1.getNatureCharacter(), userDetail2.getNatureCharacter());
+            Integer cMatch2 = userMatchMapper.getCharacterMatch(userDetail2.getNatureCharacter(), userDetail1.getNatureCharacter());
+            if (cMatch1 != null && cMatch2 != null) {
+                match += cMatch1 * cMatch2 * 0.001;
+            }
         }
 
         List<String> userGroups1 = userDetail1.getPreferGroup();
