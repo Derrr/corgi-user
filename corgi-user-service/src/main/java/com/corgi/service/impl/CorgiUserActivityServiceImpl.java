@@ -1,14 +1,21 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.activity.entity.ActivityPic;
+import com.corgi.entity.CorgiTopic;
+import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserActivityMapper;
+import com.corgi.user.api.CorgiPicService;
+import com.corgi.user.api.CorgiToolService;
 import com.corgi.user.api.CorgiUserActivityService;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.UserProfile;
 import com.corgi.user.entity.UserSignUp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +28,10 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     private CorgiUserActivityMapper corgiUserActivityMapper;
     @Autowired
     private CorgiUserService corgiUserService;
+    @Autowired
+    private CorgiPicService corgiPicService;
+    @Autowired
+    private CorgiToolService corgiToolService;
 
     @Override
     public boolean signUp(UserSignUp userSignUp) {
@@ -43,6 +54,13 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     @Override
     public void deleteActivity(String activityId) {
         corgiUserActivityMapper.deleteSignUpByActivity(activityId);
+        List<ActivityPic> pics = corgiPicService.getActivityPic(activityId);
+        if (!CollectionUtils.isEmpty(pics)) {
+            for (ActivityPic activity : pics) {
+                corgiPicService.deleteActivityPic(activity.getPicId());
+            }
+        }
+        corgiToolService.updateActivityTopic(activityId, null);
     }
 
     @Override
