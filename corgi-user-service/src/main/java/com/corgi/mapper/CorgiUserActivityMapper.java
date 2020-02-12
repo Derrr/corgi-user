@@ -27,6 +27,12 @@ public interface CorgiUserActivityMapper {
     void deleteSignUp(@Param("userSignUp") UserSignUp userSignUp);
 
     /**
+     * 删除活动下报名
+     * @param activityId
+     */
+    void deleteSignUpByActivity(@Param("activityId") String activityId);
+
+    /**
      * 修改报名人状态
      *
      * @param userSignUp
@@ -35,11 +41,12 @@ public interface CorgiUserActivityMapper {
 
     /**
      * 获取用户报名状态
+     *
      * @param userId
      * @param activityId
      * @return
      */
-    Integer getStatus(@Param("userId")String userId, @Param("activityId") String activityId);
+    Integer getStatus(@Param("userId") String userId, @Param("activityId") String activityId);
 
     /**
      * 获取所有报名人
@@ -48,4 +55,14 @@ public interface CorgiUserActivityMapper {
      * @return
      */
     List<UserProfile> getUser(@Param("activityId") String activityId);
+
+    /**
+     * 获取报名活动
+     *
+     * @param userId
+     * @param start
+     * @param size
+     * @return
+     */
+    List<String> getSignUpActivityId(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 }

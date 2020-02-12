@@ -41,6 +41,11 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public void deleteActivity(String activityId) {
+        corgiUserActivityMapper.deleteSignUpByActivity(activityId);
+    }
+
+    @Override
     public Integer getStatus(String userId, String activityId) {
         return corgiUserActivityMapper.getStatus(userId, activityId);
     }
@@ -49,5 +54,10 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     public List<UserProfile> getUsers(String activityId, String userId) {
         List<UserProfile> userProfiles = corgiUserActivityMapper.getUser(activityId);
         return corgiUserService.populateUserProfile(userProfiles, userId);
+    }
+
+    @Override
+    public List<String> getSignUpActivity(String userId, Integer page, Integer pageSize) {
+        return corgiUserActivityMapper.getSignUpActivityId(userId, (page - 1) * pageSize, pageSize);
     }
 }

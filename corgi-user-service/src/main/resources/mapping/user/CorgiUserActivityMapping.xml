@@ -13,6 +13,12 @@
         and activity_id = #{userSignUp.activityId}
     </delete>
 
+    <delete id="deleteSignUpByActivity">
+        delete from corgi_activity_attender
+        where activity_id = #{userSignUp.activityId}
+    </delete>
+
+
     <update id="updateSignUp" parameterType="com.corgi.user.entity.UserSignUp">
         update corgi_activity_attender
         set `status` = #{userSignUp.status}
@@ -40,5 +46,11 @@
         left join corgi_user_position p on a.user_id = p.user_id
         left join corgi_user_detail d on d.user_id = p.user_id
         where a.activity_id = #{activityId}
+    </select>
+
+    <select id="getSignUpActivityId" resultType="java.lang.String">
+        select activity_id from corgi_activity_attender
+        where user_id = #{userId} order by uptime desc
+        limit #{start},#{size}
     </select>
 </mapper>

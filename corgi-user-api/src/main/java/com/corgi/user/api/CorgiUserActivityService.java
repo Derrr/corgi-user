@@ -15,7 +15,11 @@ public interface CorgiUserActivityService {
 
     boolean updateSignUp(UserSignUp userSignUp);
 
+    void deleteActivity(String activityId);
+
     Integer getStatus(String userId, String activityId);
 
     List<UserProfile> getUsers(String activityId, String userId);
+
+    List<String> getSignUpActivity(String userId, Integer page, Integer pageSize);
 }
