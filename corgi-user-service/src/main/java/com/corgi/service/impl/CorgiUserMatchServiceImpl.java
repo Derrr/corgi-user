@@ -101,7 +101,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         Double match = null;
         try {
-            match = Double.valueOf(matchKey);
+            match = Double.valueOf(matchStr);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
