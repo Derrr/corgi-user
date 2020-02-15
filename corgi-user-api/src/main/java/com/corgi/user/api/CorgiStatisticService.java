@@ -45,4 +45,6 @@ public interface CorgiStatisticService {
 
     List<HashMap> getUserTraceSum(String beginDate, String endDate);
 
+    void addCharacter(String openId, String character);
+
 }

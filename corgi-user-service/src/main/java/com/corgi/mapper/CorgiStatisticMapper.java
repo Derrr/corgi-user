@@ -203,9 +203,31 @@ public interface CorgiStatisticMapper {
 
     /**
      * 获取用户轨迹统计
+     *
      * @param beginDate
      * @param endDate
      * @return
      */
     List<HashMap> getUserTraceSum(@Param("beginDate") String beginDate, @Param("endDate") String endDate);
+
+    /**
+     * 添加性格
+     * @param openId
+     * @param ctr
+     */
+    void addCharacter(@Param("openId") String openId, @Param("ctr") String ctr);
+
+    /**
+     * 获取性格
+     * @param openId
+     * @return
+     */
+    String getCharacter(@Param("openId")String openId);
+
+    /**
+     * 修改性格
+     * @param openId
+     * @param ctr
+     */
+    void updateCharacter(@Param("openId") String openId, @Param("ctr") String ctr);
 }

@@ -156,4 +156,21 @@
         where `date` >= #{beginDate} and `date` &lt;= #{endDate}
     </select>
 
+    <insert id="addCharacter">
+        insert ignore into corgi_statistic_character
+        (`open_id`, `character`)
+        values(#{openId}, #{ctr})
+    </insert>
+
+    <update id="updateCharacter">
+        update corgi_statistic_character
+        set `character` = #{ctr}
+        where open_id = #{openId}
+    </update>
+
+    <select id="getCharacter" resultType="java.lang.String">
+        select `character` from corgi_statistic_character
+        where open_id = #{openId}
+    </select>
+
 </mapper>

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -137,6 +138,16 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
     @Override
     public List<HashMap> getUserTraceSum(String beginDate, String endDate) {
         return corgiStatisticMapper.getUserTraceSum(beginDate, endDate);
+    }
+
+    @Override
+    public void addCharacter(String openId, String character) {
+        String ctr = corgiStatisticMapper.getCharacter(openId);
+        if (StringUtils.isEmpty(ctr)) {
+            corgiStatisticMapper.addCharacter(openId, character);
+        } else {
+            corgiStatisticMapper.updateCharacter(openId, character);
+        }
     }
 
 
