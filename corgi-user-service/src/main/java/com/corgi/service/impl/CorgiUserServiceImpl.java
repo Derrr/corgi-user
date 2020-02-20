@@ -10,6 +10,7 @@ import com.corgi.mapper.CorgiUserFollowMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.mapper.CorgiUserTagMapper;
 import com.corgi.support.UserQuerySupporter;
+import com.corgi.user.api.CorgiUserFollowService;
 import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.*;
 import com.corgi.user.api.CorgiUserService;
@@ -37,6 +38,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     private CorgiUserMapper corgiUserMapper;
     @Autowired
     private CorgiUserMatchService corgiUserMatchService;
+    @Autowired
+    private CorgiUserFollowService corgiUserFollowService;
     @Autowired
     private CorgiPicMapper corgiPicMapper;
     @Autowired
@@ -238,7 +241,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                     continue;
                 }
                 String userId2 = userProfile.getUserId();
-                int count = corgiUserFollowMapper.countFollow(userId2, userId) * 2 + corgiUserFollowMapper.countFollow(userId, userId2);
+
+                int count = corgiUserFollowService.isFollowed(userId, userId2);
                 userProfile.setIsFollowed(count);
                 Double match = corgiUserMatchService.getUserMatch(userId, userId2);
                 if (match == null) {
