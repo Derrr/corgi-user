@@ -238,7 +238,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                     continue;
                 }
                 String userId2 = userProfile.getUserId();
-                int count = corgiUserFollowMapper.countFollow(userId2, userId);
+                int count = corgiUserFollowMapper.countFollow(userId2, userId) * 2 + corgiUserFollowMapper.countFollow(userId, userId2);
                 userProfile.setIsFollowed(count);
                 Double match = corgiUserMatchService.getUserMatch(userId, userId2);
                 if (match == null) {
