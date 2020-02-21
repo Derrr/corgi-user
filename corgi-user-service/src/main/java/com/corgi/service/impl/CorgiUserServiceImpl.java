@@ -33,7 +33,7 @@ import java.util.Random;
 @Slf4j
 @Component
 public class CorgiUserServiceImpl implements CorgiUserService {
-    private static int MAX_PROFILE_SIZE = Integer.MAX_VALUE;
+    private static int MAX_PROFILE_SIZE = 30;
     @Autowired
     private CorgiUserMapper corgiUserMapper;
     @Autowired
@@ -304,8 +304,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
 
 
-        /*if (userIds.size() > MAX_PROFILE_SIZE * 2) {
-            //若人数很多则随机取16人
+        if (userIds.size() > MAX_PROFILE_SIZE * 2) {
             Random r = new Random();
             List<String> tmpUserIds = new ArrayList<>();
             for (int i = 0; i < MAX_PROFILE_SIZE; i++) {
@@ -321,7 +320,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 userIds.remove(index);
             }
 
-        }*/
+        }
 
         StringBuilder sb = new StringBuilder("('");
         for (String userId : userIds) {
