@@ -73,7 +73,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                 match += match1 * match2 * 0.0045;
             }
         }
-        return match;
+        return Math.round(match)+0.0;
     }
 
     @Override
