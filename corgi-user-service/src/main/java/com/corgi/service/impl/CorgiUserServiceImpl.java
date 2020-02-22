@@ -105,7 +105,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
-    public UserDetail getUserDetail(String userId) {
+    public UserDetail getUserDetail(String userId, String loginUserId) {
         UserDetail userDetail = corgiUserMapper.getUserDetail(userId);
         if (userDetail == null) {
             return null;
@@ -118,6 +118,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
         userDetail.setTags(corgiUserTagMapper.getUserTag(userId));
         userDetail.setInterests(corgiUserTagMapper.getUserInterests(userId));
+        if (!StringUtils.isEmpty(loginUserId)) {
+            userDetail.setMatch(corgiUserMatchService.getUserMatch(userId, loginUserId));
+        }
         return userDetail;
     }
 

@@ -33,6 +33,7 @@ public class UserDetail implements Serializable{
     private Double lat;
     private Double lng;
     private String checkStatus;
+    private Double match;
 
     List<String> preferGroup;
 

@@ -17,7 +17,7 @@ public interface CorgiUserService {
 
     String updateDetail(UserDetail userDetail);
 
-    UserDetail getUserDetail(String userId);
+    UserDetail getUserDetail(String userId, String loginUserId);
 
     String updatePreferGroup(String userId, List<String> groups);
 
