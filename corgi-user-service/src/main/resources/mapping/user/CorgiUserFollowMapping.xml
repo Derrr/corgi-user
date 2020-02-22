@@ -99,8 +99,8 @@
         l.im_id imId,
         f.is_read isRead
         from corgi_user_follow f
-        left join corgi_user_detail d on d.user_id = f.follow_user_id
-        left join corgi_user_position p on f.follow_user_id = p.user_id
+        left join corgi_user_detail d on d.user_id = f.user_id
+        left join corgi_user_position p on f.user_id = p.user_id
         left join corgi_user_login l on l.id = p.user_id
         where f.follow_user_id = #{userId}
         order by p.uptime desc
