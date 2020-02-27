@@ -235,10 +235,10 @@
             and d.height &lt;= #{range.endHeight}
         </if>
         <if test="range.startWeight != null">
-            and d.height >= #{range.startWeight}
+            and d.weight >= #{range.startWeight}
         </if>
         <if test="range.endWeight != null">
-            and d.height &lt;= #{range.endWeight}
+            and d.weight &lt;= #{range.endWeight}
         </if>
 
         <if test="range.role != null and range.role != ''">
