@@ -331,8 +331,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 sb.append(userId + "','");
             }
         }
-
-        return sb.delete(sb.length() - 2, sb.length()).append(")").toString();
+        if (sb.length() > 2) {
+            return sb.delete(sb.length() - 2, sb.length()).append(")").toString();
+        } else {
+            return "";
+        }
     }
 
 
