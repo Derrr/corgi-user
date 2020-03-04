@@ -28,6 +28,7 @@ public interface CorgiUserActivityMapper {
 
     /**
      * 删除活动下报名
+     *
      * @param activityId
      */
     void deleteSignUpByActivity(@Param("activityId") String activityId);
@@ -54,7 +55,7 @@ public interface CorgiUserActivityMapper {
      * @param activityId
      * @return
      */
-    List<UserProfile> getUser(@Param("activityId") String activityId);
+    List<UserProfile> getUser(@Param("activityId") String activityId, String status);
 
     /**
      * 获取报名活动

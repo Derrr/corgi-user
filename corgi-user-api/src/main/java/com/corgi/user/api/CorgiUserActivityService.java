@@ -19,7 +19,7 @@ public interface CorgiUserActivityService {
 
     Integer getStatus(String userId, String activityId);
 
-    List<UserProfile> getUsers(String activityId, String userId);
+    List<UserProfile> getUsers(String activityId, String userId, String status);
 
     List<String> getSignUpActivity(String userId, Integer page, Integer pageSize);
 }
