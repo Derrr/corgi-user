@@ -135,7 +135,7 @@ public interface CorgiStatisticMapper {
      * @param stayCount
      * @return
      */
-    List<HashMap> getUserStay(@Param("beginDate") String beginDate, @Param("endDate") String endDate, @Param("sayCount") String stayCount);
+    List<HashMap> getUserStay(@Param("beginDate") String beginDate, @Param("endDate") String endDate, @Param("stayCount") String stayCount);
 
     /**
      * 获取用户路径
