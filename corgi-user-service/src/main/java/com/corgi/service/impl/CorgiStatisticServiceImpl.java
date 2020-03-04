@@ -92,7 +92,8 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
 
     @Override
     public List<HashMap> getUserStay(String beginDate, String endDate, String stayCount) {
-        return corgiStatisticMapper.getUserStay(beginDate, endDate, stayCount);
+        List<HashMap> stays = corgiStatisticMapper.getUserStay(beginDate, endDate, stayCount);
+        return stays;
     }
 
     @Override

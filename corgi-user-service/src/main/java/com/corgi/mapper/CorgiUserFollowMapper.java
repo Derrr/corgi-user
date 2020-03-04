@@ -67,6 +67,13 @@ public interface CorgiUserFollowMapper {
     int countFollowedUser(@Param("userId") String userId);
 
     /**
+     * 获取所有曾被关注数
+     * @param userId
+     * @return
+     */
+    int countAllFollowedUser(@Param("userId") String userId);
+
+    /**
      * 对关注人排序
      *
      * @param userId
