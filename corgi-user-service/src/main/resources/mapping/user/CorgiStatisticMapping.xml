@@ -78,6 +78,7 @@
         stay_date stayDate,
         stay_count stayCount,
         `count`
+        from corgi_statistic_user_stay
         where `login_date` >= #{beginDate} and `login_date` &lt;= #{endDate}
         and stay_count &lt;= #{stayCount}
     </select>
@@ -92,6 +93,7 @@
         `uptime`,
         stay_count stayCount,
         stay_status stayStatus
+        from corgi_statistic_trace
         where `ctime` >= #{beginDate}
         and `ctime` &lt;= concat(#{endDate},' 9')
         and user_id = #{userId}
