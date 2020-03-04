@@ -12,7 +12,7 @@ SOURCE_DIR=$WORK_DIR"/source"
 PACKAGE_NAME="corgi-user.jar"
 PID=$(ps aux | grep " ${PACKAGE_NAME}$" | grep -v grep | awk '{print $2}' )
 echo $PID
-JAVA_OPTS=""
+JAVA_OPTS="-server -Xms1024m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m -XX:-UseGCOverheadLimit -Xverify:none -Xnoclassgc -XX:+DisableExplicitGC -XX:+PrintGCDetails -Xloggc:/root/data/corgi-user/logs/gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps  -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -Djava.awt.headless=true"
 #JAVA_OPTS="-Dspring.config.location=/data/shoe-inspire-api/inspire-api/config/app.properties"
 #JAVA_OPTS="$JAVA_OPTS -Dspring.profiles.active=prod"
 
