@@ -46,7 +46,7 @@
         left join corgi_user_position p on a.user_id = p.user_id
         left join corgi_user_detail d on d.user_id = p.user_id
         where a.activity_id = #{activityId}
-        <if test='status != null annd status !="" '>
+        <if test='status != null and status !="" '>
             and a.`status` = #{status}
         </if>
     </select>
