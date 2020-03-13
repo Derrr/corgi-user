@@ -15,7 +15,7 @@
 
     <delete id="deleteSignUpByActivity">
         delete from corgi_activity_attender
-        where activity_id = #{userSignUp.activityId}
+        where activity_id = #{activityId}
     </delete>
 
 
