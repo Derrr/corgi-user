@@ -49,7 +49,7 @@ public interface CorgiStatisticMapper {
      * @param endDate
      * @return
      */
-    long sumCount(@Param("table") String table, @Param("beginDate") String beginDate, @Param("endDate") String endDate);
+    Long sumCount(@Param("table") String table, @Param("beginDate") String beginDate, @Param("endDate") String endDate);
 
     /**
      * 创建活跃时间
