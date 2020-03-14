@@ -28,6 +28,16 @@ public interface CorgiUserMatchMapper {
     Integer getCharacterMatch(@Param("ctr1") String ctr1, @Param("ctr2") String ctr2);
 
     /**
+     * 获取号码牌匹配
+     *
+     * @param role1
+     * @param role2
+     * @return
+     */
+    Integer getRoleMatch(@Param("role1") String role1, @Param("role2") String role2);
+
+
+    /**
      * 添加匹配缓存
      *
      * @param userId1

@@ -13,11 +13,11 @@ public class MatchSupporter {
 
     private static List<Integer> CON_MATCH_LIST = Arrays.asList(80, 70, 90, 50, 100, 40, 60, 40, 100, 50, 90, 70);
 
-    private static Double CON_FACTOR = 0.05;
+    private static Double CON_FACTOR = 0.25;
 
     private static List<String> ROLE_LIST = Arrays.asList("0", "0.5-", "0.5", "0.5+", "1");
 
-    private static Double ROLE_FACTOR = 0.45;
+    private static Double ROLE_FACTOR = 0.25;
 
     public static double getConMatch(String con1, String con2) {
         if (StringUtils.isEmpty(con1) || StringUtils.isEmpty(con2)) {
@@ -44,19 +44,37 @@ public class MatchSupporter {
         if (StringUtils.isEmpty(character1) || StringUtils.isEmpty(character2)) {
             return match;
         }
-        char m1 = character1.charAt(4);
-        char m2 = character2.charAt(4);
-        if (m1 == m2) {
-            match = 0.1;
+        String m1 = convertFactor(character1.charAt(4) + "");
+        String m2 = convertFactor(character2.charAt(4) + "");
+        if (m1.equals(m2)) {
+            match = 0.075;
+        } else {
+            match = 0.06;
         }
 
-        char m3 = character1.charAt(5);
-        char m4 = character2.charAt(5);
-        if (m3 == m4 && ("7".equals(m3 + "") || "8".equals(m3 + ""))) {
-            match += 0.1;
-        } else if ("5".equals(m3 + "") || "6".equals(m3 + "")) {
-            match += 0.1;
+        String m3 = convertFactor(character1.charAt(5) + "");
+        String m4 = convertFactor(character2.charAt(5) + "");
+        if (m3.equals(m4)) {
+            match += 0.075;
+        } else {
+            match += 0.06;
         }
         return match;
+    }
+
+    private static String convertFactor(String m) {
+        switch (m) {
+            case "4":
+                return "2";
+            case "3":
+                return "1";
+            case "7":
+                return "5";
+            case "8":
+                return "6";
+            default:
+                break;
+        }
+        return m;
     }
 }
