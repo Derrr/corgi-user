@@ -19,4 +19,6 @@ public interface CorgiUserMatchService {
     void updateMatch(UserMatch userMatch);
 
     Double getUserMatch(String userId1, String userId2);
+
+    void clearMatch();
 }

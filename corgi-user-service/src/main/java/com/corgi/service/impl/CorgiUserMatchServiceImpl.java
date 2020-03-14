@@ -16,6 +16,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -115,5 +116,13 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             redisTemplate.opsForValue().set(matchKey, String.valueOf(match), 90L, TimeUnit.DAYS);
         }
         return match;
+    }
+
+    @Override
+    public void clearMatch() {
+        Set<String> keys = redisTemplate.keys(CorgiConstants.MATCH_PREFIX + "*");
+        for (String key : keys) {
+            redisTemplate.delete(key);
+        }
     }
 }
