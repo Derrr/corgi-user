@@ -28,7 +28,7 @@
     </update>
 
     <select id="getMatchCache" resultType="java.lang.Double">
-        select `match` from corgi_match_cache
+        select max(`match`) from corgi_match_cache
         where (user_id1 = #{userId1} and user_id2 = #{userId2})
         or (user_id2 = #{userId1} and user_id1 = #{userId2})
     </select>
