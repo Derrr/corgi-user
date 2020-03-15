@@ -277,6 +277,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
+    public void updatePush(UserLogin userLogin) {
+        corgiUserMapper.updatePush(userLogin);
+    }
+
+    @Override
     public String updateUserNickname(String userId, String nickname, String checkNickname) {
         int count = corgiUserMapper.countNickname(nickname, checkNickname);
         if (count > 0) {

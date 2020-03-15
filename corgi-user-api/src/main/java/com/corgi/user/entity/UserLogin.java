@@ -14,4 +14,8 @@ public class UserLogin implements Serializable{
     String imId;
     String code;
     String status;
+    String newGidar;
+    String newSignUp;
+    String newMessage;
+    String newFollowActivity;
 }

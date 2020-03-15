@@ -40,6 +40,11 @@ public interface CorgiUserMapper {
      */
     void updateLogin(@Param("userLogin") UserLogin userLogin);
 
+    /**
+     * 更新推送信息
+     * @param userLogin
+     */
+    void updatePush(@Param("userLogin") UserLogin userLogin);
 
     /**
      * 注册用户登录信息
@@ -172,6 +177,7 @@ public interface CorgiUserMapper {
 
     /**
      * 分页获取用户位置信息
+     *
      * @param start
      * @param size
      * @return
@@ -242,6 +248,7 @@ public interface CorgiUserMapper {
 
     /**
      * 获取用户留存数
+     *
      * @param time
      * @param registerDate
      * @return

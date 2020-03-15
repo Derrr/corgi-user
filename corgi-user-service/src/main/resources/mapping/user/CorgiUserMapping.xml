@@ -8,7 +8,8 @@
     </select>
 
     <select id="getUserLogin" resultType="com.corgi.user.entity.UserLogin">
-        select id userId, tel_no telNo, im_id imId
+        select id userId, tel_no telNo, im_id imId,
+        new_gidar newGidar, new_sign_up newSignUp, new_message newMessage, new_follow_activity newFollowActivity
         from corgi_user_login
         where id = #{userId}
     </select>
@@ -16,6 +17,25 @@
     <update id="updateImId">
         update corgi_user_login
         set im_id = #{userLogin.imId}
+        where id = #{userLogin.userId}
+    </update>
+
+    <update id="updatePush">
+        update corgi_user_login
+        <set>
+            <if test="userLogin.newGidar != null">
+                new_gidar = #{userLogin.newGidar}
+            </if>
+            <if test="userLogin.newSignUp != null">
+                new_sign_up = #{userLogin.newSignUp}
+            </if>
+            <if test="userLogin.newMessage != null">
+                new_message = #{userLogin.newMessage}
+            </if>
+            <if test="userLogin.newFollowActivity != null">
+                new_follow_activity = #{userLogin.newFollowActivity}
+            </if>
+        </set>
         where id = #{userLogin.userId}
     </update>
 
