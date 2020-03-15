@@ -64,6 +64,11 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public void deleteSignUpByActivity(String activityId){
+        corgiUserActivityMapper.deleteSignUpByActivity(activityId);
+    }
+
+    @Override
     public Integer getStatus(String userId, String activityId) {
         return corgiUserActivityMapper.getStatus(userId, activityId);
     }
