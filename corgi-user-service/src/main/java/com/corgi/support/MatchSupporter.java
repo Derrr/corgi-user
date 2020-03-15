@@ -47,17 +47,17 @@ public class MatchSupporter {
         String m1 = convertFactor(character1.charAt(4) + "");
         String m2 = convertFactor(character2.charAt(4) + "");
         if (m1.equals(m2)) {
-            match = 0.075;
+            match = 7.5;
         } else {
-            match = 0.06;
+            match = 6;
         }
 
         String m3 = convertFactor(character1.charAt(5) + "");
         String m4 = convertFactor(character2.charAt(5) + "");
         if (m3.equals(m4)) {
-            match += 0.075;
+            match += 7.5;
         } else {
-            match += 0.06;
+            match += 6;
         }
         return match;
     }

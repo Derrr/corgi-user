@@ -52,14 +52,14 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
         if (!StringUtils.isEmpty(userDetail1.getRole()) && !StringUtils.isEmpty(userDetail2.getRole())) {
             Integer cMatch1 = userMatchMapper.getRoleMatch(userDetail1.getRole(), userDetail2.getRole());
-            match += cMatch1 * 0.25 / 100.0;
+            match += cMatch1 * 0.25;
         }
         if (!StringUtils.isEmpty(userDetail1.getNatureCharacter()) && !StringUtils.isEmpty(userDetail2.getNatureCharacter())) {
             log.info("userDetail1:" + userDetail1 + " userDetail2:" + userDetail2);
             Integer cMatch1 = userMatchMapper.getCharacterMatch(userDetail1.getNatureCharacter(), userDetail2.getNatureCharacter());
             Integer cMatch2 = userMatchMapper.getCharacterMatch(userDetail2.getNatureCharacter(), userDetail1.getNatureCharacter());
             if (cMatch1 != null && cMatch2 != null) {
-                match += Math.sqrt(cMatch1 * cMatch2) * 0.25 / 100.0;
+                match += Math.sqrt(cMatch1 * cMatch2) * 0.25;
             }
         }
 
@@ -68,17 +68,18 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             userGroups1 = userMapper.getPreferGroup(userDetail1.getUserId());
         }
         List<String> userGroups2 = userDetail2.getPreferGroup();
-        if (CollectionUtils.isEmpty(userGroups1)) {
+        if (CollectionUtils.isEmpty(userGroups2)) {
             userGroups2 = userMapper.getPreferGroup(userDetail2.getUserId());
         }
-        if (!CollectionUtils.isEmpty(userGroups1) && !CollectionUtils.isEmpty(userGroups2)) {
-            Integer match1 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups1) + "'", userDetail2.getGroup());
-            Integer match2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", userDetail1.getGroup());
-            if (match1 != null && match2 != null) {
-                match += Math.sqrt(match1 * match2) * 0.25 / 100;
-            }
+        Integer pMatch1 = 0;
+        if (!CollectionUtils.isEmpty(userGroups1)) {
+            pMatch1 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups1) + "'", userDetail2.getGroup());
         }
-        //match = Math.pow(match, 0.8) * 2.5;
+        Integer pMatch2 = 0;
+        if (!CollectionUtils.isEmpty(userGroups2)) {
+            pMatch2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", userDetail1.getGroup());
+        }
+        match += Math.sqrt(pMatch1 * pMatch2) * 0.25;
         return Math.round(match) + 0.0;
     }
 
