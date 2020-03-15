@@ -42,10 +42,10 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public Double calculateUserMatchByDetail(UserDetail userDetail1, UserDetail userDetail2) {
-        log.info("beginning match userId1:{}, userId2:{}", userDetail1.getUserId(), userDetail2.getUserId());
         if (userDetail1 == null || userDetail2 == null) {
             return 0.0;
         }
+        log.info("beginning match userId1:{}, userId2:{}", userDetail1.getUserId(), userDetail2.getUserId());
         Double match = 0.0;
         Double cronMatch = MatchSupporter.getConMatch(userDetail1.getCon(), userDetail2.getCon());
         log.info("con match:{}", cronMatch);
