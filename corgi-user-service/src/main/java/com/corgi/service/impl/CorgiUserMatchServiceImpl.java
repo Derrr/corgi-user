@@ -133,6 +133,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     public void clearMatch() {
         Set<String> keys = redisTemplate.keys(CorgiConstants.MATCH_PREFIX + "*");
         for (String key : keys) {
+            log.info("clearing key:{}", key);
             redisTemplate.delete(key);
         }
     }
