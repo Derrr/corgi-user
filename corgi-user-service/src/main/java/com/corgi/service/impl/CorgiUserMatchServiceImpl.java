@@ -42,23 +42,30 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public Double calculateUserMatchByDetail(UserDetail userDetail1, UserDetail userDetail2) {
+        log.info("beginning match userId1:{}, userId2:{}", userDetail1.getUserId(), userDetail2.getUserId());
         if (userDetail1 == null || userDetail2 == null) {
             return 0.0;
         }
         Double match = 0.0;
-        match += MatchSupporter.getConMatch(userDetail1.getCon(), userDetail2.getCon());
-        //match += MatchSupporter.getRoleMatch(userDetail1.getRole(), userDetail2.getRole());
-        match += MatchSupporter.getFactorMatch(userDetail1.getCharacter(), userDetail2.getCharacter());
+        Double cronMatch = MatchSupporter.getConMatch(userDetail1.getCon(), userDetail2.getCon());
+        log.info("con match:{}", cronMatch);
+        match += cronMatch;
+        Double factorMatch = MatchSupporter.getFactorMatch(userDetail1.getCharacter(), userDetail2.getCharacter());
+        log.info("factor match:{}", factorMatch);
+        match += factorMatch;
 
         if (!StringUtils.isEmpty(userDetail1.getRole()) && !StringUtils.isEmpty(userDetail2.getRole())) {
             Integer cMatch1 = userMatchMapper.getRoleMatch(userDetail1.getRole(), userDetail2.getRole());
+            log.info("role match:{}", cMatch1);
             match += cMatch1 * 0.25;
         }
         if (!StringUtils.isEmpty(userDetail1.getNatureCharacter()) && !StringUtils.isEmpty(userDetail2.getNatureCharacter())) {
-            log.info("userDetail1:" + userDetail1 + " userDetail2:" + userDetail2);
             Integer cMatch1 = userMatchMapper.getCharacterMatch(userDetail1.getNatureCharacter(), userDetail2.getNatureCharacter());
+            log.info("character match1:{}", cMatch1);
             Integer cMatch2 = userMatchMapper.getCharacterMatch(userDetail2.getNatureCharacter(), userDetail1.getNatureCharacter());
+            log.info("character match2:{}", cMatch2);
             if (cMatch1 != null && cMatch2 != null) {
+                log.info("final character match:{}", Math.sqrt(cMatch1 * cMatch2));
                 match += Math.sqrt(cMatch1 * cMatch2) * 0.25;
             }
         }
@@ -74,11 +81,14 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         Integer pMatch1 = 0;
         if (!CollectionUtils.isEmpty(userGroups1)) {
             pMatch1 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups1) + "'", userDetail2.getGroup());
+            log.info("prefer match1:{}", pMatch1);
         }
         Integer pMatch2 = 0;
         if (!CollectionUtils.isEmpty(userGroups2)) {
             pMatch2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", userDetail1.getGroup());
+            log.info("prefer match2:{}", pMatch2);
         }
+        log.info("final prefer match:{}", Math.sqrt(pMatch1 * pMatch2));
         match += Math.sqrt(pMatch1 * pMatch2) * 0.25;
         return Math.round(match) + 0.0;
     }

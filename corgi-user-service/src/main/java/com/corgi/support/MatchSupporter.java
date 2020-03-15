@@ -13,7 +13,7 @@ public class MatchSupporter {
 
     private static List<Integer> CON_MATCH_LIST = Arrays.asList(80, 70, 90, 50, 100, 40, 60, 40, 100, 50, 90, 70);
 
-    private static Double CON_FACTOR = 0.25;
+    private static Double CON_FACTOR = 0.1;
 
     private static List<String> ROLE_LIST = Arrays.asList("0", "0.5-", "0.5", "0.5+", "1");
 
