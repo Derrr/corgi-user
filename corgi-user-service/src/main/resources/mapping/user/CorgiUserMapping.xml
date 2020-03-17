@@ -24,16 +24,16 @@
         update corgi_user_login
         <set>
             <if test="userLogin.newGidar != null">
-                new_gidar = #{userLogin.newGidar}
+                new_gidar = #{userLogin.newGidar},
             </if>
             <if test="userLogin.newSignUp != null">
-                new_sign_up = #{userLogin.newSignUp}
+                new_sign_up = #{userLogin.newSignUp},
             </if>
             <if test="userLogin.newMessage != null">
-                new_message = #{userLogin.newMessage}
+                new_message = #{userLogin.newMessage},
             </if>
             <if test="userLogin.newFollowActivity != null">
-                new_follow_activity = #{userLogin.newFollowActivity}
+                new_follow_activity = #{userLogin.newFollowActivity},
             </if>
         </set>
         where id = #{userLogin.userId}
