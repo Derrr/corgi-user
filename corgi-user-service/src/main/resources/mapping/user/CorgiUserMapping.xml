@@ -351,7 +351,7 @@
         <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
             and d.check_status = #{userDetail.checkStatus}
         </if>
-
+        order by d.user_id desc
         limit #{start},#{size}
     </select>
 
