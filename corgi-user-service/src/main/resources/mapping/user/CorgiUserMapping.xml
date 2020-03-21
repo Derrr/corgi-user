@@ -397,6 +397,10 @@
         <if test="userDetail.userId != null and userDetail.userId != ''">
             and d.user_id = #{userDetail.userId}
         </if>
+        <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
+            and d.check_status = #{userDetail.checkStatus}
+        </if>
+
     </select>
 
     <select id="countActiveUser" resultType="java.lang.Long">
