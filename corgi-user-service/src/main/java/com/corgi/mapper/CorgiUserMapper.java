@@ -42,6 +42,7 @@ public interface CorgiUserMapper {
 
     /**
      * 更新推送信息
+     *
      * @param userLogin
      */
     void updatePush(@Param("userLogin") UserLogin userLogin);
@@ -92,7 +93,7 @@ public interface CorgiUserMapper {
      * @param checkNickname
      * @return
      */
-    int countNickname(@Param("nickname") String nickname, @Param("checkNickname") String checkNickname);
+    int countNickname(@Param("nickname") String nickname, @Param("checkNickname") String checkNickname, @Param("userId") String userId);
 
     /**
      * 修改头像状态

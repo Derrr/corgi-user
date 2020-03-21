@@ -283,7 +283,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public String updateUserNickname(String userId, String nickname, String checkNickname) {
-        int count = corgiUserMapper.countNickname(nickname, checkNickname);
+        int count = corgiUserMapper.countNickname(nickname, checkNickname, userId);
         if (count > 0) {
             return "nickname exists";
         }
@@ -293,7 +293,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public int countUserNickname(String nickname) {
-        return corgiUserMapper.countNickname(nickname, "");
+        return corgiUserMapper.countNickname(nickname, "", "");
     }
 
     @Override

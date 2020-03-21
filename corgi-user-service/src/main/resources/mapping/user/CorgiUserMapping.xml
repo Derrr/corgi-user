@@ -198,6 +198,7 @@
         <if test="checkNickname != null and checkNickname != ''">
             where `nickname` = #{checkNickname} or `check_nickname` = #{checkNickname}
         </if>
+        and user_id != #{userId}
     </select>
 
     <update id="updateNickname">
