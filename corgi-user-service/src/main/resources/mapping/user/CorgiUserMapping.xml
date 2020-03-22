@@ -193,10 +193,10 @@
     <select id="countNickname" resultType="java.lang.Integer">
         select count(1) from corgi_user_detail
         <if test="checkNickname == null or checkNickname == ''">
-            where `nickname` = #{nickname} or `check_nickname` = #{nickname}
+            where (`nickname` = #{nickname} or `check_nickname` = #{nickname})
         </if>
         <if test="checkNickname != null and checkNickname != ''">
-            where `nickname` = #{checkNickname} or `check_nickname` = #{checkNickname}
+            where (`nickname` = #{checkNickname} or `check_nickname` = #{checkNickname})
         </if>
         and user_id != #{userId}
     </select>
