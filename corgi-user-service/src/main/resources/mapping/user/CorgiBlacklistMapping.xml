@@ -9,7 +9,7 @@
 
     <delete id="deleteBlacklist">
         delete from `corgi`.`corgi_blacklist`
-        where user_id = #{userId} and black_id = #{black_id}
+        where user_id = #{userId} and black_id = #{blackId}
     </delete>
 
     <select id="getBlacklist" resultType="java.lang.String">
@@ -24,7 +24,7 @@
 
     <delete id="deleteAll">
         delete from `corgi`.`corgi_blacklist`
-        where user_id = #{userId} or black_id = #{user_id}
+        where user_id = #{userId} or black_id = #{userId}
     </delete>
 
 
