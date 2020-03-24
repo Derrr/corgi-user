@@ -14,6 +14,7 @@ public class UserQuerySupporter {
     public static Double INFINITY_SMALL = 0.00001;
     private UserQuery userQuery;
 
+    private String userId;
     private Double beginLat;
     private Double endLat;
     private Double beginLng;
@@ -29,6 +30,7 @@ public class UserQuerySupporter {
     private String group;
 
     public UserQuerySupporter(UserQuery userQuery) {
+        this.userId = userQuery.getUserId();
         this.userQuery = userQuery;
         Double range = userQuery.getRange();
 
