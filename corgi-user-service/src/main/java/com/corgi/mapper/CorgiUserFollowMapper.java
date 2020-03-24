@@ -34,6 +34,13 @@ public interface CorgiUserFollowMapper {
     void deleteFollowUser(@Param("userId") String userId, @Param("followId") String followId);
 
     /**
+     * 清除关注
+     * @param userId
+     * @param followId
+     */
+    void removeFollowUser(@Param("userId") String userId, @Param("followId") String followId);
+
+    /**
      * 判断是否关注
      *
      * @param userId1

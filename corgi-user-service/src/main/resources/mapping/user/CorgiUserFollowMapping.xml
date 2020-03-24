@@ -19,6 +19,12 @@
         where user_id = #{userId} and follow_user_id = #{followId}
     </update>
 
+    <delete id="removeFollowUser">
+        delete from corgi_user_follow
+        where user_id = #{userId} and follow_user_id = #{followId}
+    </delete>
+
+
     <select id="countFollow" resultType="java.lang.Integer">
         select count(1) from corgi_user_follow
         where user_id = #{userId1} and follow_user_id = #{userId2}

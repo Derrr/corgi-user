@@ -5,10 +5,7 @@ import com.corgi.common.CorgiConstants;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
 import com.corgi.entity.ActivityQuery;
-import com.corgi.mapper.CorgiPicMapper;
-import com.corgi.mapper.CorgiUserFollowMapper;
-import com.corgi.mapper.CorgiUserMapper;
-import com.corgi.mapper.CorgiUserTagMapper;
+import com.corgi.mapper.*;
 import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiUserFollowService;
 import com.corgi.user.api.CorgiUserMatchService;
@@ -46,6 +43,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     private CorgiUserTagMapper corgiUserTagMapper;
     @Autowired
     private CorgiUserFollowMapper corgiUserFollowMapper;
+    @Autowired
+    private CorgiBlacklistMapper corgiBlacklistMapper;
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
@@ -303,6 +302,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         corgiUserMapper.deleteUserPosition(userId);
         corgiUserMapper.deletePreferGroup(userId);
         corgiUserFollowMapper.deleteAllUserFollow(userId);
+        corgiBlacklistMapper.deleteAll(userId);
     }
 
     private String getUserSql(List<String> userIds, String loginUserId) {

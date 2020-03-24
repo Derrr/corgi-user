@@ -111,6 +111,13 @@ public interface CorgiUserMapper {
     void deleteUserAvatar(@Param("dataId") String dataId);
 
     /**
+     * 获取用户基本信息
+     * @param userId
+     * @return
+     */
+    UserBasic getUserBasic(@Param("userId") String userId);
+
+    /**
      * 获取用户资料
      *
      * @param userId

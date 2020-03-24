@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiBlacklistMapper">
+
+    <insert id="addBlacklist">
+        insert ignore into `corgi`.`corgi_blacklist` (`user_id`, `black_id`)
+        values (#{userId}, #{blackId});
+    </insert>
+
+    <delete id="deleteBlacklist">
+        delete from `corgi`.`corgi_blacklist`
+        where user_id = #{userId} and black_id = #{black_id}
+    </delete>
+
+    <select id="getBlacklist" resultType="java.lang.String">
+        select black_id from corgi_blacklist
+        where user_id = #{userId}
+    </select>
+
+    <select id="getBeBlacklist" resultType="java.lang.String">
+        select user_id from corgi_blacklist
+        where black_id = #{userId}
+    </select>
+
+    <delete id="deleteAll">
+        delete from `corgi`.`corgi_blacklist`
+        where user_id = #{userId} or black_id = #{user_id}
+    </delete>
+
+
+</mapper>
