@@ -442,6 +442,8 @@
         <if test="preferGroup != null and preferGroup != ''">
             and g.group in ${preferGroup}
         </if>
+        and not EXISTS (select 1 from corgi_blacklist where (user_id = #{filterId} and black_id = d.user_id) or(user_id
+        = d.user_id and black_id = #{filterId}))
     </select>
 
     <delete id="deleteUserLogin">

@@ -230,7 +230,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         return corgiUserMapper.filterUser(sb.toString(),
                 activityQuery.getRoleStr(),
                 activityQuery.getGroupStr(),
-                activityQuery.getPreferGroupStr());
+                activityQuery.getPreferGroupStr(),
+                activityQuery.getUserId());
     }
 
     @Override

@@ -280,7 +280,7 @@ public interface CorgiUserMapper {
      * @param preferGroup
      * @return
      */
-    List<String> filterUser(@Param("userId") String userId, @Param("role") String role, @Param("group") String group, @Param("preferGroup") String preferGroup);
+    List<String> filterUser(@Param("userId") String userId, @Param("role") String role, @Param("group") String group, @Param("preferGroup") String preferGroup, @Param("filterId")String filterId);
 
 
     /**
