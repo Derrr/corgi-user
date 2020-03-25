@@ -353,7 +353,7 @@
         <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
             and d.check_status = #{userDetail.checkStatus}
         </if>
-        order by p.uptime desc
+        order by d.user_id
         limit #{start},#{size}
     </select>
 
