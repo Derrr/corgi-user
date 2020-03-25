@@ -55,17 +55,7 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
 
     @Override
     public List<UserBasic> getBlackUser(String userId) {
-        List<String> blackUserId = corgiBlacklistMapper.getBlacklist(userId);
-        List<UserBasic> result = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(blackUserId)) {
-            for (String userId1 : blackUserId) {
-                UserBasic userBasic = corgiUserMapper.getUserBasic(userId1);
-                if (userBasic != null) {
-                    result.add(userBasic);
-                }
-            }
-        }
-        return result;
+        return corgiBlacklistMapper.getBlacklist(userId);
     }
 
     private void deleteSignUp(String userId, String blackId) {

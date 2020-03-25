@@ -1,6 +1,7 @@
 package com.corgi.mapper;
 
 import com.corgi.entity.CorgiArea;
+import com.corgi.user.entity.UserBasic;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public interface CorgiBlacklistMapper {
      * @param userId
      * @return
      */
-    List<String> getBlacklist(@Param("userId")String userId);
+    List<UserBasic> getBlacklist(@Param("userId")String userId);
 
     /**
      * 获取被拉黑名单
@@ -43,7 +44,5 @@ public interface CorgiBlacklistMapper {
      * @param userId
      */
     void deleteAll(@Param("userId")String userId);
-
-
 
 }

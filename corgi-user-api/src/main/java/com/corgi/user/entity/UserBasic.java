@@ -9,4 +9,5 @@ public class UserBasic implements Serializable {
     private String userId;
     private String avatar;
     private String nickname;
+    private String ctime;
 }

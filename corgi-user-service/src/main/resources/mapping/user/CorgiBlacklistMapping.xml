@@ -12,9 +12,14 @@
         where user_id = #{userId} and black_id = #{blackId}
     </delete>
 
-    <select id="getBlacklist" resultType="java.lang.String">
-        select black_id from corgi_blacklist
-        where user_id = #{userId}
+    <select id="getBlacklist" resultType="com.corgi.user.entity.UserBasic">
+        select d.`user_id` userId,
+        `nickname`,
+        `avatar`,
+        b.ctime `ctime`
+        from corgi_user_detail d
+        join corgi_blacklist b on b.black_id = d.user_id
+        where b.user_id = #{userId}
     </select>
 
     <select id="getBeBlacklist" resultType="java.lang.String">
