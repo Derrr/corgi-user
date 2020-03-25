@@ -69,12 +69,14 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
         }
         if (report.getAccuseType() != null && report.getAccuseType().startsWith("用户")) {
             UserDetail userDetail = corgiUserMapper.getUserDetail(report.getAccuseId());
-            report.setAccuseName(StringUtils.isEmpty(userDetail.getCheckNickname()) ? userDetail.getNickname() : userDetail.getCheckNickname());
+            if (userDetail != null) {
+                report.setAccuseName(StringUtils.isEmpty(userDetail.getCheckNickname()) ? userDetail.getNickname() : userDetail.getCheckNickname());
+            }
         } else {
             List<CorgiActivity> corgiActivities = corgiActivityService.getActivityByIds(Arrays.asList(report.getAccuseId()));
             if (!CollectionUtils.isEmpty(corgiActivities)) {
                 CorgiActivity activity = corgiActivities.get(0);
-                report.setAccuseName(StringUtils.isEmpty(activity.getCheckTitle()) ? activity.getTitle(): activity.getCheckTitle());
+                report.setAccuseName(StringUtils.isEmpty(activity.getCheckTitle()) ? activity.getTitle() : activity.getCheckTitle());
             }
         }
         corgiBlacklistMapper.addReport(report);
