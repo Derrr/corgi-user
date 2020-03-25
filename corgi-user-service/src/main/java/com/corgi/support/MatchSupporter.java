@@ -25,6 +25,9 @@ public class MatchSupporter {
         }
         int index1 = CON_LIST.indexOf(con1);
         int index2 = CON_LIST.indexOf(con2);
+        if (index1 < 0 || index2 < 0) {
+            return 0;
+        }
         int dis = Math.abs(index1 - index2);
         return CON_MATCH_LIST.get(dis) * CON_FACTOR;
     }
@@ -35,6 +38,9 @@ public class MatchSupporter {
         }
         int index1 = ROLE_LIST.indexOf(role1);
         int index2 = ROLE_LIST.indexOf(role2);
+        if (index1 < 0 || index2 < 0) {
+            return 0;
+        }
         int dis = Math.abs(index1 + index2 - 4);
         return (100 - dis * 25) * ROLE_FACTOR;
     }

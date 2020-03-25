@@ -57,7 +57,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (!StringUtils.isEmpty(userDetail1.getRole()) && !StringUtils.isEmpty(userDetail2.getRole())) {
             Integer cMatch1 = userMatchMapper.getRoleMatch(userDetail1.getRole(), userDetail2.getRole());
             log.info("role match:{}", cMatch1);
-            match += cMatch1 * 0.25;
+            if (cMatch1 != null) {
+                match += cMatch1 * 0.25;
+            }
         }
         if (!StringUtils.isEmpty(userDetail1.getNatureCharacter()) && !StringUtils.isEmpty(userDetail2.getNatureCharacter())) {
             Integer cMatch1 = userMatchMapper.getCharacterMatch(userDetail1.getNatureCharacter(), userDetail2.getNatureCharacter());
@@ -82,7 +84,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (!CollectionUtils.isEmpty(userGroups1)) {
             pMatch1 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups1) + "'", userDetail2.getGroup());
             log.info("prefer match1:{}", pMatch1);
-            if(pMatch1 == null){
+            if (pMatch1 == null) {
                 pMatch1 = 0;
             }
         }
@@ -90,7 +92,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (!CollectionUtils.isEmpty(userGroups2)) {
             pMatch2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", userDetail1.getGroup());
             log.info("prefer match2:{}", pMatch2);
-            if(pMatch2 == null){
+            if (pMatch2 == null) {
                 pMatch2 = 0;
             }
         }
