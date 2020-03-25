@@ -32,5 +32,42 @@
         where user_id = #{userId} or black_id = #{userId}
     </delete>
 
+    <insert id="addReport" useGeneratedKeys="true" keyProperty="report.id" parameterType="com.corgi.user.entity.CorgiReport">
+        INSERT INTO `corgi_report` (`report_user_id`, `report_user_name`, `accuse_id`, `accuse_type`, `accuse_name`, `desc`, `reason`) VALUES (#{report.reportUserId}, #{report.reportUserName}, #{report.accuseId}, #{report.accuseType}, #{report.accuseName}, #{report.desc}, #{report.reason});
+    </insert>
+
+    <update id="updateReportStatus">
+        update corgi_report set report_status = #{status}
+        where id = #{reportId}
+    </update>
+
+    <select id="getReport" resultType="com.corgi.user.entity.CorgiReport">
+        select id,
+        report_user_id reportUserId,
+        report_user_name reportUserName,
+        accuse_id accuseId,
+        accuse_type accuseType,
+        accuse_name accuseName,
+        report_status reportStatus,
+        `desc`,
+        reason,
+        ctime,
+        uptime
+        from corgi_report
+        <if test="status != null and status != ''">
+            where report_status = #{status}
+        </if>
+        order by id desc
+    </select>
+
+    <insert id="addReportPic">
+        insert into corgi_report_pic(report_id, pic_url)
+        values(#{reportId},#{url});
+    </insert>
+
+    <select id="getReportPic" resultType="java.lang.String">
+        select pic_url from corgi_report_pic
+        where report_id = #{reportId}
+    </select>
 
 </mapper>
