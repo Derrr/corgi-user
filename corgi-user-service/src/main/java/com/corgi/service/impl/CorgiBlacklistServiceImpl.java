@@ -36,10 +36,13 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
     private CorgiFavorActivityMapper corgiFavorActivityMapper;
     @Autowired
     private CorgiUserActivityMapper corgiUserActivityMapper;
+    @Autowired
+    private CorgiPicMapper corgiPicMapper;
     @Reference
     private CorgiBlackActivityService corgiBlackActivityService;
     @Reference
     private CorgiActivityService corgiActivityService;
+
 
     @Override
     public void addBlacklist(String userId, String blackId) {
@@ -59,7 +62,13 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
 
     @Override
     public List<UserBasic> getBlackUser(String userId) {
-        return corgiBlacklistMapper.getBlacklist(userId);
+        List<UserBasic> userBasics = corgiBlacklistMapper.getBlacklist(userId);
+        if (userBasics != null) {
+            for (UserBasic userBasic : userBasics) {
+                userBasic.setUserPics(corgiPicMapper.getUserPic(userBasic.getUserId()));
+            }
+        }
+        return userBasics;
     }
 
     @Override
