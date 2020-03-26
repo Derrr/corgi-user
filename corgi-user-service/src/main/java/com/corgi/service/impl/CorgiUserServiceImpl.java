@@ -114,12 +114,12 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (!StringUtils.isEmpty(loginUserId)) {
             Integer countBeBlock = corgiBlacklistMapper.countBlack(userId, loginUserId);
             if (countBeBlock != null && countBeBlock > 0) {
-                userDetail.setCheckStatus("blocked");
+                userDetail.setCheckStatus("block");
                 return userDetail;
             }
             Integer countBlock = corgiBlacklistMapper.countBlack(loginUserId, userId);
             if (countBlock != null && countBlock > 0) {
-                userDetail.setCheckStatus("block");
+                userDetail.setCheckStatus("blocked");
                 return userDetail;
             }
         }
