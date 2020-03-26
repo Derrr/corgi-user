@@ -70,4 +70,9 @@
         where report_id = #{reportId}
     </select>
 
+    <select id="countBlack" resultType="java.lang.Integer">
+        select count(1) from corgi_blacklist
+        where user_id = #{userId}
+        and black_id = #{blockId}
+    </select>
 </mapper>

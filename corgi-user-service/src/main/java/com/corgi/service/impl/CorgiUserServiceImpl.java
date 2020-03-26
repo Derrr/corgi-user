@@ -112,13 +112,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         List<UserPic> userPics = corgiPicMapper.getUserPic(userId);
         userDetail.setUserPics(userPics);
         if (!StringUtils.isEmpty(loginUserId)) {
-            List<UserBasic> basicList = corgiBlacklistMapper.getBlacklist(loginUserId);
-            if (!CollectionUtils.isEmpty(basicList)) {
-                for (UserBasic userBasic : basicList) {
-                    if (userBasic.getUserId().equals(loginUserId)) {
-                        userDetail.setCheckStatus("block");
-                    }
-                }
+            Integer countBeBlock = corgiBlacklistMapper.countBlack(userId, loginUserId);
+            if (countBeBlock != null && countBeBlock > 0) {
+                userDetail.setCheckStatus("blocked");
+                return userDetail;
+            }
+            Integer countBlock = corgiBlacklistMapper.countBlack(loginUserId, userId);
+            if (countBlock != null && countBlock > 0) {
+                userDetail.setCheckStatus("block");
+                return userDetail;
             }
         }
         List<String> groups = corgiUserMapper.getPreferGroup(userId);

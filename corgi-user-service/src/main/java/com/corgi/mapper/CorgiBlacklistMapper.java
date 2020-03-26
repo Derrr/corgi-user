@@ -92,4 +92,12 @@ public interface CorgiBlacklistMapper {
      */
     List<String> getReportPic(@Param("reportId") String reportId);
 
+    /**
+     * 计数
+     * @param userId
+     * @param blockId
+     * @return
+     */
+    Integer countBlack(@Param("userId")String userId, @Param("blockId")String blockId);
+
 }
