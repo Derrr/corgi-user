@@ -32,7 +32,8 @@
         where user_id = #{userId} or black_id = #{userId}
     </delete>
 
-    <insert id="addReport" useGeneratedKeys="true" keyProperty="report.id" parameterType="com.corgi.user.entity.CorgiReport">
+    <insert id="addReport" useGeneratedKeys="true" keyProperty="report.id"
+            parameterType="com.corgi.user.entity.CorgiReport">
         INSERT INTO `corgi_report` (`report_user_id`, `report_user_name`, `accuse_id`, `accuse_type`, `accuse_name`, `desc`, `reason`) VALUES (#{report.reportUserId}, #{report.reportUserName}, #{report.accuseId}, #{report.accuseType}, #{report.accuseName}, #{report.desc}, #{report.reason});
     </insert>
 
@@ -54,10 +55,63 @@
         ctime,
         uptime
         from corgi_report
-        <if test="status != null and status != ''">
-            where report_status = #{status}
+        where 1=1
+        <if test="report.status != null and report.status != ''">
+            and report_status = #{report.status}
+        </if>
+        <if test="report.reportUserName != null and report.reportUserName != ''">
+            and report_user_name = #{report.reportUserName}
+        </if>
+        <if test="report.reportUserId != null and report.reportUserId != ''">
+            and report_user_id = #{report.reportUserId}
+        </if>
+        <if test="report.accuseType != null and report.accuseType != ''">
+            and accuse_type = #{report.accuseType}
+        </if>
+        <if test="report.accuseName != null and report.accuseName != ''">
+            and accuse_name = #{report.accuseName}
+        </if>
+        <if test="report.desc != null and report.desc != ''">
+            and `desc` = #{report.desc}
+        </if>
+        <if test="report.reason != null and report.reason != ''">
+            and `reason` = #{report.reason}
+        </if>
+        <if test="report.accuseId != null and report.accuseId != ''">
+            and `accuse_id` = #{report.accuseId}
         </if>
         order by id desc
+        limit #{start}, #{size}
+    </select>
+
+    <select id="countReport" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_report
+        where 1=1
+        <if test="report.status != null and report.status != ''">
+            and report_status = #{report.status}
+        </if>
+        <if test="report.reportUserName != null and report.reportUserName != ''">
+            and report_user_name = #{report.reportUserName}
+        </if>
+        <if test="report.reportUserId != null and report.reportUserId != ''">
+            and report_user_id = #{report.reportUserId}
+        </if>
+        <if test="report.accuseType != null and report.accuseType != ''">
+            and accuse_type = #{report.accuseType}
+        </if>
+        <if test="report.accuseName != null and report.accuseName != ''">
+            and accuse_name = #{report.accuseName}
+        </if>
+        <if test="report.desc != null and report.desc != ''">
+            and `desc` = #{report.desc}
+        </if>
+        <if test="report.reason != null and report.reason != ''">
+            and `reason` = #{report.reason}
+        </if>
+        <if test="report.accuseId != null and report.accuseId != ''">
+            and `accuse_id` = #{report.accuseId}
+        </if>
     </select>
 
     <insert id="addReportPic">
