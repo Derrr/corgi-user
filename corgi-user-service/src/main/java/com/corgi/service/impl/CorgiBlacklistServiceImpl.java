@@ -102,14 +102,19 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
     }
 
     @Override
-    public List<CorgiReport> getReport(CorgiReport report) {
-        List<CorgiReport> reports = corgiBlacklistMapper.getReport(report.getReportStatus());
+    public List<CorgiReport> getReport(CorgiReport report, Integer page, Integer size) {
+        List<CorgiReport> reports = corgiBlacklistMapper.getReport(report, (page - 1) * size, size);
         if (!CollectionUtils.isEmpty(reports)) {
             for (CorgiReport report1 : reports) {
                 report1.setPics(corgiBlacklistMapper.getReportPic(report1.getId()));
             }
         }
         return reports;
+    }
+
+    @Override
+    public Integer countReport(CorgiReport report) {
+        return corgiBlacklistMapper.countReport(report);
     }
 
     private void deleteSignUp(String userId, String blackId) {

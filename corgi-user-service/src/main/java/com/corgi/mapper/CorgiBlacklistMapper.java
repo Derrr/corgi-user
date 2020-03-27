@@ -70,11 +70,19 @@ public interface CorgiBlacklistMapper {
     /**
      * 获取举报列表
      *
-     * @param status
+     * @param corgiReport
+     * @param start
+     * @param size
      * @return
      */
-    List<CorgiReport> getReport(@Param("status") String status);
+    List<CorgiReport> getReport(@Param("report") CorgiReport corgiReport, @Param("start") Integer start, @Param("size") Integer size);
 
+    /**
+     * 计数举报
+     * @param corgiReport
+     * @return
+     */
+    Integer countReport(@Param("report") CorgiReport corgiReport);
 
     /**
      * 添加举报图片
@@ -94,10 +102,11 @@ public interface CorgiBlacklistMapper {
 
     /**
      * 计数
+     *
      * @param userId
      * @param blockId
      * @return
      */
-    Integer countBlack(@Param("userId")String userId, @Param("blockId")String blockId);
+    Integer countBlack(@Param("userId") String userId, @Param("blockId") String blockId);
 
 }
