@@ -88,8 +88,8 @@
         select count(1)
         from corgi_report
         where 1=1
-        <if test="report.status != null and report.status != ''">
-            and report_status = #{report.status}
+        <if test="report.reportStatus != null and report.reportStatus != ''">
+            and report_status = #{report.reportStatus}
         </if>
         <if test="report.reportUserName != null and report.reportUserName != ''">
             and report_user_name = #{report.reportUserName}
