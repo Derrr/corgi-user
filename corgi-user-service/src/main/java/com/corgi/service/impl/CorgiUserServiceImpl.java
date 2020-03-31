@@ -15,6 +15,9 @@ import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.*;
+import org.springframework.data.redis.connection.RedisGeoCommands;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -47,6 +50,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     private CorgiBlacklistMapper corgiBlacklistMapper;
     @Autowired
     private AmqpTemplate rabbitTemplate;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public UserLogin login(UserLogin userLogin) {
@@ -163,11 +168,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return "user id is empty";
         }
         Long now = System.currentTimeMillis();
+        String geoKey = "user";
         UserPosition oldUserPosition = corgiUserMapper.getUserPosition(userPosition.getUserId());
         if (oldUserPosition == null) {
             corgiUserMapper.addUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now);
+            this.addGeo(geoKey,userPosition);
         } else if (!oldUserPosition.getLat().equals(userPosition.getLat()) || (!oldUserPosition.getLng().equals(userPosition.getLng()))) {
             corgiUserMapper.updateUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now);
+            redisTemplate.opsForGeo().remove(geoKey, userPosition.getUserId());
+            this.addGeo(geoKey,userPosition);
         } else {
             corgiUserMapper.updateUserPositionUptime(userPosition.getUserId(), now);
         }
@@ -181,8 +190,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> getNearByUser(UserQuery userQuery) {
-        UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
-        List<String> userIds = corgiUserMapper.getNearByUser(supporter);
+        //UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
+        //List<String> userIds = corgiUserMapper.getNearByUser(supporter);
+        GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
+        List<String> userIds = new ArrayList<>();
+        geoResults.forEach(result -> userIds.add(result.getContent().getName()));
         String inValue = getUserSql(userIds, userQuery.getUserId());
         if (StringUtils.isEmpty(inValue)) {
             return new ArrayList<>();
@@ -314,6 +326,19 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         corgiUserMapper.deletePreferGroup(userId);
         corgiUserFollowMapper.deleteAllUserFollow(userId);
         corgiBlacklistMapper.deleteAll(userId);
+    }
+
+    private void addGeo(String geoKey, UserPosition userPosition){
+        if(userPosition.getLng() == null ||userPosition.getLng() > 180 || userPosition.getLng() < -180){
+            return;
+        }
+        if(userPosition.getLat() == null ||userPosition.getLat() > 90 || userPosition.getLat() < -90){
+            return;
+        }
+        if(StringUtils.isEmpty(userPosition.getUserId()) || StringUtils.isEmpty(geoKey)){
+            return;
+        }
+        redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
     }
 
     private String getUserSql(List<String> userIds, String loginUserId) {
