@@ -172,11 +172,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         UserPosition oldUserPosition = corgiUserMapper.getUserPosition(userPosition.getUserId());
         if (oldUserPosition == null) {
             corgiUserMapper.addUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now);
-            this.addGeo(geoKey,userPosition);
+            this.addGeo(geoKey, userPosition);
         } else if (!oldUserPosition.getLat().equals(userPosition.getLat()) || (!oldUserPosition.getLng().equals(userPosition.getLng()))) {
             corgiUserMapper.updateUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now);
             redisTemplate.opsForGeo().remove(geoKey, userPosition.getUserId());
-            this.addGeo(geoKey,userPosition);
+            this.addGeo(geoKey, userPosition);
         } else {
             corgiUserMapper.updateUserPositionUptime(userPosition.getUserId(), now);
         }
@@ -326,16 +326,17 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         corgiUserMapper.deletePreferGroup(userId);
         corgiUserFollowMapper.deleteAllUserFollow(userId);
         corgiBlacklistMapper.deleteAll(userId);
+        redisTemplate.opsForGeo().remove("user", userId);
     }
 
-    private void addGeo(String geoKey, UserPosition userPosition){
-        if(userPosition.getLng() == null ||userPosition.getLng() > 180 || userPosition.getLng() < -180){
+    private void addGeo(String geoKey, UserPosition userPosition) {
+        if (userPosition.getLng() == null || userPosition.getLng() > 180 || userPosition.getLng() < -180) {
             return;
         }
-        if(userPosition.getLat() == null ||userPosition.getLat() > 90 || userPosition.getLat() < -90){
+        if (userPosition.getLat() == null || userPosition.getLat() > 90 || userPosition.getLat() < -90) {
             return;
         }
-        if(StringUtils.isEmpty(userPosition.getUserId()) || StringUtils.isEmpty(geoKey)){
+        if (StringUtils.isEmpty(userPosition.getUserId()) || StringUtils.isEmpty(geoKey)) {
             return;
         }
         redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
