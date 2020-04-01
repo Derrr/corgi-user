@@ -35,6 +35,9 @@
             <if test="userLogin.newFollowActivity != null">
                 new_follow_activity = #{userLogin.newFollowActivity},
             </if>
+            <if test="userLogin.imId != null">
+                im_id = #{userLogin.imId},
+            </if>
         </set>
         where id = #{userLogin.userId}
     </update>
