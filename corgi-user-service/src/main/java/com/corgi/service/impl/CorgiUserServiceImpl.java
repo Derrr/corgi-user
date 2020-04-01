@@ -190,11 +190,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> getNearByUser(UserQuery userQuery) {
-        //UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
-        //List<String> userIds = corgiUserMapper.getNearByUser(supporter);
-        GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
         List<String> userIds = new ArrayList<>();
-        geoResults.forEach(result -> userIds.add(result.getContent().getName()));
+        if (hasFilter(userQuery)) {
+            UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
+            userIds = corgiUserMapper.getNearByUser(supporter);
+        } else {
+            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
+            List<String> finalUserIds = userIds;
+            geoResults.forEach(result -> finalUserIds.add(result.getContent().getName()));
+        }
         String inValue = getUserSql(userIds, userQuery.getUserId());
         if (StringUtils.isEmpty(inValue)) {
             return new ArrayList<>();
@@ -203,6 +207,16 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         String userId1 = userQuery.getUserId();
         userProfiles = this.populateUserProfile(userProfiles, userId1);
         return userProfiles;
+    }
+
+    private boolean hasFilter(UserQuery userQuery) {
+        return !StringUtils.isEmpty(userQuery.getNickname())
+                || !CollectionUtils.isEmpty(userQuery.getGroup())
+                || !CollectionUtils.isEmpty(userQuery.getRole())
+                || (userQuery.getEndWeight() != null && userQuery.getEndWeight() < 200)
+                || (userQuery.getStartWeight() != null && userQuery.getStartWeight() > 30)
+                || (userQuery.getEndHeight() != null && userQuery.getEndHeight() < 200)
+                || (userQuery.getStartHeight() != null && userQuery.getStartWeight() > 30);
     }
 
     @Override
