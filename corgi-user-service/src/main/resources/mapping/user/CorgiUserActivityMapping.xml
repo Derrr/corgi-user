@@ -41,10 +41,13 @@
         d.role role,
         d.group `group`,
         d.con con,
+        l.tel_no `telNo`,
+        l.im_id `imId`,
         a.`status` signUpStatus
         from corgi_activity_attender a
         left join corgi_user_position p on a.user_id = p.user_id
         left join corgi_user_detail d on d.user_id = p.user_id
+        left join corgi_user_login l on l.id = a.user_id
         where a.activity_id = #{activityId}
         <if test='status != null and status !="" '>
             and a.`status` = #{status}
