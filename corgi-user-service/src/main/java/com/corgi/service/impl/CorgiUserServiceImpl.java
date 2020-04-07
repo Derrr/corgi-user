@@ -101,10 +101,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setCon(UserUtils.getConByBirthDay(userDetail.getBirthday()));
         corgiUserMapper.updateUserDetail(userDetail);
 
-        MatchRefresher matchRefresher = new MatchRefresher();
-        matchRefresher.setUserId(userDetail.getUserId());
-        rabbitTemplate.convertAndSend(CorgiQueueName.REFRESH_MATCH_QUEUE, matchRefresher);
-
+        if (shouldRefresh(userDetail)) {
+            MatchRefresher matchRefresher = new MatchRefresher();
+            matchRefresher.setUserId(userDetail.getUserId());
+            rabbitTemplate.convertAndSend(CorgiQueueName.REFRESH_MATCH_QUEUE, matchRefresher);
+        }
         return CorgiConstants.SUCCESS;
     }
 
@@ -149,6 +150,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 corgiUserMapper.addPreferGroup(userId, group);
             }
         }
+        MatchRefresher matchRefresher = new MatchRefresher();
+        matchRefresher.setUserId(userId);
+        rabbitTemplate.convertAndSend(CorgiQueueName.REFRESH_MATCH_QUEUE, matchRefresher);
         return CorgiConstants.SUCCESS;
     }
 
@@ -370,7 +374,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return "";
         }
 
-
         if (userIds.size() > MAX_PROFILE_SIZE * 2) {
             Random r = new Random();
             List<String> tmpUserIds = new ArrayList<>();
@@ -402,5 +405,26 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
     }
 
+    private boolean shouldRefresh(UserDetail userDetail) {
+        if (userDetail.getWeight() > 0) {
+            return true;
+        }
+        if (userDetail.getHeight() > 0) {
+            return true;
+        }
+        if (!StringUtils.isEmpty(userDetail.getGroup())) {
+            return true;
+        }
+        if (!StringUtils.isEmpty(userDetail.getCharacter())) {
+            return true;
+        }
+        if (!StringUtils.isEmpty(userDetail.getRole())) {
+            return true;
+        }
+        if (!StringUtils.isEmpty(userDetail.getBirthday())) {
+            return true;
+        }
+        return false;
+    }
 
 }
