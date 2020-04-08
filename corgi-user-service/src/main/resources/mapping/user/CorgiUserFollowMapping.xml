@@ -3,13 +3,13 @@
 <mapper namespace="com.corgi.mapper.CorgiUserFollowMapper">
 
     <insert id="addFollowUser">
-        insert ignore into corgi_user_follow (`user_id`, `follow_user_id`)
-        values (#{userId}, #{followId});
+        insert ignore into corgi_user_follow (`user_id`, `follow_user_id`, `uptime`)
+        values (#{userId}, #{followId}, NOW());
     </insert>
 
     <update id="createFollowUser">
         update corgi_user_follow
-        set is_deleted = '0',is_read = '0'
+        set is_deleted = '0',is_read = '0', uptime = NOW()
         where user_id = #{userId} and follow_user_id = #{followId}
     </update>
 
