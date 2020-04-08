@@ -114,7 +114,7 @@
         left join corgi_user_position p on f.user_id = p.user_id
         left join corgi_user_login l on l.id = p.user_id
         where f.follow_user_id = #{userId}
-        order by p.uptime desc
+        order by f.uptime desc
         limit #{start},#{size}
     </select>
 
