@@ -212,7 +212,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
         List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
         String userId1 = userQuery.getUserId();
-        userProfiles = this.populateUserProfile(userProfiles, userId1);
+        userProfiles = this.populateUserProfileAll(userProfiles, userId1, false);
         return userProfiles;
     }
 
@@ -283,7 +283,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         return userProfiles;
     }
 
-    @Override
     public List<UserProfile> populateUserProfileAll(List<UserProfile> userProfiles, String userId, boolean hasMatch) {
         UserDetail loginUserDetail = null;
         if (!CollectionUtils.isEmpty(userProfiles)) {
