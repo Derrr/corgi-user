@@ -7,6 +7,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 /**
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 @MapperScan("com.corgi.mapper")
 @SpringBootApplication
 @EnableDubboConfiguration
+@EnableTransactionManagement
 public class CorgiUserServiceApplication {
 
     public static void main(String[] args) {
