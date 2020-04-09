@@ -80,7 +80,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return "user id is null";
         }
         if (corgiUserMapper.countUserDetail(userDetail.getUserId()) > 0) {
-            return "user exists";
+            return CorgiConstants.SUCCESS;
         }
         userDetail.setCon(UserUtils.getConByBirthDay(userDetail.getBirthday()));
         corgiUserMapper.addUserDetail(userDetail);
