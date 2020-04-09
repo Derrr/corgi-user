@@ -212,7 +212,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
         List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
         String userId1 = userQuery.getUserId();
-        userProfiles = this.populateUserProfileAll(userProfiles, userId1, false);
+        userProfiles = this.populateUserProfileAll(userProfiles, userId1, true);
         return userProfiles;
     }
 
