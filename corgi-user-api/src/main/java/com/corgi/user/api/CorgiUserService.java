@@ -47,6 +47,8 @@ public interface CorgiUserService {
 
     List<UserProfile> populateUserProfile(List<UserProfile> userProfiles, String userId);
 
+    List<UserProfile> populateUserProfileAll(List<UserProfile> userProfiles, String userId, boolean hasMatch);
+
     String updateUserLogin(UserLogin userLogin);
 
     void updatePush(UserLogin userLogin);

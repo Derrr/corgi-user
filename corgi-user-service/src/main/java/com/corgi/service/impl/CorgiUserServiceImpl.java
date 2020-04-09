@@ -279,6 +279,12 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> populateUserProfile(List<UserProfile> userProfiles, String userId) {
+        userProfiles = populateUserProfileAll(userProfiles, userId, true);
+        return userProfiles;
+    }
+
+    @Override
+    public List<UserProfile> populateUserProfileAll(List<UserProfile> userProfiles, String userId, boolean hasMatch) {
         UserDetail loginUserDetail = null;
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
@@ -287,27 +293,28 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                     continue;
                 }
                 String userId2 = userProfile.getUserId();
-
                 int count = corgiUserFollowService.isFollowed(userId, userId2);
                 userProfile.setIsFollowed(count);
-                Double match = corgiUserMatchService.getUserMatch(userId, userId2);
-                if (match == null) {
-                    if (loginUserDetail == null) {
-                        loginUserDetail = corgiUserMapper.getUserDetail(userId);
+                if (hasMatch) {
+                    Double match = corgiUserMatchService.getUserMatch(userId, userId2);
+                    if (match == null) {
                         if (loginUserDetail == null) {
-                            continue;
+                            loginUserDetail = corgiUserMapper.getUserDetail(userId);
+                            if (loginUserDetail == null) {
+                                continue;
+                            }
+                            loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userId));
                         }
-                        loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userId));
+                        UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
+                        userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
+                        try {
+                            match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
+                        }
                     }
-                    UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
-                    userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
-                    try {
-                        match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
-                    } catch (Exception e) {
-                        log.error(e.getMessage(), e);
-                    }
+                    userProfile.setMatch(match);
                 }
-                userProfile.setMatch(match);
             }
         }
         return userProfiles;
