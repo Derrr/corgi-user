@@ -96,6 +96,21 @@ public interface CorgiUserFollowMapper {
                                           @Param("start") Integer start, @Param("size") Integer size);
 
     /**
+     * 对匹配人排序
+     *
+     * @param userId
+     * @param type
+     * @param lat
+     * @param lng
+     * @param start
+     * @param size
+     * @return
+     */
+    List<UserProfile> getMatchUserByPage(@Param("userId") String userId, @Param("type") String type,
+                                          @Param("lat") double lat, @Param("lng") double lng,
+                                          @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
      * 分页获取被关注列表
      *
      * @param userId

@@ -75,6 +75,36 @@
             order by p.uptime desc
         </if>
         <if test="type == 'distance'">
+            order by if(p.lat &lt; 200 and p.lng &lt; 200,st_distance_sphere(point(#{lng},#{lat}),p.pt)/100000,100000)
+        </if>
+        limit #{start},#{size}
+    </select>
+
+    <select id="getMatchUserByPage" resultType="com.corgi.user.entity.UserProfile">
+        select
+        p.user_id userId,
+        p.lat lat,
+        p.lng lng,
+        p.uptime `time`,
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.role role,
+        d.group `group`,
+        d.con con,
+        l.im_id imId
+        from corgi_user_follow f
+        left join corgi_user_position p on f.follow_user_id = p.user_id
+        left join corgi_user_detail d on d.user_id = p.user_id
+        left join corgi_user_login l on l.id = p.user_id
+        join corgi_user_follow f1 on f1.follow_user_id = f.user_id and f1.user_id = f.follow_user_id
+        where f.user_id = #{userId} and f.is_deleted = '0' and f1.is_deleted = '0'
+        <if test="type == 'new'">
+            order by f.id desc
+        </if>
+        <if test="type == 'active'">
+            order by p.uptime desc
+        </if>
+        <if test="type == 'distance'">
             order by if(p.lat &lt; 200 and p.lng &lt; 200,st_distance_sphere(point(#{lng},#{lat}),p.pt)/10000,10000)
         </if>
         limit #{start},#{size}
