@@ -84,6 +84,7 @@
             <url>http://47.111.180.175:8081/repository/maven-public/</url>
             <snapshots>
                 <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
     </repositories>
