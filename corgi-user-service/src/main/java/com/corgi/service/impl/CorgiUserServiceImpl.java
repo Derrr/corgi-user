@@ -379,20 +379,20 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (CollectionUtils.isEmpty(userIds)) {
             return "";
         }
-
-        if (userIds.size() > MAX_PROFILE_SIZE * 2) {
+        int size = userIds.size();
+        if (size > MAX_PROFILE_SIZE * 2) {
             Random r = new Random();
             List<String> tmpUserIds = new ArrayList<>();
             for (int i = 0; i < MAX_PROFILE_SIZE; i++) {
-                int index = r.nextInt(userIds.size() - i);
+                int index = r.nextInt(userIds.size());
                 tmpUserIds.add(userIds.remove(index));
             }
             userIds = tmpUserIds;
-        } else if (userIds.size() > MAX_PROFILE_SIZE) {
+        } else if (size > MAX_PROFILE_SIZE) {
             //若人数不多，则剔除多余人
             Random r = new Random();
-            for (int i = 0; i < userIds.size() - MAX_PROFILE_SIZE; i++) {
-                int index = r.nextInt(userIds.size() - i);
+            for (int i = 0; i < size - MAX_PROFILE_SIZE; i++) {
+                int index = r.nextInt(userIds.size());
                 userIds.remove(index);
             }
 
