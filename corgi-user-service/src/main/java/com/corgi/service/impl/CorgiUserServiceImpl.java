@@ -21,6 +21,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -287,32 +288,36 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         UserDetail loginUserDetail = null;
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
-                userProfile.setPics(corgiPicMapper.getUserPic(userProfile.getUserId()));
-                if (StringUtils.isEmpty(userId)) {
-                    continue;
-                }
-                String userId2 = userProfile.getUserId();
-                int count = corgiUserFollowService.isFollowed(userId, userId2);
-                userProfile.setIsFollowed(count);
-                if (hasMatch) {
-                    Double match = corgiUserMatchService.getUserMatch(userId, userId2);
-                    if (match == null) {
-                        if (loginUserDetail == null) {
-                            loginUserDetail = corgiUserMapper.getUserDetail(userId);
-                            if (loginUserDetail == null) {
-                                continue;
-                            }
-                            loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userId));
-                        }
-                        UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
-                        userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
-                        try {
-                            match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
-                        } catch (Exception e) {
-                            log.error(e.getMessage(), e);
-                        }
+                try {
+                    userProfile.setPics(corgiPicMapper.getUserPic(userProfile.getUserId()));
+                    if (StringUtils.isEmpty(userId)) {
+                        continue;
                     }
-                    userProfile.setMatch(match);
+                    String userId2 = userProfile.getUserId();
+                    int count = corgiUserFollowService.isFollowed(userId, userId2);
+                    userProfile.setIsFollowed(count);
+                    if (hasMatch) {
+                        Double match = corgiUserMatchService.getUserMatch(userId, userId2);
+                        if (match == null) {
+                            if (loginUserDetail == null) {
+                                loginUserDetail = corgiUserMapper.getUserDetail(userId);
+                                if (loginUserDetail == null) {
+                                    continue;
+                                }
+                                loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userId));
+                            }
+                            UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
+                            userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
+                            try {
+                                match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
+                            } catch (Exception e) {
+                                log.error(e.getMessage(), e);
+                            }
+                        }
+                        userProfile.setMatch(match);
+                    }
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
                 }
             }
         }
