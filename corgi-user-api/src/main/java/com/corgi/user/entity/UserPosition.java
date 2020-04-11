@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Data
 public class UserPosition implements Serializable{
     private String userId;
+    private String version;
     private Double lat;
     private Double lng;
 }

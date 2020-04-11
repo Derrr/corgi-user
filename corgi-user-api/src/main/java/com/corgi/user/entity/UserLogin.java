@@ -13,9 +13,11 @@ public class UserLogin implements Serializable{
     String telNo;
     String imId;
     String code;
+    String version;
     String status;
     String newGidar;
     String newSignUp;
     String newMessage;
     String newFollowActivity;
+    String jwt;
 }
