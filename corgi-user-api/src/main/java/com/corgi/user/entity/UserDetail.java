@@ -9,7 +9,7 @@ import java.util.List;
  * @author tairanliu
  */
 @Data
-public class UserDetail implements Serializable{
+public class UserDetail implements Serializable {
     private String userId;
     private String telNo;
     private String imId;
@@ -44,7 +44,7 @@ public class UserDetail implements Serializable{
     List<UserInterest> interests;
 
     public String getNatureCharacter() {
-        if (this.character == null) {
+        if (this.character == null || this.character.length() < 4) {
             return "";
         }
         return character.substring(0, 4);
