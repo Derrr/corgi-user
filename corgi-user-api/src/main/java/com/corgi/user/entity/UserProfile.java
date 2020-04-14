@@ -3,6 +3,8 @@ package com.corgi.user.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,6 +12,7 @@ import java.util.List;
  */
 @Data
 public class UserProfile implements Serializable {
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     private String userId;
     private String nickname;
     private String checkNickname;
@@ -30,5 +33,19 @@ public class UserProfile implements Serializable {
     private Integer isFollowed;
     private String checkStatus;
     private String isRead;
+
+    public String getFollowTime() {
+        if (followTime != null && !"".equals(followTime)) {
+            try {
+                Date date = sdf.parse(followTime);
+                return date.getTime() + "";
+            } catch (Exception e) {
+
+            }
+        }
+        return followTime;
+    }
+
+    private String followTime;
     List<UserPic> pics;
 }

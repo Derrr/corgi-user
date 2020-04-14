@@ -68,6 +68,7 @@
         d.role role,
         d.group `group`,
         d.con con,
+        f.uptime followTime,
         l.im_id imId
         from corgi_user_follow f
         left join corgi_user_position p on f.follow_user_id = p.user_id
@@ -96,6 +97,7 @@
         d.avatar avatar,
         d.role role,
         d.group `group`,
+        if(f.uptime > f1.uptime,f.uptime,f1.uptime) followTime,
         d.con con,
         l.im_id imId
         from corgi_user_follow f
@@ -122,11 +124,19 @@
         p.lat lat,
         p.lng lng,
         p.uptime `time`,
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.role role,
+        d.group `group`,
+        d.con con,
+        f.uptime followTime,
         l.im_id imId
         from corgi_user_follow f
         left join corgi_user_position p on f.user_id = p.user_id
         left join corgi_user_login l on l.id = p.user_id
+        left join corgi_user_detail d on d.user_id = p.user_id
         where f.follow_user_id = #{userId} and is_deleted = '0'
+        order by
         limit #{start},#{size}
     </select>
 
