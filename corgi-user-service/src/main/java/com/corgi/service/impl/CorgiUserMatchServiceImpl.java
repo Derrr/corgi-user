@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 @Service(interfaceClass = CorgiUserMatchService.class)
 @Component
 public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
+    private static final String UNKNOWN = "未知";
     @Autowired
     private CorgiUserMatchMapper userMatchMapper;
     @Autowired
@@ -50,6 +52,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         Double cronMatch = MatchSupporter.getConMatch(userDetail1.getCon(), userDetail2.getCon());
         log.info("con match:{}", cronMatch);
         match += cronMatch;
+
         Double factorMatch = MatchSupporter.getFactorMatch(userDetail1.getCharacter(), userDetail2.getCharacter());
         log.info("factor match:{}", factorMatch);
         match += factorMatch;
@@ -82,7 +85,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         Integer pMatch1 = 0;
         if (!CollectionUtils.isEmpty(userGroups1)) {
-            pMatch1 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups1) + "'", userDetail2.getGroup());
+            pMatch1 = userMatchMapper.getGroupMatch("'" + String.join("','", (userGroups1)) + "'", (userDetail2.getGroup()));
             log.info("prefer match1:{}", pMatch1);
             if (pMatch1 == null) {
                 pMatch1 = 0;
@@ -90,7 +93,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         Integer pMatch2 = 0;
         if (!CollectionUtils.isEmpty(userGroups2)) {
-            pMatch2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", userDetail1.getGroup());
+            pMatch2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", (userDetail1.getGroup()));
             log.info("prefer match2:{}", pMatch2);
             if (pMatch2 == null) {
                 pMatch2 = 0;
