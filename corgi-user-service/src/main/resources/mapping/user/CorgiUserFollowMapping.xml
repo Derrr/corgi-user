@@ -41,6 +41,12 @@
         where user_id = #{userId} and is_deleted = '0'
     </select>
 
+    <select id="countMatchUser" resultType="java.lang.Integer">
+        select count(1) from corgi_user_follow f1
+        join corgi_user_follow f2 on f2.follow_user_id = f1.user_id and f2.user_id = f1.follow_user_id
+        where f1.user_id = #{userId} and f1.is_deleted = '0' and f2.is_deleted = '0'
+    </select>
+
     <select id="countFollowedUser" resultType="java.lang.Integer">
         select count(1) from corgi_user_follow
         where follow_user_id = #{userId} and is_deleted = '0'
