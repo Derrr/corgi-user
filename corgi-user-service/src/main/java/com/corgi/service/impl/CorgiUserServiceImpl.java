@@ -252,7 +252,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public long countUserStay(long time, String registerDate) {
-        return corgiUserMapper.countUserStay(time, registerDate);
+        Long result = corgiUserMapper.countUserStay(time, registerDate);
+        if (result == null) {
+            return 0L;
+        }
+        return result;
     }
 
 

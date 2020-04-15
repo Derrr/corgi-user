@@ -254,7 +254,7 @@ public interface CorgiUserMapper {
      * @param registerDate
      * @return
      */
-    long countUserStay(@Param("time") long time, @Param("date") String registerDate);
+    Long countUserStay(@Param("time") long time, @Param("date") String registerDate);
 
     /**
      * 获取注册用户数
