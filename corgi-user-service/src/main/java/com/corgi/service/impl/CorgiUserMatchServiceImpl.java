@@ -85,7 +85,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         Integer pMatch1 = 0;
         if (!CollectionUtils.isEmpty(userGroups1)) {
-            pMatch1 = userMatchMapper.getGroupMatch("'" + String.join("','", (userGroups1)) + "'", (userDetail2.getGroup()));
+            pMatch1 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups1) + "'", userDetail2.getGroup());
             log.info("prefer match1:{}", pMatch1);
             if (pMatch1 == null) {
                 pMatch1 = 0;
@@ -93,7 +93,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         Integer pMatch2 = 0;
         if (!CollectionUtils.isEmpty(userGroups2)) {
-            pMatch2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", (userDetail1.getGroup()));
+            pMatch2 = userMatchMapper.getGroupMatch("'" + String.join("','", userGroups2) + "'", userDetail1.getGroup());
             log.info("prefer match2:{}", pMatch2);
             if (pMatch2 == null) {
                 pMatch2 = 0;
