@@ -80,7 +80,7 @@
         `count`
         from corgi_statistic_user_stay
         where `login_date` >= #{beginDate} and `login_date` &lt;= #{endDate}
-        and stay_count &lt;= #{stayCount}
+        and stay_count &lt;= ${stayCount}
     </select>
 
     <select id="getUserTrace" resultType="com.corgi.user.entity.UserTrace">
