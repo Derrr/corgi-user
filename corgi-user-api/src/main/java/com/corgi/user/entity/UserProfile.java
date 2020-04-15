@@ -33,6 +33,9 @@ public class UserProfile implements Serializable {
     private Integer isFollowed;
     private String checkStatus;
     private String isRead;
+    private String createTime;
+    private String followTime;
+    List<UserPic> pics;
 
     public String getFollowTime() {
         if (followTime != null && !"".equals(followTime)) {
@@ -46,6 +49,4 @@ public class UserProfile implements Serializable {
         return followTime;
     }
 
-    private String followTime;
-    List<UserPic> pics;
 }
