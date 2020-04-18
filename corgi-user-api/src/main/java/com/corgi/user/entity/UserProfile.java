@@ -27,6 +27,7 @@ public class UserProfile implements Serializable {
     private String group;
     private String hideGroup;
     private String con;
+    private String relation;
     private Double lat;
     private Double lng;
     private Long time;

@@ -76,6 +76,7 @@
         `hide_group`,
         `birthday`,
         `con`,
+        `relation`,
         `city`,
         `check_status`)
         values (#{userDetail.userId},
@@ -113,6 +114,7 @@
         `hide_group`,
         `birthday`,
         `con`,
+        `relation`,
         `city`,
         l.im_id imId,
         l.tel_no telNo,
@@ -188,6 +190,9 @@
             </if>
             <if test="userDetail.hideGroup != null and userDetail.hideGroup != ''">
                 `hide_group` = #{userDetail.hideGroup},
+            </if>
+            <if test="userDetail.relation != null and userDetail.relation != ''">
+                `relation` = #{userDetail.relation},
             </if>
             <if test="userDetail.birthday != null">
                 `birthday` = #{userDetail.birthday},
@@ -277,7 +282,9 @@
         <if test="range.endWeight != null">
             and d.weight &lt;= #{range.endWeight}
         </if>
-
+        <if test="range.relation != null and range.relation != ''">
+            and d.relation in ${range.relation}
+        </if>
         <if test="range.role != null and range.role != ''">
             and d.role in ${range.role} and d.hide_role = '0'
         </if>
@@ -300,6 +307,7 @@
         d.group `group`,
         d.hide_group `hideGroup`,
         d.con con,
+        d.relation,
         d.check_status checkStatus,
         l.tel_no telNo,
         l.im_id imId
@@ -321,6 +329,7 @@
         d.group `group`,
         d.hide_group `hideGroup`,
         d.con con,
+        d.relation,
         d.desc,
         d.check_desc checkDesc,
         l.im_id imId,
@@ -367,6 +376,9 @@
         <if test="userDetail.con != null and userDetail.con != ''">
             and `con` = #{userDetail.con}
         </if>
+        <if test="userDetail.relation != null and userDetail.relation != ''">
+            and `relation` = #{userDetail.relation}
+        </if>
         <if test="userDetail.userId != null and userDetail.userId != ''">
             and d.user_id = #{userDetail.userId}
         </if>
@@ -400,6 +412,9 @@
         </if>
         <if test="userDetail.role != null and userDetail.role != ''">
             and `role` = #{userDetail.role}
+        </if>
+        <if test="userDetail.relation != null and userDetail.relation != ''">
+            and `relation` = #{userDetail.relation}
         </if>
         <if test="userDetail.character != null and userDetail.character != ''">
             and `character` = #{userDetail.character}

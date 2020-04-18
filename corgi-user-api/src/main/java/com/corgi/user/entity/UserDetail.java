@@ -31,6 +31,7 @@ public class UserDetail implements Serializable {
     private String hideGroup;
     private String birthday;
     private String con;
+    private String relation;
     private Long time;
     private Double lat;
     private Double lng;

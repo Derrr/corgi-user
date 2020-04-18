@@ -28,6 +28,7 @@ public class UserQuerySupporter {
 
     private String role;
     private String group;
+    private String relation;
 
     public UserQuerySupporter(UserQuery userQuery) {
         this.userId = userQuery.getUserId();
@@ -42,6 +43,9 @@ public class UserQuerySupporter {
         this.beginLng = userQuery.getLng() - dphi;
         this.endLng = userQuery.getLng() + dphi;
 
+        if (userQuery.getRelation() != null) {
+            this.relation = userQuery.getRelation();
+        }
         if (userQuery.getStartHeight() != null) {
             this.startHeight = userQuery.getStartHeight();
         }
