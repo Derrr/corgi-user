@@ -24,9 +24,11 @@ public class UserDetail implements Serializable {
     private String desc;
     private String checkDesc;
     private String role;
+    private String hideRole;
     private String city;
     private String character;
     private String group;
+    private String hideGroup;
     private String birthday;
     private String con;
     private Long time;
