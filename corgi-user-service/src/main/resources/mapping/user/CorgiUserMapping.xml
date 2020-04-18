@@ -191,7 +191,7 @@
             <if test="userDetail.hideGroup != null and userDetail.hideGroup != ''">
                 `hide_group` = #{userDetail.hideGroup},
             </if>
-            <if test="userDetail.relation != null and userDetail.relation != ''">
+            <if test="userDetail.relation != null">
                 `relation` = #{userDetail.relation},
             </if>
             <if test="userDetail.birthday != null">
@@ -282,8 +282,8 @@
         <if test="range.endWeight != null">
             and d.weight &lt;= #{range.endWeight}
         </if>
-        <if test="range.relation != null and range.relation != ''">
-            and d.relation in ${range.relation}
+        <if test="range.relation != null">
+            and d.relation = #{range.relation}
         </if>
         <if test="range.role != null and range.role != ''">
             and d.role in ${range.role} and d.hide_role = '0'
