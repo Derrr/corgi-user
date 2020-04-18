@@ -70,8 +70,10 @@
         `weight`,
         `desc`,
         `role`,
+        `hide_role`,
         `character`,
         `group`,
+        `hide_group`,
         `birthday`,
         `con`,
         `city`,
@@ -86,8 +88,10 @@
         #{userDetail.weight},
         #{userDetail.desc},
         #{userDetail.role},
+        #{userDetail.hideRole},
         #{userDetail.character},
         #{userDetail.group},
+        #{userDetail.hideGroup},
         #{userDetail.birthday},
         #{userDetail.con},
         #{userDetail.city},
@@ -103,8 +107,10 @@
         `weight`,
         `desc`,
         `role`,
+        `hide_role`,
         `character`,
         `group`,
+        `hide_group`,
         `birthday`,
         `con`,
         `city`,
@@ -171,11 +177,17 @@
             <if test="userDetail.role != null">
                 `role` = #{userDetail.role},
             </if>
+            <if test="userDetail.hideRole != null and userDetail.hideRole != ''">
+                `hide_role` = #{userDetail.hideRole},
+            </if>
             <if test="userDetail.character != null">
                 `character` = #{userDetail.character},
             </if>
             <if test="userDetail.group != null">
                 `group` = #{userDetail.group},
+            </if>
+            <if test="userDetail.hideGroup != null and userDetail.hideGroup != ''">
+                `hide_group` = #{userDetail.hideGroup},
             </if>
             <if test="userDetail.birthday != null">
                 `birthday` = #{userDetail.birthday},
@@ -267,10 +279,10 @@
         </if>
 
         <if test="range.role != null and range.role != ''">
-            and d.role in ${range.role}
+            and d.role in ${range.role} and d.hide_role = '0'
         </if>
         <if test="range.group != null and range.group != ''">
-            and d.group in ${range.group}
+            and d.group in ${range.group} and d.hide_group = '0'
         </if>
     </select>
 
@@ -284,7 +296,9 @@
         d.avatar avatar,
         d.avatar_status avatarStatus,
         d.role role,
+        d.hide_role hideRole,
         d.group `group`,
+        d.hide_group `hideGroup`,
         d.con con,
         d.check_status checkStatus,
         l.tel_no telNo,
@@ -303,7 +317,9 @@
         d.avatar avatar,
         d.avatar_status avatarStatus,
         d.role role,
+        d.hide_role hideRole,
         d.group `group`,
+        d.hide_group `hideGroup`,
         d.con con,
         d.desc,
         d.check_desc checkDesc,
@@ -431,10 +447,10 @@
         left join corgi_prefer_group g on g.user_id = d.user_id
         where d.user_id in ${userId}
         <if test="role != null and role != ''">
-            and d.role in ${role}
+            and d.role in ${role} and d.hide_role = '0'
         </if>
         <if test="group != null and group != ''">
-            and d.group in ${group}
+            and d.group in ${group} and d.hide_group = '0'
         </if>
         <if test="preferGroup != null and preferGroup != ''">
             and g.group in ${preferGroup}

@@ -23,7 +23,9 @@ public class UserProfile implements Serializable {
     private String avatar;
     private String avatarStatus;
     private String role;
+    private String hideRole;
     private String group;
+    private String hideGroup;
     private String con;
     private Double lat;
     private Double lng;
