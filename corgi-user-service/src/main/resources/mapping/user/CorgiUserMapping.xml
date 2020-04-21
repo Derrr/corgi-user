@@ -95,6 +95,7 @@
         #{userDetail.hideGroup},
         #{userDetail.birthday},
         #{userDetail.con},
+        #{userDetail.relation},
         #{userDetail.city},
         #{userDetail.checkStatus})
     </insert>
