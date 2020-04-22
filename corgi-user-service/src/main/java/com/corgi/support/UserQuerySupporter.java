@@ -43,9 +43,6 @@ public class UserQuerySupporter {
         this.beginLng = userQuery.getLng() - dphi;
         this.endLng = userQuery.getLng() + dphi;
 
-        if (userQuery.getRelation() != null) {
-            this.relation = userQuery.getRelation();
-        }
         if (userQuery.getStartHeight() != null) {
             this.startHeight = userQuery.getStartHeight();
         }
@@ -58,6 +55,15 @@ public class UserQuerySupporter {
         }
         if (userQuery.getEndWeight() != null) {
             this.endWeight = userQuery.getEndWeight();
+        }
+
+        if (!CollectionUtils.isEmpty(userQuery.getRelation())) {
+            StringBuilder sb = new StringBuilder("('");
+            for (String relation : userQuery.getRelation()) {
+                sb.append(relation + "','");
+            }
+            sb.append("')");
+            this.relation = sb.toString();
         }
 
         if (!CollectionUtils.isEmpty(userQuery.getRole())) {
