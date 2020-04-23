@@ -1,5 +1,6 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.entity.ActivityPic;
 import com.corgi.common.CorgiConstants;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import sun.swing.StringUIClientPropertyKey;
 
 import java.util.List;
 
@@ -109,6 +111,9 @@ public class CorgiPicServiceImpl implements CorgiPicService {
         List<CheckPic> checkPics = corgiPicMapper.getCheckPic(status, type, (page - 1) * size, size);
         if (!CollectionUtils.isEmpty(checkPics)) {
             for (CheckPic checkPic : checkPics) {
+                if (!StringUtils.isEmpty(checkPic.getUserId())) {
+                    continue;
+                }
                 if (CheckPic.USER.equals(checkPic.getType())) {
                     UserPic userPic = corgiPicMapper.getUserPicByDataId(checkPic.getDataId());
                     if (userPic != null) {

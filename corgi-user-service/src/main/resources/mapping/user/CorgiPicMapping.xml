@@ -81,8 +81,8 @@
 
     <insert id="addCheckPic" useGeneratedKeys="true" keyProperty="checkPic.picId" keyColumn="id"
             parameterType="com.corgi.entity.CheckPic">
-        insert ignore into `corgi_check_pic` (`data_id`, `pic_url`, `type`, `result`, `status`)
-        values (#{checkPic.dataId}, #{checkPic.picUrl}, #{checkPic.type}, #{checkPic.result}, #{checkPic.status});
+        insert ignore into `corgi_check_pic` (`data_id`, `pic_url`, `type`, `result`, `status`, `source_id`)
+        values (#{checkPic.dataId}, #{checkPic.picUrl}, #{checkPic.type}, #{checkPic.result}, #{checkPic.status},#{checkPic.userId});
     </insert>
 
     <update id="updateCheckPic">
@@ -103,7 +103,7 @@
     </select>
 
     <select id="getCheckPic" resultType="com.corgi.entity.CheckPic">
-        select id picId, data_id dataId, pic_url picUrl, `type`,
+        select id picId, data_id dataId, pic_url picUrl, `type` `source_id` userId,
         `result`, `status`, ctime, uptime
         from corgi_check_pic
         where 1=1
