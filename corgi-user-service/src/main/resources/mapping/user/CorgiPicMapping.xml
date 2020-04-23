@@ -56,6 +56,12 @@
         where id = #{picId}
     </delete>
 
+    <select id="getActivityPicByDataId" resultType="com.corgi.activity.entity.ActivityPic">
+        select `activity_id` activityId, `pic_url` picUrl, `data_id` dataId, `status`, `result`
+        from corgi_activity_pic
+        where data_id = #{dataId}
+    </select>
+
     <delete id="deleteActivityPicByDataId">
         delete from corgi_activity_pic
         where data_id = #{dataId}

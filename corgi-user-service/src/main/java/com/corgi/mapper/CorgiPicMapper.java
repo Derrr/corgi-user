@@ -79,6 +79,13 @@ public interface CorgiPicMapper {
     void deleteActivityPic(@Param("picId") String picId);
 
     /**
+     * 查找活动图片
+     *
+     * @param dataId
+     */
+    ActivityPic getActivityPicByDataId(@Param("dataId") String dataId);
+
+    /**
      * 删除活动图片
      *
      * @param dataId
