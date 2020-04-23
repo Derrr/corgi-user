@@ -103,7 +103,7 @@
     </select>
 
     <select id="getCheckPic" resultType="com.corgi.entity.CheckPic">
-        select id picId, data_id dataId, pic_url picUrl, `type` `source_id` userId,
+        select id picId, data_id dataId, pic_url picUrl, `type`, `source_id` userId,
         `result`, `status`, ctime, uptime
         from corgi_check_pic
         where 1=1
