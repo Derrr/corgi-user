@@ -136,7 +136,7 @@
         left join corgi_user_login l on l.id = p.user_id
         left join corgi_user_detail d on d.user_id = p.user_id
         where f.follow_user_id = #{userId} and is_deleted = '0'
-        order by
+        order by f.uptime desc
         limit #{start},#{size}
     </select>
 
