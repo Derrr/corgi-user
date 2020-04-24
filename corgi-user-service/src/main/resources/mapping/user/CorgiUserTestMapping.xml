@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiUserTestMapper">
+    <select id="getUserLoginByTelNo" resultType="com.corgi.user.entity.UserLogin">
+        select id userId, tel_no telNo, im_id imId
+        from corgi_user_login_test
+        where tel_no = #{telNo}
+    </select>
+
+    <select id="getUserLogin" resultType="com.corgi.user.entity.UserLogin">
+        select id userId, tel_no telNo, im_id imId,
+        new_gidar newGidar, new_sign_up newSignUp, new_message newMessage, new_follow_activity newFollowActivity
+        from corgi_user_login_test
+        where id = #{userId}
+    </select>
+
+    <update id="updateImId">
+        update corgi_user_login_test
+        set im_id = #{userLogin.imId}
+        where id = #{userLogin.userId}
+    </update>
+
+    <update id="updatePush">
+        update corgi_user_login_test
+        <set>
+            <if test="userLogin.newGidar != null">
+                new_gidar = #{userLogin.newGidar},
+            </if>
+            <if test="userLogin.newSignUp != null">
+                new_sign_up = #{userLogin.newSignUp},
+            </if>
+            <if test="userLogin.newMessage != null">
+                new_message = #{userLogin.newMessage},
+            </if>
+            <if test="userLogin.newFollowActivity != null">
+                new_follow_activity = #{userLogin.newFollowActivity},
+            </if>
+            <if test="userLogin.imId != null">
+                im_id = #{userLogin.imId},
+            </if>
+        </set>
+        where id = #{userLogin.userId}
+    </update>
+
+    <update id="updateLogin">
+        update corgi_user_login_test
+        set im_id = #{userLogin.imId},
+        tel_no = #{userLogin.telNo}
+        where id = #{userLogin.userId}
+    </update>
+
+    <insert id="addUserLogin" useGeneratedKeys="true" keyProperty="userLogin.userId"
+            parameterType="com.corgi.user.entity.UserLogin">
+        insert into corgi_user_login_test (`tel_no`, `im_id`) values (#{userLogin.telNo}, #{userLogin.imId});
+    </insert>
+
+    <select id="countUserDetail" resultType="java.lang.Integer">
+        select count(1) from corgi_user_detail_test
+        where user_id = #{userId}
+    </select>
+
+    <insert id="addUserDetail" parameterType="com.corgi.user.entity.UserDetail">
+        insert ignore into corgi_user_detail_test (`user_id`,
+        `nickname`,
+        `check_nickname`,
+        `avatar`,
+        `avatar_data_id`,
+        `avatar_status`,
+        `height`,
+        `weight`,
+        `desc`,
+        `role`,
+        `hide_role`,
+        `character`,
+        `group`,
+        `hide_group`,
+        `birthday`,
+        `con`,
+        `relation`,
+        `city`,
+        `check_status`)
+        values (#{userDetail.userId},
+        #{userDetail.nickname},
+        #{userDetail.checkNickname},
+        #{userDetail.avatar},
+        #{userDetail.avatarDataId},
+        #{userDetail.avatarStatus},
+        #{userDetail.height},
+        #{userDetail.weight},
+        #{userDetail.desc},
+        #{userDetail.role},
+        #{userDetail.hideRole},
+        #{userDetail.character},
+        #{userDetail.group},
+        #{userDetail.hideGroup},
+        #{userDetail.birthday},
+        #{userDetail.con},
+        #{userDetail.relation},
+        #{userDetail.city},
+        #{userDetail.checkStatus})
+    </insert>
+
+    <select id="getUserDetail" resultType="com.corgi.user.entity.UserDetail">
+        select d.`user_id` userId,
+        `nickname`,
+        `avatar`,
+        avatar_status avatarStatus,
+        `height`,
+        `weight`,
+        `desc`,
+        `role`,
+        `hide_role`,
+        `character`,
+        `group`,
+        `hide_group`,
+        `birthday`,
+        `con`,
+        `relation`,
+        `city`,
+        l.im_id imId,
+        l.tel_no telNo,
+        `check_status` checkStatus
+        from corgi_user_detail_test d
+        left join corgi_user_login_test l on l.id = d.user_id
+        where d.user_id = #{userId}
+    </select>
+
+    <select id="countBirthday" resultType="java.lang.Long">
+        select count(1) from corgi_user_detail_test
+        where birthday >= #{beginDate} and birthday &lt; #{endDate}
+    </select>
+
+    <update id="updateUserDetail">
+        update corgi_user_detail_test
+        <set>
+            <if test="userDetail.avatar != null">
+                `avatar` = #{userDetail.avatar},
+            </if>
+            <if test="userDetail.avatarDataId != null">
+                `avatar_data_id` = #{userDetail.avatarDataId},
+            </if>
+            <if test="userDetail.avatarStatus != null">
+                `avatar_status` = #{userDetail.avatarStatus},
+            </if>
+            <if test="userDetail.height != null and userDetail.height != 0">
+                `height` = #{userDetail.height},
+            </if>
+            <if test="userDetail.weight != null and userDetail.weight != 0">
+                `weight` = #{userDetail.weight},
+            </if>
+            <if test="userDetail.desc != null">
+                `desc` = #{userDetail.desc},
+            </if>
+            <if test="userDetail.checkDesc != null">
+                `check_desc` = #{userDetail.checkDesc},
+            </if>
+            <if test="userDetail.role != null">
+                `role` = #{userDetail.role},
+            </if>
+            <if test="userDetail.hideRole != null and userDetail.hideRole != ''">
+                `hide_role` = #{userDetail.hideRole},
+            </if>
+            <if test="userDetail.character != null">
+                `character` = #{userDetail.character},
+            </if>
+            <if test="userDetail.group != null">
+                `group` = #{userDetail.group},
+            </if>
+            <if test="userDetail.hideGroup != null and userDetail.hideGroup != ''">
+                `hide_group` = #{userDetail.hideGroup},
+            </if>
+            <if test="userDetail.relation != null">
+                `relation` = #{userDetail.relation},
+            </if>
+            <if test="userDetail.birthday != null">
+                `birthday` = #{userDetail.birthday},
+            </if>
+            <if test="userDetail.city != null">
+                `city` = #{userDetail.city},
+            </if>
+            <if test="userDetail.con != null">
+                `con` = #{userDetail.con},
+            </if>
+            <if test="userDetail.checkStatus != null">
+                `check_status` = #{userDetail.checkStatus},
+            </if>
+        </set>
+        where user_id = #{userDetail.userId}
+    </update>
+
+    <select id="countNickname" resultType="java.lang.Integer">
+        select count(1) from corgi_user_detail_test
+        <if test="checkNickname == null or checkNickname == ''">
+            where (`nickname` = #{nickname} or `check_nickname` = #{nickname})
+        </if>
+        <if test="checkNickname != null and checkNickname != ''">
+            where (`nickname` = #{checkNickname} or `check_nickname` = #{checkNickname})
+        </if>
+        and user_id != #{userId}
+    </select>
+
+    <update id="updateNickname">
+        update corgi_user_detail_test
+        set `nickname` = #{nickname}, check_nickname = #{checkNickname}
+        where user_id = #{userId}
+    </update>
+
+    <update id="updateUserAvatar">
+        update corgi_user_detail_test
+        set avatar_status = #{status}
+        where avatar_data_id = #{dataId}
+    </update>
+
+    <update id="deleteUserAvatar">
+        update corgi_user_detail_test
+        set avatar = null, avatar_status = null, avatar_data_id = null
+        where avatar_data_id = #{dataId}
+    </update>
+
+    <select id="queryUserProfile" resultType="com.corgi.user.entity.UserProfile">
+        select
+        d.user_id userId,
+        d.nickname nickname,
+        d.check_nickname checkNickname,
+        d.avatar avatar,
+        d.avatar_status avatarStatus,
+        d.role role,
+        d.hide_role hideRole,
+        d.group `group`,
+        d.hide_group `hideGroup`,
+        d.con con,
+        d.relation,
+        d.desc,
+        d.check_desc checkDesc,
+        l.im_id imId,
+        l.tel_no telNo,
+        l.ctime createTime,
+        d.check_status checkStatus
+        from corgi_user_detail_test d
+        left join corgi_user_login_test l on l.id = d.user_id
+        where 1=1
+        <if test="userDetail.nickname != null and userDetail.nickname != ''">
+            and `nickName` like concat('%',#{userDetail.nickname},'%')
+        </if>
+        <if test="userDetail.telNo != null and userDetail.telNo != ''">
+            and l.tel_no = #{userDetail.telNo}
+        </if>
+        <if test="userDetail.height != null and userDetail.height != 0">
+            and `height` = #{userDetail.height}
+        </if>
+        <if test="userDetail.weight != null and userDetail.weight != 0">
+            and `weight` = #{userDetail.weight}
+        </if>
+        <if test="userDetail.desc != null and userDetail.desc != ''">
+            and `desc` like concat('%',#{userDetail.desc},'%')
+        </if>
+        <if test="userDetail.role != null and userDetail.role != ''">
+            and `role` = #{userDetail.role}
+        </if>
+        <if test="userDetail.character != null and userDetail.character != ''">
+            and `character` = #{userDetail.character}
+        </if>
+        <if test="userDetail.group != null and userDetail.group != '' ">
+            and `group` = #{userDetail.group}
+        </if>
+        <if test="userDetail.birthday != null and userDetail.birthday != ''">
+            and `birthday` = #{userDetail.birthday}
+        </if>
+        <if test="userDetail.city != null and userDetail.city != ''">
+            and `city` = #{userDetail.city}
+        </if>
+        <if test="userDetail.con != null and userDetail.con != ''">
+            and `con` = #{userDetail.con}
+        </if>
+        <if test="userDetail.relation != null and userDetail.relation != ''">
+            and `relation` = #{userDetail.relation}
+        </if>
+        <if test="userDetail.userId != null and userDetail.userId != ''">
+            and d.user_id = #{userDetail.userId}
+        </if>
+        <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
+            and d.check_status = #{userDetail.checkStatus}
+        </if>
+        order by d.user_id
+        limit #{start},#{size}
+    </select>
+
+    <select id="countUserProfile" resultType="java.lang.Long">
+        select
+        count(1)
+        from corgi_user_detail_test d
+        left join corgi_user_login_test l on l.id = d.user_id
+        where 1=1
+        <if test="userDetail.nickname != null and userDetail.nickname != ''">
+            and `nickName` like concat('%',#{userDetail.nickname},'%')
+        </if>
+        <if test="userDetail.telNo != null and userDetail.telNo != ''">
+            and l.tel_no = #{userDetail.telNo}
+        </if>
+        <if test="userDetail.height != null and userDetail.height != 0">
+            and `height` = #{userDetail.height}
+        </if>
+        <if test="userDetail.weight != null and userDetail.weight != 0">
+            and `weight` = #{userDetail.weight}
+        </if>
+        <if test="userDetail.desc != null and userDetail.desc != ''">
+            and `desc` like concat('%',#{userDetail.desc},'%')
+        </if>
+        <if test="userDetail.role != null and userDetail.role != ''">
+            and `role` = #{userDetail.role}
+        </if>
+        <if test="userDetail.relation != null and userDetail.relation != ''">
+            and `relation` = #{userDetail.relation}
+        </if>
+        <if test="userDetail.character != null and userDetail.character != ''">
+            and `character` = #{userDetail.character}
+        </if>
+        <if test="userDetail.group != null and userDetail.group != '' ">
+            and `group` = #{userDetail.group}
+        </if>
+        <if test="userDetail.birthday != null and userDetail.birthday != ''">
+            and `birthday` = #{userDetail.birthday}
+        </if>
+        <if test="userDetail.city != null and userDetail.city != ''">
+            and `city` = #{userDetail.city}
+        </if>
+        <if test="userDetail.con != null and userDetail.con != ''">
+            and `con` = #{userDetail.con}
+        </if>
+        <if test="userDetail.userId != null and userDetail.userId != ''">
+            and d.user_id = #{userDetail.userId}
+        </if>
+        <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
+            and d.check_status = #{userDetail.checkStatus}
+        </if>
+
+    </select>
+
+    <delete id="deleteUserLogin">
+        delete from corgi_user_login_test
+        where id = #{userId}
+    </delete>
+
+    <delete id="deleteUserDetail">
+        delete from corgi_user_detail_test
+        where user_id = #{userId}
+    </delete>
+</mapper>
