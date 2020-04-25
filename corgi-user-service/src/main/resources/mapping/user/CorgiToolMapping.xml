@@ -56,7 +56,7 @@
         where `user` = #{user}
     </update>
 
-    <select id="getAllInfluencer">
+    <select id="getAllInfluencer" resultType="java.util.HashMap">
         select `user`, `count` from corgi_count_influencer
         limit 2000
     </select>
