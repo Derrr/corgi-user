@@ -4,6 +4,7 @@ import com.corgi.entity.CorgiStatistic;
 import com.corgi.entity.CorgiTopic;
 import com.corgi.user.entity.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,4 +32,8 @@ public interface CorgiToolService {
     List<String> getActivityTopic(String activityId);
 
     void updateActivityTopic(String activityId, List<String> topics);
+
+    void countUserNumber(String user);
+
+    HashMap getInfluencer();
 }

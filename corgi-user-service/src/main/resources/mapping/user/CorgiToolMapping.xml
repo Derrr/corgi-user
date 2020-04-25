@@ -39,4 +39,25 @@
         delete from corgi_activity_topic
         where activity_id = #{activityId}
     </delete>
+
+    <insert id="addCountByUser">
+        INSERT INTO `corgi_count_influencer` (`user`, `count`)
+        VALUES (#{user}, #{count});
+    </insert>
+
+    <select id="getCountByUser" resultType="java.lang.Integer">
+        select `count` from corgi_count_influencer
+        where `user` = #{user}
+    </select>
+
+    <update id="updateCountByUser">
+        update corgi_count_influencer
+        set `count` = #{count}
+        where `user` = #{user}
+    </update>
+
+    <select id="getAllInfluencer">
+        select `user`, `count` from corgi_count_influencer
+        limit 2000
+    </select>
 </mapper>

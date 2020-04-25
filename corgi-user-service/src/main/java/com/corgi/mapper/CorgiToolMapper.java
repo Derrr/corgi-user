@@ -4,6 +4,7 @@ import com.corgi.entity.CorgiStatistic;
 import com.corgi.entity.CorgiTopic;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,5 +58,35 @@ public interface CorgiToolMapper {
      * @param activityId
      */
     void deleteActivityTopic(@Param("activityId") String activityId);
+
+    /**
+     * 技数统计
+     *
+     * @param user
+     * @param count
+     */
+    void addCountByUser(@Param("user") String user,@Param("count")Integer count);
+
+    /**
+     * 技数统计
+     *
+     * @param user
+     * @return integer
+     */
+    Integer getCountByUser(@Param("user") String user);
+
+    /**
+     * 技数统计
+     *
+     * @param user
+     * @param count
+     */
+    void updateCountByUser(@Param("user") String user, @Param("count") Integer count);
+
+    /**
+     * 获取所有人
+     * @return
+     */
+    List<HashMap> getAllInfluencer();
 
 }

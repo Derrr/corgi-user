@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -91,5 +92,20 @@ public class CorgiToolServiceImpl implements CorgiToolService {
                 corgiToolMapper.addActivityTopic(activityId, topic);
             }
         }
+    }
+
+    @Override
+    public void countUserNumber(String user) {
+        Integer count = corgiToolMapper.getCountByUser(user);
+        if (count == null) {
+            corgiToolMapper.addCountByUser(user, 1);
+        } else {
+            corgiToolMapper.updateCountByUser(user, ++count);
+        }
+    }
+
+    @Override
+    public HashMap getInfluencer() {
+        return null;
     }
 }
