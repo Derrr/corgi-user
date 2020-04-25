@@ -5,6 +5,7 @@ import com.corgi.common.CorgiConstants;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
 import com.corgi.entity.ActivityQuery;
+import com.corgi.entity.CorgiPic;
 import com.corgi.mapper.*;
 import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiUserFollowService;
@@ -293,7 +294,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
                 try {
-                    userProfile.setPics(corgiPicMapper.getUserPic(userProfile.getUserId()));
+                    List<UserPic> userPics = corgiPicMapper.getUserPic(userProfile.getUserId());
+                    userProfile.setPics(userPics);
                     if (StringUtils.isEmpty(userId)) {
                         continue;
                     }
