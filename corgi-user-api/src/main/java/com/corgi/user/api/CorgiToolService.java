@@ -35,5 +35,5 @@ public interface CorgiToolService {
 
     void countUserNumber(String user);
 
-    HashMap getInfluencer();
+    List<HashMap> getInfluencer();
 }

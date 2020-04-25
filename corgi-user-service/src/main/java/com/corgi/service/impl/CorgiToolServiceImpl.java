@@ -105,7 +105,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public HashMap getInfluencer() {
-        return null;
+    public List<HashMap> getInfluencer() {
+        return corgiToolMapper.getAllInfluencer();
     }
 }
