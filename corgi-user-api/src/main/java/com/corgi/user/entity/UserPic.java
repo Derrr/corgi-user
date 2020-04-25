@@ -10,5 +10,14 @@ import java.io.Serializable;
  */
 @Data
 public class UserPic extends CorgiPic{
+    private static String MASK = "?x-oss-process=style/stylename";
     private String userId;
+
+    @Override
+    public String getPicUrl(){
+        if(NEED_CHECK.equals(super.getStatus())){
+            return super.getPicUrl()+MASK;
+        }
+        return super.getPicUrl();
+    }
 }
