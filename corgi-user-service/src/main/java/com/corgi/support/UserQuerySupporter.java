@@ -4,6 +4,7 @@ import com.corgi.user.entity.UserPosition;
 import com.corgi.user.entity.UserQuery;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * @author tairanliu
@@ -60,7 +61,9 @@ public class UserQuerySupporter {
         if (!CollectionUtils.isEmpty(userQuery.getRelation())) {
             StringBuilder sb = new StringBuilder("('");
             for (String relation : userQuery.getRelation()) {
-                sb.append(relation + "','");
+                if(!StringUtils.isEmpty(relation)) {
+                    sb.append(relation + "','");
+                }
             }
             sb.append("')");
             this.relation = sb.toString();
@@ -69,7 +72,9 @@ public class UserQuerySupporter {
         if (!CollectionUtils.isEmpty(userQuery.getRole())) {
             StringBuilder sb = new StringBuilder("('");
             for (String role : userQuery.getRole()) {
-                sb.append(role + "','");
+                if(!StringUtils.isEmpty(role)) {
+                    sb.append(role + "','");
+                }
             }
             sb.append("')");
             this.role = sb.toString();
@@ -78,7 +83,9 @@ public class UserQuerySupporter {
         if (!CollectionUtils.isEmpty(userQuery.getGroup())) {
             StringBuilder sb = new StringBuilder("('");
             for (String group : userQuery.getGroup()) {
-                sb.append(group + "','");
+                if(!StringUtils.isEmpty(group)) {
+                    sb.append(group + "','");
+                }
             }
             sb.append("')");
             this.group = sb.toString();
