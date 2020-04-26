@@ -225,7 +225,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 || (userQuery.getEndWeight() != null && userQuery.getEndWeight() < 200)
                 || (userQuery.getStartWeight() != null && userQuery.getStartWeight() > 30)
                 || (userQuery.getEndHeight() != null && userQuery.getEndHeight() < 200)
-                || (userQuery.getStartHeight() != null && userQuery.getStartWeight() > 30);
+                || (userQuery.getStartHeight() != null && userQuery.getStartWeight() > 30)
+                || !CollectionUtils.isEmpty(userQuery.getRelation());
     }
 
     @Override
