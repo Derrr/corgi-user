@@ -284,7 +284,7 @@
             and d.weight &lt;= #{range.endWeight}
         </if>
         <if test="range.relation != null">
-            and d.relation = #{range.relation}
+            and d.relation in ${range.relation}
         </if>
         <if test="range.role != null and range.role != ''">
             and d.role in ${range.role} and d.hide_role = '0'
