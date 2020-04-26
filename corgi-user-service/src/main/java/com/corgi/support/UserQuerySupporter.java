@@ -61,18 +61,19 @@ public class UserQuerySupporter {
         if (!CollectionUtils.isEmpty(userQuery.getRelation())) {
             StringBuilder sb = new StringBuilder("('");
             for (String relation : userQuery.getRelation()) {
-                if(!StringUtils.isEmpty(relation)) {
+                if (!StringUtils.isEmpty(relation)) {
                     sb.append(relation + "','");
                 }
             }
-            sb.append("')");
+            sb.delete(sb.length() - 2, sb.length());
+            sb.append(")");
             this.relation = sb.toString();
         }
 
         if (!CollectionUtils.isEmpty(userQuery.getRole())) {
             StringBuilder sb = new StringBuilder("('");
             for (String role : userQuery.getRole()) {
-                if(!StringUtils.isEmpty(role)) {
+                if (!StringUtils.isEmpty(role)) {
                     sb.append(role + "','");
                 }
             }
@@ -83,7 +84,7 @@ public class UserQuerySupporter {
         if (!CollectionUtils.isEmpty(userQuery.getGroup())) {
             StringBuilder sb = new StringBuilder("('");
             for (String group : userQuery.getGroup()) {
-                if(!StringUtils.isEmpty(group)) {
+                if (!StringUtils.isEmpty(group)) {
                     sb.append(group + "','");
                 }
             }
