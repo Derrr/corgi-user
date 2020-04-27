@@ -42,4 +42,10 @@
     <select id="getMatchFactor" resultType="java.util.HashMap">
         select * from corgi_match_${table}
     </select>
+
+    <update id="updateMatchFactor">
+        update corgi_match_${table}
+        set `match` = #{match}
+        where ${cn1} = #{cv1} and ${cn2} = #{cv2}
+    </update>
 </mapper>

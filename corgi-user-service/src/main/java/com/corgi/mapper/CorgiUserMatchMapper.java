@@ -76,8 +76,21 @@ public interface CorgiUserMatchMapper {
 
     /**
      * 获取匹配参数
+     *
      * @param table
      * @return
      */
     List<HashMap> getMatchFactor(@Param("table") String table);
+
+    /**
+     * 更新匹配参数
+     * @param table
+     * @param cn1
+     * @param cv1
+     * @param cn2
+     * @param cv2
+     * @param match
+     */
+    void updateMatchFactor(@Param("table") String table, @Param("cn1") String cn1, @Param("cv1") String cv1, @Param("cn2") String cn2, @Param("cv2") String cv2, @Param("match") Integer match);
+
 }

@@ -155,4 +155,10 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     public List<HashMap> getMatchFactor(String table) {
         return userMatchMapper.getMatchFactor(table);
     }
+
+    @Override
+    public List<HashMap> updateMatchFactor(String table, String cn1, String cv1, String cn2, String cv2, Integer match) {
+        return null;
+    }
+
 }
