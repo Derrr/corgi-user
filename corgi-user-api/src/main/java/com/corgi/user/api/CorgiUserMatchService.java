@@ -3,6 +3,7 @@ package com.corgi.user.api;
 import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserMatch;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,4 +22,6 @@ public interface CorgiUserMatchService {
     Double getUserMatch(String userId1, String userId2);
 
     void clearMatch();
+
+    List<HashMap> getMatchFactor(String table);
 }

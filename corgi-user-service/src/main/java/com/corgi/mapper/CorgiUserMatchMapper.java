@@ -3,6 +3,7 @@ package com.corgi.mapper;
 import com.corgi.user.entity.UserMatch;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -72,4 +73,11 @@ public interface CorgiUserMatchMapper {
      * @return
      */
     List<UserMatch> getMatchByPage(@Param("userId") String userId, @Param("start") int start, @Param("size") int size);
+
+    /**
+     * 获取匹配参数
+     * @param table
+     * @return
+     */
+    List<HashMap> getMatchFactor(@Param("table") String table);
 }

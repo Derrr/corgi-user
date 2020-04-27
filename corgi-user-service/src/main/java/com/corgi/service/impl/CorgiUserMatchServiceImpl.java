@@ -16,6 +16,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -148,5 +149,10 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             log.info("clearing key:{}", key);
             redisTemplate.delete(key);
         }
+    }
+
+    @Override
+    public List<HashMap> getMatchFactor(String table) {
+        return userMatchMapper.getMatchFactor(table);
     }
 }
