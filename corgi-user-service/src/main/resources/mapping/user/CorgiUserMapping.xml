@@ -74,6 +74,7 @@
         `character`,
         `group`,
         `hide_group`,
+        `hide_prefer_group`,
         `birthday`,
         `con`,
         `relation`,
@@ -93,6 +94,7 @@
         #{userDetail.character},
         #{userDetail.group},
         #{userDetail.hideGroup},
+        #{userDetail.hidePreferGroup},
         #{userDetail.birthday},
         #{userDetail.con},
         #{userDetail.relation},
@@ -192,6 +194,9 @@
             <if test="userDetail.hideGroup != null and userDetail.hideGroup != ''">
                 `hide_group` = #{userDetail.hideGroup},
             </if>
+            <if test="userDetail.hidePreferGroup != null and userDetail.hidePreferGroup != ''">
+                `hide_prefer_group` = #{userDetail.hidePreferGroup},
+            </if>
             <if test="userDetail.relation != null">
                 `relation` = #{userDetail.relation},
             </if>
@@ -287,10 +292,10 @@
             and d.relation in ${range.relation}
         </if>
         <if test="range.role != null and range.role != ''">
-            and d.role in ${range.role} and d.hide_role = '0'
+            and d.role in ${range.role} and d.hide_role != '1'
         </if>
         <if test="range.group != null and range.group != ''">
-            and d.group in ${range.group} and d.hide_group = '0'
+            and d.group in ${range.group} and d.hide_group != '1'
         </if>
     </select>
 
@@ -307,6 +312,7 @@
         d.hide_role hideRole,
         d.group `group`,
         d.hide_group `hideGroup`,
+        d.hide_prefer_group `hidePreferGroup`,
         d.con con,
         d.relation,
         d.check_status checkStatus,
@@ -329,6 +335,7 @@
         d.hide_role hideRole,
         d.group `group`,
         d.hide_group `hideGroup`,
+        d.hide_prefer_group `hidePreferGroup`,
         d.con con,
         d.relation,
         d.desc,
@@ -463,13 +470,13 @@
         left join corgi_prefer_group g on g.user_id = d.user_id
         where d.user_id in ${userId}
         <if test="role != null and role != ''">
-            and d.role in ${role} and d.hide_role = '0'
+            and d.role in ${role} and d.hide_role != '1'
         </if>
         <if test="group != null and group != ''">
-            and d.group in ${group} and d.hide_group = '0'
+            and d.group in ${group} and d.hide_group != '1'
         </if>
         <if test="preferGroup != null and preferGroup != ''">
-            and g.group in ${preferGroup}
+            and g.group in ${preferGroup} and d.hide_prefer_group != '1'
         </if>
         and not EXISTS (select 1 from corgi_blacklist where (user_id = #{filterId} and black_id = d.user_id) or(user_id
         = d.user_id and black_id = #{filterId}))
