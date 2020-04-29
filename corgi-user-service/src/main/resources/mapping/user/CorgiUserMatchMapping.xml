@@ -35,7 +35,10 @@
 
     <select id="getMatchByPage" resultType="com.corgi.user.entity.UserMatch">
         select user_id1 userId1, user_id2 userId2, `match`
-        from corgi_match_cache where user_id1 = #{userId} or user_id2 = #{userId}
+        from corgi_match_cache
+        <if test="userId != null">
+            where user_id1 = #{userId} or user_id2 = #{userId}
+        </if>
         limit #{start},#{size}
     </select>
 
