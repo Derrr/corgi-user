@@ -20,6 +20,7 @@
         pic_url = #{pic.picUrl},
         `result` = #{pic.result}
         where id = #{pic.picId}
+        and user_id = #{pic.userId}
     </update>
 
     <delete id="deleteUserPicByDataId">
