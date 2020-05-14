@@ -112,6 +112,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public void updateMatch(UserMatch userMatch) {
+        if (userMatch.getMatch() <= 0) {
+            userMatchMapper.deleteMatchCache(userMatch.getUserId1(), userMatch.getUserId2());
+        }
         userMatchMapper.updateMatchCache(userMatch.getUserId1(), userMatch.getUserId2(), userMatch.getMatch());
     }
 

@@ -27,6 +27,11 @@
         where user_id1 = #{userId1} and user_id2 = #{userId2}
     </update>
 
+    <delete id="deleteMatchCache">
+        delete from corgi_match_cache
+        where user_id1 = #{userId1} and user_id2 = #{userId2}
+    </delete>
+
     <select id="getMatchCache" resultType="java.lang.Double">
         select max(`match`) from corgi_match_cache
         where (user_id1 = #{userId1} and user_id2 = #{userId2})
