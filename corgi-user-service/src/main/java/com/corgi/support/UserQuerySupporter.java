@@ -30,6 +30,7 @@ public class UserQuerySupporter {
     private String role;
     private String group;
     private String relation;
+    private String follow = "";
 
     public UserQuerySupporter(UserQuery userQuery) {
         this.userId = userQuery.getUserId();
@@ -56,6 +57,10 @@ public class UserQuerySupporter {
         }
         if (userQuery.getEndWeight() != null) {
             this.endWeight = userQuery.getEndWeight();
+        }
+
+        if (!StringUtils.isEmpty(userQuery.getFollow())) {
+            this.follow = userQuery.getFollow();
         }
 
         if (!CollectionUtils.isEmpty(userQuery.getRelation())) {

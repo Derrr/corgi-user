@@ -22,4 +22,7 @@ public class UserQuery implements Serializable{
     private Integer endHeight;
     private Integer startWeight;
     private Integer endWeight;
+    private Integer startMatch;
+    private Integer endMatch;
+    private String follow;
 }

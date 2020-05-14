@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * @author tairanliu
@@ -200,7 +201,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public List<UserProfile> getNearByUser(UserQuery userQuery) {
         List<String> userIds = new ArrayList<>();
-        if (hasFilter(userQuery)) {
+        boolean hasFilter = hasFilter(userQuery);
+        if (hasFilter) {
             UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
             userIds = corgiUserMapper.getNearByUser(supporter);
         } else {
@@ -208,10 +210,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             List<String> finalUserIds = userIds;
             geoResults.forEach(result -> finalUserIds.add(result.getContent().getName()));
         }
-        String inValue = getUserSql(userIds, userQuery.getUserId());
+        String inValue = getUserSql(userIds, userQuery.getUserId(), userQuery.getStartMatch(), userQuery.getEndMatch());
         if (StringUtils.isEmpty(inValue)) {
             return new ArrayList<>();
         }
+
         List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
         String userId1 = userQuery.getUserId();
         userProfiles = this.populateUserProfileAll(userProfiles, userId1, true);
@@ -226,7 +229,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 || (userQuery.getStartWeight() != null && userQuery.getStartWeight() > 30)
                 || (userQuery.getEndHeight() != null && userQuery.getEndHeight() < 200)
                 || (userQuery.getStartHeight() != null && userQuery.getStartWeight() > 30)
+                || (!StringUtils.isEmpty(userQuery.getFollow()))
                 || !CollectionUtils.isEmpty(userQuery.getRelation());
+
     }
 
     @Override
@@ -386,10 +391,38 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
     }
 
-    private String getUserSql(List<String> userIds, String loginUserId) {
+    private String getUserSql(List<String> userIds, String loginUserId, Integer startMatch, Integer endMatch) {
+        List<UserBasic> userBasics = corgiBlacklistMapper.getBlacklist(loginUserId);
+        List<String> beBlacks = corgiBlacklistMapper.getBeBlacklist(loginUserId);
+        if (!CollectionUtils.isEmpty(userBasics)) {
+            List<String> blockUserIds = userBasics.stream().map(UserBasic::getUserId).collect(Collectors.toList());
+            if (blockUserIds != null) {
+                userIds.removeAll(blockUserIds);
+            }
+        }
+        if (!CollectionUtils.isEmpty(beBlacks)) {
+            userIds.removeAll(beBlacks);
+        }
         //若没有人则返回空
         if (CollectionUtils.isEmpty(userIds)) {
             return "";
+        }
+        //滤除匹配度
+        if ((startMatch != null && startMatch > 20) || (endMatch != null && endMatch < 100)) {
+            List<String> result = new ArrayList();
+            if (startMatch == null) {
+                startMatch = 20;
+            }
+            if (endMatch == null) {
+                endMatch = 100;
+            }
+            for (String userId : userIds) {
+                Double match = corgiUserMatchService.getUserMatch(loginUserId, userId);
+                if (match > startMatch && match < endMatch) {
+                    result.add(userId);
+                }
+            }
+            userIds = result;
         }
         int size = userIds.size();
         if (size > MAX_PROFILE_SIZE * 2) {
