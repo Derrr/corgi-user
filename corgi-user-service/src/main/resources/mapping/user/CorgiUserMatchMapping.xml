@@ -34,7 +34,7 @@
     </select>
 
     <select id="getMatchByPage" resultType="com.corgi.user.entity.UserMatch">
-        select user_id1 userId1, user_id2 userId2, `match`
+        select user_id1 userId1, user_id2 userId2, `match`, uptime
         from corgi_match_cache
         <if test="userId != null">
             where user_id1 = #{userId} or user_id2 = #{userId}
