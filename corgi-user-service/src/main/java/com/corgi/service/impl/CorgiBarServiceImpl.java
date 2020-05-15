@@ -37,8 +37,8 @@ public class CorgiBarServiceImpl implements CorgiBarService {
 
 
     @Override
-    public List<BarProfile> getBarList() {
-        return corgiBarMapper.getBarList();
+    public List<BarProfile> getBarList(String status) {
+        return corgiBarMapper.getBarList(status);
     }
 
     @Override

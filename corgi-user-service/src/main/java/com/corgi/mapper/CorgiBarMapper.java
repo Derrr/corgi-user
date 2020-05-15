@@ -36,7 +36,7 @@ public interface CorgiBarMapper {
      *
      * @return
      */
-    List<BarProfile> getBarList();
+    List<BarProfile> getBarList(@Param("status")String status);
 
     /**
      * 获取商户信息

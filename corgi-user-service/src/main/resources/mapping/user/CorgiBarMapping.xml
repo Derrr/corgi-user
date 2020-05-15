@@ -54,6 +54,9 @@
         `logo`,
         `status`
         from corgi_bar_detail
+        <if test="status != null and status != ''">
+            where `status` = #{status}
+        </if>
     </select>
 
     <select id="getBar" resultType="com.corgi.user.entity.BarProfile">

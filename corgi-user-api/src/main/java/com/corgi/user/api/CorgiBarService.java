@@ -8,7 +8,7 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiBarService {
-    List<BarProfile> getBarList();
+    List<BarProfile> getBarList(String status);
 
     BarProfile getBarProfile(String barId);
 
