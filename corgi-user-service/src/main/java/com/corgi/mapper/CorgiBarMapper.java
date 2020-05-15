@@ -1,0 +1,49 @@
+package com.corgi.mapper;
+
+import com.corgi.user.entity.BarProfile;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
+ * @author tairanliu
+ */
+public interface CorgiBarMapper {
+
+    /**
+     * 添加商户
+     *
+     * @param barProfile
+     */
+    void addBar(@Param("bar") BarProfile barProfile);
+
+    /**
+     * 修改商户
+     *
+     * @param barProfile
+     */
+    void updateBar(@Param("bar") BarProfile barProfile);
+
+    /**
+     * 获取当前最大商户ID
+     *
+     * @return
+     */
+    String getMaxBarId();
+
+    /**
+     * 获取所有商户列表
+     *
+     * @return
+     */
+    List<BarProfile> getBarList();
+
+    /**
+     * 获取商户信息
+     *
+     * @param barId
+     * @return
+     */
+    BarProfile getBar(@Param("barId") String barId);
+
+}
