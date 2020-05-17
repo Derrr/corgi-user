@@ -47,26 +47,30 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         log.info("beginning match userId1:{}, userId2:{}", userDetail1.getUserId(), userDetail2.getUserId());
         Double match = 0.0;
-        Map factors = redisTemplate.opsForHash().entries(CorgiConstants.MATCH_PREFIX);
-        Double conFactor = getRatios("con_factor", factors);
-        Double roleFactor = getRatios("role_factor", factors);
-        Double charaFactor = getRatios("chara_factor", factors);
-        Double preferFactor = getRatios("prefer_factor", factors);
-        Double intFactor = getRatios("int_factor", factors);
-        if (conFactor != null) {
-            MatchSupporter.CON_FACTOR = conFactor / 100;
-        }
-        if (roleFactor != null) {
-            MatchSupporter.ROLE_FACTOR = roleFactor / 100;
-        }
-        if (charaFactor != null) {
-            MatchSupporter.CHARA_FACTOR = charaFactor / 100;
-        }
-        if (preferFactor != null) {
-            MatchSupporter.PREFER_FACTOR = preferFactor / 100;
-        }
-        if (intFactor != null) {
-            MatchSupporter.FACTOR = intFactor / 100;
+        try {
+            Map factors = redisTemplate.opsForHash().entries(CorgiConstants.MATCH_FACTOR);
+            Double conFactor = getRatios("con_factor", factors);
+            Double roleFactor = getRatios("role_factor", factors);
+            Double charaFactor = getRatios("chara_factor", factors);
+            Double preferFactor = getRatios("prefer_factor", factors);
+            Double intFactor = getRatios("int_factor", factors);
+            if (conFactor != null) {
+                MatchSupporter.CON_FACTOR = conFactor / 100;
+            }
+            if (roleFactor != null) {
+                MatchSupporter.ROLE_FACTOR = roleFactor / 100;
+            }
+            if (charaFactor != null) {
+                MatchSupporter.CHARA_FACTOR = charaFactor / 100;
+            }
+            if (preferFactor != null) {
+                MatchSupporter.PREFER_FACTOR = preferFactor / 100;
+            }
+            if (intFactor != null) {
+                MatchSupporter.FACTOR = intFactor / 100;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
 
         Double cronMatch = MatchSupporter.getConMatch(userDetail1.getCon(), userDetail2.getCon());
