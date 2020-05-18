@@ -1,6 +1,5 @@
 package com.corgi.user.api;
 
-import com.corgi.entity.CorgiStatistic;
 import com.corgi.entity.CorgiTopic;
 import com.corgi.user.entity.*;
 
@@ -23,7 +22,7 @@ public interface CorgiToolService {
 
     void updateUserInterest(String userId, String category, List<String> interests);
 
-    List<CorgiTopic> searchTopic(String text,String status);
+    List<CorgiTopic> searchTopic(String text, String status);
 
     void addTopic(CorgiTopic topic);
 
@@ -36,4 +35,10 @@ public interface CorgiToolService {
     void countUserNumber(String user);
 
     List<HashMap> getInfluencer();
+
+    void addActivityMessage(ActivityMessage activityMessage);
+
+    List<ActivityMessage> getActivityMessage(String userId);
+
+    Long countActivityMessage(String userId);
 }

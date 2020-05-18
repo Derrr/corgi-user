@@ -66,4 +66,12 @@ public interface CorgiUserActivityMapper {
      * @return
      */
     List<String> getSignUpActivityId(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
+     * 添加
+     * @param activityId
+     * @param creatorId
+     * @param category
+     */
+    void addActivityCreator(@Param("activityId") String activityId, @Param("creatorId") String creatorId, @Param("category") String category);
 }
