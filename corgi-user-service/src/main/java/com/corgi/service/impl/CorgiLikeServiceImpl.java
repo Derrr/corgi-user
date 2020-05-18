@@ -45,7 +45,7 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     }
 
     @Override
-    public List<ActivityLike> getActivityComment(String activityId) {
+    public List<ActivityLike> getActivityLike(String activityId) {
         return corgiLikeMapper.getActivityLike(activityId);
     }
 
