@@ -41,4 +41,6 @@ public interface CorgiToolService {
     List<ActivityMessage> getActivityMessage(String userId);
 
     Long countActivityMessage(String userId);
+
+    void deleteActivityMessage(String userId, Long time);
 }
