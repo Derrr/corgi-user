@@ -59,4 +59,9 @@
         where user_id = #{userId} order by update_time desc
         limit #{start},#{size}
     </select>
+
+    <insert id="addActivityCreator">
+        insert ignore into `corgi_activity_creator` (`activity_id`, `creator_id`, `category`)
+        VALUES (#{activityId}, #{creatorId}, #{category});
+    </insert>
 </mapper>

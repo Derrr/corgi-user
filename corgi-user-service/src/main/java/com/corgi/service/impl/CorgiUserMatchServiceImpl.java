@@ -15,10 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -50,6 +47,32 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         log.info("beginning match userId1:{}, userId2:{}", userDetail1.getUserId(), userDetail2.getUserId());
         Double match = 0.0;
+        try {
+            Map factors = redisTemplate.opsForHash().entries(CorgiConstants.MATCH_FACTOR);
+            Double conFactor = getRatios("con_factor", factors);
+            Double roleFactor = getRatios("role_factor", factors);
+            Double charaFactor = getRatios("chara_factor", factors);
+            Double preferFactor = getRatios("prefer_factor", factors);
+            Double intFactor = getRatios("int_factor", factors);
+            if (conFactor != null) {
+                MatchSupporter.CON_FACTOR = conFactor / 100;
+            }
+            if (roleFactor != null) {
+                MatchSupporter.ROLE_FACTOR = roleFactor / 100;
+            }
+            if (charaFactor != null) {
+                MatchSupporter.CHARA_FACTOR = charaFactor / 100;
+            }
+            if (preferFactor != null) {
+                MatchSupporter.PREFER_FACTOR = preferFactor / 100;
+            }
+            if (intFactor != null) {
+                MatchSupporter.FACTOR = intFactor / 100;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
         Double cronMatch = MatchSupporter.getConMatch(userDetail1.getCon(), userDetail2.getCon());
         log.info("con match:{}", cronMatch);
         match += cronMatch;
@@ -59,10 +82,10 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         match += factorMatch;
 
         if (!StringUtils.isEmpty(userDetail1.getRole()) && !StringUtils.isEmpty(userDetail2.getRole())) {
-            Integer cMatch1 = userMatchMapper.getRoleMatch(userDetail1.getRole(), userDetail2.getRole());
-            log.info("role match:{}", cMatch1);
-            if (cMatch1 != null) {
-                match += cMatch1 * 0.25;
+            Integer cMatch = userMatchMapper.getRoleMatch(userDetail1.getRole(), userDetail2.getRole());
+            log.info("role match:{}", cMatch);
+            if (cMatch != null) {
+                match += cMatch * MatchSupporter.ROLE_FACTOR;
             }
         }
         if (!StringUtils.isEmpty(userDetail1.getNatureCharacter()) && !StringUtils.isEmpty(userDetail2.getNatureCharacter())) {
@@ -72,7 +95,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             log.info("character match2:{}", cMatch2);
             if (cMatch1 != null && cMatch2 != null) {
                 log.info("final character match:{}", Math.sqrt(cMatch1 * cMatch2));
-                match += Math.sqrt(cMatch1 * cMatch2) * 0.25;
+                match += Math.sqrt(cMatch1 * cMatch2) * MatchSupporter.CHARA_FACTOR;
             }
         }
 
@@ -101,7 +124,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             }
         }
         log.info("final prefer match:{}", Math.sqrt(pMatch1 * pMatch2));
-        match += Math.sqrt(pMatch1 * pMatch2) * 0.25;
+        match += Math.sqrt(pMatch1 * pMatch2) * MatchSupporter.PREFER_FACTOR;
         return Math.round(match) + 0.0;
     }
 
@@ -112,6 +135,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public void updateMatch(UserMatch userMatch) {
+        if (userMatch.getMatch() <= 0) {
+            userMatchMapper.deleteMatchCache(userMatch.getUserId1(), userMatch.getUserId2());
+        }
         userMatchMapper.updateMatchCache(userMatch.getUserId1(), userMatch.getUserId2(), userMatch.getMatch());
     }
 
@@ -126,7 +152,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                 match = this.calculateUserMatch(userId1, userId2);
                 userMatchMapper.addMatchCache(userId1, userId2, match);
             }
-            redisTemplate.opsForValue().set(matchKey, match.toString(), 90L, TimeUnit.DAYS);
+            redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
             return match;
         }
         Double match = null;
@@ -137,7 +163,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         if (match == null) {
             match = this.calculateUserMatch(userId1, userId2);
-            redisTemplate.opsForValue().set(matchKey, match + "", 90L, TimeUnit.DAYS);
+            redisTemplate.opsForValue().set(matchKey, match + "", 7L, TimeUnit.DAYS);
         }
         return match;
     }
@@ -158,6 +184,18 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public List<HashMap> updateMatchFactor(String table, String cn1, String cv1, String cn2, String cv2, Integer match) {
+        return null;
+    }
+
+    private Double getRatios(String key, Map factors) {
+
+        String value = factors.get(key) + "";
+        try {
+            Double result = Double.valueOf(value);
+            return result;
+        } catch (Exception e) {
+
+        }
         return null;
     }
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiLikeMapper">
+
+    <insert id="addActivityLike" parameterType="com.corgi.user.entity.ActivityLike">
+        INSERT INTO `corgi`.`corgi_activity_like` (`like_user_id`, `like_user_name`, `like_user_avatar`
+        , `activity_id`)
+        VALUES (#{like.likeUserId}, #{like.likeUserName}, #{like.likeUserAvatar}, #{like.activityId});
+    </insert>
+
+    <select id="getActivityLike" resultType="com.corgi.user.entity.ActivityLike">
+        select
+        `like_user_id` likeUserId,
+        `like_user_name` likeUserName,
+        `like_user_avatar` likeUserAvatar,
+        `reply_user_id` replyUserId,
+        `reply_user_name` replyUserName,
+        `reply_user_avatar` replyUserAvatar,
+        `activity_id` activityId,
+        `parent_like_id` parentLikeId,
+        `content`,
+        `ctime`
+        from corgi_activity_like
+        where activity_id = #{activityId}
+        order by id desc
+    </select>
+
+    <select id="countActivityLike" resultType="java.lang.Long">
+        select count(1)
+        from corgi_activity_like
+        where activity_id = #{activityId}
+    </select>
+
+</mapper>

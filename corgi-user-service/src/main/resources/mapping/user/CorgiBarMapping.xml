@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiBarMapper">
+
+    <insert id="addBar" parameterType="com.corgi.user.entity.BarProfile">
+        INSERT INTO `corgi_bar_detail`
+    (`bar_id`, `bar_name`, `address`, `lat`, `lng`, `tel`, `range`, `logo`, `status`)
+    VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range}, #{bar.logo}, #{bar.status})
+    </insert>
+    <update id="updateBar" parameterType="com.corgi.user.entity.BarProfile">
+        update corgi_bar_detail
+        <set>
+            <if test="bar.barName != null and bar.barName != ''">
+                `bar_name` = #{bar.barName},
+            </if>
+            <if test="bar.address != null and bar.address != ''">
+                `address` = #{bar.address},
+            </if>
+            <if test="bar.lat != null">
+                `lat` = #{bar.lat},
+            </if>
+            <if test="bar.lng != null">
+                `lng` = #{bar.lng},
+            </if>
+            <if test="bar.tel != null and bar.tel !=''">
+                `tel` = #{bar.tel},
+            </if>
+            <if test="bar.range != null">
+                `range` = #{bar.range},
+            </if>
+            <if test="bar.logo != null and bar.logo != ''">
+                `logo` = #{bar.logo},
+            </if>
+            <if test="bar.status != null and bar.status != ''">
+                `status` = #{bar.status},
+            </if>
+        </set>
+        where bar_id = #{bar.barId}
+    </update>
+
+    <select id="getMaxBarId" resultType="java.lang.String">
+        select max(bar_id) from corgi_bar_detail
+    </select>
+
+    <select id="getBarList" resultType="com.corgi.user.entity.BarProfile">
+        select
+        bar_id barId,
+        bar_name barName,
+        `address`,
+        `lat`,
+        `lng`,
+        `tel`,
+        `range`,
+        `logo`,
+        `status`
+        from corgi_bar_detail
+        <if test="status != null and status != ''">
+            where `status` = #{status}
+        </if>
+    </select>
+
+    <select id="getBar" resultType="com.corgi.user.entity.BarProfile">
+        select
+        bar_id barId,
+        bar_name barName,
+        `address`,
+        `lat`,
+        `lng`,
+        `tel`,
+        `range`,
+        `logo`,
+        `status`
+        from corgi_bar_detail
+        where bar_id = #{barId}
+    </select>
+</mapper>

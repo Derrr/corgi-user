@@ -1,7 +1,7 @@
 package com.corgi.mapper;
 
-import com.corgi.entity.CorgiStatistic;
 import com.corgi.entity.CorgiTopic;
+import com.corgi.user.entity.ActivityMessage;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
@@ -65,7 +65,7 @@ public interface CorgiToolMapper {
      * @param user
      * @param count
      */
-    void addCountByUser(@Param("user") String user,@Param("count")Integer count);
+    void addCountByUser(@Param("user") String user, @Param("count") Integer count);
 
     /**
      * 技数统计
@@ -85,8 +85,39 @@ public interface CorgiToolMapper {
 
     /**
      * 获取所有人
+     *
      * @return
      */
     List<HashMap> getAllInfluencer();
+
+    /**
+     * 添加活动消息
+     *
+     * @param activityMessage
+     */
+    void addActivityMessage(@Param("message") ActivityMessage activityMessage);
+
+    /**
+     * 获取活动消息
+     *
+     * @param userId
+     * @return
+     */
+    List<ActivityMessage> getActivityMessage(@Param("userId") String userId);
+
+    /**
+     * 获取消息数
+     *
+     * @param userId
+     * @return
+     */
+    Long countActivityMessage(@Param("userId") String userId);
+
+    /**
+     * 删除活动消息
+     * @param userId
+     * @param time
+     */
+    void deleteActivityMessage(@Param("userId") String userId, @Param("time") Long time);
 
 }

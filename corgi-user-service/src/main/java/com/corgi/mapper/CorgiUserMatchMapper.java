@@ -57,6 +57,15 @@ public interface CorgiUserMatchMapper {
     void updateMatchCache(@Param("userId1") String userId1, @Param("userId2") String userId2, @Param("match") Double match);
 
     /**
+     * 清除缓存
+     *
+     * @param userId1
+     * @param userId2
+     */
+    void deleteMatchCache(@Param("userId1") String userId1, @Param("userId2") String userId2);
+
+
+    /**
      * 获取匹配缓存
      *
      * @param userId1

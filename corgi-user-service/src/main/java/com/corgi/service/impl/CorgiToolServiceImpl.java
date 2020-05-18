@@ -108,4 +108,19 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     public List<HashMap> getInfluencer() {
         return corgiToolMapper.getAllInfluencer();
     }
+
+    @Override
+    public void addActivityMessage(ActivityMessage activityMessage) {
+
+    }
+
+    @Override
+    public List<ActivityMessage> getActivityMessage(String userId) {
+        return null;
+    }
+
+    @Override
+    public Long countActivityMessage(String userId) {
+        return null;
+    }
 }

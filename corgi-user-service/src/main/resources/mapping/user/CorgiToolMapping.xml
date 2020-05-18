@@ -60,4 +60,34 @@
         select `user`, `count` from corgi_count_influencer
         limit 2000
     </select>
+
+    <insert id="addActivityMessage" parameterType="com.corgi.user.entity.ActivityMessage">
+        INSERT INTO `corgi`.`corgi_activity_message` (`message_type`, `content`, `activity_id`, `to_user_id`, `from_user_id`, `from_user_name`, `from_user_avatar`, `time`)
+        VALUES (#{message.messageType}, #{message.content}, #{message.activityId}, #{message.toUserId}, #{message.fromUserId}, #{fromUserName}, #{message.fromUserAvatar}, #{message.time});
+    </insert>
+
+    <select id="getActivityMessage" parameterType="com.corgi.user.entity.ActivityMessage">
+        select message_type messageType,
+        `content`,
+        activity_id activityId,
+        `to_user_id` toUserId,
+        `from_user_id` fromUserId,
+        `from_user_name` fromUserName,
+        `from_user_avatar` fromUserAvatar,
+        `time`
+        from corgi_activity_message
+        where to_user_id = #{userId}
+    </select>
+
+    <select id="countActivityMessage" parameterType="java.lang.Long">
+        select count(1)
+        from corgi_activity_message
+        where to_user_id = #{userId}
+    </select>
+
+    <delete id="deleteActivityMessage">
+        delete from corgi_activity_message
+        where to_user_id = #{userId}
+        and `time` &lt;= #{time}
+    </delete>
 </mapper>
