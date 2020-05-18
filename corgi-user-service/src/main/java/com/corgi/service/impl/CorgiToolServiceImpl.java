@@ -111,16 +111,21 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Override
     public void addActivityMessage(ActivityMessage activityMessage) {
-
+        corgiToolMapper.addActivityMessage(activityMessage);
     }
 
     @Override
     public List<ActivityMessage> getActivityMessage(String userId) {
-        return null;
+        return corgiToolMapper.getActivityMessage(userId);
     }
 
     @Override
     public Long countActivityMessage(String userId) {
-        return null;
+        return corgiToolMapper.countActivityMessage(userId);
+    }
+
+    @Override
+    public void deleteActivityMessage(String userId, Long time) {
+        corgiToolMapper.deleteActivityMessage(userId, time);
     }
 }
