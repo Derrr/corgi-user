@@ -184,6 +184,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public List<HashMap> updateMatchFactor(String table, String cn1, String cv1, String cn2, String cv2, Integer match) {
+        userMatchMapper.updateMatchFactor(table, cn1, cv2, cn2, cv2, match);
         return null;
     }
 
