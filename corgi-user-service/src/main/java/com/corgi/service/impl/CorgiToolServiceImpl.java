@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -121,6 +122,9 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Override
     public Long countActivityMessage(String userId) {
+        if (StringUtils.isEmpty(userId)) {
+            userId = "1";
+        }
         return corgiToolMapper.countActivityMessage(userId);
     }
 
