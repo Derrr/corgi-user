@@ -2,11 +2,13 @@ package com.corgi.user.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author tairanliu
  */
 @Data
-public class BarProfile {
+public class BarProfile implements Serializable {
     public static String STATUS_ENABLE = "1";
     public static String STATUS_DISABLE = "0";
 

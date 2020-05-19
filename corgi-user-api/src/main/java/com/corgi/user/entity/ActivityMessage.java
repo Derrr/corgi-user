@@ -3,9 +3,11 @@ package com.corgi.user.entity;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @Builder
-public class ActivityMessage {
+public class ActivityMessage implements Serializable {
     public static final String COMMENT = "1";
     public static final String LIKE = "2";
 
