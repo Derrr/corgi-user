@@ -79,7 +79,7 @@
         where to_user_id = #{userId}
     </select>
 
-    <select id="countActivityMessage" parameterType="java.lang.Long">
+    <select id="countActivityMessage" resultType="java.lang.Long">
         select count(1)
         from corgi_activity_message
         where to_user_id = #{userId}
