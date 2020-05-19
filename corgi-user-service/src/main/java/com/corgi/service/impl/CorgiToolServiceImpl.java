@@ -118,7 +118,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     @Override
     public List<ActivityMessage> getActivityMessage(String userId) {
         if (StringUtils.isEmpty(userId)) {
-            userId = "1";
+            userId = "8";
         }
         return corgiToolMapper.getActivityMessage(userId);
     }
@@ -126,7 +126,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     @Override
     public Long countActivityMessage(String userId) {
         if (StringUtils.isEmpty(userId)) {
-            userId = "1";
+            userId = "8";
         }
         return corgiToolMapper.countActivityMessage(userId);
     }
@@ -134,7 +134,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     @Override
     public void deleteActivityMessage(String userId, Long time) {
         if (StringUtils.isEmpty(userId)) {
-            userId = "1";
+            userId = "8";
         }
         corgiToolMapper.deleteActivityMessage(userId, time);
     }
