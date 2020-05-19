@@ -13,12 +13,7 @@
         `like_user_id` likeUserId,
         `like_user_name` likeUserName,
         `like_user_avatar` likeUserAvatar,
-        `reply_user_id` replyUserId,
-        `reply_user_name` replyUserName,
-        `reply_user_avatar` replyUserAvatar,
         `activity_id` activityId,
-        `parent_like_id` parentLikeId,
-        `content`,
         `ctime`
         from corgi_activity_like
         where activity_id = #{activityId}
