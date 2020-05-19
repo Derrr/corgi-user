@@ -51,6 +51,7 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
                 .fromUserName(commentUserDetail.getNickname())
                 .toUserId(activityComment.getUserId())
                 .time(System.currentTimeMillis())
+                .content(activityComment.getContent())
                 .messageType(ActivityMessage.COMMENT)
                 .build());
 

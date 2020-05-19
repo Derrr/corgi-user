@@ -13,6 +13,7 @@ public class ActivityMessage implements Serializable {
 
 
     private String messageType;
+    private String content;
     private String activityId;
     private String toUserId;
     private String fromUserId;
