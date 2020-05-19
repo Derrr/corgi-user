@@ -66,7 +66,7 @@
         VALUES (#{message.messageType}, #{message.content}, #{message.activityId}, #{message.toUserId}, #{message.fromUserId}, #{message.fromUserName}, #{message.fromUserAvatar}, #{message.time});
     </insert>
 
-    <select id="getActivityMessage" parameterType="com.corgi.user.entity.ActivityMessage">
+    <select id="getActivityMessage" resultType="com.corgi.user.entity.ActivityMessage">
         select message_type messageType,
         `content`,
         activity_id activityId,
