@@ -12,6 +12,7 @@ import com.corgi.user.entity.UserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     @Override
     public void addActivityLike(ActivityLike activityLike) {
         String userId = activityLike.getLikeUserId();
-        if ("-1".equals(userId)) {
+        if ("-1".equals(userId) || StringUtils.isEmpty(userId)) {
             userId = "1";
         }
         UserDetail userDetail = corgiUserService.getUserDetail(userId, null);

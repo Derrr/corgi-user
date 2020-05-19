@@ -30,7 +30,7 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     @Override
     public void addActivityComment(ActivityComment activityComment) {
         String userId = activityComment.getCommentUserId();
-        if ("-1".equals(userId)) {
+        if ("-1".equals(userId) || StringUtils.isEmpty(userId)) {
             userId = "1";
         }
         UserDetail commentUserDetail = corgiUserService.getUserDetail(userId, null);
