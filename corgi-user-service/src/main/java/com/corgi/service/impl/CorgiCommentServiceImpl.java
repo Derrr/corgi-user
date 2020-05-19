@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service(interfaceClass = CorgiCommentService.class)
 @Slf4j
@@ -37,7 +38,7 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
             activityComment.setCommentUserName(replyUserDetail.getNickname());
             activityComment.setCommentUserAvatar(replyUserDetail.getUserPics().get(0).getPicUrl());
         }
-
+        activityComment.setCommentId(UUID.randomUUID().toString());
         corgiCommentMapper.addActivityComment(activityComment);
         corgiToolService.addActivityMessage(ActivityMessage.builder()
                 .activityId(activityComment.getActivityId())
