@@ -2,8 +2,10 @@ package com.corgi.user.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class ActivityComment {
+public class ActivityComment implements Serializable {
     private String commentId;
     private String parentCommentId;
     private String activityId;
