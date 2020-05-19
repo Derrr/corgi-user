@@ -29,7 +29,11 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
 
     @Override
     public void addActivityComment(ActivityComment activityComment) {
-        UserDetail commentUserDetail = corgiUserService.getUserDetail(activityComment.getCommentUserId(), null);
+        String userId = activityComment.getCommentUserId();
+        if ("-1".equals(userId)) {
+            userId = "1";
+        }
+        UserDetail commentUserDetail = corgiUserService.getUserDetail(userId, null);
         activityComment.setCommentUserName(commentUserDetail.getNickname());
         activityComment.setCommentUserAvatar(commentUserDetail.getUserPics().get(0).getPicUrl());
 

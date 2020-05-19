@@ -28,7 +28,11 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
 
     @Override
     public void addActivityLike(ActivityLike activityLike) {
-        UserDetail userDetail = corgiUserService.getUserDetail(activityLike.getLikeUserId(), null);
+        String userId = activityLike.getLikeUserId();
+        if ("-1".equals(userId)) {
+            userId = "1";
+        }
+        UserDetail userDetail = corgiUserService.getUserDetail(userId, null);
         activityLike.setLikeUserName(userDetail.getNickname());
         activityLike.setLikeUserAvatar(userDetail.getUserPics().get(0).getPicUrl());
 
