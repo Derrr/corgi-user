@@ -63,7 +63,7 @@
 
     <insert id="addActivityMessage" parameterType="com.corgi.user.entity.ActivityMessage">
         INSERT INTO `corgi`.`corgi_activity_message` (`message_type`, `content`, `activity_id`, `to_user_id`, `from_user_id`, `from_user_name`, `from_user_avatar`, `time`)
-        VALUES (#{message.messageType}, #{message.content}, #{message.activityId}, #{message.toUserId}, #{message.fromUserId}, #{fromUserName}, #{message.fromUserAvatar}, #{message.time});
+        VALUES (#{message.messageType}, #{message.content}, #{message.activityId}, #{message.toUserId}, #{message.fromUserId}, #{message.fromUserName}, #{message.fromUserAvatar}, #{message.time});
     </insert>
 
     <select id="getActivityMessage" parameterType="com.corgi.user.entity.ActivityMessage">
