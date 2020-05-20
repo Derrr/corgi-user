@@ -45,6 +45,11 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     }
 
     @Override
+    public void deleteActivityLike(String userId, String activityId) {
+        corgiLikeMapper.deleteActivityLike(userId, activityId);
+    }
+
+    @Override
     public List<ActivityLike> getActivityLike(String activityId) {
         return corgiLikeMapper.getActivityLike(activityId);
     }
@@ -52,5 +57,10 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     @Override
     public Long countActivityLike(String activityId) {
         return corgiLikeMapper.countActivityLike(activityId);
+    }
+
+    @Override
+    public List<ActivityLike> getFollowUser(String userId, String activityId) {
+        return corgiLikeMapper.getFollowUser(userId, activityId);
     }
 }

@@ -10,24 +10,41 @@ import java.util.List;
  */
 public interface CorgiLikeMapper {
     /**
-     * 添加活动评论
+     * 添加活动点赞
      *
      * @param activityLike
      */
     void addActivityLike(@Param("like") ActivityLike activityLike);
 
     /**
-     * 获取活动评论
+     * 删除活动点赞
+     * @param userId
+     * @param activityId
+     */
+    void deleteActivityLike(@Param("userId") String userId, @Param("activityId") String activityId);
+
+    /**
+     * 获取活动点赞
+     *
      * @param activityId
      * @return
      */
     List<ActivityLike> getActivityLike(@Param("activityId") String activityId);
 
     /**
-     * 获取评论数
+     * 获取点赞数
+     *
      * @param activityId
      * @return
      */
     Long countActivityLike(@Param("activityId") String activityId);
+
+    /**
+     * 获取点赞好友
+     *
+     * @param userId
+     * @return
+     */
+    List<ActivityLike> getFollowUser(@Param("userId") String userId, @Param("activityId") String activityId);
 
 }
