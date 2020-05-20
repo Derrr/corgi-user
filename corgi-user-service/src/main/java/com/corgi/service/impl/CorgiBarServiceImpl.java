@@ -8,6 +8,8 @@ import com.corgi.entity.ActivityQuery;
 import com.corgi.mapper.*;
 import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiBarService;
+import com.corgi.user.api.CorgiUserFollowService;
+import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.*;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -34,16 +36,28 @@ import java.util.stream.Collectors;
 public class CorgiBarServiceImpl implements CorgiBarService {
     @Autowired
     private CorgiBarMapper corgiBarMapper;
+    @Autowired
+    private CorgiUserFollowService corgiUserFollowService;
+    @Autowired
+    private CorgiUserService corgiUserService;
 
 
     @Override
     public List<BarProfile> getBarList(String status) {
-        return corgiBarMapper.getBarList(status);
+        List<BarProfile> barProfiles = corgiBarMapper.getBarList(status);
+        if (!CollectionUtils.isEmpty(barProfiles)) {
+            for (BarProfile barProfile : barProfiles) {
+                barProfile.setHeat(countBarHeat(barProfile));
+            }
+        }
+        return barProfiles;
     }
 
     @Override
     public BarProfile getBarProfile(String barId) {
-        return corgiBarMapper.getBar(barId);
+        BarProfile barProfile = corgiBarMapper.getBar(barId);
+        barProfile.setHeat(countBarHeat(barProfile));
+        return barProfile;
     }
 
     @Override
@@ -72,5 +86,16 @@ public class CorgiBarServiceImpl implements CorgiBarService {
             }
         }
         return "B" + index;
+    }
+
+    private Long countBarHeat(BarProfile barProfile) {
+        int interest = corgiUserFollowService.countFollowed(barProfile.getBarId());
+        UserQuery userQuery = new UserQuery();
+        userQuery.setLat(barProfile.getLat());
+        userQuery.setLng(barProfile.getLng());
+        userQuery.setRange(barProfile.getRange() + 0.0);
+        List<String> userIds = corgiUserService.getAllNearByUser(userQuery);
+        Long duplicate = corgiBarMapper.countBarFollow(barProfile.getBarId(), String.join("','", userIds));
+        return interest + userIds.size() - duplicate;
     }
 }

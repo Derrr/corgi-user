@@ -21,4 +21,5 @@ public class BarProfile implements Serializable {
     private Double lng;
     private String tel;
     private String status;
+    private Long heat;
 }

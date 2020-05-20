@@ -73,4 +73,11 @@
         from corgi_bar_detail
         where bar_id = #{barId}
     </select>
+
+    <select id="countBarFollow" resultType="java.lang.Long">
+        select count(1)
+        from corgi_user_follow f
+        where f.follow_user_id = #{barId}
+        and user_id in ('${userIds}')
+    </select>
 </mapper>

@@ -46,4 +46,12 @@ public interface CorgiBarMapper {
      */
     BarProfile getBar(@Param("barId") String barId);
 
+    /**
+     * 统计在周围且关注了企业用户的人数
+     * @param barId
+     * @param userIds
+     * @return
+     */
+    Long countBarFollow(@Param("barId")String barId, @Param("userIds")String userIds);
+
 }
