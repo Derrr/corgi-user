@@ -3,10 +3,15 @@
 <mapper namespace="com.corgi.mapper.CorgiLikeMapper">
 
     <insert id="addActivityLike" parameterType="com.corgi.user.entity.ActivityLike">
-        INSERT INTO `corgi`.`corgi_activity_like` (`like_user_id`, `like_user_name`, `like_user_avatar`
+        INSERT ignore INTO `corgi`.`corgi_activity_like` (`like_user_id`, `like_user_name`, `like_user_avatar`
         , `activity_id`)
         VALUES (#{like.likeUserId}, #{like.likeUserName}, #{like.likeUserAvatar}, #{like.activityId});
     </insert>
+
+    <delete id="deleteActivityLike">
+        delete from `corgi`.`corgi_activity_like`
+        where activity_id = #{activityId} and like_user_id = #{userId}
+    </delete>
 
     <select id="getActivityLike" resultType="com.corgi.user.entity.ActivityLike">
         select
@@ -25,5 +30,17 @@
         from corgi_activity_like
         where activity_id = #{activityId}
     </select>
+
+    <select id="getFollowUser" resultType="java.lang.Long">
+        select
+        `like_user_id` likeUserId,
+        `like_user_name` likeUserName,
+        `like_user_avatar` likeUserAvatar
+        from corgi_activity_like l
+        join corgi_user_follow f on f.follow_user_id = l.like_user_id and f.user_id= #{userId}
+        where activity_id = #{activityId}
+        limit 3
+    </select>
+
 
 </mapper>

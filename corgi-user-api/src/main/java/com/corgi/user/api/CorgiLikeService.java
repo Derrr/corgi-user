@@ -11,7 +11,11 @@ import java.util.List;
 public interface CorgiLikeService {
     void addActivityLike(ActivityLike activityLike);
 
+    void deleteActivityLike(String userId, String activityId);
+
     List<ActivityLike> getActivityLike(String activityId);
 
     Long countActivityLike(String activityId);
+
+    List<ActivityLike> getFollowUser(String userId, String activityId);
 }
