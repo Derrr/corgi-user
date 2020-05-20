@@ -30,6 +30,9 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     @Autowired
     private CorgiUserMapper corgiUserMapper;
 
+    @Autowired
+    private static String SUFFIX = "?x-oss-process=style/mask";
+
     @Override
     public String addUserPic(UserPic userPic) {
         corgiPicMapper.addUserPic(userPic);
@@ -44,7 +47,11 @@ public class CorgiPicServiceImpl implements CorgiPicService {
 
     @Override
     public List<UserPic> getUserPic(String userId) {
-        return corgiPicMapper.getUserPic(userId);
+        List<UserPic> userPics = corgiPicMapper.getUserPic(userId);
+        if (userPics != null) {
+            userPics.stream().forEach(pic -> addSuffix(pic));
+        }
+        return userPics;
     }
 
     @Override
@@ -61,7 +68,11 @@ public class CorgiPicServiceImpl implements CorgiPicService {
 
     @Override
     public List<ActivityPic> getActivityPic(String activityId) {
-        return corgiPicMapper.getActivityPic(activityId);
+        List<ActivityPic> activityPics = corgiPicMapper.getActivityPic(activityId);
+        if (activityPics != null) {
+            activityPics.stream().forEach(pic -> addSuffix(pic));
+        }
+        return activityPics;
     }
 
     @Override
@@ -141,5 +152,14 @@ public class CorgiPicServiceImpl implements CorgiPicService {
         return CorgiConstants.SUCCESS;
     }
 
+    private CorgiPic addSuffix(CorgiPic corgiPic) {
+        if (corgiPic == null) {
+            return null;
+        }
+        if (CorgiPic.NEED_CHECK.equals(corgiPic.getStatus())) {
+            corgiPic.setPicUrl(corgiPic.getPicUrl() + SUFFIX);
+        }
+        return corgiPic;
+    }
 
 }
