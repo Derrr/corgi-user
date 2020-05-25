@@ -64,7 +64,7 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
-    public void deleteSignUpByActivity(String activityId){
+    public void deleteSignUpByActivity(String activityId) {
         corgiUserActivityMapper.deleteSignUpByActivity(activityId);
     }
 
@@ -82,5 +82,10 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     @Override
     public List<String> getSignUpActivity(String userId, Integer page, Integer pageSize) {
         return corgiUserActivityMapper.getSignUpActivityId(userId, (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
+    public void addActivityCreator(String userId, String activityId, String category) {
+        corgiUserActivityMapper.addActivityCreator(activityId, userId, category);
     }
 }
