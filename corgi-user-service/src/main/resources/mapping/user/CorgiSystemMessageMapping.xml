@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiSystemMessageMapper">
+    <select id="getSystemMessageByPage" resultType="com.corgi.user.entity.SystemMessage">
+        select
+        `id`,
+        `content`,
+        `sent_time` sentTime,
+        `status`,
+        `ctime`,
+        `uptime`
+        from corgi_system_message
+        order by id desc
+        limit #{start}, #{size}
+    </select>
+
+    <select id="getSystemMessageById" resultType="com.corgi.user.entity.SystemMessage">
+        select
+        `id`,
+        `content`,
+        `sent_time` sentTime,
+        `status`,
+        `ctime`,
+        `uptime`
+        from corgi_system_message
+        where id = #{messageId}
+    </select>
+
+    <select id="getSystemMessageByTime" resultType="com.corgi.user.entity.SystemMessage">
+        select
+        `id`,
+        `content`,
+        `sent_time` sentTime,
+        `status`,
+        `ctime`,
+        `uptime`
+        from corgi_system_message
+        where sent_time &lt;= #{time}
+        and `status` = #{status}
+    </select>
+
+    <insert id="addSystemMessage" useGeneratedKeys="true" keyProperty="message.id" parameterType="com.corgi.user.entity.SystemMessage">
+        insert into corgi_system_message (`content`, `sent_time`, `status`)
+        VALUES(#{message.content},#{message.sentTime}, #{message.status})
+    </insert>
+
+    <update id="updateSystemMessage" parameterType="com.corgi.user.entity.SystemMessage">
+        update corgi_system_message
+        <set>
+            <if test="message.content != null and message.content != ''">
+                `content` = #{message.content}
+            </if>
+            <if test="message.sentTime != null and message.sentTime != ''">
+                `sent_time` = #{message.sentTime}
+            </if>
+            <if test="message.status != null and message.status != ''">
+                `status` = #{message.status}
+            </if>
+        </set>
+        where id = #{message.id}
+    </update>
+
+    <select id="getMessageRuleById" resultType="com.corgi.user.entity.MessageRule">
+        select
+        `message_id` messageId,
+        `rule_key` ruleKey,
+        `rule_value` ruleValue
+        from corgi_message_rule
+        where message_id = #{messageId}
+    </select>
+
+    <insert id="addMessageRule" parameterType="com.corgi.user.entity.MessageRule">
+        INSERT INTO `corgi_message_rule` (`message_id`, `rule_key`, `rule_value`)
+        VALUES (#{rule.messageId}, #{rule.ruleKey}, #{rule.ruleValue});
+    </insert>
+
+    <delete id="deleteMessageRule">
+        delete from corgi_message_rule
+        where message_id = #{messageId}
+    </delete>
+
+    <select id="getMessageRecordByPage" resultType="com.corgi.user.entity.MessageRecord">
+        select
+        `id`,
+        `message_id` messageId,
+        `user_id` userId,
+        `nickname`,
+        `status`,
+        `reason`,
+        `ctime`
+        from corgi_message_record
+        order by id DESC
+        limit #{start},#{size}
+    </select>
+
+    <select id="getMessageRecordByMessageId" resultType="com.corgi.user.entity.MessageRecord">
+        select
+        `id`,
+        `message_id` messageId,
+        `user_id` userId,
+        `nickname`,
+        `status`,
+        `reason`,
+        `ctime`
+        from corgi_message_record
+        where message_id = #{messageId}
+        order by id DESC
+        limit #{start},#{size}
+    </select>
+
+    <insert id="addMessageRecord" useGeneratedKeys="true" keyProperty="record.id" parameterType="com.corgi.user.entity.MessageRecord">
+        INSERT INTO `corgi_message_record` (`message_id`, `user_id`, `nickname`, `status`, `reason`)
+        VALUES (#{record.messageId}, #{record.userId}, #{record.nickname}, #{record.status}, #{record.reason});
+    </insert>
+
+    <update id="updateMessageRecord" parameterType="com.corgi.user.entity.MessageRecord">
+        update corgi_message_record
+        <set>
+            <if test="record.status != null and record.status != ''">
+                `status` = #{record.status}
+            </if>
+            <if test="record.reason != null and record.reason != ''">
+                `reason` = #{record.reason}
+            </if>
+        </set>
+        where id = #{record.id}
+    </update>
+</mapper>
