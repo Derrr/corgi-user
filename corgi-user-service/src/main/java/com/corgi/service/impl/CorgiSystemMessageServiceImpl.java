@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -49,15 +50,24 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
     @Override
     public String addSystemMessage(SystemMessage systemMessage) {
         corgiSystemMessageMapper.addSystemMessage(systemMessage);
+        if (!CollectionUtils.isEmpty(systemMessage.getRules())) {
+            for (MessageRule messageRule : systemMessage.getRules()) {
+                messageRule.setMessageId(systemMessage.getId());
+                corgiSystemMessageMapper.addMessageRule(messageRule);
+            }
+        }
         return systemMessage.getId();
     }
 
     @Override
     public void updateSystemMessage(SystemMessage systemMessage) {
-        corgiSystemMessageMapper.updateSystemMessage(systemMessage);
+        if (!StringUtils.isEmpty(systemMessage.getContent()) || !StringUtils.isEmpty(systemMessage.getStatus()) || systemMessage.getSentTime() != null) {
+            corgiSystemMessageMapper.updateSystemMessage(systemMessage);
+        }
         if (!CollectionUtils.isEmpty(systemMessage.getRules())) {
             corgiSystemMessageMapper.deleteMessageRule(systemMessage.getId());
             for (MessageRule messageRule : systemMessage.getRules()) {
+                messageRule.setMessageId(systemMessage.getId());
                 corgiSystemMessageMapper.addMessageRule(messageRule);
             }
         }
