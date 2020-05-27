@@ -39,6 +39,7 @@
         from corgi_activity_like l
         join corgi_user_follow f on f.follow_user_id = l.like_user_id and f.user_id= #{userId}
         where activity_id = #{activityId}
+        order by l.id desc
         limit 3
     </select>
 
