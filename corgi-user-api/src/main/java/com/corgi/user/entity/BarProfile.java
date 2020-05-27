@@ -22,4 +22,5 @@ public class BarProfile implements Serializable {
     private String tel;
     private String status;
     private Long heat;
+    private String ctime;
 }

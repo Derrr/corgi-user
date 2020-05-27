@@ -123,6 +123,7 @@
                 `reason` = #{record.reason}
             </if>
         </set>
-        where id = #{record.id}
+        where message_id = #{record.messageId}
+        and user_id = #{record.userId}
     </update>
 </mapper>
