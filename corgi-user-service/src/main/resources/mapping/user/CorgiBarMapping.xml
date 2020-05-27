@@ -52,7 +52,8 @@
         `tel`,
         `range`,
         `logo`,
-        `status`
+        `status`,
+        `ctime`
         from corgi_bar_detail
         <if test="status != null and status != ''">
             where `status` = #{status}
@@ -69,7 +70,8 @@
         `tel`,
         `range`,
         `logo`,
-        `status`
+        `status`,
+        `ctime`
         from corgi_bar_detail
         where bar_id = #{barId}
     </select>
