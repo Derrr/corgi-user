@@ -9,7 +9,7 @@ public class MessageRecord implements Serializable{
     private String id;
     private String messageId;
     private String userId;
-    private String nickName;
+    private String nickname;
     private String status;
     private String reason;
     private String ctime;
