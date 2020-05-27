@@ -203,7 +203,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         List<String> userIds = new ArrayList<>();
         boolean hasFilter = hasFilter(userQuery);
         if (hasFilter) {
+            log.info("follow..."+userQuery.getFollow());
             UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
+            log.info("follow..."+supporter.getFollow());
             userIds = corgiUserMapper.getNearByUser(supporter);
         } else {
             GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
