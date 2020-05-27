@@ -178,17 +178,17 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         String geoKey = "user";
         UserPosition oldUserPosition = corgiUserMapper.getUserPosition(userPosition.getUserId());
         if (oldUserPosition == null) {
-            corgiUserMapper.addUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now);
+            corgiUserMapper.addUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng());
             this.addGeo(geoKey, userPosition);
         } else if (oldUserPosition.getLat() - userPosition.getLat() > 0.0001
                 || oldUserPosition.getLat() - userPosition.getLat() < -0.0001
                 || oldUserPosition.getLng() - userPosition.getLng() > 0.0001
                 || oldUserPosition.getLng() - userPosition.getLng() < -0.0001) {
-            corgiUserMapper.updateUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now);
+            corgiUserMapper.updateUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng());
             redisTemplate.opsForGeo().remove(geoKey, userPosition.getUserId());
             this.addGeo(geoKey, userPosition);
         } else {
-            corgiUserMapper.updateUserPositionUptime(userPosition.getUserId(), now);
+            corgiUserMapper.updateUserPositionUptime(userPosition.getUserId(), now, userPosition.getRealLat(), userPosition.getRealLng());
         }
         return CorgiConstants.SUCCESS;
     }
@@ -243,8 +243,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize) {
-        if(userDetail.getNickname() != null) {
-            userDetail.setNickname(userDetail.getNickname().replaceAll("%","\\\\%"));
+        if (userDetail.getNickname() != null) {
+            userDetail.setNickname(userDetail.getNickname().replaceAll("%", "\\\\%"));
         }
         List<UserProfile> userProfiles = corgiUserMapper.queryUserProfile(userDetail, page < 1 ? 0 : (page - 1) * pageSize, pageSize);
         return populateUserProfile(userProfiles, userId);

@@ -166,7 +166,7 @@ public interface CorgiUserMapper {
      * @param lng
      * @param uptime
      */
-    void addUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime);
+    void addUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng);
 
     /**
      * 获取用户位置
@@ -193,7 +193,7 @@ public interface CorgiUserMapper {
      * @param lng
      * @param uptime
      */
-    void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime);
+    void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng);
 
     /**
      * 更新用户时间
@@ -201,7 +201,7 @@ public interface CorgiUserMapper {
      * @param userId
      * @param uptime
      */
-    void updateUserPositionUptime(@Param("userId") String userId, @Param("uptime") Long uptime);
+    void updateUserPositionUptime(@Param("userId") String userId, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng);
 
     /**
      * 获取周围人信息
@@ -273,7 +273,7 @@ public interface CorgiUserMapper {
      * @param preferGroup
      * @return
      */
-    List<String> filterUser(@Param("userId") String userId, @Param("role") String role, @Param("group") String group, @Param("preferGroup") String preferGroup, @Param("filterId")String filterId);
+    List<String> filterUser(@Param("userId") String userId, @Param("role") String role, @Param("group") String group, @Param("preferGroup") String preferGroup, @Param("filterId") String filterId);
 
 
     /**
