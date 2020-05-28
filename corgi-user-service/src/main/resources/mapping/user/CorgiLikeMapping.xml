@@ -31,7 +31,7 @@
         where activity_id = #{activityId}
     </select>
 
-    <select id="getFollowUser" resultType="java.lang.Long">
+    <select id="getFollowUser" resultType="com.corgi.user.entity.ActivityLike">
         select
         `like_user_id` likeUserId,
         `like_user_name` likeUserName,
