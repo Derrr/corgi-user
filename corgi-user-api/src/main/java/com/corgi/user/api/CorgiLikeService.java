@@ -18,4 +18,6 @@ public interface CorgiLikeService {
     Long countActivityLike(String activityId);
 
     List<ActivityLike> getFollowUser(String userId, String activityId);
+
+    Integer countUserLike(String activityId, String userId);
 }
