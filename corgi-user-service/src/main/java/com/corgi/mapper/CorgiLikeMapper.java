@@ -46,7 +46,7 @@ public interface CorgiLikeMapper {
      * @param userId
      * @return
      */
-    Long countUserLike(@Param("activityId") String activityId, @Param("userId")String userId);
+    Integer countUserLike(@Param("activityId") String activityId, @Param("userId")String userId);
 
 
     /**

@@ -71,6 +71,6 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
 
     @Override
     public Integer countUserLike(String activityId, String userId) {
-        return null;
+        return corgiLikeMapper.countUserLike(activityId, userId);
     }
 }
