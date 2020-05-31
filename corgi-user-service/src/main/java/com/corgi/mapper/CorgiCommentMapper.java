@@ -33,4 +33,12 @@ public interface CorgiCommentMapper {
      */
     Long countActivityComment(@Param("activityId") String activityId);
 
+    /**
+     * 获取最后一条评论
+     * @param activityId
+     * @param userId
+     * @return
+     */
+    ActivityComment getLastActivityComment(@Param("activityId") String activityId, @Param("userId")String userId);
+
 }

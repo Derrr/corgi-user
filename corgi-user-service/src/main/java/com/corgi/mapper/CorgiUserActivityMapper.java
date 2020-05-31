@@ -55,7 +55,16 @@ public interface CorgiUserActivityMapper {
      * @param activityId
      * @return
      */
-    List<UserProfile> getUser(@Param("activityId") String activityId, String status);
+    List<UserProfile> getUser(@Param("activityId") String activityId, @Param("status") String status);
+
+    /**
+     * 统计报名人
+     * @param activityId
+     * @param status
+     * @return
+     */
+    List<UserProfile> countUser(@Param("activityId") String activityId, @Param("status") String status);
+
 
     /**
      * 获取报名活动
@@ -69,6 +78,7 @@ public interface CorgiUserActivityMapper {
 
     /**
      * 添加
+     *
      * @param activityId
      * @param creatorId
      * @param category

@@ -30,4 +30,22 @@
         where activity_id = #{activityId}
     </select>
 
+    <select id="getLastActivityComment" resultType="com.corgi.user.entity.ActivityComment">
+        select `comment_id` commentId,
+        `comment_user_id` commentUserId,
+        `comment_user_name` commentUserName,
+        `comment_user_avatar` commentUserAvatar,
+        `reply_user_id` replyUserId,
+        `reply_user_name` replyUserName,
+        `reply_user_avatar` replyUserAvatar,
+        `activity_id` activityId,
+        `parent_comment_id` parentCommentId,
+        `content`,
+        `ctime`
+        from corgi_activity_comment
+        where activity_id = #{activityId}
+        and comment_user_id = #{userId}
+        order by id desc
+        limit 1
+    </select>
 </mapper>

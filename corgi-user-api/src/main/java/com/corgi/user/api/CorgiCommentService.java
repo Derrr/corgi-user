@@ -1,7 +1,6 @@
 package com.corgi.user.api;
 
 
-
 import com.corgi.user.entity.ActivityComment;
 
 import java.util.List;
@@ -15,4 +14,6 @@ public interface CorgiCommentService {
     List<ActivityComment> getActivityComment(String activityId);
 
     Long countActivityComment(String activityId);
+
+    ActivityComment getLastComment(String activityId, String userId);
 }

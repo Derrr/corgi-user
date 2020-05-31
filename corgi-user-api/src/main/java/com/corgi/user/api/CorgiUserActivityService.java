@@ -23,6 +23,8 @@ public interface CorgiUserActivityService {
 
     List<UserProfile> getUsers(String activityId, String userId, String status);
 
+    Integer countUsers(String activityId, String status);
+
     List<String> getSignUpActivity(String userId, Integer page, Integer pageSize);
 
     void addActivityCreator(String userId, String activityId, String category);

@@ -54,6 +54,16 @@
         </if>
     </select>
 
+    <select id="countUser" resultType="java.lang.Integer">
+        select
+        count(1)
+        from corgi_activity_attender a
+        where a.activity_id = #{activityId}
+        <if test='status != null and status !="" '>
+            and a.`status` = #{status}
+        </if>
+    </select>
+
     <select id="getSignUpActivityId" resultType="java.lang.String">
         select activity_id from corgi_activity_attender
         where user_id = #{userId} order by update_time desc
