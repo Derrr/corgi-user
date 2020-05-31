@@ -81,7 +81,7 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
 
     @Override
     public Integer countUsers(String activityId, String status) {
-        return null;
+        return corgiUserActivityMapper.countUser(activityId, status);
     }
 
     @Override

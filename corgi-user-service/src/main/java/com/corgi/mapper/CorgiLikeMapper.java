@@ -18,6 +18,7 @@ public interface CorgiLikeMapper {
 
     /**
      * 删除活动点赞
+     *
      * @param userId
      * @param activityId
      */
@@ -46,7 +47,7 @@ public interface CorgiLikeMapper {
      * @param userId
      * @return
      */
-    Integer countUserLike(@Param("activityId") String activityId, @Param("userId")String userId);
+    Integer countUserLike(@Param("activityId") String activityId, @Param("userId") String userId);
 
 
     /**
@@ -56,5 +57,14 @@ public interface CorgiLikeMapper {
      * @return
      */
     List<ActivityLike> getFollowUser(@Param("userId") String userId, @Param("activityId") String activityId);
+
+    /**
+     * 获取点赞活动
+     * @param userId
+     * @param start
+     * @param size
+     * @return
+     */
+    List<String> getLikedActivityId(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
 }

@@ -59,11 +59,12 @@ public interface CorgiUserActivityMapper {
 
     /**
      * 统计报名人
+     *
      * @param activityId
      * @param status
      * @return
      */
-    List<UserProfile> countUser(@Param("activityId") String activityId, @Param("status") String status);
+    Integer countUser(@Param("activityId") String activityId, @Param("status") String status);
 
 
     /**
