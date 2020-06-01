@@ -1,5 +1,4 @@
 package com.corgi.user.entity;
-
 import lombok.Data;
 
 import java.io.Serializable;
@@ -9,6 +8,14 @@ import java.util.List;
 @Data
 public class ActivityComment implements Serializable {
     private String commentId;
+
+    public String getParentCommentId() {
+        if (parentCommentId == null || "".equals(parentCommentId)) {
+            return "0";
+        }
+        return parentCommentId;
+    }
+
     private String parentCommentId;
     private String activityId;
     private String userId;
