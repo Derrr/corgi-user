@@ -4,8 +4,8 @@
 
     <insert id="addActivityLike" parameterType="com.corgi.user.entity.ActivityLike">
         INSERT ignore INTO `corgi`.`corgi_activity_like` (`like_user_id`, `like_user_name`, `like_user_avatar`
-        , `activity_id`)
-        VALUES (#{like.likeUserId}, #{like.likeUserName}, #{like.likeUserAvatar}, #{like.activityId});
+        , `activity_id`,`user_id`)
+        VALUES (#{like.likeUserId}, #{like.likeUserName}, #{like.likeUserAvatar}, #{like.activityId}, #{like.userId});
     </insert>
 
     <delete id="deleteActivityLike">
@@ -19,6 +19,7 @@
         `like_user_name` likeUserName,
         `like_user_avatar` likeUserAvatar,
         `activity_id` activityId,
+        `user_id` userId,
         `ctime`
         from corgi_activity_like
         where activity_id = #{activityId}

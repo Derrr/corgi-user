@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiShareMapper">
+
+    <insert id="addActivityShare" parameterType="com.corgi.user.entity.ActivityShare">
+        INSERT ignore INTO `corgi`.`corgi_activity_share` (`share_user_id`, `activity_id`,`user_id`)
+        VALUES (#{share.shareUserId}, #{share.activityId}, #{share.userId});
+    </insert>
+
+    <select id="countActivityShare" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_activity_share
+        where activity_id = #{activityId}
+    </select>
+
+</mapper>
