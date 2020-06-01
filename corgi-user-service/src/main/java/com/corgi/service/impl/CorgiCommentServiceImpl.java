@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.rmi.activation.ActivationID;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,7 +62,8 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
 
     @Override
     public List<ActivityComment> getActivityComment(String activityId) {
-        return corgiCommentMapper.getActivityComment(activityId);
+        List<ActivityComment> comments = corgiCommentMapper.getActivityComment(activityId);
+        return buildComments(comments);
     }
 
     @Override
@@ -70,5 +74,38 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     @Override
     public ActivityComment getLastComment(String activityId, String userId) {
         return corgiCommentMapper.getLastActivityComment(activityId, userId);
+    }
+
+    private List<ActivityComment> buildComments(List<ActivityComment> activityComments) {
+        List<ActivityComment> results = new ArrayList<>();
+        HashMap<String, ActivityComment> commentHashMap = new HashMap<>();
+        if (activityComments != null) {
+            for (ActivityComment comment : activityComments) {
+                if ("0".equals(comment.getParentCommentId())) {
+                    results.add(comment);
+                    commentHashMap.put(comment.getCommentId(), comment);
+                } else {
+                    ActivityComment parentComment = findComment(comment.getParentCommentId(), activityComments, commentHashMap);
+                    if (parentComment != null) {
+                        parentComment.addChildComment(comment);
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
+    private ActivityComment findComment(String commentId, List<ActivityComment> comments, HashMap<String, ActivityComment> commentHashMap) {
+        ActivityComment result = commentHashMap.get(commentId);
+        if (result != null) {
+            return result;
+        }
+        for (ActivityComment comment : comments) {
+            if (commentId.equals(comment.getCommentId())) {
+                commentHashMap.put(commentId, comment);
+                return comment;
+            }
+        }
+        return null;
     }
 }
