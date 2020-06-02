@@ -58,6 +58,15 @@ public interface CorgiUserActivityMapper {
     List<UserProfile> getUser(@Param("activityId") String activityId, @Param("status") String status);
 
     /**
+     * 获取最热门报名人
+     * @param activityId
+     * @param status
+     * @return
+     */
+    List<UserProfile> getPopularUser(@Param("activityId") String activityId, @Param("status") String status);
+
+
+    /**
      * 统计报名人
      *
      * @param activityId

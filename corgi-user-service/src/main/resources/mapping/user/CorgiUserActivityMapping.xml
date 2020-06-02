@@ -54,6 +54,22 @@
         </if>
     </select>
 
+    <select id="getPopularUser" resultType="com.corgi.user.entity.UserProfile">
+        select
+        a.user_id userId,
+        d.nickname `nickname`
+        from corgi_activity_attender a
+        left join corgi_user_detail d on d.user_id = a.user_id
+        left join corgi_user_follow f on f.follow_user_id = a.user_id
+        where a.activity_id = #{activityId}
+        <if test='status != null and status !="" '>
+            and a.`status` = #{status}
+        </if>
+        group by a.user_id,d.nickname
+        order by count(f.user_id) DESC
+        limit 3
+    </select>
+
     <select id="countUser" resultType="java.lang.Integer">
         select
         count(1)

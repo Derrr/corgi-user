@@ -80,6 +80,12 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public List<UserProfile> getPopularUsers(String activityId, String status) {
+        List<UserProfile> userProfiles = corgiUserActivityMapper.getPopularUser(activityId, status);
+        return corgiUserService.populateUserProfile(userProfiles, null);
+    }
+
+    @Override
     public Integer countUsers(String activityId, String status) {
         return corgiUserActivityMapper.countUser(activityId, status);
     }
