@@ -39,6 +39,7 @@
     <select id="countFollowUser" resultType="java.lang.Integer">
         select count(1) from corgi_user_follow
         where user_id = #{userId} and is_deleted = '0'
+        and follow_user_id not like 'B%'
     </select>
 
     <select id="countMatchUser" resultType="java.lang.Integer">
@@ -73,7 +74,7 @@
         from corgi_user_follow f
         left join corgi_user_position p on f.follow_user_id = p.user_id
         left join corgi_user_detail d on d.user_id = p.user_id
-        left join corgi_user_login l on l.id = p.user_id
+        join corgi_user_login l on l.id = p.user_id
         where f.user_id = #{userId} and is_deleted = '0'
         <if test="type == 'new'">
             order by f.id desc
