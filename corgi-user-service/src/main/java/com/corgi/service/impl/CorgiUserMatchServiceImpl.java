@@ -8,6 +8,7 @@ import com.corgi.support.MatchSupporter;
 import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserMatch;
+import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -54,6 +55,8 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             Double charaFactor = getRatios("chara_factor", factors);
             Double preferFactor = getRatios("prefer_factor", factors);
             Double intFactor = getRatios("int_factor", factors);
+            List<String> intList = redisTemplate.opsForList().range("match_factor_int", 0, -1);
+            List<String> conList = redisTemplate.opsForList().range("match_factor_con", 0, -1);
             if (conFactor != null) {
                 MatchSupporter.CON_FACTOR = conFactor / 100;
             }
@@ -68,6 +71,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             }
             if (intFactor != null) {
                 MatchSupporter.FACTOR = intFactor / 100;
+            }
+            if (intList != null && intList.size() == 2) {
+                MatchSupporter.INT_MATCH_LIST = intList;
+            }
+            if (conList != null && conList.size() == 12) {
+                MatchSupporter.CON_MATCH_LIST = conList;
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
