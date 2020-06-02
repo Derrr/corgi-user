@@ -30,7 +30,7 @@ public interface CorgiLikeMapper {
      * @param activityId
      * @return
      */
-    List<ActivityLike> getActivityLike(@Param("activityId") String activityId);
+    List<ActivityLike> getActivityLike(@Param("activityId") String activityId, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
      * 获取点赞数
@@ -60,6 +60,7 @@ public interface CorgiLikeMapper {
 
     /**
      * 获取点赞活动
+     *
      * @param userId
      * @param start
      * @param size

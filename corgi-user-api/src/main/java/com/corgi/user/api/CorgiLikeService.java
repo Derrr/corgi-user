@@ -13,7 +13,7 @@ public interface CorgiLikeService {
 
     void deleteActivityLike(String userId, String activityId);
 
-    List<ActivityLike> getActivityLike(String activityId);
+    List<ActivityLike> getActivityLike(String activityId, Integer page, Integer pageSize);
 
     Long countActivityLike(String activityId);
 

@@ -24,6 +24,7 @@
         from corgi_activity_like
         where activity_id = #{activityId}
         order by id desc
+        limit #{start}, #{size}
     </select>
 
     <select id="countActivityLike" resultType="java.lang.Long">

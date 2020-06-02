@@ -55,8 +55,8 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     }
 
     @Override
-    public List<ActivityLike> getActivityLike(String activityId) {
-        return corgiLikeMapper.getActivityLike(activityId);
+    public List<ActivityLike> getActivityLike(String activityId, Integer page, Integer pageSize) {
+        return corgiLikeMapper.getActivityLike(activityId, (page - 1) * pageSize, pageSize);
     }
 
     @Override

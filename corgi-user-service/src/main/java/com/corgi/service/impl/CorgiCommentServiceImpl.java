@@ -42,8 +42,8 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
 
         if (!StringUtils.isEmpty(activityComment.getReplyUserId())) {
             UserDetail replyUserDetail = corgiUserService.getUserDetail(activityComment.getReplyUserId(), null);
-            activityComment.setCommentUserName(replyUserDetail.getNickname());
-            activityComment.setCommentUserAvatar(replyUserDetail.getUserPics().get(0).getPicUrl());
+            activityComment.setReplyUserName(replyUserDetail.getNickname());
+            activityComment.setReplyUserAvatar(replyUserDetail.getUserPics().get(0).getPicUrl());
         }
         activityComment.setCommentId(UUID.randomUUID().toString());
         corgiCommentMapper.addActivityComment(activityComment);
@@ -57,6 +57,18 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
                 .content(activityComment.getContent())
                 .messageType(ActivityMessage.COMMENT)
                 .build());
+        if (!StringUtils.isEmpty(activityComment.getReplyUserId())) {
+            corgiToolService.addActivityMessage(ActivityMessage.builder()
+                    .activityId(activityComment.getActivityId())
+                    .fromUserAvatar(commentUserDetail.getUserPics().get(0).getPicUrl())
+                    .fromUserId(commentUserDetail.getUserId())
+                    .fromUserName(commentUserDetail.getNickname())
+                    .toUserId(activityComment.getReplyUserId())
+                    .time(System.currentTimeMillis())
+                    .content(activityComment.getContent())
+                    .messageType(ActivityMessage.COMMENT)
+                    .build());
+        }
 
     }
 
