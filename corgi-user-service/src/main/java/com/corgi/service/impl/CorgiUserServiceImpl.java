@@ -221,6 +221,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         return userProfiles;
     }
 
+
     private boolean hasFilter(UserQuery userQuery) {
         return !StringUtils.isEmpty(userQuery.getNickname())
                 || !CollectionUtils.isEmpty(userQuery.getGroup())
@@ -239,6 +240,20 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
         List<String> userIds = corgiUserMapper.getNearByUser(supporter);
         return userIds;
+    }
+
+    @Override
+    public List<UserProfile> getAllNearByUserProfile(UserQuery userQuery) {
+        GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
+        List<String> userIds = new ArrayList<>();
+        geoResults.forEach(result -> userIds.add(result.getContent().getName()));
+        String inValue = getAllUserSql(userIds);
+        if (StringUtils.isEmpty(inValue)) {
+            return new ArrayList<>();
+        }
+        List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
+        userProfiles = this.populateUserProfileAll(userProfiles, null, true);
+        return userProfiles;
     }
 
     @Override
@@ -451,6 +466,21 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             if (!userId.equals(loginUserId)) {
                 sb.append(userId + "','");
             }
+        }
+        if (sb.length() > 2) {
+            return sb.delete(sb.length() - 2, sb.length()).append(")").toString();
+        } else {
+            return "";
+        }
+    }
+
+    private String getAllUserSql(List<String> userIds) {
+        if (CollectionUtils.isEmpty(userIds)) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder("('");
+        for (String userId : userIds) {
+            sb.append(userId + "','");
         }
         if (sb.length() > 2) {
             return sb.delete(sb.length() - 2, sb.length()).append(")").toString();

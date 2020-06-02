@@ -33,13 +33,15 @@ public interface CorgiUserService {
 
     List<String> getAllNearByUser(UserQuery userQuery);
 
+    List<UserProfile> getAllNearByUserProfile(UserQuery userQuery);
+
     List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize);
 
     long countUsers(UserDetail userDetail);
 
     long countActiveUser(long beginTime, long endTime);
 
-    long countUserStay(long time,String registerDate);
+    long countUserStay(long time, String registerDate);
 
     long countRegisterUser(String date);
 
