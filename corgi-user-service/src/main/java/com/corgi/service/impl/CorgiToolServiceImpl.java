@@ -159,6 +159,15 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public ActivityMessage getLastActivityMessage(String userId) {
+        List<ActivityMessage> activityMessages = corgiToolMapper.getAllActivityMessage(userId, 0, 1);
+        if (CollectionUtils.isEmpty(activityMessages)) {
+            return null;
+        }
+        return activityMessages.get(0);
+    }
+
+    @Override
     public void deleteActivityMessage(String userId, Long time) {
         if (StringUtils.isEmpty(userId)) {
             userId = "8";
