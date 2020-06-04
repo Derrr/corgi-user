@@ -101,11 +101,10 @@ public interface CorgiToolMapper {
      * 获取活动消息
      *
      * @param userId
-     * @param start
      * @param size
      * @return
      */
-    List<ActivityMessage> getActivityMessage(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+    List<ActivityMessage> getActivityMessage(@Param("userId") String userId, @Param("size") Integer size);
 
     /**
      * 获取所有活动消息

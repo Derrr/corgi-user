@@ -38,7 +38,7 @@ public interface CorgiToolService {
 
     void addActivityMessage(ActivityMessage activityMessage);
 
-    List<ActivityMessage> getActivityMessage(String userId, Integer page, Integer pageSize);
+    List<ActivityMessage> getActivityMessage(String userId, Integer pageSize);
 
     List<ActivityMessage> getAllActivityMessage(String userId, Integer page, Integer pageSize);
 

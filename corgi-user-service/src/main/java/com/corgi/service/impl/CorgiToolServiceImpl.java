@@ -124,11 +124,11 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public List<ActivityMessage> getActivityMessage(String userId, Integer page, Integer pageSize) {
+    public List<ActivityMessage> getActivityMessage(String userId, Integer pageSize) {
         if (StringUtils.isEmpty(userId)) {
             userId = "8";
         }
-        List<ActivityMessage> activityMessages = corgiToolMapper.getActivityMessage(userId, (page - 1) * pageSize, pageSize);
+        List<ActivityMessage> activityMessages = corgiToolMapper.getActivityMessage(userId, pageSize);
         if (activityMessages != null && activityMessages.size() > 0) {
             corgiToolMapper.readActivityMessage(userId, activityMessages.get(0).getTime(), pageSize, "0");
         }
