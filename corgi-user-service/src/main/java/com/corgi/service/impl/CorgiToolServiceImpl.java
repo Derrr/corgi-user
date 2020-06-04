@@ -182,7 +182,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
         for (ActivityMessage activityMessage : activityMessages) {
             String activityId = activityMessage.getActivityId();
             List<CorgiActivity> activities = activityService.getActivityByIds(Arrays.asList(activityId));
-            if (CollectionUtils.isEmpty(activities)) {
+            if (CollectionUtils.isEmpty(activities) || CollectionUtils.isEmpty(activities.get(0).getPics())) {
                 activityMessage.setStatus(CorgiActivity.DELETED);
                 continue;
             }
