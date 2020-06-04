@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Data
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class ActivityMessage implements Serializable {
     public static final String COMMENT = "1";
     public static final String LIKE = "2";
