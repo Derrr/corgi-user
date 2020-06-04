@@ -102,6 +102,7 @@
         select count(1)
         from corgi_activity_message
         where to_user_id = #{userId}
+        and is_read = '0'
     </select>
 
     <delete id="deleteActivityMessage">
