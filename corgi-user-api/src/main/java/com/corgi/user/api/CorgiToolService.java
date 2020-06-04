@@ -36,6 +36,8 @@ public interface CorgiToolService {
 
     List<HashMap> getInfluencer();
 
+    Integer getCountByUser(String userId);
+
     void addActivityMessage(ActivityMessage activityMessage);
 
     List<ActivityMessage> getActivityMessage(String userId, Integer pageSize);

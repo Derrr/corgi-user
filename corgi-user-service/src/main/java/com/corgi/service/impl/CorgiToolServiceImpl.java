@@ -119,6 +119,12 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public Integer getCountByUser(String userId) {
+        return corgiToolMapper.getCountByUser(userId);
+    }
+
+
+    @Override
     public void addActivityMessage(ActivityMessage activityMessage) {
         corgiToolMapper.addActivityMessage(activityMessage);
     }
