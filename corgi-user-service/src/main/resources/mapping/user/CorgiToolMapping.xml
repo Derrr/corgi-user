@@ -116,7 +116,10 @@
         set is_read = '1'
         where to_user_id = #{userId}
         and `time` &lt;= #{time}
-        limit #{start}, #{size}
+        <if test="isRead != null and isRead != ''">
+            and `is_read` = #{isRead}
+        </if>
+        limit #{size}
     </update>
 
 </mapper>
