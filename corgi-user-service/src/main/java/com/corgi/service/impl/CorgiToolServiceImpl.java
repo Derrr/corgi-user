@@ -130,7 +130,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
         }
         List<ActivityMessage> activityMessages = corgiToolMapper.getActivityMessage(userId, (page - 1) * pageSize, pageSize);
         if (activityMessages != null && activityMessages.size() > 0) {
-            corgiToolMapper.readActivityMessage(userId, activityMessages.get(0).getTime());
+            corgiToolMapper.readActivityMessage(userId, activityMessages.get(0).getTime(), (page - 1) * pageSize, pageSize);
         }
         return buildActivityMessage(activityMessages);
     }
@@ -139,7 +139,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     public List<ActivityMessage> getAllActivityMessage(String userId, Integer page, Integer pageSize) {
         List<ActivityMessage> activityMessages = corgiToolMapper.getAllActivityMessage(userId, (page - 1) * pageSize, pageSize);
         if (activityMessages != null && activityMessages.size() > 0) {
-            corgiToolMapper.readActivityMessage(userId, activityMessages.get(0).getTime());
+            corgiToolMapper.readActivityMessage(userId, activityMessages.get(0).getTime(), (page - 1) * pageSize, pageSize);
         }
         return buildActivityMessage(activityMessages);
     }

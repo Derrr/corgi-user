@@ -116,6 +116,7 @@
         set is_read = '1'
         where to_user_id = #{userId}
         and `time` &lt;= #{time}
+        limit #{start}, #{size}
     </update>
 
 </mapper>
