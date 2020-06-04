@@ -74,9 +74,28 @@
         `from_user_id` fromUserId,
         `from_user_name` fromUserName,
         `from_user_avatar` fromUserAvatar,
+        `is_read` isRead,
+        `time`
+        from corgi_activity_message
+        where to_user_id = #{userId} and is_read = '0'
+        order by `time` desc
+        limit #{start}, #{size}
+    </select>
+
+    <select id="getAllActivityMessage" resultType="com.corgi.user.entity.ActivityMessage">
+        select message_type messageType,
+        `content`,
+        activity_id activityId,
+        `to_user_id` toUserId,
+        `from_user_id` fromUserId,
+        `from_user_name` fromUserName,
+        `from_user_avatar` fromUserAvatar,
+        `is_read` isRead,
         `time`
         from corgi_activity_message
         where to_user_id = #{userId}
+        order by `time` desc
+        limit #{start}, #{size}
     </select>
 
     <select id="countActivityMessage" resultType="java.lang.Long">
@@ -90,4 +109,12 @@
         where to_user_id = #{userId}
         and `time` &lt;= #{time}
     </delete>
+
+    <update id="readActivityMessage">
+        update corgi_activity_message
+        set is_read = '1'
+        where to_user_id = #{userId}
+        and `time` &lt;= #{time}
+    </update>
+
 </mapper>

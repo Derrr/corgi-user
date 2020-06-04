@@ -101,9 +101,21 @@ public interface CorgiToolMapper {
      * 获取活动消息
      *
      * @param userId
+     * @param start
+     * @param size
      * @return
      */
-    List<ActivityMessage> getActivityMessage(@Param("userId") String userId);
+    List<ActivityMessage> getActivityMessage(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
+     * 获取所有活动消息
+     * @param userId
+     * @param start
+     * @param size
+     * @return
+     */
+    List<ActivityMessage> getAllActivityMessage(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
 
     /**
      * 获取消息数
@@ -115,9 +127,18 @@ public interface CorgiToolMapper {
 
     /**
      * 删除活动消息
+     *
      * @param userId
      * @param time
      */
     void deleteActivityMessage(@Param("userId") String userId, @Param("time") Long time);
+
+    /**
+     * 已读消息
+     *
+     * @param userId
+     * @param time
+     */
+    void readActivityMessage(@Param("userId") String userId, @Param("time") Long time);
 
 }

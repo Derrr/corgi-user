@@ -1,6 +1,9 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.activity.api.CorgiActivityService;
+import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.CorgiStatistic;
 import com.corgi.entity.CorgiTopic;
 import com.corgi.mapper.CorgiToolMapper;
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,6 +33,9 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Autowired
     private CorgiToolMapper corgiToolMapper;
+
+    @Reference
+    private CorgiActivityService activityService;
 
     @Override
     public List<String> getTags() {
@@ -116,11 +124,24 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public List<ActivityMessage> getActivityMessage(String userId) {
+    public List<ActivityMessage> getActivityMessage(String userId, Integer page, Integer pageSize) {
         if (StringUtils.isEmpty(userId)) {
             userId = "8";
         }
-        return corgiToolMapper.getActivityMessage(userId);
+        List<ActivityMessage> activityMessages = corgiToolMapper.getActivityMessage(userId, (page - 1) * pageSize, pageSize);
+        if (activityMessages != null && activityMessages.size() > 0) {
+            corgiToolMapper.readActivityMessage(userId, activityMessages.get(0).getTime());
+        }
+        return buildActivityMessage(activityMessages);
+    }
+
+    @Override
+    public List<ActivityMessage> getAllActivityMessage(String userId, Integer page, Integer pageSize) {
+        List<ActivityMessage> activityMessages = corgiToolMapper.getAllActivityMessage(userId, (page - 1) * pageSize, pageSize);
+        if (activityMessages != null && activityMessages.size() > 0) {
+            corgiToolMapper.readActivityMessage(userId, activityMessages.get(0).getTime());
+        }
+        return buildActivityMessage(activityMessages);
     }
 
     @Override
@@ -137,5 +158,22 @@ public class CorgiToolServiceImpl implements CorgiToolService {
             userId = "8";
         }
         corgiToolMapper.deleteActivityMessage(userId, time);
+    }
+
+    public List<ActivityMessage> buildActivityMessage(List<ActivityMessage> activityMessages) {
+        if (CollectionUtils.isEmpty(activityMessages)) {
+            return new ArrayList<>();
+        }
+        for (ActivityMessage activityMessage : activityMessages) {
+            String activityId = activityMessage.getActivityId();
+            List<CorgiActivity> activities = activityService.getActivityByIds(Arrays.asList(activityId));
+            if (CollectionUtils.isEmpty(activities)) {
+                activityMessage.setStatus(CorgiActivity.DELETED);
+            }
+            CorgiActivity activity = activities.get(0);
+            activityMessage.setActivityPic(activity.getPics().get(0).getPicUrl());
+            activityMessage.setStatus(CorgiActivity.DELETED.equals(activity.getStatus()) ? CorgiActivity.DELETED : CorgiActivity.CREATED);
+        }
+        return activityMessages;
     }
 }
