@@ -93,7 +93,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         UserQuery userQuery = new UserQuery();
         userQuery.setLat(barProfile.getLat());
         userQuery.setLng(barProfile.getLng());
-        userQuery.setRange(barProfile.getRange()/1000 + 0.0);
+        userQuery.setRange(barProfile.getRange()/1000.0);
         List<String> userIds = corgiUserService.getAllNearByUser(userQuery);
         Long duplicate = corgiBarMapper.countBarFollow(barProfile.getBarId(), String.join("','", userIds));
         return interest + userIds.size() - duplicate;
