@@ -200,16 +200,16 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> getNearByUser(UserQuery userQuery) {
-        List<String> userIds = new ArrayList<>();
-        boolean hasFilter = hasFilter(userQuery);
-        if (hasFilter) {
-            UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
-            userIds = corgiUserMapper.getNearByUser(supporter);
-        } else {
-            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
-            List<String> finalUserIds = userIds;
-            geoResults.forEach(result -> finalUserIds.add(result.getContent().getName()));
-        }
+        List<String> userIds = getAllNearByUser(userQuery);
+//        boolean hasFilter = hasFilter(userQuery);
+//        if (hasFilter) {
+//            UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
+//            userIds = corgiUserMapper.getNearByUser(supporter);
+//        } else {
+//            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
+//            List<String> finalUserIds = userIds;
+//            geoResults.forEach(result -> finalUserIds.add(result.getContent().getName()));
+//        }
         String inValue = getUserSql(userIds, userQuery.getUserId(), userQuery.getStartMatch(), userQuery.getEndMatch());
         if (StringUtils.isEmpty(inValue)) {
             return new ArrayList<>();
@@ -232,13 +232,20 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 || (userQuery.getStartHeight() != null && userQuery.getStartWeight() > 30)
                 || (!StringUtils.isEmpty(userQuery.getFollow()))
                 || !CollectionUtils.isEmpty(userQuery.getRelation());
-
     }
 
     @Override
     public List<String> getAllNearByUser(UserQuery userQuery) {
-        UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
-        List<String> userIds = corgiUserMapper.getNearByUser(supporter);
+        List<String> userIds = new ArrayList<>();
+        boolean hasFilter = hasFilter(userQuery);
+        if (hasFilter) {
+            UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
+            userIds = corgiUserMapper.getNearByUser(supporter);
+        } else {
+            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
+            List<String> finalUserIds = userIds;
+            geoResults.forEach(result -> finalUserIds.add(result.getContent().getName()));
+        }
         return userIds;
     }
 
