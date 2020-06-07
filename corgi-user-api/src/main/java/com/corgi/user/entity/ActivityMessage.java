@@ -21,6 +21,7 @@ public class ActivityMessage implements Serializable {
     private String fromUserId;
     private String fromUserName;
     private String fromUserAvatar;
+    private String commentId;
     private String isRead;
     private String status;
     private String activityPic;

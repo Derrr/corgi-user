@@ -62,9 +62,27 @@
     </select>
 
     <insert id="addActivityMessage" parameterType="com.corgi.user.entity.ActivityMessage">
-        INSERT INTO `corgi`.`corgi_activity_message` (`message_type`, `content`, `activity_id`, `to_user_id`, `from_user_id`, `from_user_name`, `from_user_avatar`, `time`)
-        VALUES (#{message.messageType}, #{message.content}, #{message.activityId}, #{message.toUserId}, #{message.fromUserId}, #{message.fromUserName}, #{message.fromUserAvatar}, #{message.time});
+        INSERT INTO `corgi`.`corgi_activity_message` (`message_type`, `content`, `activity_id`, `to_user_id`, `from_user_id`, `from_user_name`, `from_user_avatar`, `time`, `comment_id`)
+        VALUES (#{message.messageType}, #{message.content}, #{message.activityId}, #{message.toUserId}, #{message.fromUserId}, #{message.fromUserName}, #{message.fromUserAvatar}, #{message.time}, #{message.commentId});
     </insert>
+
+    <delete id="deleteActivityMessageByMessage" parameterType="com.corgi.user.entity.ActivityMessage">
+        delete from corgi_activity_message
+        where to_user_id = #{message.toUserId}
+        <if test='message.commentId != null and message.commentId != "" '>
+            and `comment_id` = #{message.commentId}
+        </if>
+        <if test='message.activityId != null and message.activityId != "" '>
+            and `activity_id` = #{message.activityId}
+        </if>
+        <if test='message.fromUserId != null and message.fromUserId != "" '>
+            and `from_user_id` = #{message.fromUserId}
+        </if>
+        <if test='message.messageType != null and message.messageType != "" '>
+            and `message_type` = #{message.messageType}
+        </if>
+    </delete>
+
 
     <select id="getActivityMessage" resultType="com.corgi.user.entity.ActivityMessage">
         select message_type messageType,
@@ -75,6 +93,7 @@
         `from_user_name` fromUserName,
         `from_user_avatar` fromUserAvatar,
         `is_read` isRead,
+        `comment_id` commentId,
         `time`
         from corgi_activity_message
         where to_user_id = #{userId} and is_read = '0'
@@ -91,6 +110,7 @@
         `from_user_name` fromUserName,
         `from_user_avatar` fromUserAvatar,
         `is_read` isRead,
+        `comment_id` commentId,
         `time`
         from corgi_activity_message
         where to_user_id = #{userId}

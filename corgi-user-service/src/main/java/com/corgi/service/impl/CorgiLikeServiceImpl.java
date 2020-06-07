@@ -38,20 +38,27 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
         activityLike.setLikeUserAvatar(userDetail.getUserPics().get(0).getPicUrl());
 
         corgiLikeMapper.addActivityLike(activityLike);
-        corgiToolService.addActivityMessage(ActivityMessage.builder()
-                .activityId(activityLike.getActivityId())
-                .fromUserAvatar(userDetail.getUserPics().get(0).getPicUrl())
-                .fromUserId(userDetail.getUserId())
-                .fromUserName(userDetail.getNickname())
-                .toUserId(activityLike.getUserId())
-                .time(System.currentTimeMillis())
-                .messageType(ActivityMessage.LIKE)
-                .build());
+        if(!userDetail.getUserPics().equals(activityLike.getUserId())) {
+            corgiToolService.addActivityMessage(ActivityMessage.builder()
+                    .activityId(activityLike.getActivityId())
+                    .fromUserAvatar(userDetail.getUserPics().get(0).getPicUrl())
+                    .fromUserId(userDetail.getUserId())
+                    .fromUserName(userDetail.getNickname())
+                    .toUserId(activityLike.getUserId())
+                    .time(System.currentTimeMillis())
+                    .messageType(ActivityMessage.LIKE)
+                    .build());
+        }
     }
 
     @Override
     public void deleteActivityLike(String userId, String activityId) {
         corgiLikeMapper.deleteActivityLike(userId, activityId);
+        corgiToolService.deleteActivityMessageByMessage(ActivityMessage.builder()
+                .fromUserId(userId)
+                .activityId(activityId)
+                .messageType(ActivityMessage.LIKE)
+                .build());
     }
 
     @Override
