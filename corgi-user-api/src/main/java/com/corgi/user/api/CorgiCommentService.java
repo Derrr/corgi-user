@@ -11,6 +11,8 @@ import java.util.List;
 public interface CorgiCommentService {
     void addActivityComment(ActivityComment activityComment);
 
+    void deleteActivityComment(String commentId);
+
     List<ActivityComment> getActivityComment(String activityId);
 
     Long countActivityComment(String activityId);

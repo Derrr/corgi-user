@@ -134,6 +134,13 @@ public interface CorgiToolMapper {
     void deleteActivityMessage(@Param("userId") String userId, @Param("time") Long time);
 
     /**
+     * 根据条件删除活动信息
+     *
+     * @param message
+     */
+    void deleteActivityMessageByMessage(@Param("message") ActivityMessage message);
+
+    /**
      * 已读消息
      *
      * @param userId

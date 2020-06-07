@@ -7,6 +7,11 @@
         VALUES (#{comment.commentId}, #{comment.commentUserId}, #{comment.commentUserName}, #{comment.commentUserAvatar}, #{comment.replyUserId}, #{comment.replyUserName}, #{comment.replyUserAvatar}, #{comment.activityId}, #{comment.parentCommentId}, #{comment.content}, #{comment.userId});
     </insert>
 
+    <delete id="deleteActivityComment">
+        delete from corgi_activity_comment
+        where comment_id = #{commentId}
+    </delete>
+
     <select id="getActivityComment" resultType="com.corgi.user.entity.ActivityComment">
         select `comment_id` commentId,
         `comment_user_id` commentUserId,
@@ -23,6 +28,23 @@
         from corgi_activity_comment
         where activity_id = #{activityId}
         order by id desc
+    </select>
+
+    <select id="getActivityCommentByCommentId" resultType="com.corgi.user.entity.ActivityComment">
+        select `comment_id` commentId,
+        `comment_user_id` commentUserId,
+        `comment_user_name` commentUserName,
+        `comment_user_avatar` commentUserAvatar,
+        `reply_user_id` replyUserId,
+        `reply_user_name` replyUserName,
+        `reply_user_avatar` replyUserAvatar,
+        `activity_id` activityId,
+        `parent_comment_id` parentCommentId,
+        `content`,
+        `user_id` userId,
+        `ctime`
+        from corgi_activity_comment
+        where comment_id = #{commentId}
     </select>
 
     <select id="countActivityComment" resultType="java.lang.Long">

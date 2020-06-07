@@ -79,6 +79,11 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public void deleteActivityMessageByMessage(ActivityMessage message) {
+        corgiToolMapper.deleteActivityMessageByMessage(message);
+    }
+
+    @Override
     public void addTopic(CorgiTopic topic) {
         corgiToolMapper.addTopic(topic);
     }

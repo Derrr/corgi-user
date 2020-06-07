@@ -47,17 +47,20 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         }
         activityComment.setCommentId(UUID.randomUUID().toString());
         corgiCommentMapper.addActivityComment(activityComment);
-        corgiToolService.addActivityMessage(ActivityMessage.builder()
-                .activityId(activityComment.getActivityId())
-                .fromUserAvatar(commentUserDetail.getUserPics().get(0).getPicUrl())
-                .fromUserId(commentUserDetail.getUserId())
-                .fromUserName(commentUserDetail.getNickname())
-                .toUserId(activityComment.getUserId())
-                .time(System.currentTimeMillis())
-                .content(activityComment.getContent())
-                .messageType(ActivityMessage.COMMENT)
-                .build());
-        if (!StringUtils.isEmpty(activityComment.getReplyUserId())) {
+        if (!commentUserDetail.getUserId().equals(activityComment.getUserId())) {
+            corgiToolService.addActivityMessage(ActivityMessage.builder()
+                    .activityId(activityComment.getActivityId())
+                    .fromUserAvatar(commentUserDetail.getUserPics().get(0).getPicUrl())
+                    .fromUserId(commentUserDetail.getUserId())
+                    .fromUserName(commentUserDetail.getNickname())
+                    .toUserId(activityComment.getUserId())
+                    .time(System.currentTimeMillis())
+                    .content(activityComment.getContent())
+                    .commentId(activityComment.getCommentId())
+                    .messageType(ActivityMessage.COMMENT)
+                    .build());
+        }
+        if (!StringUtils.isEmpty(activityComment.getReplyUserId()) && !activityComment.getReplyUserId().equals(commentUserDetail.getUserId())) {
             corgiToolService.addActivityMessage(ActivityMessage.builder()
                     .activityId(activityComment.getActivityId())
                     .fromUserAvatar(commentUserDetail.getUserPics().get(0).getPicUrl())
@@ -65,11 +68,22 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
                     .fromUserName(commentUserDetail.getNickname())
                     .toUserId(activityComment.getReplyUserId())
                     .time(System.currentTimeMillis())
+                    .commentId(activityComment.getCommentId())
                     .content(activityComment.getContent())
                     .messageType(ActivityMessage.COMMENT)
                     .build());
         }
 
+    }
+
+    @Override
+    public void deleteActivityComment(String commentId) {
+        corgiCommentMapper.deleteActivityComment(commentId);
+        ActivityComment activityComment = corgiCommentMapper.getActivityCommentByCommentId(commentId);
+        corgiToolService.deleteActivityMessageByMessage(ActivityMessage.builder()
+                .fromUserId(activityComment.getCommentUserId())
+                .commentId(commentId)
+                .build());
     }
 
     @Override
