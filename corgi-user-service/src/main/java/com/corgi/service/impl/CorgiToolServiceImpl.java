@@ -131,6 +131,9 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Override
     public void addActivityMessage(ActivityMessage activityMessage) {
+        if (corgiToolMapper.countActivityMessageByMessage(activityMessage) > 0) {
+            return;
+        }
         corgiToolMapper.addActivityMessage(activityMessage);
     }
 

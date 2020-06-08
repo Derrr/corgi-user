@@ -107,6 +107,13 @@ public interface CorgiToolMapper {
     List<ActivityMessage> getActivityMessage(@Param("userId") String userId, @Param("size") Integer size);
 
     /**
+     * 对特定类型message计数
+     * @param message
+     * @return
+     */
+    Integer countActivityMessageByMessage(@Param("message")ActivityMessage message);
+
+    /**
      * 获取所有活动消息
      *
      * @param userId

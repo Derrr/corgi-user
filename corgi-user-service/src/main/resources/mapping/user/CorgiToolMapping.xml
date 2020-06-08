@@ -125,6 +125,20 @@
         and is_read = '0'
     </select>
 
+    <select id="countActivityMessageByMessage" resultType="java.lang.Long"
+            parameterType="com.corgi.user.entity.ActivityMessage">
+        select count(1)
+        from corgi_activity_message
+        where activity_id = #{message.activityId}
+        and to_user_id = #{message.toUserId}
+        and from_user_id = #{message.fromUserid}
+        and message_type = #{message.messageType}
+        <if test='message.commentId != null and message.commentId != ""'>
+            and comment_id = #{message.commentId}
+        </if>
+    </select>
+
+
     <delete id="deleteActivityMessage">
         delete from corgi_activity_message
         where to_user_id = #{userId}
