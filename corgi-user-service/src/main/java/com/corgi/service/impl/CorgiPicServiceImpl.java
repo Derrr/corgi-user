@@ -48,9 +48,6 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     @Override
     public List<UserPic> getUserPic(String userId) {
         List<UserPic> userPics = corgiPicMapper.getUserPic(userId);
-        if (userPics != null) {
-            userPics.stream().forEach(pic -> addSuffix(pic));
-        }
         return userPics;
     }
 
