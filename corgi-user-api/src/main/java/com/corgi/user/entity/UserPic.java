@@ -14,9 +14,6 @@ public class UserPic extends CorgiPic {
 
     @Override
     public String getPicUrl() {
-        if ("check".equals(super.getStatus())) {
-            return super.getPicUrl() + "?x-oss-process=style/mask";
-        }
         return super.getPicUrl();
     }
 }
