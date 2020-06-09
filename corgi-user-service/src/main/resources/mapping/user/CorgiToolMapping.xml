@@ -131,7 +131,7 @@
         from corgi_activity_message
         where activity_id = #{message.activityId}
         and to_user_id = #{message.toUserId}
-        and from_user_id = #{message.fromUserid}
+        and from_user_id = #{message.fromUserId}
         and message_type = #{message.messageType}
         <if test='message.commentId != null and message.commentId != ""'>
             and comment_id = #{message.commentId}
