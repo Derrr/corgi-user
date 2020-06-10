@@ -78,12 +78,14 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
 
     @Override
     public void deleteActivityComment(String commentId) {
-        corgiCommentMapper.deleteActivityComment(commentId);
         ActivityComment activityComment = corgiCommentMapper.getActivityCommentByCommentId(commentId);
-        corgiToolService.deleteActivityMessageByMessage(ActivityMessage.builder()
-                .fromUserId(activityComment.getCommentUserId())
-                .commentId(commentId)
-                .build());
+        if (activityComment != null) {
+            corgiCommentMapper.deleteActivityComment(commentId);
+            corgiToolService.deleteActivityMessageByMessage(ActivityMessage.builder()
+                    .fromUserId(activityComment.getCommentUserId())
+                    .commentId(commentId)
+                    .build());
+        }
     }
 
     @Override
