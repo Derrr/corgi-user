@@ -31,7 +31,7 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     private CorgiToolService corgiToolService;
 
     @Override
-    public void addActivityComment(ActivityComment activityComment) {
+    public ActivityComment addActivityComment(ActivityComment activityComment) {
         String userId = activityComment.getCommentUserId();
         if ("-1".equals(userId) || StringUtils.isEmpty(userId)) {
             userId = "1";
@@ -73,7 +73,7 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
                     .messageType(ActivityMessage.COMMENT)
                     .build());
         }
-
+        return activityComment;
     }
 
     @Override

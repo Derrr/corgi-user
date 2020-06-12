@@ -200,7 +200,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> getNearByUser(UserQuery userQuery) {
-        log.info("query...{}", userQuery);
         List<String> userIds = getAllNearByUser(userQuery);
         String inValue = getUserSql(userIds, userQuery.getUserId(), userQuery.getStartMatch(), userQuery.getEndMatch());
         if (StringUtils.isEmpty(inValue)) {
@@ -221,7 +220,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 || (userQuery.getEndWeight() != null && userQuery.getEndWeight() < 200)
                 || (userQuery.getStartWeight() != null && userQuery.getStartWeight() > 30)
                 || (userQuery.getEndHeight() != null && userQuery.getEndHeight() < 200)
-                || (userQuery.getStartHeight() != null && userQuery.getStartWeight() > 30)
+                || (userQuery.getStartHeight() != null && userQuery.getStartHeight() > 30)
                 || (!StringUtils.isEmpty(userQuery.getFollow()))
                 || !CollectionUtils.isEmpty(userQuery.getRelation());
     }

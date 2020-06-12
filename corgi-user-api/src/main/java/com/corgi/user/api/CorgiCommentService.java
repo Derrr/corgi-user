@@ -9,7 +9,7 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiCommentService {
-    void addActivityComment(ActivityComment activityComment);
+    ActivityComment addActivityComment(ActivityComment activityComment);
 
     void deleteActivityComment(String commentId);
 
