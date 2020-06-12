@@ -39,7 +39,6 @@
     <select id="countFollowUser" resultType="java.lang.Integer">
         select count(1) from corgi_user_follow
         where user_id = #{userId} and is_deleted = '0'
-        and follow_user_id not like 'B%'
     </select>
 
     <select id="countMatchUser" resultType="java.lang.Integer">
@@ -60,12 +59,12 @@
 
     <select id="getFollowUserByPage" resultType="com.corgi.user.entity.UserProfile">
         select
-        p.user_id userId,
-        p.lat lat,
-        p.lng lng,
+        if(p.user_id is null,b.bar_id,p.user_id) userId,
+        if(p.lat is null,b.lat,p.lat) lat,
+        if(p.lng is null,b.lng,p.lng) lng,
         p.uptime `time`,
-        d.nickname `nickname`,
-        d.avatar avatar,
+        if(d.nickname is null,b.bar_name,d.nickname) `nickname`,
+        if(d.avatar is null,b.logo,d.avatar)  avatar,
         d.role role,
         d.group `group`,
         d.con con,
@@ -74,7 +73,8 @@
         from corgi_user_follow f
         left join corgi_user_position p on f.follow_user_id = p.user_id
         left join corgi_user_detail d on d.user_id = p.user_id
-        join corgi_user_login l on l.id = p.user_id
+        left join corgi_bar_detail b on b.bar_id = f.follow_user_id
+        left join corgi_user_login l on l.id = p.user_id
         where f.user_id = #{userId} and is_deleted = '0'
         <if test="type == 'new'">
             order by f.id desc
@@ -83,7 +83,7 @@
             order by p.uptime desc
         </if>
         <if test="type == 'distance'">
-            order by if(p.lat &lt; 200 and p.lng &lt; 200,st_distance_sphere(point(#{lng},#{lat}),p.pt)/100000,100000)
+            order by if(if(p.lat is null,b.lat,p.lat) &lt; 200 and if(d.avatar is null,b.logo,d.avatar) &lt; 200,st_distance_sphere(point(#{lng},#{lat}),p.pt)/100000,100000)
         </if>
         limit #{start},#{size}
     </select>
@@ -160,7 +160,7 @@
         from corgi_user_follow f
         left join corgi_user_detail d on d.user_id = f.user_id
         left join corgi_user_position p on f.user_id = p.user_id
-        left join corgi_user_login l on l.id = p.user_id
+        join corgi_user_login l on l.id = p.user_id
         where f.follow_user_id = #{userId}
         order by f.uptime desc
         limit #{start},#{size}
