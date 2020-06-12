@@ -200,6 +200,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> getNearByUser(UserQuery userQuery) {
+        log.info("query...{}", userQuery);
         List<String> userIds = getAllNearByUser(userQuery);
         String inValue = getUserSql(userIds, userQuery.getUserId(), userQuery.getStartMatch(), userQuery.getEndMatch());
         if (StringUtils.isEmpty(inValue)) {
