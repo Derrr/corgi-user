@@ -1,7 +1,9 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.activity.api.CorgiActivityService;
 import com.corgi.activity.entity.ActivityPic;
 import com.corgi.common.CorgiConstants;
 import com.corgi.entity.CheckPic;
