@@ -324,7 +324,6 @@
         d.con con,
         d.relation,
         d.check_status checkStatus,
-        l.tel_no telNo,
         l.im_id imId
         from corgi_user_position p
         join corgi_user_detail d on d.user_id = p.user_id
