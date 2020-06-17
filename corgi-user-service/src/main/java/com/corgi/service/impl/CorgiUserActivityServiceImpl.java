@@ -2,6 +2,7 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.entity.ActivityPic;
+import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.CorgiTopic;
 import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserActivityMapper;
@@ -93,6 +94,13 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     @Override
     public List<String> getSignUpActivity(String userId, Integer page, Integer pageSize) {
         return corgiUserActivityMapper.getSignUpActivityId(userId, (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
+    public List<String> getHeatActivity(CorgiActivity corgiActivity, Integer page, Integer pageSize) {
+        String category = corgiActivity.getCategory() + corgiActivity.getBarId();
+        String date = corgiActivity.getCreateTime();
+        return corgiUserActivityMapper.getHeadActivityPic(category, date, (page - 1) * pageSize, pageSize);
     }
 
     @Override

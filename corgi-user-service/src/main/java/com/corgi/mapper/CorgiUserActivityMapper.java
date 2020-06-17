@@ -1,5 +1,6 @@
 package com.corgi.mapper;
 
+import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.user.entity.UserMatch;
 import com.corgi.user.entity.UserProfile;
 import com.corgi.user.entity.UserSignUp;
@@ -59,6 +60,7 @@ public interface CorgiUserActivityMapper {
 
     /**
      * 获取最热门报名人
+     *
      * @param activityId
      * @param status
      * @return
@@ -94,4 +96,14 @@ public interface CorgiUserActivityMapper {
      * @param category
      */
     void addActivityCreator(@Param("activityId") String activityId, @Param("creatorId") String creatorId, @Param("category") String category);
+
+    /**
+     * 按热度获取活动ID
+     * @param category
+     * @param date
+     * @param start
+     * @param size
+     * @return
+     */
+    List<String> getHeadActivityPic(@Param("category") String category, @Param("date") String date, @Param("start") Integer start, @Param("size") Integer size);
 }
