@@ -87,7 +87,7 @@
     </select>
 
     <select id="getHeadActivityPic" resultType="java.lang.String">
-        select activity_id from corgi_activity_creator c
+        select c.activity_id from corgi_activity_creator c
         left join corgi_activity_like l on c.activity_id = l.activity_id
         where c.category = #{category}
         and c.ctime >= #{date}
