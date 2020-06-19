@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -317,7 +318,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             for (UserProfile userProfile : userProfiles) {
                 try {
                     List<UserPic> userPics = corgiPicMapper.getUserPic(userProfile.getUserId());
-                    userProfile.setPics(userPics);
+
+                    if (CollectionUtils.isEmpty(userPics) && userProfile.getAvatar() != null) {
+                        UserPic userPic = new UserPic();
+                        userPic.setPicUrl(userProfile.getAvatar());
+                        userPic.setStatus(userProfile.getAvatarStatus());
+                        userProfile.setPics(Arrays.asList(userPic));
+                    } else {
+                        userProfile.setPics(userPics);
+                    }
                     if (StringUtils.isEmpty(userId)) {
                         continue;
                     }
