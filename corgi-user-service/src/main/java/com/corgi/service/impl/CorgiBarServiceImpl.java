@@ -56,7 +56,9 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     @Override
     public BarProfile getBarProfile(String barId) {
         BarProfile barProfile = corgiBarMapper.getBar(barId);
-        barProfile.setHeat(countBarHeat(barProfile));
+        if(barProfile != null) {
+            barProfile.setHeat(countBarHeat(barProfile));
+        }
         return barProfile;
     }
 
