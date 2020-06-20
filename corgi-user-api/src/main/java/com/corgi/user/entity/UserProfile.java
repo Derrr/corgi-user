@@ -40,6 +40,7 @@ public class UserProfile implements Serializable {
     private String createTime;
     private String followTime;
     private Integer activityCount;
+    private String locateType;
     List<UserPic> pics;
 
     public String getFollowTime() {

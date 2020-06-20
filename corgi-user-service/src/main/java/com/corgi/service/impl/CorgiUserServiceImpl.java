@@ -179,7 +179,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         String geoKey = "user";
         UserPosition oldUserPosition = corgiUserMapper.getUserPosition(userPosition.getUserId());
         if (oldUserPosition == null) {
-            corgiUserMapper.addUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng());
+            corgiUserMapper.addUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng(), userPosition.getLocateType());
             this.addGeo(geoKey, userPosition);
         } else if (oldUserPosition.getLat() - userPosition.getLat() > 0.0001
                 || oldUserPosition.getLat() - userPosition.getLat() < -0.0001
