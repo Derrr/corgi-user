@@ -185,7 +185,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 || oldUserPosition.getLat() - userPosition.getLat() < -0.0001
                 || oldUserPosition.getLng() - userPosition.getLng() > 0.0001
                 || oldUserPosition.getLng() - userPosition.getLng() < -0.0001) {
-            corgiUserMapper.updateUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng());
+            corgiUserMapper.updateUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng(), userPosition.getLocateType());
             redisTemplate.opsForGeo().remove(geoKey, userPosition.getUserId());
             this.addGeo(geoKey, userPosition);
         } else {

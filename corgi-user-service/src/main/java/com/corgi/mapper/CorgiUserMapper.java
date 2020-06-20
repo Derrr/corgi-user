@@ -193,7 +193,7 @@ public interface CorgiUserMapper {
      * @param lng
      * @param uptime
      */
-    void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng);
+    void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng,@Param("locateType")String locateType);
 
     /**
      * 更新用户时间
