@@ -10,8 +10,10 @@ public class SystemMessage implements Serializable{
     public static String STATUS_CREATED = "created";
     public static String STATUS_DISABLED = "disabled";
     public static String STATUS_SENT = "sent";
+    public static String STATUS_SENDING = "sending";
 
     private String id;
+    private String title;
     private String content;
     private String status;
     private Long sentTime;
