@@ -51,16 +51,16 @@
         update corgi_system_message
         <set>
             <if test="message.content != null and message.content != ''">
-                `content` = #{message.content}
+                `content` = #{message.content},
             </if>
             <if test="message.sentTime != null and message.sentTime != ''">
-                `sent_time` = #{message.sentTime}
+                `sent_time` = #{message.sentTime},
             </if>
             <if test="message.status != null and message.status != ''">
-                `status` = #{message.status}
+                `status` = #{message.status},
             </if>
             <if test="message.title != null and message.title != ''">
-                `title` = #{message.title}
+                `title` = #{message.title},
             </if>
 
         </set>
