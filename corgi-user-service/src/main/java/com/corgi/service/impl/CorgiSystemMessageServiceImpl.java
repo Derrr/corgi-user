@@ -61,7 +61,7 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
 
     @Override
     public void updateSystemMessage(SystemMessage systemMessage) {
-        if (!StringUtils.isEmpty(systemMessage.getContent()) || !StringUtils.isEmpty(systemMessage.getStatus()) || systemMessage.getSentTime() != null) {
+        if (!StringUtils.isEmpty(systemMessage.getContent()) || !StringUtils.isEmpty(systemMessage.getStatus()) || systemMessage.getSentTime() != null ||!StringUtils.isEmpty(systemMessage.getTitle())) {
             corgiSystemMessageMapper.updateSystemMessage(systemMessage);
         } else {
             corgiSystemMessageMapper.deleteMessageRule(systemMessage.getId());

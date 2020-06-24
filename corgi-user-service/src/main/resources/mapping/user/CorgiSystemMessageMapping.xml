@@ -53,7 +53,7 @@
             <if test="message.content != null and message.content != ''">
                 `content` = #{message.content},
             </if>
-            <if test="message.sentTime != null and message.sentTime != ''">
+            <if test="message.sentTime != null">
                 `sent_time` = #{message.sentTime},
             </if>
             <if test="message.status != null and message.status != ''">
@@ -62,7 +62,6 @@
             <if test="message.title != null and message.title != ''">
                 `title` = #{message.title},
             </if>
-
         </set>
         where id = #{message.id}
     </update>
