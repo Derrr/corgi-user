@@ -83,7 +83,7 @@
             order by p.uptime desc
         </if>
         <if test="type == 'distance'">
-            order by if(if(p.lat is null,b.lat,p.lat) &lt; 200 and if(p.lng is null,b.lng,p.lng) &lt; 200,st_distance_sphere(point(#{lng},#{lat}),if(p.pt is null,point(b.lat,b.lng)) ,p.pt)/100000,100000)
+            order by if(if(p.lat is null,b.lat,p.lat) &lt; 200 and if(p.lng is null,b.lng,p.lng) &lt; 200,st_distance_sphere(point(#{lng},#{lat}),if(p.pt is null,point(b.lat,b.lng) ,p.pt))/100000,100000)
         </if>
         limit #{start},#{size}
     </select>
