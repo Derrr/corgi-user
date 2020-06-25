@@ -54,7 +54,7 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
     }
 
     @Override
-    public String addSystemMessage(SystemMessage systemMessage) {
+    public void addSystemMessage(SystemMessage systemMessage) {
         corgiSystemMessageMapper.addSystemMessage(systemMessage);
         if (!CollectionUtils.isEmpty(systemMessage.getRules())) {
             for (MessageRule messageRule : systemMessage.getRules()) {
@@ -62,7 +62,6 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
                 corgiSystemMessageMapper.addMessageRule(messageRule);
             }
         }
-        return systemMessage.getId();
     }
 
     @Override

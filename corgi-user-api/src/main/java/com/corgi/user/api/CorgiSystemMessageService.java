@@ -16,7 +16,7 @@ public interface CorgiSystemMessageService {
 
     List<SystemMessage> getSystemMessagesByTime(Long time);
 
-    String addSystemMessage(SystemMessage systemMessage);
+    void addSystemMessage(SystemMessage systemMessage);
 
     void updateSystemMessage(SystemMessage systemMessage);
 
