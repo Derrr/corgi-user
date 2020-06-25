@@ -123,13 +123,12 @@
         update corgi_message_record
         <set>
             <if test="record.status != null and record.status != ''">
-                `status` = #{record.status}
+                `status` = #{record.status},
             </if>
             <if test="record.reason != null and record.reason != ''">
-                `reason` = #{record.reason}
+                `reason` = #{record.reason},
             </if>
         </set>
-        where message_id = #{record.messageId}
-        and user_id = #{record.userId}
+        where id = #{record.id}
     </update>
 </mapper>

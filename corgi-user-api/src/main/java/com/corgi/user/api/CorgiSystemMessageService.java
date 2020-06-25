@@ -30,7 +30,7 @@ public interface CorgiSystemMessageService {
 
     List<MessageRecord> getMessageRecordByMessageId(Integer page, Integer pageSize, String messageId);
 
-    void addMessageRecord(MessageRecord messageRecord);
+    String addMessageRecord(MessageRecord messageRecord);
 
     void updateMessageRecord(MessageRecord messageRecord);
 }
