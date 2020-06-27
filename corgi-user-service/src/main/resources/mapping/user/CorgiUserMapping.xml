@@ -475,7 +475,9 @@
 
     <select id="filterUser" resultType="java.lang.String">
         select distinct d.user_id from corgi_user_detail d
-        left join corgi_prefer_group g on g.user_id = d.user_id
+        <if test="preferGroup != null and preferGroup != ''">
+          left join corgi_prefer_group g on g.user_id = d.user_id
+        </if>
         where d.user_id in ${userId}
         <if test="role != null and role != ''">
             and d.role in ${role} and d.hide_role != '1'
