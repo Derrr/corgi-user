@@ -5,6 +5,7 @@
         select id userId, tel_no telNo, im_id imId
         from corgi_user_login
         where tel_no = #{telNo}
+        limit 1
     </select>
 
     <select id="getUserLogin" resultType="com.corgi.user.entity.UserLogin">
