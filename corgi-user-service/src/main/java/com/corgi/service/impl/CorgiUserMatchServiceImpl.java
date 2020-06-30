@@ -168,7 +168,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         try {
             match = Double.valueOf(matchStr);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(e.getMessage());
         }
         if (match == null) {
             match = this.calculateUserMatch(userId1, userId2);
