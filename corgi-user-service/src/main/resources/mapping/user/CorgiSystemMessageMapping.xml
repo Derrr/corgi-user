@@ -8,6 +8,7 @@
         `sent_time` sentTime,
         `status`,
         `ctime`,
+        `title`,
         `uptime`
         from corgi_system_message
         order by id desc
@@ -21,6 +22,7 @@
         `sent_time` sentTime,
         `status`,
         `ctime`,
+        `title`,
         `uptime`
         from corgi_system_message
         where id = #{messageId}
@@ -33,6 +35,7 @@
         `sent_time` sentTime,
         `status`,
         `ctime`,
+        `title`,
         `uptime`
         from corgi_system_message
         where sent_time &lt;= #{time}
@@ -40,21 +43,24 @@
     </select>
 
     <insert id="addSystemMessage" useGeneratedKeys="true" keyProperty="message.id" parameterType="com.corgi.user.entity.SystemMessage">
-        insert into corgi_system_message (`content`, `sent_time`, `status`)
-        VALUES(#{message.content},#{message.sentTime}, #{message.status})
+        insert into corgi_system_message (`content`, `sent_time`, `status`, `title`)
+        VALUES(#{message.content},#{message.sentTime}, #{message.status}, #{message.title})
     </insert>
 
     <update id="updateSystemMessage" parameterType="com.corgi.user.entity.SystemMessage">
         update corgi_system_message
         <set>
             <if test="message.content != null and message.content != ''">
-                `content` = #{message.content}
+                `content` = #{message.content},
             </if>
-            <if test="message.sentTime != null and message.sentTime != ''">
-                `sent_time` = #{message.sentTime}
+            <if test="message.sentTime != null">
+                `sent_time` = #{message.sentTime},
             </if>
             <if test="message.status != null and message.status != ''">
-                `status` = #{message.status}
+                `status` = #{message.status},
+            </if>
+            <if test="message.title != null and message.title != ''">
+                `title` = #{message.title},
             </if>
         </set>
         where id = #{message.id}
@@ -117,13 +123,12 @@
         update corgi_message_record
         <set>
             <if test="record.status != null and record.status != ''">
-                `status` = #{record.status}
+                `status` = #{record.status},
             </if>
             <if test="record.reason != null and record.reason != ''">
-                `reason` = #{record.reason}
+                `reason` = #{record.reason},
             </if>
         </set>
-        where message_id = #{record.messageId}
-        and user_id = #{record.userId}
+        where id = #{record.id}
     </update>
 </mapper>

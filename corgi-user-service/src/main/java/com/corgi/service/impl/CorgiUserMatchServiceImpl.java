@@ -172,7 +172,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         if (match == null) {
             match = this.calculateUserMatch(userId1, userId2);
-            redisTemplate.opsForValue().set(matchKey, match + "", 7L, TimeUnit.DAYS);
+            if (match != null) {
+                redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
+            }
         }
         return match;
     }

@@ -31,7 +31,13 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
 
     @Override
     public List<SystemMessage> getSystemMessageByPage(Integer page, Integer pageSize) {
-        return corgiSystemMessageMapper.getSystemMessageByPage((page - 1) * pageSize, pageSize);
+        List<SystemMessage> messages = corgiSystemMessageMapper.getSystemMessageByPage((page - 1) * pageSize, pageSize);
+        if (messages != null) {
+            for (SystemMessage message : messages) {
+                message.setRules(corgiSystemMessageMapper.getMessageRuleById(message.getId()));
+            }
+        }
+        return messages;
     }
 
     @Override
@@ -48,7 +54,7 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
     }
 
     @Override
-    public String addSystemMessage(SystemMessage systemMessage) {
+    public void addSystemMessage(SystemMessage systemMessage) {
         corgiSystemMessageMapper.addSystemMessage(systemMessage);
         if (!CollectionUtils.isEmpty(systemMessage.getRules())) {
             for (MessageRule messageRule : systemMessage.getRules()) {
@@ -56,12 +62,11 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
                 corgiSystemMessageMapper.addMessageRule(messageRule);
             }
         }
-        return systemMessage.getId();
     }
 
     @Override
     public void updateSystemMessage(SystemMessage systemMessage) {
-        if (!StringUtils.isEmpty(systemMessage.getContent()) || !StringUtils.isEmpty(systemMessage.getStatus()) || systemMessage.getSentTime() != null) {
+        if (!StringUtils.isEmpty(systemMessage.getContent()) || !StringUtils.isEmpty(systemMessage.getStatus()) || systemMessage.getSentTime() != null || !StringUtils.isEmpty(systemMessage.getTitle())) {
             corgiSystemMessageMapper.updateSystemMessage(systemMessage);
         } else {
             corgiSystemMessageMapper.deleteMessageRule(systemMessage.getId());
@@ -101,8 +106,9 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
     }
 
     @Override
-    public void addMessageRecord(MessageRecord messageRecord) {
+    public String addMessageRecord(MessageRecord messageRecord) {
         corgiSystemMessageMapper.addMessageRecord(messageRecord);
+        return messageRecord.getId();
     }
 
     @Override

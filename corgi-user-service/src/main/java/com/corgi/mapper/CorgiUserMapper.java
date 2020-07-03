@@ -166,7 +166,7 @@ public interface CorgiUserMapper {
      * @param lng
      * @param uptime
      */
-    void addUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng);
+    void addUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType")String locateType);
 
     /**
      * 获取用户位置
@@ -193,7 +193,7 @@ public interface CorgiUserMapper {
      * @param lng
      * @param uptime
      */
-    void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng);
+    void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng,@Param("locateType")String locateType);
 
     /**
      * 更新用户时间
@@ -201,7 +201,7 @@ public interface CorgiUserMapper {
      * @param userId
      * @param uptime
      */
-    void updateUserPositionUptime(@Param("userId") String userId, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng);
+    void updateUserPositionUptime(@Param("userId") String userId, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType")String locateType);
 
     /**
      * 获取周围人信息

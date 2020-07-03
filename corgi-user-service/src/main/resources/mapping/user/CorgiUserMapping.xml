@@ -247,22 +247,22 @@
     </update>
 
     <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">
-      insert into corgi_user_position (`user_id`, `lat`, `lng`,`pt`, `uptime`, `real_lat`, `real_lng`)
-      values (#{userId}, #{lat}, #{lng},point(#{lng},#{lat}), #{uptime},#{realLat},#{realLng} );
+      insert into corgi_user_position (`user_id`, `lat`, `lng`,`pt`, `uptime`, `real_lat`, `real_lng`, `locate_type`)
+      values (#{userId}, #{lat}, #{lng},point(#{lng},#{lat}), #{uptime},#{realLat},#{realLng},#{locateType});
     </insert>
 
     <select id="getUserPosition" resultType="com.corgi.user.entity.UserPosition">
-        select user_id userId, lat, lng from corgi_user_position
+        select user_id userId, lat, lng, real_lat realLat, real_lng realLng, locate_type locateType from corgi_user_position
         where user_id = #{userId}
     </select>
 
     <select id="getUserPositionByPage" resultType="com.corgi.user.entity.UserPosition">
-        select user_id userId, lat, lng from corgi_user_position
+        select user_id userId, lat, lng, real_lng realLng, locate_type locateType from corgi_user_position
         limit #{start}, #{size}
     </select>
 
     <update id="updateUserPosition" parameterType="com.corgi.user.entity.UserPosition">
-        update corgi_user_position set lat = #{lat}, lng = #{lng}, uptime = #{uptime}, pt=point(#{lng},#{lat}),
+        update corgi_user_position set lat = #{lat}, lng = #{lng}, uptime = #{uptime},locate_type = #{locateType}, pt=point(#{lng},#{lat}),
         real_lat = #{realLat}, real_lng = #{realLng}
         where user_id = #{userId}
     </update>
@@ -270,7 +270,7 @@
 
     <update id="updateUserPositionUptime">
         update corgi_user_position set uptime = #{uptime},
-        real_lat = #{realLat}, real_lng = #{realLng}
+        real_lat = #{realLat}, real_lng = #{realLng}, locate_type = #{locateType}
         where user_id = #{userId}
     </update>
 
@@ -314,6 +314,7 @@
         p.lat lat,
         p.lng lng,
         p.uptime `time`,
+        p.locate_type locateType,
         d.nickname `nickname`,
         d.avatar avatar,
         d.avatar_status avatarStatus,
@@ -360,7 +361,7 @@
         left join corgi_user_position p on p.user_id = d.user_id
         where 1=1
         <if test="userDetail.nickname != null and userDetail.nickname != ''">
-            and `nickName` like concat('%',#{userDetail.nickname},'%')
+            and UPPER(`nickName`) like UPPER(concat('%',#{userDetail.nickname},'%'))
         </if>
         <if test="userDetail.telNo != null and userDetail.telNo != ''">
             and l.tel_no = #{userDetail.telNo}
@@ -475,7 +476,9 @@
 
     <select id="filterUser" resultType="java.lang.String">
         select distinct d.user_id from corgi_user_detail d
-        left join corgi_prefer_group g on g.user_id = d.user_id
+        <if test="preferGroup != null and preferGroup != ''">
+          left join corgi_prefer_group g on g.user_id = d.user_id
+        </if>
         where d.user_id in ${userId}
         <if test="role != null and role != ''">
             and d.role in ${role} and d.hide_role != '1'

@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -178,17 +179,17 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         String geoKey = "user";
         UserPosition oldUserPosition = corgiUserMapper.getUserPosition(userPosition.getUserId());
         if (oldUserPosition == null) {
-            corgiUserMapper.addUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng());
+            corgiUserMapper.addUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng(), userPosition.getLocateType());
             this.addGeo(geoKey, userPosition);
         } else if (oldUserPosition.getLat() - userPosition.getLat() > 0.0001
                 || oldUserPosition.getLat() - userPosition.getLat() < -0.0001
                 || oldUserPosition.getLng() - userPosition.getLng() > 0.0001
                 || oldUserPosition.getLng() - userPosition.getLng() < -0.0001) {
-            corgiUserMapper.updateUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng());
+            corgiUserMapper.updateUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng(), userPosition.getLocateType());
             redisTemplate.opsForGeo().remove(geoKey, userPosition.getUserId());
             this.addGeo(geoKey, userPosition);
         } else {
-            corgiUserMapper.updateUserPositionUptime(userPosition.getUserId(), now, userPosition.getRealLat(), userPosition.getRealLng());
+            corgiUserMapper.updateUserPositionUptime(userPosition.getUserId(), now, userPosition.getRealLat(), userPosition.getRealLng(), userPosition.getLocateType());
         }
         return CorgiConstants.SUCCESS;
     }
@@ -317,7 +318,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             for (UserProfile userProfile : userProfiles) {
                 try {
                     List<UserPic> userPics = corgiPicMapper.getUserPic(userProfile.getUserId());
-                    userProfile.setPics(userPics);
+
+                    if (CollectionUtils.isEmpty(userPics) && userProfile.getAvatar() != null) {
+                        UserPic userPic = new UserPic();
+                        userPic.setPicUrl(userProfile.getAvatar());
+                        userPic.setStatus(userProfile.getAvatarStatus());
+                        userProfile.setPics(Arrays.asList(userPic));
+                    } else {
+                        userProfile.setPics(userPics);
+                    }
                     if (StringUtils.isEmpty(userId)) {
                         continue;
                     }

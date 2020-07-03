@@ -1,5 +1,6 @@
 package com.corgi.user.api;
 
+import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.user.entity.UserProfile;
 import com.corgi.user.entity.UserSignUp;
 
@@ -28,6 +29,8 @@ public interface CorgiUserActivityService {
     Integer countUsers(String activityId, String status);
 
     List<String> getSignUpActivity(String userId, Integer page, Integer pageSize);
+
+    List<String> getHeatActivity(CorgiActivity corgiActivity, Integer page, Integer pageSize);
 
     void addActivityCreator(String userId, String activityId, String category);
 }

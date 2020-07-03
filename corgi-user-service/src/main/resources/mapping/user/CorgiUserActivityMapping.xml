@@ -86,6 +86,16 @@
         limit #{start},#{size}
     </select>
 
+    <select id="getHeadActivityPic" resultType="java.lang.String">
+        select c.activity_id from corgi_activity_creator c
+        left join corgi_activity_like l on c.activity_id = l.activity_id
+        where c.category = #{category}
+        and c.ctime >= #{date}
+        group by c.activity_id
+        order by count(l.id) desc
+        limit #{start},#{size}
+    </select>
+
     <insert id="addActivityCreator">
         insert ignore into `corgi_activity_creator` (`activity_id`, `creator_id`, `category`)
         VALUES (#{activityId}, #{creatorId}, #{category});

@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author tairanliu
  */
 @Data
-public class UserPosition implements Serializable{
+public class UserPosition implements Serializable {
     private String userId;
     private String version;
     private Double lat;
@@ -16,4 +16,13 @@ public class UserPosition implements Serializable{
 
     private Double realLat;
     private Double realLng;
+    private String locateType;
+
+    public String getLocateType() {
+        if (locateType == null || "".equals(locateType)) {
+            return "0";
+        }
+        return locateType;
+    }
+
 }
