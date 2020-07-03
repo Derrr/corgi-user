@@ -360,7 +360,7 @@
         left join corgi_user_position p on p.user_id = d.user_id
         where 1=1
         <if test="userDetail.nickname != null and userDetail.nickname != ''">
-            and `nickName` like concat('%',#{userDetail.nickname},'%')
+            and UPPER(`nickName`) like UPPER(concat('%',#{userDetail.nickname},'%'))
         </if>
         <if test="userDetail.telNo != null and userDetail.telNo != ''">
             and l.tel_no = #{userDetail.telNo}
