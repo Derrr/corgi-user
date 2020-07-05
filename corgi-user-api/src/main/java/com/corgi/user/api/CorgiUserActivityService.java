@@ -33,4 +33,6 @@ public interface CorgiUserActivityService {
     List<String> getHeatActivity(CorgiActivity corgiActivity, Integer page, Integer pageSize);
 
     void addActivityCreator(String userId, String activityId, String category);
+
+    void deleteActivityCreator(String activityId);
 }

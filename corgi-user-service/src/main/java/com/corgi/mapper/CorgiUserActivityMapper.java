@@ -98,6 +98,13 @@ public interface CorgiUserActivityMapper {
     void addActivityCreator(@Param("activityId") String activityId, @Param("creatorId") String creatorId, @Param("category") String category);
 
     /**
+     * 删除
+     *
+     * @param activityId
+     */
+    void deleteActivityCreator(@Param("activityId") String activityId);
+
+    /**
      * 按热度获取活动ID
      * @param category
      * @param date

@@ -107,4 +107,9 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     public void addActivityCreator(String userId, String activityId, String category) {
         corgiUserActivityMapper.addActivityCreator(activityId, userId, category);
     }
+
+    @Override
+    public void deleteActivityCreator(String activityId) {
+        corgiUserActivityMapper.deleteActivityCreator(activityId);
+    }
 }

@@ -100,4 +100,10 @@
         insert ignore into `corgi_activity_creator` (`activity_id`, `creator_id`, `category`)
         VALUES (#{activityId}, #{creatorId}, #{category});
     </insert>
+
+    <delete id="deleteActivityCreator">
+        delete from `corgi_activity_creator`
+        where activity_id = #{activityId}
+    </delete>
+
 </mapper>
