@@ -166,7 +166,7 @@ public interface CorgiUserMapper {
      * @param lng
      * @param uptime
      */
-    void addUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType")String locateType);
+    void addUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
 
     /**
      * 获取用户位置
@@ -193,7 +193,7 @@ public interface CorgiUserMapper {
      * @param lng
      * @param uptime
      */
-    void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng,@Param("locateType")String locateType);
+    void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
 
     /**
      * 更新用户时间
@@ -201,7 +201,7 @@ public interface CorgiUserMapper {
      * @param userId
      * @param uptime
      */
-    void updateUserPositionUptime(@Param("userId") String userId, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType")String locateType);
+    void updateUserPositionUptime(@Param("userId") String userId, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
 
     /**
      * 获取周围人信息
@@ -296,5 +296,32 @@ public interface CorgiUserMapper {
      * @param userId
      */
     void deleteUserPosition(@Param("userId") String userId);
+
+    /**
+     * 获取被点赞数最多的人
+     *
+     * @param userDetail
+     * @param limit
+     * @return
+     */
+    List<UserProfile> getPopularUsers(@Param("detail") UserDetail userDetail, @Param("date") String date, @Param("limit") Integer limit);
+
+    /**
+     * 获取点赞数最高的人
+     * @param userDetail
+     * @param date
+     * @param limit
+     * @return
+     */
+    List<UserProfile> getPassionUsers(@Param("detail") UserDetail userDetail, @Param("date") String date, @Param("limit") Integer limit);
+
+    /**
+     * 获取互动量最高的人
+     * @param userDetail
+     * @param date
+     * @param limit
+     * @return
+     */
+    List<UserProfile> getActiveUsers(@Param("detail") UserDetail userDetail, @Param("date")String date, @Param("limit")Integer limit);
 
 }

@@ -5,7 +5,6 @@ import com.corgi.common.CorgiConstants;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
 import com.corgi.entity.ActivityQuery;
-import com.corgi.entity.CorgiPic;
 import com.corgi.mapper.*;
 import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiUserFollowService;
@@ -22,12 +21,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -401,6 +397,27 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         corgiUserFollowMapper.deleteAllUserFollow(userId);
         corgiBlacklistMapper.deleteAll(userId);
         redisTemplate.opsForGeo().remove("user", userId);
+    }
+
+    @Override
+    public List<UserProfile> getPopularUser(UserDetail userDetail, Integer limit) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(new Date()) + "%";
+        return corgiUserMapper.getPopularUsers(userDetail, date, limit);
+    }
+
+    @Override
+    public List<UserProfile> getPassionUser(UserDetail userDetail, Integer limit) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(new Date()) + "%";
+        return corgiUserMapper.getPassionUsers(userDetail, date, limit);
+    }
+
+    @Override
+    public List<UserProfile> getActiveUser(UserDetail userDetail, Integer limit) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(new Date()) + "%";
+        return corgiUserMapper.getActiveUsers(userDetail, date, limit);
     }
 
     private void addGeo(String geoKey, UserPosition userPosition) {
