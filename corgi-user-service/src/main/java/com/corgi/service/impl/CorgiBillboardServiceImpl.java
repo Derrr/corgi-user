@@ -30,7 +30,7 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
 
     @Override
     public void addBillboard(UserProfile userProfile, String date, String countType) {
-        corgiBillboardMapper.addBillboardUser(userProfile.getUserId(), userProfile.getActivityCount(), countType, date);
+        corgiBillboardMapper.addBillboardUser(userProfile.getUserId(), userProfile.getMatch().intValue(), countType, date);
     }
 
     @Override
