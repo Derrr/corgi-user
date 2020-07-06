@@ -33,7 +33,7 @@
     </select>
 
     <select id="getActiveUsers" resultType="com.corgi.user.entity.UserProfile">
-        select count(1) `match`, user_id from (
+        select count(1) `match`, user_id userId from (
         (select user_id from corgi_activity_comment where ctime like #{date})
         union all
         (select user_id from corgi_activity_like where ctime like #{date})
