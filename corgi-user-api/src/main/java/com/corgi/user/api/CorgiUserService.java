@@ -58,10 +58,4 @@ public interface CorgiUserService {
     int countUserNickname(String nickname);
 
     void deleteUser(String userId);
-
-    List<UserProfile> getPopularUser(UserDetail userDetail, Integer limit);
-
-    List<UserProfile> getPassionUser(UserDetail userDetail, Integer limit);
-
-    List<UserProfile> getActiveUser(UserDetail userDetail, Integer limit);
 }

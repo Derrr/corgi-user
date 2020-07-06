@@ -399,26 +399,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         redisTemplate.opsForGeo().remove("user", userId);
     }
 
-    @Override
-    public List<UserProfile> getPopularUser(UserDetail userDetail, Integer limit) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(new Date()) + "%";
-        return corgiUserMapper.getPopularUsers(userDetail, date, limit);
-    }
-
-    @Override
-    public List<UserProfile> getPassionUser(UserDetail userDetail, Integer limit) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(new Date()) + "%";
-        return corgiUserMapper.getPassionUsers(userDetail, date, limit);
-    }
-
-    @Override
-    public List<UserProfile> getActiveUser(UserDetail userDetail, Integer limit) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(new Date()) + "%";
-        return corgiUserMapper.getActiveUsers(userDetail, date, limit);
-    }
 
     private void addGeo(String geoKey, UserPosition userPosition) {
         if (userPosition.getLng() == null || userPosition.getLng() > 180 || userPosition.getLng() < -180) {

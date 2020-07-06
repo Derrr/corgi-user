@@ -296,32 +296,4 @@ public interface CorgiUserMapper {
      * @param userId
      */
     void deleteUserPosition(@Param("userId") String userId);
-
-    /**
-     * 获取被点赞数最多的人
-     *
-     * @param userDetail
-     * @param limit
-     * @return
-     */
-    List<UserProfile> getPopularUsers(@Param("detail") UserDetail userDetail, @Param("date") String date, @Param("limit") Integer limit);
-
-    /**
-     * 获取点赞数最高的人
-     * @param userDetail
-     * @param date
-     * @param limit
-     * @return
-     */
-    List<UserProfile> getPassionUsers(@Param("detail") UserDetail userDetail, @Param("date") String date, @Param("limit") Integer limit);
-
-    /**
-     * 获取互动量最高的人
-     * @param userDetail
-     * @param date
-     * @param limit
-     * @return
-     */
-    List<UserProfile> getActiveUsers(@Param("detail") UserDetail userDetail, @Param("date")String date, @Param("limit")Integer limit);
-
 }
