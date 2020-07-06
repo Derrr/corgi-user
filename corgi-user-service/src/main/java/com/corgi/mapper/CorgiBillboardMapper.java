@@ -60,7 +60,15 @@ public interface CorgiBillboardMapper {
 
     /**
      * 清除榜单人员
+     *
      * @param date
      */
     void cleanBillboardByDate(@Param("date") String date);
+
+    /**
+     * 获取过去上榜用户
+     * @param date
+     * @return
+     */
+    List<UserProfile> getPastBillboard(@Param("date") String date);
 }

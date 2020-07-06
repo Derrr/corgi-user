@@ -77,4 +77,9 @@
         delete from corgi_billboard
         where `date` = #{date}
     </delete>
+
+    <select id="getPastBillboard" resultType="com.corgi.user.entity.UserProfile">
+        select user_id userId from corgi_billboard
+        where `date` >= #{date}
+    </select>
 </mapper>

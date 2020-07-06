@@ -6,6 +6,8 @@ import com.corgi.user.entity.UserProfile;
 import java.util.List;
 
 public interface CorgiBillboardService {
+    List<UserProfile> getPastBillboard(String date);
+
     List<UserProfile> getBillboard(String date);
 
     void addBillboard(UserProfile userProfile, String date, String countType);
