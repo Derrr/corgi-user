@@ -43,7 +43,7 @@
     </select>
 
     <insert id="addBillboardUser">
-        INSERT INTO `corgi_billboard` (`user_id`, `count`, `count_type`, `date`)
+        INSERT IGNORE INTO `corgi_billboard` (`user_id`, `count`, `count_type`, `date`)
         VALUES (#{userId}, #{count}, #{countType}, #{date});
     </insert>
 
