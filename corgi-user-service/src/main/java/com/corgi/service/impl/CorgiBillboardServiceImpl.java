@@ -28,7 +28,11 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
 
     @Override
     public List<UserProfile> getBillboard(String date) {
-        return corgiBillboardMapper.getBillboardUsers(date);
+        List<UserProfile> userProfiles = corgiBillboardMapper.getBillboardUsers(date);
+        for (UserProfile userProfile : userProfiles) {
+            userProfile.setPics(corgiPicService.getUserPic(userProfile.getUserId()));
+        }
+        return userProfiles;
     }
 
     @Override
@@ -46,9 +50,6 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(new Date()) + "%";
         List<UserProfile> userProfiles = corgiBillboardMapper.getPopularUsers(userDetail, date, limit);
-        for (UserProfile userProfile : userProfiles) {
-            userProfile.setPics(corgiPicService.getUserPic(userProfile.getUserId()));
-        }
         return userProfiles;
     }
 
