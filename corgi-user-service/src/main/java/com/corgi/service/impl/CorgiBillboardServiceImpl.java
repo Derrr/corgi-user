@@ -3,6 +3,7 @@ package com.corgi.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiBillboardMapper;
 import com.corgi.user.api.CorgiBillboardService;
+import com.corgi.user.api.CorgiPicService;
 import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserProfile;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ import java.util.List;
 public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     @Autowired
     private CorgiBillboardMapper corgiBillboardMapper;
+    @Autowired
+    private CorgiPicService corgiPicService;
 
     @Override
     public List<UserProfile> getBillboard(String date) {
@@ -42,7 +45,11 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     public List<UserProfile> getPopularUser(UserDetail userDetail, Integer limit) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(new Date()) + "%";
-        return corgiBillboardMapper.getPopularUsers(userDetail, date, limit);
+        List<UserProfile> userProfiles = corgiBillboardMapper.getPopularUsers(userDetail, date, limit);
+        for (UserProfile userProfile : userProfiles) {
+            userProfile.setPics(corgiPicService.getUserPic(userProfile.getUserId()));
+        }
+        return userProfiles;
     }
 
     @Override
