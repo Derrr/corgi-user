@@ -172,20 +172,21 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return "user id is empty";
         }
         Long now = System.currentTimeMillis();
+        userPosition.setUptime(now);
         String geoKey = "user";
         UserPosition oldUserPosition = corgiUserMapper.getUserPosition(userPosition.getUserId());
         if (oldUserPosition == null) {
-            corgiUserMapper.addUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng(), userPosition.getLocateType());
+            corgiUserMapper.addUserPosition(userPosition);
             this.addGeo(geoKey, userPosition);
         } else if (oldUserPosition.getLat() - userPosition.getLat() > 0.0001
                 || oldUserPosition.getLat() - userPosition.getLat() < -0.0001
                 || oldUserPosition.getLng() - userPosition.getLng() > 0.0001
                 || oldUserPosition.getLng() - userPosition.getLng() < -0.0001) {
-            corgiUserMapper.updateUserPosition(userPosition.getUserId(), userPosition.getLat(), userPosition.getLng(), now, userPosition.getRealLat(), userPosition.getRealLng(), userPosition.getLocateType());
+            corgiUserMapper.updateUserPosition(userPosition);
             redisTemplate.opsForGeo().remove(geoKey, userPosition.getUserId());
             this.addGeo(geoKey, userPosition);
         } else {
-            corgiUserMapper.updateUserPositionUptime(userPosition.getUserId(), now, userPosition.getRealLat(), userPosition.getRealLng(), userPosition.getLocateType());
+            corgiUserMapper.updateUserPositionUptime(userPosition);
         }
         return CorgiConstants.SUCCESS;
     }

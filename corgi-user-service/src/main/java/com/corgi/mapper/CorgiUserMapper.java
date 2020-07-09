@@ -160,13 +160,9 @@ public interface CorgiUserMapper {
 
     /**
      * 添加用户位置
-     *
-     * @param userId
-     * @param lat
-     * @param lng
-     * @param uptime
      */
-    void addUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
+    //void addUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
+    void addUserPosition(@Param("position") UserPosition userPosition);
 
     /**
      * 获取用户位置
@@ -187,21 +183,15 @@ public interface CorgiUserMapper {
 
     /**
      * 更新用户位置
-     *
-     * @param userId
-     * @param lat
-     * @param lng
-     * @param uptime
      */
-    void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
+    //void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
+    void updateUserPosition(@Param("position") UserPosition userPosition);
 
     /**
      * 更新用户时间
-     *
-     * @param userId
-     * @param uptime
      */
-    void updateUserPositionUptime(@Param("userId") String userId, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
+    //void updateUserPositionUptime(@Param("userId") String userId, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
+    void updateUserPositionUptime(@Param("position") UserPosition userPosition);
 
     /**
      * 获取周围人信息

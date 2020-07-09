@@ -18,6 +18,8 @@ public class UserPosition implements Serializable {
     private Double realLng;
     private String locateType;
 
+    private Long uptime;
+
     public String getLocateType() {
         if (locateType == null || "".equals(locateType)) {
             return "0";
