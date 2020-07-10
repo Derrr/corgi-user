@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -158,10 +159,10 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (StringUtils.isEmpty(matchStr)) {
             Double match = userMatchMapper.getMatchCache(userId1, userId2);
             if (match == null) {
+                redisTemplate.delete(matchKey);
                 match = this.calculateUserMatch(userId1, userId2);
                 userMatchMapper.addMatchCache(userId1, userId2, match);
             }
-            redisTemplate.delete(matchKey);
             redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
             return match;
         }
@@ -172,9 +173,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             log.error(e.getMessage());
         }
         if (match == null) {
+            redisTemplate.delete(matchKey);
             match = this.calculateUserMatch(userId1, userId2);
             if (match != null) {
-                redisTemplate.delete(matchKey);
                 redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
             }
         }
