@@ -159,7 +159,6 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (StringUtils.isEmpty(matchStr)) {
             Double match = userMatchMapper.getMatchCache(userId1, userId2);
             if (match == null) {
-                redisTemplate.delete(matchKey);
                 match = this.calculateUserMatch(userId1, userId2);
                 userMatchMapper.addMatchCache(userId1, userId2, match);
             }
@@ -173,7 +172,6 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             log.error(e.getMessage());
         }
         if (match == null) {
-            redisTemplate.delete(matchKey);
             match = this.calculateUserMatch(userId1, userId2);
             if (match != null) {
                 redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
