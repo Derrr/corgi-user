@@ -161,6 +161,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                 match = this.calculateUserMatch(userId1, userId2);
                 userMatchMapper.addMatchCache(userId1, userId2, match);
             }
+            redisTemplate.delete(matchKey);
             redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
             return match;
         }
