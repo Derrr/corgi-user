@@ -65,6 +65,9 @@
         d.con con,
         d.relation,
         d.check_status checkStatus,
+        d.weight,
+        d.height,
+        d.birthday,
         l.im_id imId
         from corgi_billboard b
         left join corgi_user_detail d on d.user_id = b.user_id

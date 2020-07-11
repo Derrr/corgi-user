@@ -41,6 +41,9 @@ public class UserProfile implements Serializable {
     private String followTime;
     private Integer activityCount;
     private String locateType;
+    private Integer weight;
+    private Integer height;
+    private String birthday;
     List<UserPic> pics;
 
     public String getFollowTime() {
