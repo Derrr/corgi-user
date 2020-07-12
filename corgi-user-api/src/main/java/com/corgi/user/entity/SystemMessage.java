@@ -19,6 +19,7 @@ public class SystemMessage implements Serializable{
     private Long sentTime;
     private String ctime;
     private String uptime;
+    private String from;
 
     private List<MessageRule> rules;
 }
