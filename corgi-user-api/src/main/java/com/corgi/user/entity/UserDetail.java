@@ -38,6 +38,7 @@ public class UserDetail implements Serializable {
     private Double lng;
     private String checkStatus;
     private Double match;
+    private String version;
 
     List<String> preferGroup;
 

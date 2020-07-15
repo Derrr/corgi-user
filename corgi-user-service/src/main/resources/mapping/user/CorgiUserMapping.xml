@@ -362,6 +362,9 @@
         left join corgi_user_login l on l.id = d.user_id
         left join corgi_user_position p on p.user_id = d.user_id
         where 1=1
+        <if test="userDetail.version != null and userDetail.version != ''">
+            and rignt(p.version,5) >= #{userDetail.version}
+        </if>
         <if test="userDetail.nickname != null and userDetail.nickname != ''">
             and UPPER(`nickName`) like UPPER(concat('%',#{userDetail.nickname},'%'))
         </if>
