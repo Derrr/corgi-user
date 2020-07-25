@@ -316,14 +316,14 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 try {
                     List<UserPic> userPics = corgiPicMapper.getUserPic(userProfile.getUserId());
 
-                    if (CollectionUtils.isEmpty(userPics) && userProfile.getAvatar() != null) {
-                        UserPic userPic = new UserPic();
-                        userPic.setPicUrl(userProfile.getAvatar());
-                        userPic.setStatus(userProfile.getAvatarStatus());
-                        userProfile.setPics(Arrays.asList(userPic));
-                    } else {
-                        userProfile.setPics(userPics);
-                    }
+//                    if (CollectionUtils.isEmpty(userPics) && userProfile.getAvatar() != null) {
+//                        UserPic userPic = new UserPic();
+//                        userPic.setPicUrl(userProfile.getAvatar());
+//                        userPic.setStatus(userProfile.getAvatarStatus());
+//                        userProfile.setPics(Arrays.asList(userPic));
+//                    } else {
+                    userProfile.setPics(userPics);
+                    //}
                     if (StringUtils.isEmpty(userId)) {
                         continue;
                     }
