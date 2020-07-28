@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * @author tairanliu
@@ -50,6 +51,7 @@ public class UserProfile implements Serializable {
         if (followTime != null && !"".equals(followTime)) {
             try {
                 Date date = sdf.parse(followTime);
+                sdf.setTimeZone(TimeZone.getTimeZone("GMT08:00"));
                 return date.getTime() + "";
             } catch (Exception e) {
 

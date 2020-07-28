@@ -257,7 +257,7 @@
     </select>
 
     <select id="getUserPositionByPage" resultType="com.corgi.user.entity.UserPosition">
-        select user_id userId, lat, lng, real_lng realLng, locate_type locateType from corgi_user_position
+        select user_id userId, lat, lng, real_lng realLng, locate_type locateType,uptime from corgi_user_position
         limit #{start}, #{size}
     </select>
 
