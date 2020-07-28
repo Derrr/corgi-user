@@ -13,7 +13,7 @@ import java.util.TimeZone;
  */
 @Data
 public class UserProfile implements Serializable {
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String userId;
     private String nickname;
     private String checkNickname;
@@ -51,7 +51,6 @@ public class UserProfile implements Serializable {
         if (followTime != null && !"".equals(followTime)) {
             try {
                 Date date = sdf.parse(followTime);
-                sdf.setTimeZone(TimeZone.getTimeZone("GMT08:00"));
                 return date.getTime() + "";
             } catch (Exception e) {
 
