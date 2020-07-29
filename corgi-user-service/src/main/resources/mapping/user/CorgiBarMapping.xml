@@ -4,8 +4,8 @@
 
     <insert id="addBar" parameterType="com.corgi.user.entity.BarProfile">
         INSERT INTO `corgi_bar_detail`
-    (`bar_id`, `bar_name`, `address`, `lat`, `lng`, `tel`, `range`, `logo`, `status`)
-    VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range}, #{bar.logo}, #{bar.status})
+    (`bar_id`, `bar_name`, `address`, `lat`, `lng`, `tel`, `range`, `logo`, `status`,`city`)
+    VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range}, #{bar.logo}, #{bar.status}, #{bar.city})
     </insert>
     <update id="updateBar" parameterType="com.corgi.user.entity.BarProfile">
         update corgi_bar_detail
@@ -34,6 +34,10 @@
             <if test="bar.status != null and bar.status != ''">
                 `status` = #{bar.status},
             </if>
+            <if test="bar.city != null and bar.city != ''">
+                `city` = #{bar.city},
+            </if>
+
         </set>
         where bar_id = #{bar.barId}
     </update>
@@ -76,8 +80,11 @@
         from corgi_bar_detail b
         left join corgi_user_follow f on f.user_id = b.bar_id
         group by b.bar_id
-        where b.city = #{city}
-        and b.status = '1'
+
+        where b.status = '1'
+        <if test="city != null and city != ''">
+            and b.city = #{city}
+        </if>
         order by count(f.user_id) desc
     </select>
 
@@ -120,7 +127,7 @@
         from corgi_bar_detail
         where 1=1
         <if test="bar.barName != null and bar.barName != ''">
-           and (bar_name like concat('%',#{bar.barName},'%') or address like concat('%',#{bar.address},'%'))
+            and (bar_name like concat('%',#{bar.barName},'%') or address like concat('%',#{bar.address},'%'))
         </if>
         <if test="bar.status != null and bar.status != ''">
             and `status` = #{bar.status}
