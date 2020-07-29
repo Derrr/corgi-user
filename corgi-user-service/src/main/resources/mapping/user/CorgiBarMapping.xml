@@ -100,6 +100,9 @@
         <if test="bar.barName != null and bar.barName != ''">
            and bar_name like concat('%',#{bar.barName},'%')
         </if>
+        <if test="bar.address != null and bar.address != ''">
+            and address like concat('%',#{bar.address},'%')
+        </if>
         <if test="bar.status != null and bar.status != ''">
             and `status` = #{bar.status}
         </if>
