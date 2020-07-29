@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiBannerMapper">
+
+    <insert id="addBanner" parameterType="com.corgi.user.entity.CorgiBanner">
+        INSERT INTO `corgi_banner` (`title`, `pic_url`, `url`, `url_type`, `type`, `status`, `order`)
+        VALUES (#{banner.title}, #{banner.picUrl}, #{banner.url}, #{banner.urlType}, #{banner.type}, #{banner.status}, #{banner.order});
+
+    </insert>
+    <update id="updateBanner" parameterType="com.corgi.user.entity.CorgiBanner">
+        update corgi_banner
+        <set>
+            <if test="banner.title != null and banner.title != ''">
+                `title` = #{banner.title},
+            </if>
+            <if test="banner.picUrl != null and banner.picUrl != ''">
+                `pic_url` = #{banner.picUrl},
+            </if>
+            <if test="banner.url != null and banner.url != ''">
+                `url` = #{banner.url},
+            </if>
+            <if test="banner.urlType != null and banner.urlType != ''">
+                `url_type` = #{banner.urlType},
+            </if>
+            <if test="banner.type != null and banner.type != ''">
+                `type` = #{banner.type},
+            </if>
+            <if test="banner.status != null and banner.status != ''">
+                `status` = #{banner.status},
+            </if>
+            <if test="banner.order != null and banner.order != ''">
+                `order` = #{banner.order},
+            </if>
+        </set>
+        where id = #{banner.id}
+    </update>
+
+    <delete id="deleteBanner">
+        delete from corgi_banner
+        where id = #{bannerId}
+    </delete>
+
+    <select id="listBanner" resultType="com.corgi.user.entity.CorgiBanner">
+        select
+        id,
+        title,
+        `pic_url` picUrl,
+        `url`,
+        `url_type`,
+        `type`,
+        `status`,
+        `ctime`
+        from corgi_banner
+        where 1=1
+        <if test="banner.title != null and banner.title != ''">
+           and `title` like concat('%',#{banner.title},'%')
+        </if>
+        <if test="banner.status != null and banner.status != ''">
+            and `status` = #{banner.status}
+        </if>
+        <if test="banner.type != null and banner.type != ''">
+            and `type` = #{banner.type}
+        </if>
+        order by `order`
+    </select>
+
+</mapper>
