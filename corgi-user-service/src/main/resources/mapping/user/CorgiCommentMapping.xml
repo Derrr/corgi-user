@@ -53,12 +53,6 @@
         where activity_id = #{activityId}
     </select>
 
-    <select id="countActivityComment" resultType="java.lang.Long">
-        select count(1)
-        from corgi_activity_comment
-        where activity_id = #{activityId}
-    </select>
-
     <select id="countCommentByDate" resultType="java.lang.Long">
         select count(1)
         from corgi_activity_comment c
