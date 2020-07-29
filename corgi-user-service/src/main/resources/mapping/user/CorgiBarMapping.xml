@@ -98,7 +98,7 @@
         from corgi_bar_detail
         where 1=1
         <if test="bar.barName != null and bar.barName != ''">
-           and bar_name like concat('%',#{bar.barName},'%')
+           and (bar_name like concat('%',#{bar.barName},'%') or address like concat('%',#{bar.address},'%'))
         </if>
         <if test="bar.status != null and bar.status != ''">
             and `status` = #{bar.status}

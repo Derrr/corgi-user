@@ -119,6 +119,11 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public long countSignUpUser(String date) {
+        return corgiUserActivityMapper.countSignUpUser(date);
+    }
+
+    @Override
     public void deleteActivityCreator(String activityId) {
         corgiUserActivityMapper.deleteActivityCreator(activityId);
     }
