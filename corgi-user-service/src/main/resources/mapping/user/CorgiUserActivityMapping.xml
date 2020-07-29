@@ -112,10 +112,16 @@
         and c.ctime like concat(#{date},'%')
     </select>
 
-    <select id="countActivityUsere" resultType="java.lang.Long">
+    <select id="countActivityUser" resultType="java.lang.Long">
         select count(distinct creator_id) from corgi_activity_creator c
         where c.category = #{category}
         and c.ctime like concat(#{date},'%')
     </select>
+
+    <select id="countSignUpUser" resultType="java.lang.Long">
+        select count(1) from corgi_activity_attender a
+        where a.ctime like concat(#{date},'%')
+    </select>
+
 
 </mapper>
