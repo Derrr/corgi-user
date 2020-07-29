@@ -92,7 +92,7 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     }
 
     @Override
-    public long countUserLikeByDate(String date, String category) {
+    public long countLikeUserByDate(String date, String category) {
         return corgiLikeMapper.countLikeUserByDate(date, category);
     }
 }

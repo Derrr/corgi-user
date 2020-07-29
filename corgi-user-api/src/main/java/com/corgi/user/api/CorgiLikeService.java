@@ -25,5 +25,5 @@ public interface CorgiLikeService {
 
     long countLikeByDate(String date, String category);
 
-    long countUserLikeByDate(String date, String category);
+    long countLikeUserByDate(String date, String category);
 }
