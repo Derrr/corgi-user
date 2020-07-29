@@ -106,4 +106,16 @@
         where activity_id = #{activityId}
     </delete>
 
+    <select id="countActivity" resultType="java.lang.Long">
+        select count(1) from corgi_activity_creator c
+        where c.category = #{category}
+        and c.ctime like concat(#{date},'%')
+    </select>
+
+    <select id="countActivityUsere" resultType="java.lang.Long">
+        select count(distinct creator_id) from corgi_activity_creator c
+        where c.category = #{category}
+        and c.ctime like concat(#{date},'%')
+    </select>
+
 </mapper>

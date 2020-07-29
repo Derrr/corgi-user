@@ -106,6 +106,7 @@ public interface CorgiUserActivityMapper {
 
     /**
      * 按热度获取活动ID
+     *
      * @param category
      * @param date
      * @param start
@@ -113,4 +114,24 @@ public interface CorgiUserActivityMapper {
      * @return
      */
     List<String> getHeadActivityPic(@Param("category") String category, @Param("date") String date, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
+     * 统计活动数
+     *
+     * @param category
+     * @param date
+     * @return
+     */
+    long countActivity(@Param("category") String category, @Param("date") String date);
+
+    /**
+     *
+     * 统计发活动人数
+     *
+     * @param category
+     * @param date
+     * @return
+     */
+    long countActivityUser(@Param("category") String category, @Param("date") String date);
+
 }

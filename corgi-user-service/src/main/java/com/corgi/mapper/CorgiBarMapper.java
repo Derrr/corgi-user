@@ -54,4 +54,12 @@ public interface CorgiBarMapper {
      */
     Long countBarFollow(@Param("barId")String barId, @Param("userIds")String userIds);
 
+    /**
+     * 搜索商户
+     *
+     * @param barProfile
+     * @return
+     */
+    List<BarProfile> searchBar(@Param("bar")BarProfile barProfile);
+
 }

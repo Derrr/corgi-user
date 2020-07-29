@@ -15,4 +15,6 @@ public interface CorgiBarService {
     void updateBarProfile(BarProfile barProfile);
 
     void addBarProfile(BarProfile barProfile);
+
+    List<BarProfile> searchBar(BarProfile barProfile);
 }

@@ -56,7 +56,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     @Override
     public BarProfile getBarProfile(String barId) {
         BarProfile barProfile = corgiBarMapper.getBar(barId);
-        if(barProfile != null) {
+        if (barProfile != null) {
             barProfile.setHeat(countBarHeat(barProfile));
         }
         return barProfile;
@@ -74,6 +74,17 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         String maxBarId = corgiBarMapper.getMaxBarId();
         barProfile.setBarId(createBarId(maxBarId));
         corgiBarMapper.addBar(barProfile);
+    }
+
+    @Override
+    public List<BarProfile> searchBar(BarProfile barProfile) {
+        if (barProfile.getLat() != null && barProfile.getLat() > 200) {
+            barProfile.setLat(null);
+        }
+        if (barProfile.getLng() != null && barProfile.getLng() > 200) {
+            barProfile.setLng(null);
+        }
+        return corgiBarMapper.searchBar(barProfile);
     }
 
     private String createBarId(String maxBarId) {
@@ -95,7 +106,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         UserQuery userQuery = new UserQuery();
         userQuery.setLat(barProfile.getLat());
         userQuery.setLng(barProfile.getLng());
-        userQuery.setRange(barProfile.getRange()/1000.0);
+        userQuery.setRange(barProfile.getRange() / 1000.0);
         List<String> userIds = corgiUserService.getAllNearByUser(userQuery);
         Long duplicate = corgiBarMapper.countBarFollow(barProfile.getBarId(), String.join("','", userIds));
         return interest + userIds.size() - duplicate;

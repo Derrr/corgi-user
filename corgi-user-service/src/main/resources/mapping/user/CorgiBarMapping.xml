@@ -82,4 +82,30 @@
         where f.follow_user_id = #{barId}
         and user_id in ('${userIds}')
     </select>
+
+    <select id="searchBar" resultType="com.corgi.user.entity.BarProfile">
+        select
+        bar_id barId,
+        bar_name barName,
+        `address`,
+        `lat`,
+        `lng`,
+        `tel`,
+        `range`,
+        `logo`,
+        `status`,
+        `ctime`
+        from corgi_bar_detail
+        where 1=1
+        <if test="bar.barName != null and bar.barName != ''">
+           and d.bar_name like concat('%',#{bar.barName},'%')
+        </if>
+        <if test="bar.status != null and bar.status != ''">
+            and `status` = #{bar.status}
+        </if>
+        <if test="bar.lat != null and bar.lng != null">
+            order by st_distance_sphere(point(#{bar.lng},#{bar.lat}),point(lng,lat))
+        </if>
+    </select>
+
 </mapper>
