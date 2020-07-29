@@ -49,6 +49,7 @@
         `url_type`,
         `type`,
         `status`,
+        `order`,
         `ctime`
         from corgi_banner
         where 1=1

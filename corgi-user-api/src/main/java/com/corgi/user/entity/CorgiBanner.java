@@ -18,6 +18,6 @@ public class CorgiBanner implements Serializable {
     private String url;
     private String urlType;
     private String type;
-    private String order;
+    private Integer order;
     private String status;
 }
