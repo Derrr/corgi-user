@@ -38,7 +38,7 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
         activityLike.setLikeUserAvatar(userDetail.getUserPics().get(0).getPicUrl());
 
         corgiLikeMapper.addActivityLike(activityLike);
-        if(!userDetail.getUserPics().equals(activityLike.getUserId())) {
+        if (!userDetail.getUserPics().equals(activityLike.getUserId())) {
             corgiToolService.addActivityMessage(ActivityMessage.builder()
                     .activityId(activityLike.getActivityId())
                     .fromUserAvatar(userDetail.getUserPics().get(0).getPicUrl())
@@ -84,5 +84,15 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     @Override
     public List<String> getLikedActivity(String userId, Integer page, Integer pageSize) {
         return corgiLikeMapper.getLikedActivityId(userId, (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
+    public long countLikeByDate(String date, String category) {
+        return corgiLikeMapper.countLikeByDate(date, category);
+    }
+
+    @Override
+    public long countUserLikeByDate(String date, String category) {
+        return corgiLikeMapper.countLikeUserByDate(date, category);
     }
 }

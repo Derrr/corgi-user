@@ -22,4 +22,8 @@ public interface CorgiLikeService {
     Integer countUserLike(String activityId, String userId);
 
     List<String> getLikedActivity(String userId, Integer page, Integer pageSize);
+
+    long countLikeByDate(String date, String category);
+
+    long countUserLikeByDate(String date, String category);
 }

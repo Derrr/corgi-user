@@ -40,6 +40,23 @@
         and like_user_id = #{userId}
     </select>
 
+    <select id="countLikeByDate" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_activity_like l
+        left join corgi_activity_creator a
+        on l.activity_id = a.activity_id
+        where l.ctime like concat(#{date}, '%')
+        and a.category = #{category}
+    </select>
+
+    <select id="countLikeUserByDate" resultType="java.lang.Integer">
+        select count(distinct l.like_user_id)
+        from corgi_activity_like l
+        left join corgi_activity_creator a
+        on l.activity_id = a.activity_id
+        where l.ctime like concat(#{date}, '%')
+        and a.category = #{category}
+    </select>
 
     <select id="getFollowUser" resultType="com.corgi.user.entity.ActivityLike">
         select

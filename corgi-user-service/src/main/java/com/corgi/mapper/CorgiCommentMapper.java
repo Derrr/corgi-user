@@ -21,6 +21,7 @@ public interface CorgiCommentMapper {
 
     /**
      * 删除活动评论
+     *
      * @param commentId
      */
     void deleteActivityComment(@Param("commentId") String commentId);
@@ -35,6 +36,7 @@ public interface CorgiCommentMapper {
 
     /**
      * 根据ID获取comment
+     *
      * @param commentId
      * @return
      */
@@ -57,5 +59,24 @@ public interface CorgiCommentMapper {
      * @return
      */
     ActivityComment getLastActivityComment(@Param("activityId") String activityId, @Param("userId") String userId);
+
+    /**
+     * 统计评论数
+     *
+     * @param date
+     * @param category
+     * @return
+     */
+    long countCommentByDate(@Param("date") String date, @Param("category") String category);
+
+    /**
+     * 统计评论人数
+     *
+     * @param date
+     * @param category
+     * @return
+     */
+    long countCommentUserByDate(@Param("date") String date, @Param("category") String category);
+
 
 }

@@ -104,6 +104,16 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         return corgiCommentMapper.getLastActivityComment(activityId, userId);
     }
 
+    @Override
+    public long countCommentByDate(String date, String category) {
+        return corgiCommentMapper.countCommentByDate(date, category);
+    }
+
+    @Override
+    public long countCommentUserByDate(String date, String category) {
+        return corgiCommentMapper.countCommentUserByDate(date, category);
+    }
+
     private List<ActivityComment> buildComments(List<ActivityComment> activityComments) {
         List<ActivityComment> results = new ArrayList<>();
         HashMap<String, ActivityComment> commentHashMap = new HashMap<>();

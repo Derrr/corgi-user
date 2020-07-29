@@ -18,4 +18,8 @@ public interface CorgiCommentService {
     Long countActivityComment(String activityId);
 
     ActivityComment getLastComment(String activityId, String userId);
+
+    long countCommentByDate(String date, String category);
+
+    long countCommentUserByDate(String date, String category);
 }
