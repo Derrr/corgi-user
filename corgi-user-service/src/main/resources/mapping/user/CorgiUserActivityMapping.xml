@@ -120,7 +120,7 @@
 
     <select id="countSignUpUser" resultType="java.lang.Long">
         select count(1) from corgi_activity_attender a
-        where a.ctime like concat(#{date},'%')
+        where a.create_time like concat(#{date},'%')
     </select>
 
 
