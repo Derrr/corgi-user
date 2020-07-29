@@ -60,6 +60,28 @@
         </if>
     </select>
 
+    <select id="getBarListByCity" resultType="com.corgi.user.entity.BarProfile">
+        select
+        b.bar_id barId,
+        b.bar_name barName,
+        b.address,
+        b.lat,
+        b.lng,
+        b.tel,
+        b.range,
+        b.logo,
+        b.status,
+        b.ctime,
+        b.city
+        from corgi_bar_detail b
+        left join corgi_user_follow f on f.user_id = b.bar_id
+        group by b.bar_id
+        where b.city = #{city}
+        and b.status = '1'
+        order by count(f.user_id) desc
+    </select>
+
+
     <select id="getBar" resultType="com.corgi.user.entity.BarProfile">
         select
         bar_id barId,

@@ -10,6 +10,8 @@ import java.util.List;
 public interface CorgiBarService {
     List<BarProfile> getBarList(String status);
 
+    List<BarProfile> getBarListByCity(String city);
+
     BarProfile getBarProfile(String barId);
 
     void updateBarProfile(BarProfile barProfile);

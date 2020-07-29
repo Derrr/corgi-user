@@ -39,6 +39,13 @@ public interface CorgiBarMapper {
     List<BarProfile> getBarList(@Param("status")String status);
 
     /**
+     * 根据城市获取所有商户列表
+     *
+     * @return
+     */
+    List<BarProfile> getBarListByCity(@Param("city")String city);
+
+    /**
      * 获取商户信息
      *
      * @param barId
