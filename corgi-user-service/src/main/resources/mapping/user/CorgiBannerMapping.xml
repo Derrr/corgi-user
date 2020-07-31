@@ -46,7 +46,7 @@
         title,
         `pic_url` picUrl,
         `url`,
-        `url_type`,
+        `url_type` urlType,
         `type`,
         `status`,
         `order`,
