@@ -79,12 +79,11 @@
         b.city
         from corgi_bar_detail b
         left join corgi_user_follow f on f.user_id = b.bar_id
-        group by b.bar_id
-
         where b.status = '1'
         <if test="city != null and city != ''">
             and b.city = #{city}
         </if>
+        group by b.bar_id
         order by count(f.user_id) desc
     </select>
 
