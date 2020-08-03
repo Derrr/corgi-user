@@ -149,11 +149,6 @@
         update corgi_activity_message
         set is_read = '1'
         where to_user_id = #{userId}
-        and `time` &lt;= #{time}
-        <if test="isRead != null and isRead != ''">
-            and `is_read` = #{isRead}
-        </if>
-        limit #{size}
     </update>
 
 </mapper>

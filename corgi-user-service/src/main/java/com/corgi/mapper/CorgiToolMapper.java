@@ -153,6 +153,6 @@ public interface CorgiToolMapper {
      * @param userId
      * @param time
      */
-    void readActivityMessage(@Param("userId") String userId, @Param("time") Long time, @Param("size") Integer size, @Param("isRead") String isRead);
+    void readActivityMessage(@Param("userId") String userId);
 
 }
