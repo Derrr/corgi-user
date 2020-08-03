@@ -140,18 +140,14 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     @Override
     public List<ActivityMessage> getActivityMessage(String userId, Integer pageSize) {
         List<ActivityMessage> activityMessages = corgiToolMapper.getActivityMessage(userId, pageSize);
-        if (activityMessages != null && activityMessages.size() > 0) {
-            corgiToolMapper.readActivityMessage(userId);
-        }
+        corgiToolMapper.readActivityMessage(userId);
         return buildActivityMessage(activityMessages);
     }
 
     @Override
     public List<ActivityMessage> getAllActivityMessage(String userId, Integer page, Integer pageSize) {
         List<ActivityMessage> activityMessages = corgiToolMapper.getAllActivityMessage(userId, (page - 1) * pageSize, pageSize);
-        if (activityMessages != null && activityMessages.size() > 0) {
-            corgiToolMapper.readActivityMessage(userId);
-        }
+        corgiToolMapper.readActivityMessage(userId);
         return buildActivityMessage(activityMessages);
     }
 
