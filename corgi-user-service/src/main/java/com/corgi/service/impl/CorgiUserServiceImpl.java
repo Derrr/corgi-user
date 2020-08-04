@@ -256,7 +256,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize) {
         List<UserProfile> userProfiles;
-        if (userDetailIsNull(userDetail)) {
+        if (userDetailIsNull(userDetail) && !StringUtils.isEmpty(userId)) {
             userProfiles = corgiUserMapper.queryInfluencer(page < 1 ? 0 : (page - 1) * pageSize, pageSize);
         } else {
             if (userDetail.getNickname() != null) {
@@ -501,6 +501,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     private boolean userDetailIsNull(UserDetail userDetail) {
+
         if (userDetail.getWeight() > 0) {
             return false;
         }
