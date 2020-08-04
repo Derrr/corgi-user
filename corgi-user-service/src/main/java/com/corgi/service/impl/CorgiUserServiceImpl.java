@@ -256,7 +256,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize) {
         List<UserProfile> userProfiles;
-        if ("".equals(userDetail.getNickname())) {
+        if (userDetailIsNull(userDetail)) {
             userProfiles = corgiUserMapper.queryInfluencer(page < 1 ? 0 : (page - 1) * pageSize, pageSize);
         } else {
             if (userDetail.getNickname() != null) {
@@ -498,6 +498,34 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         } else {
             return "";
         }
+    }
+
+    private boolean userDetailIsNull(UserDetail userDetail) {
+        if (userDetail.getWeight() > 0) {
+            return false;
+        }
+        if (userDetail.getHeight() > 0) {
+            return false;
+        }
+        if (!StringUtils.isEmpty(userDetail.getGroup())) {
+            return false;
+        }
+        if (!StringUtils.isEmpty(userDetail.getCharacter())) {
+            return false;
+        }
+        if (!StringUtils.isEmpty(userDetail.getRole())) {
+            return false;
+        }
+        if (!StringUtils.isEmpty(userDetail.getBirthday())) {
+            return false;
+        }
+        if (!StringUtils.isEmpty(userDetail.getNickname())) {
+            return false;
+        }
+        if (!StringUtils.isEmpty(userDetail.getDesc())) {
+            return false;
+        }
+        return true;
     }
 
     private boolean shouldRefresh(UserDetail userDetail) {
