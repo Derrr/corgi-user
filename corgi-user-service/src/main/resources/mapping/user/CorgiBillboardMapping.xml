@@ -85,4 +85,11 @@
         select user_id userId from corgi_billboard
         where `date` >= #{date}
     </select>
+
+    <update id="updateBillboardByNickname">
+        update corgi.corgi_billboard b left join corgi_user_detail d on d.user_id = b.user_id
+        set b.user_id = (select user_id from corgi_user_detail where nickname = #{to})
+        where b.`date` = #{date}
+        and d.nickname = #{from}
+    </update>
 </mapper>

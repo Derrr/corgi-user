@@ -71,4 +71,12 @@ public interface CorgiBillboardMapper {
      * @return
      */
     List<UserProfile> getPastBillboard(@Param("date") String date);
+
+    /**
+     * 根据昵称更新榜单
+     * @param from
+     * @param to
+     * @param date
+     */
+    void updateBillboardByNickname(@Param("from")String from, @Param("to")String to, @Param("date")String date);
 }

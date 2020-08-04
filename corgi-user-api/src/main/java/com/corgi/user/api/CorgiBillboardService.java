@@ -20,4 +20,5 @@ public interface CorgiBillboardService {
 
     List<UserProfile> getActiveUser(UserDetail userDetail, Integer limit);
 
+    void updateBillboardByNickname(String from, String to, String date);
 }

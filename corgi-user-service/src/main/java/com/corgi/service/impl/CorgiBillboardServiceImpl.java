@@ -71,4 +71,9 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         String date = sdf.format(new Date()) + "%";
         return corgiBillboardMapper.getActiveUsers(userDetail, date, limit);
     }
+
+    @Override
+    public void updateBillboardByNickname(String from, String to, String date) {
+        corgiBillboardMapper.updateBillboardByNickname(from, to, date);
+    }
 }
