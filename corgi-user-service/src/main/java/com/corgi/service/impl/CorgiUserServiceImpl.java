@@ -255,10 +255,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize) {
-        if (userDetail.getNickname() != null) {
-            userDetail.setNickname(userDetail.getNickname().replaceAll("%", "\\\\%"));
+        List<UserProfile> userProfiles;
+        if ("".equals(userDetail.getNickname())) {
+            userProfiles = corgiUserMapper.queryInfluencer(page < 1 ? 0 : (page - 1) * pageSize, pageSize);
+        } else {
+            if (userDetail.getNickname() != null) {
+                userDetail.setNickname(userDetail.getNickname().replaceAll("%", "\\\\%"));
+            }
+            userProfiles = corgiUserMapper.queryUserProfile(userDetail, page < 1 ? 0 : (page - 1) * pageSize, pageSize);
         }
-        List<UserProfile> userProfiles = corgiUserMapper.queryUserProfile(userDetail, page < 1 ? 0 : (page - 1) * pageSize, pageSize);
         return populateUserProfile(userProfiles, userId);
     }
 

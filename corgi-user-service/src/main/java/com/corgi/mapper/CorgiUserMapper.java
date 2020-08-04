@@ -219,6 +219,15 @@ public interface CorgiUserMapper {
      */
     List<UserProfile> queryUserProfile(@Param("userDetail") UserDetail userDetail, @Param("start") int start, @Param("size") int size);
 
+
+    /**
+     *
+     * 查询天菜创始人
+     * @param start
+     * @param size
+     * @return
+     */
+    List<UserProfile> queryInfluencer(@Param("start") int start, @Param("size") int size);
     /**
      * 统计用户
      *
