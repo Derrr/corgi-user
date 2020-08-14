@@ -70,7 +70,6 @@
         where id = #{hotId}
     </delete>
 
-
     <select id="searchHotActivity" resultType="com.corgi.user.entity.HotActivity">
         select
         `id`,
