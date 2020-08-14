@@ -56,10 +56,13 @@
         start_time startTime,
         end_time endTime,
         `status`,
-        `type``,
+        `type`,
         `city`
         from corgi_hot_activity
-
+        where `status` = '1'
+            and (`city` = #{city} or `city` = '全国')
+            and end_time >= #{time}
+            and start_time &lt;= #{time}
     </select>
 
     <delete id="deleteHotActivity">
