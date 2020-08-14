@@ -18,5 +18,5 @@ public interface CorgiHotActivityService {
 
     void deleteHotActivity(String hotId);
 
-    List<HotActivity> searchBar(HotActivity hotActivity);
+    List<HotActivity> searchHotActivity(HotActivity hotActivity);
 }

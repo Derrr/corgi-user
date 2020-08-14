@@ -58,7 +58,7 @@ public class CorgiHotActivityServiceImpl implements CorgiHotActivityService {
     }
 
     @Override
-    public List<HotActivity> searchBar(HotActivity hotActivity) {
+    public List<HotActivity> searchHotActivity(HotActivity hotActivity) {
         return corgiHotActivityMapper.searchHotActivity(hotActivity);
     }
 }
