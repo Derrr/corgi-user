@@ -39,8 +39,7 @@ public class CorgiHotActivityServiceImpl implements CorgiHotActivityService {
     @Override
     public List<HotActivity> getListByCity(String city) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        log.info("city... {} ", city);
-        return corgiHotActivityMapper.getListByCity(city, sdf.format(new Date()));
+        return corgiHotActivityMapper.getHotActivityListByCity(city, sdf.format(new Date()));
     }
 
     @Override
