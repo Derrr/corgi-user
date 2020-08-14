@@ -12,11 +12,11 @@ public interface CorgiHotActivityService {
 
     List<HotActivity> getListByCity(String city);
 
-    void updateBarProfile(HotActivity hotActivity);
+    void updateHotActivity(HotActivity hotActivity);
 
-    void addBarProfile(HotActivity hotActivity);
+    void addHotActivity(HotActivity hotActivity);
 
-    void deleteBarProfile(String hotId);
+    void deleteHotActivity(String hotId);
 
     List<HotActivity> searchBar(HotActivity hotActivity);
 }

@@ -7,7 +7,7 @@ import com.corgi.user.api.CorgiBarService;
 import com.corgi.user.api.CorgiHotActivityService;
 import com.corgi.user.api.CorgiUserFollowService;
 import com.corgi.user.api.CorgiUserService;
-import com.corgi.user.entity.BarProfile;
+import com.corgi.user.entity.HotActivity;
 import com.corgi.user.entity.HotActivity;
 import com.corgi.user.entity.UserQuery;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,21 +38,22 @@ public class CorgiHotActivityServiceImpl implements CorgiHotActivityService {
 
     @Override
     public List<HotActivity> getListByCity(String city) {
-        return corgiHotActivityMapper.getListByCity(city);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return corgiHotActivityMapper.getListByCity(city,sdf.format(new Date()));
     }
 
     @Override
-    public void updateBarProfile(HotActivity hotActivity) {
+    public void updateHotActivity(HotActivity hotActivity) {
         corgiHotActivityMapper.updateHotActivity(hotActivity);
     }
 
     @Override
-    public void addBarProfile(HotActivity hotActivity) {
+    public void addHotActivity(HotActivity hotActivity) {
         corgiHotActivityMapper.addHotActivity(hotActivity);
     }
 
     @Override
-    public void deleteBarProfile(String hotId) {
+    public void deleteHotActivity(String hotId) {
         corgiHotActivityMapper.deleteHotActivity(hotId);
     }
 

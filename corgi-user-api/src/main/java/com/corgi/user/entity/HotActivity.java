@@ -13,6 +13,7 @@ public class HotActivity implements Serializable {
     public static String STATUS_DISABLE = "0";
 
     private String id;
+    private String barId;
     private String activityId;
     private String startTime;
     private String endTime;
