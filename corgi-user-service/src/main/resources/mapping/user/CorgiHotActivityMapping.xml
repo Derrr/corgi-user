@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiHotActivityMapper">
+
+    <insert id="addHotActivity" parameterType="com.corgi.user.entity.HotActivity">
+        INSERT INTO `corgi_hot_activity`
+    (`activity_id`, `start_time`, `end_time`, `status`,`city`, `type`)
+    VALUES (#{hot.activityId}, #{hot.startTime}, #{hot.endTime}, #{hot.status}, #{hot.city}, #{hot.type})
+    </insert>
+    <update id="updateHotActivity" parameterType="com.corgi.user.entity.HotActivity">
+        update corgi_hot_activity
+        <set>
+            <if test="hot.activityId != null and hot.activityId != ''">
+                `activity_id` = #{hot.activityId},
+            </if>
+            <if test="hot.startTime != null and hot.startTime != ''">
+                `start_time` = #{hot.startTime},
+            </if>
+            <if test="hot.endTime != null and hot.startTime != ''">
+                `end_time` = #{hot.startTime},
+            </if>
+            <if test="hot.status != null and hot.status != ''">
+                `status` = #{hot.status},
+            </if>
+            <if test="hot.city != null and hot.city != ''">
+                `city` = #{hot.city},
+            </if>
+            <if test="hot.type != null and hot.type != ''">
+                `type` = #{hot.type},
+            </if>
+        </set>
+        where id = #{hot.id}
+    </update>
+
+
+    <select id="getHotActivityList" resultType="com.corgi.user.entity.HotActivity">
+        select
+        `id`,
+        activity_id activityId,
+        start_time startTime,
+        end_time endTime,
+        `status`,
+        `city`,
+        `type`
+        from corgi_hot_activity
+        order by id desc
+    </select>
+
+    <select id="getListByCity" resultType="com.corgi.user.entity.HotActivity">
+        select
+        activity_id activityId,
+        start_time startTime,
+        end_time endTime,
+        `status`,
+        `type``,
+        `city`
+        from corgi_hot_activity
+        where `status` = '1'
+            and (`city` = #{city} or `city` = '全国')
+            and end_time >= #{time}
+            and start_time &lt;= #{time}
+    </select>
+
+    <select id="searchHotActivity" resultType="com.corgi.user.entity.HotActivity">
+        select
+        `id`,
+        activity_id activityId,
+        start_time startTime,
+        end_time endTime,
+        `status`,
+        `city`,
+        `type`
+        from corgi_hot_activity
+        where 1=1
+        <if test="hot.activityId != null and hot.activityId != ''">
+            and activity_id=#{hot.activityId}
+        </if>
+        <if test="hot.status != null and hot.status != ''">
+            and `status` = #{hot.status}
+        </if>
+    </select>
+
+</mapper>
