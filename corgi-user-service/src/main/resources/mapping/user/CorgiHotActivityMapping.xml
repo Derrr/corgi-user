@@ -65,6 +65,12 @@
             and start_time &lt;= #{time}
     </select>
 
+    <delete id="deleteHotActivity">
+        delete from corgi_hot_activity
+        where id = #{hotId}
+    </delete>
+
+
     <select id="searchHotActivity" resultType="com.corgi.user.entity.HotActivity">
         select
         `id`,
