@@ -270,10 +270,9 @@
         pt=point(#{position.lng},#{position.lat}),
         real_lat = #{position.realLat},
         real_lng = #{position.realLng},
-        <if test="position.city != null and position.city != '' ">
+        <if test="position.city != null and position.city != ''
+        and position.province != null and position.province != '' ">
             `city` = #{position.city},
-        </if>
-        <if test="position.province != null and position.province != '' ">
             `province` = #{position.province},
         </if>
         `version` = #{position.version}
