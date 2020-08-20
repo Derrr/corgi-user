@@ -13,6 +13,8 @@ public class UserPosition implements Serializable {
     private String version;
     private Double lat;
     private Double lng;
+    private String city;
+    private String province;
 
     private Double realLat;
     private Double realLng;
