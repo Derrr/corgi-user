@@ -4,14 +4,17 @@
 
     <insert id="addHotActivity" parameterType="com.corgi.user.entity.HotActivity">
         INSERT INTO `corgi_hot_activity`
-    (`activity_id`, `start_time`, `end_time`, `status`,`city`, `type`)
-    VALUES (#{hot.activityId}, #{hot.startTime}, #{hot.endTime}, #{hot.status}, #{hot.city}, #{hot.type})
+    (`activity_id`,`bar_id`, `start_time`, `end_time`, `status`,`city`, `type`)
+    VALUES (#{hot.activityId}, #{hot.barId}, #{hot.startTime}, #{hot.endTime}, #{hot.status}, #{hot.city}, #{hot.type})
     </insert>
     <update id="updateHotActivity" parameterType="com.corgi.user.entity.HotActivity">
         update corgi_hot_activity
         <set>
             <if test="hot.activityId != null and hot.activityId != ''">
                 `activity_id` = #{hot.activityId},
+            </if>
+            <if test="hot.barId != null and hot.barId != ''">
+                `bar_id` = #{hot.barId},
             </if>
             <if test="hot.startTime != null and hot.startTime != ''">
                 `start_time` = #{hot.startTime},
@@ -32,10 +35,10 @@
         where id = #{hot.id}
     </update>
 
-
     <select id="getHotActivityList" resultType="com.corgi.user.entity.HotActivity">
         select
         `id`,
+        bar_id barId,
         activity_id activityId,
         start_time startTime,
         end_time endTime,
@@ -46,13 +49,14 @@
         order by id desc
     </select>
 
-    <select id="getListByCity" resultType="com.corgi.user.entity.HotActivity">
+    <select id="getHotActivityListByCity" resultType="com.corgi.user.entity.HotActivity">
         select
         activity_id activityId,
+        bar_id barId,
         start_time startTime,
         end_time endTime,
         `status`,
-        `type``,
+        `type`,
         `city`
         from corgi_hot_activity
         where `status` = '1'
@@ -61,9 +65,15 @@
             and start_time &lt;= #{time}
     </select>
 
+    <delete id="deleteHotActivity">
+        delete from corgi_hot_activity
+        where id = #{hotId}
+    </delete>
+
     <select id="searchHotActivity" resultType="com.corgi.user.entity.HotActivity">
         select
         `id`,
+        bar_id barId,
         activity_id activityId,
         start_time startTime,
         end_time endTime,

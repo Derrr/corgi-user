@@ -36,7 +36,7 @@ public interface CorgiHotActivityMapper {
      *
      * @return
      */
-    List<HotActivity> getListByCity(@Param("city") String city, @Param("time") String time);
+    List<HotActivity> getHotActivityListByCity(@Param("city") String city, @Param("time") String time);
 
     /**
      * 删除热门活动
