@@ -79,7 +79,7 @@
         b.ctime,
         b.city
         from corgi_bar_detail b
-        left join corgi_user_follow f on f.user_id = b.bar_id
+        left join corgi_user_follow f on f.follow_user_id = b.bar_id
         where b.status = '1'
         <if test="city != null and city != ''">
             and b.city = #{city}
