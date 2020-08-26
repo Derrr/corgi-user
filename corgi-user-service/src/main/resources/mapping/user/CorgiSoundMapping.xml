@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiSoundMapper">
+
+    <insert id="addCorgiSound" useGeneratedKeys="true"
+            parameterType="com.corgi.user.entity.CorgiSound">
+      insert into corgi_user_sound (`user_id`, `sound_url`, `data_id`, `status`, `result`)
+      values (#{corgiSound.userId}, #{corgiSound.soundUrl}, #{corgiSound.dataId}, #{corgiSound.status}, #{corgiSound.result})
+    </insert>
+
+    <delete id="deleteCorgiSound">
+        delete from corgi_user_sound
+        where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteCorgiSoundByDataId">
+        delete from corgi_user_sound
+        where data_id = #{dataId}
+    </delete>
+
+    <update id="updateCorgiSoundByDataId">
+        update corgi_user_sound
+        set `status` = #{status}
+        where data_id = #{dataId}
+    </update>
+
+    <select id="getCorgiSoundByDataId" resultType="com.corgi.user.entity.CorgiSound">
+        select id, user_id userId, sound_url soundUrl, data_id dataId, `status`, `result`
+        from corgi_user_sound
+        where data_id = #{dataId}
+    </select>
+
+    <select id="getCorgiSound" resultType="com.corgi.user.entity.CorgiSound">
+        select id, user_id userId, sound_url soundUrl, data_id dataId, `status`, `result`
+        from corgi_user_sound
+        where user_id = #{userId}
+    </select>
+
+    <select id="countCheckSound" resultType="java.lang.Long">
+        select count(1) from corgi_user_sound
+        where 1=1
+        <if test="status != null and status != ''">
+            and `status` = #{status}
+        </if>
+    </select>
+
+    <select id="getCheckSound" resultType="com.corgi.user.entity.CorgiSound">
+        select id, data_id dataId, sound_url soundUrl, `user_id` userId,
+        `result`, `status`, ctime, uptime
+        from corgi_user_sound
+        where 1=1
+        <if test="status != null and status != ''">
+             and `status` = #{status}
+        </if>
+        limit #{start}, #{size}
+    </select>
+
+
+</mapper>
