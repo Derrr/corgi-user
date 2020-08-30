@@ -78,5 +78,5 @@ public interface CorgiBillboardMapper {
      * @param to
      * @param date
      */
-    void updateBillboardByNickname(@Param("from")String from, @Param("to")String to, @Param("date")String date);
+    int updateBillboardByNickname(@Param("from")String from, @Param("to")String to, @Param("date")String date);
 }

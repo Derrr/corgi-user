@@ -8,6 +8,7 @@ import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +26,8 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     private CorgiBillboardMapper corgiBillboardMapper;
     @Autowired
     private CorgiPicService corgiPicService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Override
     public List<UserProfile> getPastBillboard(String date) {
@@ -74,6 +77,9 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
 
     @Override
     public void updateBillboardByNickname(String from, String to, String date) {
-        corgiBillboardMapper.updateBillboardByNickname(from, to, date);
+        int count = corgiBillboardMapper.updateBillboardByNickname(from, to, date);
+        if (count == 0) {
+            redisTemplate.delete("billboard_block_".concat(from));
+        }
     }
 }
