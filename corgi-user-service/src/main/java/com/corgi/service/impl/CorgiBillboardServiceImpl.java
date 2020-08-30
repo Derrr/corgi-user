@@ -83,7 +83,7 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         String fromId = corgiBillboardMapper.getUserIdByNickname(from);
         String toId = corgiBillboardMapper.getUserIdByNickname(to);
         if (StringUtils.isNotEmpty(fromId) && StringUtils.isNotEmpty(toId)) {
-            corgiBillboardMapper.updateBillboard(from, to, date);
+            corgiBillboardMapper.updateBillboard(fromId, toId, date);
             redisTemplate.opsForValue().set("billboard_block_".concat(fromId), from, 30, TimeUnit.DAYS);
         }
     }
