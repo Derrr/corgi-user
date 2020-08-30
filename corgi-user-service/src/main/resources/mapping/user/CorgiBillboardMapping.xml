@@ -86,10 +86,13 @@
         where `date` >= #{date}
     </select>
 
-    <update id="updateBillboardByNickname">
-        update corgi.corgi_billboard b left join corgi_user_detail d on d.user_id = b.user_id
-        set b.user_id = if(exists (select 1 from corgi_user_detail where nickname =#{to}),(select user_id from corgi_user_detail where nickname = #{to}),b.user_id)
-        where b.`date` = #{date}
-        and d.nickname = #{from}
+    <update id="updateBillboard">
+        update corgi.corgi_billboard set user_id = #{toId}
+        where `date` = #{date}
+        and user_id = #{fromId}
     </update>
+
+    <select id="getUserIdByNickname" resultType="java.lang.String">
+        select user_id from corgi_user_detail where nickname = #{nickname} limit 1
+    </select>
 </mapper>

@@ -1,9 +1,11 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiBillboardMapper;
 import com.corgi.user.api.CorgiBillboardService;
 import com.corgi.user.api.CorgiPicService;
+import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserProfile;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author tairanliu
@@ -77,9 +80,11 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
 
     @Override
     public void updateBillboardByNickname(String from, String to, String date) {
-        int count = corgiBillboardMapper.updateBillboardByNickname(from, to, date);
-        if (count == 0) {
-            redisTemplate.delete("billboard_block_".concat(from));
+        String fromId = corgiBillboardMapper.getUserIdByNickname(from);
+        String toId = corgiBillboardMapper.getUserIdByNickname(to);
+        if (StringUtils.isNotEmpty(fromId) && StringUtils.isNotEmpty(toId)) {
+            corgiBillboardMapper.updateBillboard(from, to, date);
+            redisTemplate.opsForValue().set("billboard_block_".concat(fromId), from, 30, TimeUnit.DAYS);
         }
     }
 }

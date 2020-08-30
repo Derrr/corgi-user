@@ -74,9 +74,16 @@ public interface CorgiBillboardMapper {
 
     /**
      * 根据昵称更新榜单
-     * @param from
-     * @param to
+     * @param fromId
+     * @param toId
      * @param date
      */
-    int updateBillboardByNickname(@Param("from")String from, @Param("to")String to, @Param("date")String date);
+    void updateBillboard(@Param("fromId")String fromId, @Param("toId")String toId, @Param("date")String date);
+
+    /**
+     * 根据昵称获取ID
+     * @param nickname
+     * @return
+     */
+    String getUserIdByNickname(@Param("nickname")String nickname);
 }
