@@ -1,6 +1,7 @@
 package com.corgi.mapper;
 
 import com.corgi.entity.CorgiArea;
+import com.corgi.user.entity.Billboard;
 import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserProfile;
 import org.apache.ibatis.annotations.Param;
@@ -86,4 +87,13 @@ public interface CorgiBillboardMapper {
      * @return
      */
     String getUserIdByNickname(@Param("nickname")String nickname);
+
+
+    /**
+     * 获取榜单数据
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    List<Billboard> getBillboardByDate(@Param("startDate")String startDate,@Param("endDate")String endDate);
 }

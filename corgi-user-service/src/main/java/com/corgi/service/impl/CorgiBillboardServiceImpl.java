@@ -6,6 +6,7 @@ import com.corgi.mapper.CorgiBillboardMapper;
 import com.corgi.user.api.CorgiBillboardService;
 import com.corgi.user.api.CorgiPicService;
 import com.corgi.user.api.CorgiUserService;
+import com.corgi.user.entity.Billboard;
 import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserProfile;
 import lombok.extern.slf4j.Slf4j;
@@ -86,5 +87,10 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
             corgiBillboardMapper.updateBillboard(fromId, toId, date);
             redisTemplate.opsForValue().set("billboard_block_".concat(fromId), from, 30, TimeUnit.DAYS);
         }
+    }
+
+    @Override
+    public List<Billboard> getBillboardByDate(String startDate, String endDate) {
+        return null;
     }
 }

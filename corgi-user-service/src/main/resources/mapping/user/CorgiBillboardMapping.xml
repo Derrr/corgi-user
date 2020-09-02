@@ -95,4 +95,18 @@
     <select id="getUserIdByNickname" resultType="java.lang.String">
         select user_id from corgi_user_detail where nickname = #{nickname} limit 1
     </select>
+
+    <select id="getBillboardByDate" resultType="com.corgi.user.entity.Billboard">
+        select
+        b.user_id userId,
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.date,
+        d.count,
+        d.count_type countType,
+        l.im_id imId
+        from corgi_billboard b
+        left join corgi_user_detail d on d.user_id = b.user_id
+        where b.date >= #{startDate} and b.date &lt;= #{endDate}
+    </select>
 </mapper>

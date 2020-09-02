@@ -1,5 +1,6 @@
 package com.corgi.user.api;
 
+import com.corgi.user.entity.Billboard;
 import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserProfile;
 
@@ -21,4 +22,6 @@ public interface CorgiBillboardService {
     List<UserProfile> getActiveUser(UserDetail userDetail, Integer limit);
 
     void updateBillboardByNickname(String from, String to, String date);
+
+    List<Billboard> getBillboardByDate(String startDate,String endDate);
 }
