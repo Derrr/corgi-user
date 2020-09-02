@@ -7,7 +7,7 @@
 
         where f.is_deleted = '0'
         <if test='detail.role != null'>
-            and f.uptime like #{date}
+            and f.uptime >= #{date}
         </if>
         <if test='detail.role != null and detail.role == "1"'>
             and d.role = '1'
@@ -23,7 +23,7 @@
     <select id="getPassionUsers" resultType="com.corgi.user.entity.UserProfile">
         select f.user_id userId,count(distinct f.follow_user_id) `match`,count(distinct bf.user_id) `count` from corgi_user_follow f
         left join corgi_user_follow bf on bf.follow_user_id = f.user_id
-        where f.uptime like #{date}
+        where f.uptime >= #{date}
         and f.is_deleted = '0'
         and bf.is_deleted = '0'
         group by f.user_id
@@ -34,9 +34,9 @@
 
     <select id="getActiveUsers" resultType="com.corgi.user.entity.UserProfile">
         select count(1) `match`, user_id userId from (
-        (select user_id from corgi_activity_comment where ctime like #{date})
+        (select user_id from corgi_activity_comment where ctime >= #{date})
         union all
-        (select user_id from corgi_activity_like where ctime like #{date})
+        (select user_id from corgi_activity_like where ctime >= #{date})
         )a
         group by user_id
         order by `match` desc limit #{limit}

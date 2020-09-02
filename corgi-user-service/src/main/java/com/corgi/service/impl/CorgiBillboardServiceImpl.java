@@ -15,6 +15,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -59,23 +60,29 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
 
     @Override
     public List<UserProfile> getPopularUser(UserDetail userDetail, Integer limit) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(new Date()) + "%";
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = sdf.format(calendar.getTime());
         List<UserProfile> userProfiles = corgiBillboardMapper.getPopularUsers(userDetail, date, limit);
         return userProfiles;
     }
 
     @Override
     public List<UserProfile> getPassionUser(UserDetail userDetail, Integer limit) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(new Date()) + "%";
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = sdf.format(calendar.getTime());
         return corgiBillboardMapper.getPassionUsers(userDetail, date, limit);
     }
 
     @Override
     public List<UserProfile> getActiveUser(UserDetail userDetail, Integer limit) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(new Date()) + "%";
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = sdf.format(calendar.getTime());
         return corgiBillboardMapper.getActiveUsers(userDetail, date, limit);
     }
 
