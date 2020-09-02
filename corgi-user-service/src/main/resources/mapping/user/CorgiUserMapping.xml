@@ -67,6 +67,7 @@
         `avatar`,
         `avatar_data_id`,
         `avatar_status`,
+        `avatar_check_status`,
         `height`,
         `weight`,
         `desc`,
@@ -87,6 +88,7 @@
         #{userDetail.avatar},
         #{userDetail.avatarDataId},
         #{userDetail.avatarStatus},
+        #{userDetail.avatarCheckStatus},
         #{userDetail.height},
         #{userDetail.weight},
         #{userDetail.desc},
@@ -108,6 +110,7 @@
         d.`nickname`,
         d.`avatar`,
         d.avatar_status avatarStatus,
+        d.avatar_check_status avatarCheckStatus,
         d.`height`,
         d.`weight`,
         d.`desc`,
@@ -167,6 +170,9 @@
             </if>
             <if test="userDetail.avatarStatus != null">
                 `avatar_status` = #{userDetail.avatarStatus},
+            </if>
+            <if test="userDetail.avatarCheckStatus != null">
+                `avatar_check_status` = #{userDetail.avatarCheckStatus},
             </if>
             <if test="userDetail.height != null and userDetail.height != 0">
                 `height` = #{userDetail.height},
@@ -333,6 +339,7 @@
         d.nickname `nickname`,
         d.avatar avatar,
         d.avatar_status avatarStatus,
+        d.avatar_check_status avatarCheckStatus,
         d.height,
         d.weight,
         d.birthday,
@@ -358,6 +365,7 @@
         d.check_nickname checkNickname,
         d.avatar avatar,
         d.avatar_status avatarStatus,
+        d.avatar_check_status avatarCheckStatus,
         d.role role,
         d.hide_role hideRole,
         d.group `group`,

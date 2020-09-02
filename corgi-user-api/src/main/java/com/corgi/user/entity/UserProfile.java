@@ -23,6 +23,7 @@ public class UserProfile implements Serializable {
     private String imId;
     private String avatar;
     private String avatarStatus;
+    private String avatarCheckStatus;
     private String role;
     private String hideRole;
     private String group;
