@@ -101,7 +101,7 @@ public interface CorgiUserMapper {
      * @param dataId
      * @param status
      */
-    void updateUserAvatar(@Param("dataId") String dataId, @Param("status") String status);
+    void updateUserAvatar(@Param("userId")String userId, @Param("dataId") String dataId, @Param("status") String status);
 
     /**
      * 删除头像
@@ -109,6 +109,7 @@ public interface CorgiUserMapper {
      * @param dataId
      */
     void deleteUserAvatar(@Param("dataId") String dataId);
+
 
     /**
      * 获取用户资料

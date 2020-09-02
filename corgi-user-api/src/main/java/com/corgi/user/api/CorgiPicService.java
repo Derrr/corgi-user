@@ -26,6 +26,8 @@ public interface CorgiPicService {
 
     String failCheckPic(CheckPic checkPic);
 
+    String noFaceCheckPic(CheckPic checkPic);
+
     String passCheckPic(CheckPic checkPic);
 
     List<CheckPic> getCheckPic(String status,String type, int page, int size);

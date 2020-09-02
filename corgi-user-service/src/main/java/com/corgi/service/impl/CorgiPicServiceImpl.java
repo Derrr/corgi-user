@@ -96,13 +96,20 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     }
 
     @Override
+    public String noFaceCheckPic(CheckPic checkPic) {
+        corgiUserMapper.updateUserAvatar(checkPic.getUserId(), checkPic.getDataId(), UserDetail.NO_FACE);
+        corgiPicMapper.updateCheckPic(checkPic.getDataId(), UserDetail.NO_FACE, checkPic.getUserId());
+        return CorgiConstants.SUCCESS;
+    }
+
+    @Override
     public String passCheckPic(CheckPic checkPic) {
         if (CheckPic.ACTIVITY.equals(checkPic.getType())) {
             corgiPicMapper.updateActivityPicByDataId(checkPic.getDataId(), CorgiPic.NORMAL);
         } else if (CheckPic.USER.equals(checkPic.getType())) {
             corgiPicMapper.updateUserPicByDataId(checkPic.getDataId(), CorgiPic.NORMAL);
         } else if (CheckPic.AVATAR.equals(checkPic.getType())) {
-            corgiUserMapper.updateUserAvatar(checkPic.getDataId(), CorgiPic.NORMAL);
+            corgiUserMapper.updateUserAvatar(checkPic.getUserId(), checkPic.getDataId(), CorgiPic.NORMAL);
         } else {
             return "no type matches";
         }

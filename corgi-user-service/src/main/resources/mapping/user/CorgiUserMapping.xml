@@ -242,7 +242,7 @@
 
     <update id="updateUserAvatar">
         update corgi_user_detail
-        set avatar_status = #{status}
+        set avatar_check_status = #{status}
         where avatar_data_id = #{dataId}
     </update>
 
