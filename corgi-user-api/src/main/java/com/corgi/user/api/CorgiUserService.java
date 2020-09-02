@@ -27,6 +27,8 @@ public interface CorgiUserService {
 
     String updateUserPosition(UserPosition userPosition);
 
+    UserPosition getUserPosition(String userId);
+
     List<UserPosition> getUserPositionByPage(Integer page, Integer pageSize);
 
     List<UserProfile> getNearByUser(UserQuery userQuery);

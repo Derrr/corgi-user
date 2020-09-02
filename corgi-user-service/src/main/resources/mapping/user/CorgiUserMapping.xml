@@ -252,12 +252,12 @@
     </insert>
 
     <select id="getUserPosition" resultType="com.corgi.user.entity.UserPosition">
-        select user_id userId, lat, lng, real_lat realLat, real_lng realLng, locate_type locateType from corgi_user_position
+        select user_id userId, lat, lng, real_lat realLat, real_lng realLng, locate_type locateType,city, province from corgi_user_position
         where user_id = #{userId}
     </select>
 
     <select id="getUserPositionByPage" resultType="com.corgi.user.entity.UserPosition">
-        select user_id userId, lat, lng, real_lng realLng, locate_type locateType,uptime from corgi_user_position
+        select user_id userId, lat, lng, real_lng realLng, locate_type locateType,uptime,city, province from corgi_user_position
         limit #{start}, #{size}
     </select>
 
@@ -291,10 +291,12 @@
         select p.user_id from corgi_user_position p
         left join corgi_user_detail d on p.user_id = d.user_id
         <if test='range.follow == "1" or range.follow == "3"'>
-            join corgi_user_follow f1 on f1.user_id = #{range.userId} and f1.follow_user_id = p.user_id and f1.is_deleted = '0'
+            join corgi_user_follow f1 on f1.user_id = #{range.userId} and f1.follow_user_id = p.user_id and
+            f1.is_deleted = '0'
         </if>
         <if test='range.follow == "2" or range.follow == "3"'>
-            join corgi_user_follow f2 on f2.follow_user_id = #{range.userId} and f2.user_id = p.user_id and f2.is_deleted = '0'
+            join corgi_user_follow f2 on f2.follow_user_id = #{range.userId} and f2.user_id = p.user_id and
+            f2.is_deleted = '0'
         </if>
         where p.lat >= #{range.beginLat} and p.lat &lt;= #{range.endLat}
         and p.lng >= #{range.beginLng} and p.lng &lt;= #{range.endLng}
@@ -511,7 +513,7 @@
     <select id="filterUser" resultType="java.lang.String">
         select distinct d.user_id from corgi_user_detail d
         <if test="preferGroup != null and preferGroup != ''">
-          left join corgi_prefer_group g on g.user_id = d.user_id
+            left join corgi_prefer_group g on g.user_id = d.user_id
         </if>
         where d.user_id in ${userId}
         <if test="role != null and role != ''">

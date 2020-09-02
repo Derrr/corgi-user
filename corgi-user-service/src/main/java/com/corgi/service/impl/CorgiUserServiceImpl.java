@@ -192,6 +192,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
+    public UserPosition getUserPosition(String userId) {
+        return corgiUserMapper.getUserPosition(userId);
+    }
+
+    @Override
     public List<UserPosition> getUserPositionByPage(Integer page, Integer pageSize) {
         return corgiUserMapper.getUserPositionByPage((page - 1) * pageSize, pageSize);
     }
