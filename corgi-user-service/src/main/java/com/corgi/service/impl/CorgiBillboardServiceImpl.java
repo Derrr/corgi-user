@@ -56,7 +56,7 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = sdf.format(sdf.format(calendar.getTime()));
+        String date = sdf.format(calendar.getTime());
         List<UserProfile> userProfiles = corgiBillboardMapper.getPopularUsers(userDetail, date, limit);
         return userProfiles;
     }
@@ -66,7 +66,7 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = sdf.format(sdf.format(calendar.getTime()));
+        String date = sdf.format(calendar.getTime());
         return corgiBillboardMapper.getPassionUsers(userDetail, date, limit);
     }
 
@@ -75,7 +75,7 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = sdf.format(sdf.format(calendar.getTime()));
+        String date = sdf.format(calendar.getTime());
         return corgiBillboardMapper.getActiveUsers(userDetail, date, limit);
     }
 
