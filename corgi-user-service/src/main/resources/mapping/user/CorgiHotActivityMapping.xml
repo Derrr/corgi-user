@@ -4,8 +4,8 @@
 
     <insert id="addHotActivity" parameterType="com.corgi.user.entity.HotActivity">
         INSERT INTO `corgi_hot_activity`
-    (`activity_id`,`bar_id`, `start_time`, `end_time`, `status`,`city`, `type`)
-    VALUES (#{hot.activityId}, #{hot.barId}, #{hot.startTime}, #{hot.endTime}, #{hot.status}, #{hot.city}, #{hot.type})
+    (`activity_id`,`bar_id`, `start_time`, `end_time`, `status`,`city`, `type`,`order`)
+    VALUES (#{hot.activityId}, #{hot.barId}, #{hot.startTime}, #{hot.endTime}, #{hot.status}, #{hot.city}, #{hot.type}, #{hot.order})
     </insert>
     <update id="updateHotActivity" parameterType="com.corgi.user.entity.HotActivity">
         update corgi_hot_activity
@@ -31,6 +31,9 @@
             <if test="hot.type != null and hot.type != ''">
                 `type` = #{hot.type},
             </if>
+            <if test="hot.order != null and hot.order != ''">
+                `order` = #{hot.order},
+            </if>
         </set>
         where id = #{hot.id}
     </update>
@@ -44,9 +47,10 @@
         end_time endTime,
         `status`,
         `city`,
-        `type`
+        `type`,
+        `order`
         from corgi_hot_activity
-        order by id desc
+        order by `order`
     </select>
 
     <select id="getHotActivityListByCity" resultType="com.corgi.user.entity.HotActivity">
@@ -63,6 +67,7 @@
             and (`city` = #{city} or `city` = '全国')
             and end_time >= #{time}
             and start_time &lt;= #{time}
+        order by `order`
     </select>
 
     <delete id="deleteHotActivity">
@@ -79,7 +84,8 @@
         end_time endTime,
         `status`,
         `city`,
-        `type`
+        `type`,
+        `order`
         from corgi_hot_activity
         where 1=1
         <if test="hot.activityId != null and hot.activityId != ''">
