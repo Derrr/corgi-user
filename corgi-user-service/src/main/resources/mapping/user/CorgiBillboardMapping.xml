@@ -101,7 +101,7 @@
         b.user_id userId,
         d.nickname `nickname`,
         d.avatar avatar,
-        d.date,
+        b.date,
         (select count(1) from corgi_billboard b2 where b2.user_id = b.user_id) count
         from corgi_billboard b
         left join corgi_user_detail d on d.user_id = b.user_id
