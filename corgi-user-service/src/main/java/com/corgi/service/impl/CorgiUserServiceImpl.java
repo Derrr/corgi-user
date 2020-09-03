@@ -203,6 +203,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
+    public List<UserPosition> getFollowedCityUser(String userId, String city, Integer page, Integer size) {
+        return corgiUserMapper.getFollowedCityUser(city, userId, (page - 1) * size, size);
+    }
+
+    @Override
     public List<UserProfile> getNearByUser(UserQuery userQuery) {
         List<String> userIds = getAllNearByUser(userQuery);
         log.info("getting user size... {} ", userIds.size());

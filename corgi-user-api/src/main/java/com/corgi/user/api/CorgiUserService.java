@@ -31,6 +31,8 @@ public interface CorgiUserService {
 
     List<UserPosition> getUserPositionByPage(Integer page, Integer pageSize);
 
+    List<UserPosition> getFollowedCityUser(String userId, String city, Integer page, Integer size);
+
     List<UserProfile> getNearByUser(UserQuery userQuery);
 
     List<String> getAllNearByUser(UserQuery userQuery);

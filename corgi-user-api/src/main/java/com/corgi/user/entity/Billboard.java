@@ -10,7 +10,7 @@ public class Billboard implements Serializable {
     private String nickname;
     private String avatar;
 
-    private String type;
+    private int count;
     private String countType;
     private String date;
 }

@@ -101,7 +101,7 @@ public interface CorgiUserMapper {
      * @param dataId
      * @param status
      */
-    void updateUserAvatar(@Param("userId")String userId, @Param("dataId") String dataId, @Param("status") String status);
+    void updateUserAvatar(@Param("userId") String userId, @Param("dataId") String dataId, @Param("status") String status);
 
     /**
      * 删除头像
@@ -183,15 +183,22 @@ public interface CorgiUserMapper {
     List<UserPosition> getUserPositionByPage(@Param("start") Integer start, @Param("size") Integer size);
 
     /**
+     * @param city
+     * @param userId
+     * @param start
+     * @param size
+     * @return
+     */
+    List<UserPosition> getFollowedCityUser(@Param("city") String city, @Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
      * 更新用户位置
      */
-    //void updateUserPosition(@Param("userId") String userId, @Param("lat") Double lat, @Param("lng") Double lng, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
     void updateUserPosition(@Param("position") UserPosition userPosition);
 
     /**
      * 更新用户时间
      */
-    //void updateUserPositionUptime(@Param("userId") String userId, @Param("uptime") Long uptime, @Param("realLat") Double realLat, @Param("realLng") Double realLng, @Param("locateType") String locateType);
     void updateUserPositionUptime(@Param("position") UserPosition userPosition);
 
     /**
@@ -222,13 +229,14 @@ public interface CorgiUserMapper {
 
 
     /**
-     *
      * 查询天菜创始人
+     *
      * @param start
      * @param size
      * @return
      */
     List<UserProfile> queryInfluencer(@Param("start") int start, @Param("size") int size);
+
     /**
      * 统计用户
      *
