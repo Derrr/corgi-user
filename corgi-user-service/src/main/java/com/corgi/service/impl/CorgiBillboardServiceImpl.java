@@ -8,6 +8,7 @@ import com.corgi.user.api.CorgiPicService;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.Billboard;
 import com.corgi.user.entity.UserDetail;
+import com.corgi.user.entity.UserPic;
 import com.corgi.user.entity.UserProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,13 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
 
     @Override
     public List<Billboard> getBillboardByDate(String startDate, String endDate) {
-        return null;
+        List<Billboard> billboards = corgiBillboardMapper.getBillboardByDate(startDate, endDate);
+        for (Billboard billboard : billboards) {
+            List<UserPic> pic = corgiPicService.getUserPic(billboard.getUserId());
+            if(pic.size() > 0){
+                billboard.setAvatar(pic.get(0).getPicUrl());
+            }
+        }
+        return billboards;
     }
 }
