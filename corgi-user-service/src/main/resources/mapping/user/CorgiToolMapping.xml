@@ -193,7 +193,7 @@
         where to_user_id = #{userId}
     </update>
 
-    <update id="readActivityMessage">
+    <update id="readActivityMessageByType">
         update corgi_activity_message
         set is_read = '1'
         where to_user_id = #{userId}
