@@ -107,11 +107,22 @@ public interface CorgiToolMapper {
     List<ActivityMessage> getActivityMessage(@Param("userId") String userId, @Param("size") Integer size);
 
     /**
+     * 根据消息类型获取活动消息
+     *
+     * @param userId
+     * @param size
+     * @param type
+     * @return
+     */
+    List<ActivityMessage> getActivityMessageByType(@Param("userId") String userId, @Param("size") Integer size, @Param("type") String type);
+
+    /**
      * 对特定类型message计数
+     *
      * @param message
      * @return
      */
-    Integer countActivityMessageByMessage(@Param("message")ActivityMessage message);
+    Integer countActivityMessageByMessage(@Param("message") ActivityMessage message);
 
     /**
      * 获取所有活动消息
@@ -122,6 +133,17 @@ public interface CorgiToolMapper {
      * @return
      */
     List<ActivityMessage> getAllActivityMessage(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
+     * 根据类型获取所有活动消息
+     *
+     * @param userId
+     * @param type
+     * @param start
+     * @param size
+     * @return
+     */
+    List<ActivityMessage> getAllActivityMessageByType(@Param("userId") String userId, @Param("type") String type, @Param("start") Integer start, @Param("size") Integer size);
 
 
     /**
@@ -151,8 +173,15 @@ public interface CorgiToolMapper {
      * 已读消息
      *
      * @param userId
-     * @param time
      */
     void readActivityMessage(@Param("userId") String userId);
+
+    /**
+     * 已读消息
+     *
+     * @param userId
+     * @param type
+     */
+    void readActivityMessageByType(@Param("userId") String userId, @Param("type") String type);
 
 }

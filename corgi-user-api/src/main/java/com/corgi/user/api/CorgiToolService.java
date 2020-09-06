@@ -50,5 +50,13 @@ public interface CorgiToolService {
 
     ActivityMessage getLastActivityMessage(String userId);
 
+    List<ActivityMessage> getActivityMessageByType(String userId, Integer pageSize, String type);
+
+    List<ActivityMessage> getAllActivityMessageByType(String userId, Integer page, Integer pageSize, String type);
+
+    Long countActivityMessageByType(String userId, String type);
+
+    ActivityMessage getLastActivityMessageByType(String userId, String type);
+
     void deleteActivityMessage(String userId, Long time);
 }

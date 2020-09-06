@@ -101,6 +101,24 @@
         limit #{size}
     </select>
 
+    <select id="getActivityMessageByType" resultType="com.corgi.user.entity.ActivityMessage">
+        select message_type messageType,
+        `content`,
+        activity_id activityId,
+        `to_user_id` toUserId,
+        `from_user_id` fromUserId,
+        `from_user_name` fromUserName,
+        `from_user_avatar` fromUserAvatar,
+        `is_read` isRead,
+        `comment_id` commentId,
+        `time`
+        from corgi_activity_message
+        where to_user_id = #{userId} and is_read = '0'
+        and message_type = #{type}
+        order by `time` desc
+        limit #{size}
+    </select>
+
     <select id="getAllActivityMessage" resultType="com.corgi.user.entity.ActivityMessage">
         select message_type messageType,
         `content`,
@@ -118,6 +136,24 @@
         limit #{start}, #{size}
     </select>
 
+    <select id="getAllActivityMessageByType" resultType="com.corgi.user.entity.ActivityMessage">
+        select message_type messageType,
+        `content`,
+        activity_id activityId,
+        `to_user_id` toUserId,
+        `from_user_id` fromUserId,
+        `from_user_name` fromUserName,
+        `from_user_avatar` fromUserAvatar,
+        `is_read` isRead,
+        `comment_id` commentId,
+        `time`
+        from corgi_activity_message
+        where to_user_id = #{userId}
+        and message_type = #{type}
+        order by `time` desc
+        limit #{start}, #{size}
+    </select>
+
     <select id="countActivityMessage" resultType="java.lang.Long">
         select count(1)
         from corgi_activity_message
@@ -129,10 +165,16 @@
             parameterType="com.corgi.user.entity.ActivityMessage">
         select count(1)
         from corgi_activity_message
-        where activity_id = #{message.activityId}
-        and to_user_id = #{message.toUserId}
-        and from_user_id = #{message.fromUserId}
-        and message_type = #{message.messageType}
+        where to_user_id = #{message.toUserId}
+        <if test='message.activityId != null and message.activityId != ""'>
+            and activity_id = #{message.activityId}
+        </if>
+        <if test='message.fromUserId != null and message.fromUserId != ""'>
+            and from_user_id = #{message.fromUserId}
+        </if>
+        <if test='message.messageType != null and message.messageType != ""'>
+            and message_type = #{message.messageType}
+        </if>
         <if test='message.commentId != null and message.commentId != ""'>
             and comment_id = #{message.commentId}
         </if>
@@ -149,6 +191,13 @@
         update corgi_activity_message
         set is_read = '1'
         where to_user_id = #{userId}
+    </update>
+
+    <update id="readActivityMessage">
+        update corgi_activity_message
+        set is_read = '1'
+        where to_user_id = #{userId}
+        and message_type = #{type}
     </update>
 
 </mapper>

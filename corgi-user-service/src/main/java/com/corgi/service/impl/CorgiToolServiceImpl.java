@@ -169,6 +169,37 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public List<ActivityMessage> getActivityMessageByType(String userId, Integer pageSize, String type) {
+        List<ActivityMessage> activityMessages = corgiToolMapper.getActivityMessageByType(userId, pageSize, type);
+        corgiToolMapper.readActivityMessageByType(userId, type);
+        return buildActivityMessage(activityMessages);
+    }
+
+    @Override
+    public List<ActivityMessage> getAllActivityMessageByType(String userId, Integer page, Integer pageSize, String type) {
+        List<ActivityMessage> activityMessages = corgiToolMapper.getAllActivityMessageByType(userId, type, (page - 1) * pageSize, pageSize);
+        corgiToolMapper.readActivityMessageByType(userId, type);
+        return buildActivityMessage(activityMessages);
+    }
+
+    @Override
+    public Long countActivityMessageByType(String userId, String type) {
+        ActivityMessage activityMessage = new ActivityMessage();
+        activityMessage.setToUserId(userId);
+        activityMessage.setMessageType(type);
+        return Long.valueOf(corgiToolMapper.countActivityMessageByMessage(activityMessage));
+    }
+
+    @Override
+    public ActivityMessage getLastActivityMessageByType(String userId, String type) {
+        List<ActivityMessage> activityMessages = corgiToolMapper.getActivityMessageByType(userId, 1, type);
+        if (CollectionUtils.isEmpty(activityMessages)) {
+            return null;
+        }
+        return activityMessages.get(0);
+    }
+
+    @Override
     public void deleteActivityMessage(String userId, Long time) {
         if (StringUtils.isEmpty(userId)) {
             userId = "8";
