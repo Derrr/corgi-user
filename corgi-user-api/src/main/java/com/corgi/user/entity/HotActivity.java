@@ -14,6 +14,7 @@ public class HotActivity implements Serializable {
 
     private String id;
     private String barId;
+    private String activityName;
     private String activityId;
     private String startTime;
     private String endTime;
