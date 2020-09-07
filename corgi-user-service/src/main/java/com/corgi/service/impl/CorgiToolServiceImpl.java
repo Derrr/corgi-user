@@ -187,6 +187,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
         ActivityMessage activityMessage = new ActivityMessage();
         activityMessage.setToUserId(userId);
         activityMessage.setMessageType(type);
+        activityMessage.setIsRead("0");
         return Long.valueOf(corgiToolMapper.countActivityMessageByMessage(activityMessage));
     }
 

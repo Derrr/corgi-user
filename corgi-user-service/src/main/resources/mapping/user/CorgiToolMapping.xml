@@ -178,6 +178,10 @@
         <if test='message.commentId != null and message.commentId != ""'>
             and comment_id = #{message.commentId}
         </if>
+        <if test='message.isRead != null and message.isRead != ""'>
+            and is_read = #{message.isRead}
+        </if>
+
     </select>
 
 
