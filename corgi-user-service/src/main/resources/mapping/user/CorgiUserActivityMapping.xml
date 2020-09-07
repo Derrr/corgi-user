@@ -38,6 +38,7 @@
         p.uptime `time`,
         d.nickname `nickname`,
         d.avatar avatar,
+        d.avatar_check_status avatarCheckStatus,
         d.role role,
         d.group `group`,
         d.con con,
@@ -57,6 +58,8 @@
     <select id="getPopularUser" resultType="com.corgi.user.entity.UserProfile">
         select
         a.user_id userId,
+        d.avatar avatar,
+        d.avatar_check_status avatarCheckStatus,
         d.nickname `nickname`
         from corgi_activity_attender a
         left join corgi_user_detail d on d.user_id = a.user_id

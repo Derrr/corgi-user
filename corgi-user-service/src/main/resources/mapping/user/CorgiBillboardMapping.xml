@@ -57,6 +57,7 @@
         d.nickname `nickname`,
         d.avatar avatar,
         d.avatar_status avatarStatus,
+        d.avatar_check_status avatarCheckStatus,
         d.role role,
         d.hide_role hideRole,
         d.group `group`,
