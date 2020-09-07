@@ -5,6 +5,7 @@ import com.corgi.common.CorgiConstants;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
 import com.corgi.entity.ActivityQuery;
+import com.corgi.entity.CorgiPic;
 import com.corgi.mapper.*;
 import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiUserFollowService;
@@ -417,7 +418,10 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (StringUtils.isEmpty(userPosition.getUserId()) || StringUtils.isEmpty(geoKey)) {
             return;
         }
-        redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
+        UserDetail userDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
+        if (CorgiPic.NORMAL.equals(userDetail.getAvatarCheckStatus()) || UserDetail.NO_FACE.equals(userDetail.getAvatarCheckStatus())) {
+            redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
+        }
     }
 
     private String getUserSql(List<String> userIds, String loginUserId, Integer startMatch, Integer endMatch) {

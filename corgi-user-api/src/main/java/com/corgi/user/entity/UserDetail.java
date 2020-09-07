@@ -10,6 +10,8 @@ import java.util.List;
  */
 @Data
 public class UserDetail implements Serializable {
+    public static final String NO_FACE = "no_face";
+
     private String userId;
     private String telNo;
     private String imId;
@@ -19,6 +21,7 @@ public class UserDetail implements Serializable {
     private String avatar;
     private String avatarDataId;
     private String avatarStatus;
+    private String avatarCheckStatus;
     private int height;
     private int weight;
     private String desc;
