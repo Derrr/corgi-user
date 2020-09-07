@@ -31,7 +31,7 @@
             <if test="hot.type != null and hot.type != ''">
                 `type` = #{hot.type},
             </if>
-            <if test="hot.order != null and hot.order != ''">
+            <if test="hot.order != null">
                 `order` = #{hot.order},
             </if>
             <if test="hot.activityName != null and hot.activityName != ''">

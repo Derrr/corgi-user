@@ -44,7 +44,6 @@ public class CorgiHotActivityServiceImpl implements CorgiHotActivityService {
 
     @Override
     public void updateHotActivity(HotActivity hotActivity) {
-        log.info("order..." + hotActivity.getOrder());
         corgiHotActivityMapper.updateHotActivity(hotActivity);
     }
 
