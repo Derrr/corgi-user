@@ -429,7 +429,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return;
         }
         UserDetail userDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
-        if (CorgiPic.NORMAL.equals(userDetail.getAvatarCheckStatus())) {
+        if (CorgiPic.NORMAL.equals(userDetail.getAvatarCheckStatus()) || UserDetail.NO_FACE.equals(userDetail.getAvatarCheckStatus())) {
             redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
         }
     }
