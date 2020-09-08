@@ -148,6 +148,11 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     }
 
     @Override
+    public List<CheckPic> getCheckPicBySourceId(String type, String sourceId) {
+        return corgiPicMapper.getCheckPicBySourceId(type, sourceId);
+    }
+
+    @Override
     public long countCheckPic(String status, String type) {
         return corgiPicMapper.countCheckPic(status, type);
     }
