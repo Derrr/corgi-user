@@ -248,7 +248,7 @@
 
     <update id="deleteUserAvatar">
         update corgi_user_detail
-        set avatar = null, avatar_status = null, avatar_data_id = null
+        set avatar = null, avatar_status = 'fail', avatar_data_id = null
         where avatar_data_id = #{dataId}
     </update>
 
