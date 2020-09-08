@@ -447,7 +447,7 @@
         d.user_id userId,
         d.nickname nickname,
         d.avatar avatar,
-        d.avatar_check_stauts avatarCheckStatus,
+        d.avatar_check_status avatarCheckStatus,
         p.lat lat,
         p.lng lng,
         p.uptime `time`
