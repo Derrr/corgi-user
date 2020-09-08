@@ -49,7 +49,7 @@
 
     <select id="getBillboardUsers" resultType="com.corgi.user.entity.UserProfile">
         select
-        p.user_id userId,
+        b.user_id userId,
         p.lat lat,
         p.lng lng,
         p.uptime `time`,
