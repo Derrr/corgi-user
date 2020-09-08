@@ -446,6 +446,8 @@
         select
         d.user_id userId,
         d.nickname nickname,
+        d.avatar avatar,
+        d.avatar_check_stauts avatarCheckStatus,
         p.lat lat,
         p.lng lng,
         p.uptime `time`
