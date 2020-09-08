@@ -47,7 +47,7 @@ public class UserProfile implements Serializable {
     private Integer height;
     private String birthday;
     List<UserPic> pics;
-    List<CorgiSound> sounds;
+    CorgiSound sounds;
 
     public String getFollowTime() {
         if (followTime != null && !"".equals(followTime)) {
