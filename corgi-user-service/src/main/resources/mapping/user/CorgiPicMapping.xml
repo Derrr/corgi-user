@@ -109,7 +109,7 @@
         from corgi_check_pic
         where 1=1
         <if test="status != null and status != ''">
-             and `status` = #{status}
+            and `status` = #{status}
         </if>
         <if test="type != null and type != ''">
             and `type` = #{type}
@@ -117,5 +117,12 @@
         limit #{start}, #{size}
     </select>
 
+    <select id="getCheckPicBySourceId" resultType="com.corgi.entity.CheckPic">
+        select id picId, data_id dataId, pic_url picUrl, `type`, `source_id` userId,
+        `result`, `status`, ctime, uptime
+        from corgi_check_pic
+        where `type` = #{type}
+        and `source_id` = #{sourceId}
+    </select>
 
 </mapper>
