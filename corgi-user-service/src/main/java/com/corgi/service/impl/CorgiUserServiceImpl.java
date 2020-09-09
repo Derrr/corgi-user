@@ -477,7 +477,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             for (int i = 0; i < size; i++) {
                 int index = r.nextInt(userIds.size());
                 UserProfile profile = corgiUserMapper.getUserProfile(userIds.remove(index));
-                if (CorgiPic.NORMAL.equals(profile.getCheckStatus())) {
+                if (CorgiPic.NORMAL.equals(profile.getAvatarCheckStatus())) {
                     userProfiles.add(profile);
                 } else {
                     noFaceProfile.add(profile);
