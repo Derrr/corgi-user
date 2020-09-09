@@ -218,6 +218,14 @@ public interface CorgiUserMapper {
     List<UserProfile> getUserProfileList(@Param("inValue") String inValue);
 
     /**
+     * 获取人员信息
+     *
+     * @param userId
+     * @return
+     */
+    UserProfile getUserProfile(@Param("userId") String userId);
+
+    /**
      * 查询用户
      *
      * @param userDetail

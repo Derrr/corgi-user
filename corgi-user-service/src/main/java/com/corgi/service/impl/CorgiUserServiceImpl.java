@@ -210,13 +210,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public List<UserProfile> getNearByUser(UserQuery userQuery) {
         List<String> userIds = getAllNearByUser(userQuery);
-        log.info("getting user size... {} ", userIds.size());
-        String inValue = getUserSql(userIds, userQuery.getUserId(), userQuery.getStartMatch(), userQuery.getEndMatch());
-        if (StringUtils.isEmpty(inValue)) {
+        List<UserProfile> userProfiles = new ArrayList<>();
+        String inValue = getUserSql(userIds, userQuery.getUserId(), userQuery.getStartMatch(), userQuery.getEndMatch(), userProfiles);
+        if (StringUtils.isEmpty(inValue) && userProfiles.size() == 0) {
             return new ArrayList<>();
         }
 
-        List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
+        if (!StringUtils.isEmpty(inValue)) {
+            userProfiles.addAll(corgiUserMapper.getUserProfileList(inValue));
+        }
         String userId1 = userQuery.getUserId();
         userProfiles = this.populateUserProfileAll(userProfiles, userId1, true);
         return userProfiles;
@@ -434,7 +436,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
     }
 
-    private String getUserSql(List<String> userIds, String loginUserId, Integer startMatch, Integer endMatch) {
+    private String getUserSql(List<String> userIds, String loginUserId, Integer startMatch, Integer endMatch, List<UserProfile> userProfiles) {
         List<UserBasic> userBasics = corgiBlacklistMapper.getBlacklist(loginUserId);
         List<String> beBlacks = corgiBlacklistMapper.getBeBlacklist(loginUserId);
         if (!CollectionUtils.isEmpty(userBasics)) {
@@ -468,23 +470,46 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             userIds = result;
         }
         int size = userIds.size();
-        if (size > MAX_PROFILE_SIZE * 2) {
+        List<UserProfile> noFaceProfile = new ArrayList<>();
+        if (size > MAX_PROFILE_SIZE) {
             Random r = new Random();
-            List<String> tmpUserIds = new ArrayList<>();
-            for (int i = 0; i < MAX_PROFILE_SIZE; i++) {
+            //List<String> tmpUserIds = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
                 int index = r.nextInt(userIds.size());
-                tmpUserIds.add(userIds.remove(index));
+                UserProfile profile = corgiUserMapper.getUserProfile(userIds.remove(index));
+                if (CorgiPic.NORMAL.equals(profile.getCheckStatus())) {
+                    userProfiles.add(profile);
+                } else {
+                    noFaceProfile.add(profile);
+                }
+                if (userProfiles.size() == MAX_PROFILE_SIZE) {
+                    return "";
+                }
+                if (noFaceProfile.size() == size - MAX_PROFILE_SIZE) {
+                    break;
+                }
             }
-            userIds = tmpUserIds;
-        } else if (size > MAX_PROFILE_SIZE) {
-            //若人数不多，则剔除多余人
-            Random r = new Random();
-            for (int i = 0; i < size - MAX_PROFILE_SIZE; i++) {
-                int index = r.nextInt(userIds.size());
-                userIds.remove(index);
+            if (userIds.size() == 0 && userProfiles.size() < MAX_PROFILE_SIZE) {
+                for (int i = 0; i < MAX_PROFILE_SIZE - userProfiles.size(); i++) {
+                    int index = r.nextInt(noFaceProfile.size());
+                    userProfiles.add(noFaceProfile.remove(index));
+                    if (noFaceProfile.size() == 0) {
+                        break;
+                    }
+                }
+                return "";
             }
-
+            //userIds = tmpUserIds;
         }
+//        else if (size > MAX_PROFILE_SIZE) {
+//            //若人数不多，则剔除多余人
+//            Random r = new Random();
+//            for (int i = 0; i < size - MAX_PROFILE_SIZE; i++) {
+//                int index = r.nextInt(userIds.size());
+//                userIds.remove(index);
+//            }
+//
+//        }
 
         StringBuilder sb = new StringBuilder("('");
         for (String userId : userIds) {

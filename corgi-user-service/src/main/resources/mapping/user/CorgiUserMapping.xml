@@ -336,6 +336,35 @@
         </if>
     </select>
 
+    <select id="getUserProfile" resultType="com.corgi.user.entity.UserProfile">
+        select
+        p.user_id userId,
+        p.lat lat,
+        p.lng lng,
+        p.uptime `time`,
+        p.locate_type locateType,
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.avatar_status avatarStatus,
+        d.avatar_check_status avatarCheckStatus,
+        d.height,
+        d.weight,
+        d.birthday,
+        d.role role,
+        d.hide_role hideRole,
+        d.group `group`,
+        d.hide_group `hideGroup`,
+        d.hide_prefer_group `hidePreferGroup`,
+        d.con con,
+        d.relation,
+        d.check_status checkStatus,
+        l.im_id imId
+        from corgi_user_position p
+        join corgi_user_detail d on d.user_id = p.user_id
+        left join corgi_user_login l on l.id = d.user_id
+        where p.user_id = #{userId}
+    </select>
+
     <select id="getUserProfileList" resultType="com.corgi.user.entity.UserProfile">
         select
         p.user_id userId,
