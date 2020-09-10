@@ -437,6 +437,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     private String getUserSql(List<String> userIds, String loginUserId, Integer startMatch, Integer endMatch, List<UserProfile> userProfiles) {
+        userIds.remove(loginUserId);
         List<UserBasic> userBasics = corgiBlacklistMapper.getBlacklist(loginUserId);
         List<String> beBlacks = corgiBlacklistMapper.getBeBlacklist(loginUserId);
         if (!CollectionUtils.isEmpty(userBasics)) {
