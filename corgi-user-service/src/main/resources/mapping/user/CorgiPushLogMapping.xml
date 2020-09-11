@@ -10,7 +10,7 @@
     <select id="countUsefulPush" resultType="java.lang.Long">
         select count(1) from corgi_push_log l
         join corgi_user_position p on p.user_id = l.to
-         where l.ctime like concat(#{date},'%') and p.uptime like  concat(#{date},'%')
+         where l.ctime like concat(#{date},'%') and p.uptime >= #{time}
     </select>
 
     <select id="countTotalPush" resultType="java.lang.Long">
