@@ -19,8 +19,8 @@
             <if test="hot.startTime != null and hot.startTime != ''">
                 `start_time` = #{hot.startTime},
             </if>
-            <if test="hot.endTime != null and hot.startTime != ''">
-                `end_time` = #{hot.startTime},
+            <if test="hot.endTime != null and hot.endTime != ''">
+                `end_time` = #{hot.endTime},
             </if>
             <if test="hot.status != null and hot.status != ''">
                 `status` = #{hot.status},
