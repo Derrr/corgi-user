@@ -96,6 +96,13 @@ public interface CorgiUserMapper {
     int countNickname(@Param("nickname") String nickname, @Param("checkNickname") String checkNickname, @Param("userId") String userId);
 
     /**
+     * 获取推荐用户
+     * @param city
+     * @return
+     */
+    List<UserProfile> getRecommendUser(@Param("city") String city);
+
+    /**
      * 修改头像状态
      *
      * @param dataId

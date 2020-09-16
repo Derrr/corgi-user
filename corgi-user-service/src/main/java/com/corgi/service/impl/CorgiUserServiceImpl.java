@@ -409,6 +409,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
+    public List<UserProfile> recommendUser(String city) {
+        return null;
+    }
+
+    @Override
     public void deleteUser(String userId) {
         corgiUserMapper.deleteUserLogin(userId);
         corgiUserMapper.deleteUserDetail(userId);
