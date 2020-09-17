@@ -36,7 +36,7 @@
     </select>
 
     <select id="getCorgiSound" resultType="com.corgi.user.entity.CorgiSound">
-        select id, user_id userId, sound_url soundUrl, data_id dataId, `status`, `result`
+        select id, user_id userId, sound_url soundUrl, data_id dataId, `status`, `result`, `count`
         from corgi_user_sound
         where user_id = #{userId}
     </select>
