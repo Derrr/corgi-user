@@ -21,7 +21,7 @@ public interface CorgiPushLogMapper {
      * 统计成功召回推送
      * @param date
      */
-    Long countUsefulPush(@Param("date")String date);
+    Long countUsefulPush(@Param("date")String date, @Param("time")String time);
 
     /**
      * 统计所有推送

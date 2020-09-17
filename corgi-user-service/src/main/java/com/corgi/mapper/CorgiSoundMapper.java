@@ -26,6 +26,13 @@ public interface CorgiSoundMapper {
     void deleteCorgiSound(@Param("userId") String userId);
 
     /**
+     * 修改用户声音
+     *
+     * @param corgiSound
+     */
+    void updateCorgiSound(@Param("corgiSound") CorgiSound corgiSound);
+
+    /**
      * 删除用户声音
      *
      * @param dataId

@@ -11,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,7 +33,15 @@ public class CorgiPushLogServiceImpl implements CorgiPushLogService {
 
     @Override
     public Long countUsefulPush(String date) {
-        return corgiPushLogMapper.countUsefulPush(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String time = System.currentTimeMillis() + "";
+        try {
+            Date dateTime = sdf.parse(date);
+            time = dateTime.getTime() + "";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return corgiPushLogMapper.countUsefulPush(date, time);
     }
 
     @Override

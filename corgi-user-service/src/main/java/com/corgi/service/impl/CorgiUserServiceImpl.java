@@ -436,12 +436,13 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return;
         }
         UserDetail userDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
-        if (CorgiPic.NORMAL.equals(userDetail.getAvatarCheckStatus()) || UserDetail.NO_FACE.equals(userDetail.getAvatarCheckStatus())) {
+        if (userDetail != null && CorgiPic.NORMAL.equals(userDetail.getAvatarCheckStatus()) || UserDetail.NO_FACE.equals(userDetail.getAvatarCheckStatus())) {
             redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
         }
     }
 
     private String getUserSql(List<String> userIds, String loginUserId, Integer startMatch, Integer endMatch, List<UserProfile> userProfiles) {
+        userIds.remove(loginUserId);
         List<UserBasic> userBasics = corgiBlacklistMapper.getBlacklist(loginUserId);
         List<String> beBlacks = corgiBlacklistMapper.getBeBlacklist(loginUserId);
         if (!CollectionUtils.isEmpty(userBasics)) {

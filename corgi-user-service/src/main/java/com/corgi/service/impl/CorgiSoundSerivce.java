@@ -24,6 +24,16 @@ public class CorgiSoundSerivce implements CorgiSoundService {
     }
 
     @Override
+    public void updateCorgiSound(CorgiSound corgiSound) {
+        List<CorgiSound> sounds = corgiSoundMapper.getCorgiSound(corgiSound.getUserId());
+        if (sounds.size() > 0) {
+            CorgiSound sound = sounds.get(sounds.size() - 1);
+            sound.setCount(sound.getCount() + 1);
+
+        }
+    }
+
+    @Override
     public void deleteCorgiSound(String userId) {
         corgiSoundMapper.deleteCorgiSound(userId);
     }

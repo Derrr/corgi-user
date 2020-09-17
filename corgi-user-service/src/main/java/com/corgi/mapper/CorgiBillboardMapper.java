@@ -74,6 +74,13 @@ public interface CorgiBillboardMapper {
     List<UserProfile> getPastBillboard(@Param("date") String date);
 
     /**
+     * 获取过去经常上榜用户
+     * @param date
+     * @return
+     */
+    List<UserProfile> getPastPopularBillboard(@Param("date") String date);
+
+    /**
      * 根据昵称更新榜单
      * @param fromId
      * @param toId

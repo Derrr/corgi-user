@@ -13,6 +13,11 @@
         where user_id = #{userId}
     </delete>
 
+    <update id="updateCorgiSound">
+        update corgi_user_sound set `count` = #{corgiSound.count}
+        where user_id = #{corgiSound.userId}
+    </update>
+
     <delete id="deleteCorgiSoundByDataId">
         delete from corgi_user_sound
         where data_id = #{dataId}
