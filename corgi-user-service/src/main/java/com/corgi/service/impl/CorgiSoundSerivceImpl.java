@@ -14,7 +14,7 @@ import java.util.List;
 @Service(interfaceClass = CorgiSoundService.class)
 @Slf4j
 @Component
-public class CorgiSoundSerivce implements CorgiSoundService {
+public class CorgiSoundSerivceImpl implements CorgiSoundService {
     @Autowired
     private CorgiSoundMapper corgiSoundMapper;
 
@@ -29,7 +29,7 @@ public class CorgiSoundSerivce implements CorgiSoundService {
         if (sounds.size() > 0) {
             CorgiSound sound = sounds.get(sounds.size() - 1);
             sound.setCount(sound.getCount() + 1);
-
+            corgiSoundMapper.updateCorgiSound(sound);
         }
     }
 
