@@ -10,6 +10,8 @@ import java.util.List;
 public interface CorgiSoundService {
     void addCorgiSound(CorgiSound corgiSound);
 
+    void updateCorgiSound(CorgiSound corgiSound);
+
     void deleteCorgiSound(String userId);
 
     CorgiSound getCorgiSound(String userId);

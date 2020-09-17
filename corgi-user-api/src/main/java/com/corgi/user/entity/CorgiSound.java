@@ -18,4 +18,5 @@ public class CorgiSound implements Serializable {
     private String status;
     private String result;
     private String userId;
+    private Integer count;
 }
