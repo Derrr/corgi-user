@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,6 +38,18 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
 
     @Override
     public List<UserProfile> getPastBillboard(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date pastDate = sdf.parse(date);
+            Date nowDate = new Date();
+            if ((nowDate.getTime() - pastDate.getTime()) / (1000 * 3600 * 24) > 20) {
+                return corgiBillboardMapper.getPastPopularBillboard(date);
+            } else {
+                return corgiBillboardMapper.getPastBillboard(date);
+            }
+        } catch (ParseException e) {
+            log.error(e.getMessage(), e);
+        }
         return corgiBillboardMapper.getPastBillboard(date);
     }
 
@@ -102,7 +115,7 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         List<Billboard> billboards = corgiBillboardMapper.getBillboardByDate(startDate, endDate);
         for (Billboard billboard : billboards) {
             List<UserPic> pic = corgiPicService.getUserPic(billboard.getUserId());
-            if(pic.size() > 0){
+            if (pic.size() > 0) {
                 billboard.setAvatar(pic.get(0).getPicUrl());
             }
         }

@@ -87,6 +87,14 @@
         where `date` >= #{date}
     </select>
 
+    <select id="getPastPopularBillboard" resultType="com.corgi.user.entity.UserProfile">
+        select b1.user_id userId,count(1) count from corgi_billboard b1
+        left join corgi_billboard b2 on b1.user_id = b2.user_id
+        where b1.`date` >= #{date}
+        group by b1.user_id
+        having count > 2
+    </select>
+
     <update id="updateBillboard">
         update corgi.corgi_billboard set user_id = #{toId}
         where `date` = #{date}
