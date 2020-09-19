@@ -121,4 +121,19 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         }
         return billboards;
     }
+
+    @Override
+    public void addActivityBillboard(String activityId) {
+        corgiBillboardMapper.addActivityBillboard(activityId);
+    }
+
+    @Override
+    public void deleteActivityBillboard(String activityId) {
+        corgiBillboardMapper.deleteActivityBillboard(activityId);
+    }
+
+    @Override
+    public List<String> getActivityBillboard() {
+        return corgiBillboardMapper.getActivityBillboard();
+    }
 }

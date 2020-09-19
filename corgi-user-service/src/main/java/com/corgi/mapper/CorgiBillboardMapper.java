@@ -103,4 +103,22 @@ public interface CorgiBillboardMapper {
      * @return
      */
     List<Billboard> getBillboardByDate(@Param("startDate")String startDate,@Param("endDate")String endDate);
+
+    /**
+     * 添加榜单活动
+     * @param activityId
+     */
+    void addActivityBillboard(@Param("activityId")String activityId);
+
+    /**
+     * 删除榜单活动
+     * @param activityId
+     */
+    void deleteActivityBillboard(@Param("activityId")String activityId);
+
+    /**
+     * 获取榜单活动
+     * @return
+     */
+    List<String> getActivityBillboard();
 }
