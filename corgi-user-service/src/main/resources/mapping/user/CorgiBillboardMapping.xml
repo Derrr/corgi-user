@@ -128,7 +128,10 @@
     </delete>
 
     <select id="getActivityBillboard" resultType="java.lang.String">
-        select activity_id from corgi_activity_billboard
-        order by id desc
+        select b.activity_id
+        from corgi_activity_billboard b
+        left join corgi_activity_attender a on a.activity_id = b.activity_id
+        group by b.activity_id
+        order by count(1) desc
     </select>
 </mapper>

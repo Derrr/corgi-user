@@ -115,7 +115,7 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
 
     @Override
     public long countActivityUser(String date, String category) {
-        return corgiUserActivityMapper.countActivity(category, date);
+        return corgiUserActivityMapper.countActivityUser(category, date);
     }
 
     @Override
