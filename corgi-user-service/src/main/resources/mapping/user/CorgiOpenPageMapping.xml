@@ -3,8 +3,8 @@
 <mapper namespace="com.corgi.mapper.CorgiOpenPageMapper">
 
     <insert id="addOpenPage" parameterType="com.corgi.user.entity.CorgiOpenPage">
-        INSERT INTO `corgi_open_page` (`title`, `pic_url`, `url`, `url_type`, `pic_type`, `status`, `city`, `duration`)
-        VALUES (#{page.title}, #{page.picUrl}, #{page.url}, #{page.urlType}, #{page.picType}, #{page.status}, #{page.city}, #{page.duration});
+        INSERT INTO `corgi_open_page` (`title`, `pic_url`, `url`, `url_type`, `pic_type`, `status`, `city`, `duration`, `start_time`, `end_time`)
+        VALUES (#{page.title}, #{page.picUrl}, #{page.url}, #{page.urlType}, #{page.picType}, #{page.status}, #{page.city}, #{page.duration}, #{page.startTime}, #{page.endTime});
 
     </insert>
     <update id="updateOpenPage" parameterType="com.corgi.user.entity.CorgiOpenPage">
@@ -34,7 +34,12 @@
             <if test="page.duration != null and page.duration != ''">
                 `duration` = #{page.duration},
             </if>
-
+            <if test="page.startTime != null and page.startTime != ''">
+                `start_time` = #{page.startTime},
+            </if>
+            <if test="page.endTime != null and page.endTime != ''">
+                `end_time` = #{page.endTime},
+            </if>
         </set>
         where id = #{page.id}
     </update>
@@ -55,6 +60,8 @@
         `status`,
         `city`,
         `duration`,
+        start_time startTime,
+        end_time endTime,
         `ctime`
         from corgi_open_page
         where 1=1
@@ -70,7 +77,9 @@
         <if test="page.city != null and page.city != ''">
             and `city` = #{page.city}
         </if>
-
+        <if test="page.startTime != null and page.startTime != ''">
+            and `start_time` &lt;= #{page.startTime} and `end_time` >= #{page.startTime}
+        </if>
         order by `id` desc
     </select>
 
