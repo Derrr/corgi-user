@@ -41,6 +41,8 @@ public interface CorgiUserService {
 
     List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize);
 
+    List<UserProfile> searchInfluencer(UserDetail userDetail, String userId, Integer page, Integer pageSize);
+
     long countUsers(UserDetail userDetail);
 
     long countActiveUser(long beginTime, long endTime);
