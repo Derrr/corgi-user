@@ -510,8 +510,10 @@
         d.user_id userId,
         d.nickname nickname,
         d.avatar avatar,
-        d.avatar_check_status avatarCheckStatus
+        d.avatar_check_status avatarCheckStatus,
+        p.city
         from corgi_user_follow f
+        left join corgi_user_position p on p.user_id = f.user_id
         left join corgi_user_detail d on f.follow_user_id = d.user_id
         where d.avatar_status='influencer'
         and d.user_id not in ('8')
