@@ -83,6 +83,11 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
     }
 
     @Override
+    public List<UserProfile> getFollowedCityUserByPage(String userId, String city, Integer page, Integer pageSize) {
+        return corgiUserFollowMapper.getFollowedCityUserByPage(userId, city, (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
     public List<UserProfile> getFollowUserHistoryByPage(String userId, Integer page, Integer pageSize) {
         List<UserProfile> userProfiles = corgiUserFollowMapper.getFollowedHistoryByPage(userId, (page - 1) * pageSize, pageSize);
         return corgiUserService.populateUserProfile(userProfiles, userId);
