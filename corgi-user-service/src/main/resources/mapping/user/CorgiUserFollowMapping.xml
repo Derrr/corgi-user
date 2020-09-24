@@ -144,29 +144,6 @@
         limit #{start},#{size}
     </select>
 
-    <select id="getFollowedCityUserByPage" resultType="com.corgi.user.entity.UserProfile">
-        select
-        p.user_id userId,
-        p.lat lat,
-        p.lng lng,
-        p.uptime `time`,
-        d.nickname `nickname`,
-        d.avatar avatar,
-        d.avatar_check_status avatarCheckStatus,
-        d.role role,
-        d.group `group`,
-        d.con con,
-        f.uptime followTime
-        from corgi_user_follow f
-        left join corgi_user_position p on f.user_id = p.user_id
-        left join corgi_user_detail d on d.user_id = p.user_id
-        where f.follow_user_id = #{userId}
-        and f.is_deleted = '0'
-        and p.city = #{city}
-        order by f.uptime desc
-        limit #{start},#{size}
-    </select>
-
     <select id="getFollowedHistoryByPage" resultType="com.corgi.user.entity.UserProfile">
         select
         d.nickname `nickname`,

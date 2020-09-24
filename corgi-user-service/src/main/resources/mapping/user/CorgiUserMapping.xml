@@ -264,7 +264,9 @@
 
     <select id="getFollowedCityUser" resultType="com.corgi.user.entity.UserPosition">
         select p.user_id userId, p.lat, p.lng, p.real_lat realLat, p.real_lng realLng, p.locate_type locateType, p.uptime, p.city, p.province from corgi_user_position p
-        join corgi_user_follow f on f.user_id = p.user_id and f.follow_user_id = #{userId}
+        join corgi_user_follow f on f.user_id = p.user_id
+        and f.follow_user_id = #{userId}
+        and f.is_deleted = '0'
         where p.city = #{city}
         limit #{start}, #{size}
     </select>

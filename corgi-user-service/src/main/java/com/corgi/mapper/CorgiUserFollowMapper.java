@@ -131,17 +131,6 @@ public interface CorgiUserFollowMapper {
     List<UserProfile> getFollowedUserByPage(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
-     * 分页获取当地被关注列表
-     *
-     * @param userId
-     * @param city
-     * @param start
-     * @param size
-     * @return
-     */
-    List<UserProfile> getFollowedCityUserByPage(@Param("userId") String userId, @Param("city") String city, @Param("start") Integer start, @Param("size") Integer size);
-
-    /**
      * 获取被关注历史
      *
      * @param userId
