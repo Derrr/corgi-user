@@ -415,7 +415,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> recommendUser(String city) {
-        return null;
+        return corgiUserMapper.getRecommendUser(city);
     }
 
     @Override
