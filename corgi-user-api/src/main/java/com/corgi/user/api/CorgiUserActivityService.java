@@ -41,4 +41,6 @@ public interface CorgiUserActivityService {
     long countSignUpUser(String date);
 
     void deleteActivityCreator(String activityId);
+
+    List<String> getParticipateActivity(String userId);
 }

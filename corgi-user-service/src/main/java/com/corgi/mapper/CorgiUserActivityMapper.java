@@ -143,4 +143,10 @@ public interface CorgiUserActivityMapper {
     long countSignUpUser(@Param("date") String date);
 
 
+    /**
+     * 获取参与活动
+     * @param userId
+     * @return
+     */
+    List<String> getParticipateActivity(@Param("userId")String userId);
 }
