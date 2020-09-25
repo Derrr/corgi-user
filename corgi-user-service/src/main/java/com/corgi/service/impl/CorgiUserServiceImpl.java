@@ -487,8 +487,10 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             //List<String> tmpUserIds = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 int index = r.nextInt(userIds.size());
-                UserProfile profile = corgiUserMapper.getUserProfile(userIds.remove(index));
+                String userId = userIds.remove(index);
+                UserProfile profile = corgiUserMapper.getUserProfile(userId);
                 if (profile == null) {
+                    redisTemplate.opsForGeo().remove("user", userId);
                     continue;
                 }
                 if (CorgiPic.NORMAL.equals(profile.getAvatarCheckStatus())) {
