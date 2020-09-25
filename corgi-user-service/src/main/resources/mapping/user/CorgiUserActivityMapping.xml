@@ -132,6 +132,6 @@
         union
         select activity_id, update_time ctime from corgi_activity_attender where user_id = #{userId} and status = '1') a
         order by a.ctime desc
-        limit 1000
+        limit #{start}, #{size}
     </select>
 </mapper>

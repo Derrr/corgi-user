@@ -129,7 +129,7 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
-    public List<String> getParticipateActivity(String userId) {
-        return corgiUserActivityMapper.getParticipateActivity(userId);
+    public List<String> getParticipateActivity(String userId, Integer page, Integer size) {
+        return corgiUserActivityMapper.getParticipateActivity(userId, (page - 1) * size, size);
     }
 }
