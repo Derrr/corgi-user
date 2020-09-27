@@ -63,7 +63,7 @@ public interface CorgiUserService {
 
     int countUserNickname(String nickname);
 
-    List<UserProfile> recommendUser(String city);
+    List<UserProfile> recommendUser(String city, String userId);
 
     void deleteUser(String userId);
 }

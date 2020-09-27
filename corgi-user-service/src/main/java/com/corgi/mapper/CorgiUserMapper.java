@@ -100,7 +100,7 @@ public interface CorgiUserMapper {
      * @param city
      * @return
      */
-    List<UserProfile> getRecommendUser(@Param("city") String city);
+    List<UserProfile> getRecommendUser(@Param("city") String city, @Param("userId")String userId);
 
     /**
      * 修改头像状态
