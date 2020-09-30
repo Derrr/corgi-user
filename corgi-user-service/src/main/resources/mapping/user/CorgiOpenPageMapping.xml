@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiOpenPageMapper">
+
+    <insert id="addOpenPage" parameterType="com.corgi.user.entity.CorgiOpenPage">
+        INSERT INTO `corgi_open_page` (`title`, `pic_url`, `url`, `url_type`, `pic_type`, `status`, `city`, `duration`, `start_time`, `end_time`)
+        VALUES (#{page.title}, #{page.picUrl}, #{page.url}, #{page.urlType}, #{page.picType}, #{page.status}, #{page.city}, #{page.duration}, #{page.startTime}, #{page.endTime});
+
+    </insert>
+    <update id="updateOpenPage" parameterType="com.corgi.user.entity.CorgiOpenPage">
+        update corgi_open_page
+        <set>
+            <if test="page.title != null and page.title != ''">
+                `title` = #{page.title},
+            </if>
+            <if test="page.picUrl != null and page.picUrl != ''">
+                `pic_url` = #{page.picUrl},
+            </if>
+            <if test="page.url != null and page.url != ''">
+                `url` = #{page.url},
+            </if>
+            <if test="page.urlType != null and page.urlType != ''">
+                `url_type` = #{page.urlType},
+            </if>
+            <if test="page.picType != null and page.picType != ''">
+                `pic_type` = #{page.picType},
+            </if>
+            <if test="page.status != null and page.status != ''">
+                `status` = #{page.status},
+            </if>
+            <if test="page.city != null and page.city != ''">
+                `city` = #{page.city},
+            </if>
+            <if test="page.duration != null and page.duration != ''">
+                `duration` = #{page.duration},
+            </if>
+            <if test="page.startTime != null and page.startTime != ''">
+                `start_time` = #{page.startTime},
+            </if>
+            <if test="page.endTime != null and page.endTime != ''">
+                `end_time` = #{page.endTime},
+            </if>
+        </set>
+        where id = #{page.id}
+    </update>
+
+    <delete id="deleteOpenPage">
+        delete from corgi_open_page
+        where id = #{pageId}
+    </delete>
+
+    <select id="listOpenPage" resultType="com.corgi.user.entity.CorgiOpenPage">
+        select
+        id,
+        title,
+        `pic_url` picUrl,
+        `url`,
+        `url_type` urlType,
+        `pic_type` picType,
+        `status`,
+        `city`,
+        `duration`,
+        start_time startTime,
+        end_time endTime,
+        `ctime`
+        from corgi_open_page
+        where 1=1
+        <if test="page.title != null and page.title != ''">
+           and `title` like concat('%',#{page.title},'%')
+        </if>
+        <if test="page.status != null and page.status != ''">
+            and `status` = #{page.status}
+        </if>
+        <if test="page.picType != null and page.picType != ''">
+            and `pic_type` = #{page.picType}
+        </if>
+        <if test="page.city != null and page.city != ''">
+            and `city` = #{page.city}
+        </if>
+        <if test="page.startTime != null and page.startTime != ''">
+            and `start_time` &lt;= #{page.startTime} and `end_time` >= #{page.startTime}
+        </if>
+        order by `id` desc
+    </select>
+
+</mapper>

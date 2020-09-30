@@ -115,7 +115,7 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
 
     @Override
     public long countActivityUser(String date, String category) {
-        return corgiUserActivityMapper.countActivity(category, date);
+        return corgiUserActivityMapper.countActivityUser(category, date);
     }
 
     @Override
@@ -126,5 +126,10 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     @Override
     public void deleteActivityCreator(String activityId) {
         corgiUserActivityMapper.deleteActivityCreator(activityId);
+    }
+
+    @Override
+    public List<String> getParticipateActivity(String userId, Integer page, Integer size) {
+        return corgiUserActivityMapper.getParticipateActivity(userId, (page - 1) * size, size);
     }
 }

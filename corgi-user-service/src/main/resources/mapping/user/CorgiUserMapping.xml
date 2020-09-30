@@ -234,6 +234,24 @@
         and user_id != #{userId}
     </select>
 
+    <select id="getRecommendUser" resultType="com.corgi.user.entity.UserProfile">
+        select
+        d.user_id userId,
+        d.nickname,
+        d.avatar,
+        count(1) count
+        from corgi_user_detail d
+        left join corgi_user_position p on d.user_id = p.user_id
+        left join corgi_user_follow f on f.follow_user_id = d.user_id
+        where d.avatar_check_status = 'normal'
+        and p.city = #{city}
+        and f.is_deleted = '0'
+        and d.user_id != #{userId}
+        group by d.user_id
+        order by count desc
+        limit 6
+    </select>
+
     <update id="updateNickname">
         update corgi_user_detail
         set `nickname` = #{nickname}, check_nickname = #{checkNickname}
@@ -490,6 +508,23 @@
         where d.avatar_status='influencer'
         and d.user_id not in ('8','1')
         order by p.uptime desc
+        limit #{start},#{size}
+    </select>
+
+    <select id="queryInfluencerByHeat" resultType="com.corgi.user.entity.UserProfile">
+        select
+        d.user_id userId,
+        d.nickname nickname,
+        d.avatar avatar,
+        d.avatar_check_status avatarCheckStatus,
+        p.city
+        from corgi_user_follow f
+        left join corgi_user_position p on p.user_id = f.user_id
+        left join corgi_user_detail d on f.follow_user_id = d.user_id
+        where d.avatar_status='influencer'
+        and d.user_id not in ('8')
+        group by d.user_id
+        order by count(d.user_id) desc
         limit #{start},#{size}
     </select>
 

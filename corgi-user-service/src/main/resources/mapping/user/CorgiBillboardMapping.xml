@@ -116,4 +116,22 @@
         left join corgi_user_detail d on d.user_id = b.user_id
         where b.date >= #{startDate} and b.date &lt;= #{endDate}
     </select>
+
+    <insert id="addActivityBillboard">
+        insert ignore into corgi_activity_billboard(activity_id)
+        values(#{activityId})
+    </insert>
+
+    <delete id="deleteActivityBillboard">
+        delete from corgi_activity_billboard
+        where activity_id = #{activityId}
+    </delete>
+
+    <select id="getActivityBillboard" resultType="java.lang.String">
+        select b.activity_id
+        from corgi_activity_billboard b
+        left join corgi_activity_attender a on a.activity_id = b.activity_id
+        group by b.activity_id
+        order by count(1) desc
+    </select>
 </mapper>

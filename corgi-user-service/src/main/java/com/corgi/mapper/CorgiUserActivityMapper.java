@@ -125,7 +125,6 @@ public interface CorgiUserActivityMapper {
     long countActivity(@Param("category") String category, @Param("date") String date);
 
     /**
-     *
      * 统计发活动人数
      *
      * @param category
@@ -143,4 +142,11 @@ public interface CorgiUserActivityMapper {
     long countSignUpUser(@Param("date") String date);
 
 
+    /**
+     * 获取参与活动
+     *
+     * @param userId
+     * @return
+     */
+    List<String> getParticipateActivity(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 }

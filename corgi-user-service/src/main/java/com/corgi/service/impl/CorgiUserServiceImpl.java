@@ -281,6 +281,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
+    public List<UserProfile> searchInfluencer(UserDetail userDetail, String userId, Integer page, Integer pageSize) {
+        return corgiUserMapper.queryInfluencerByHeat(page < 1 ? 0 : (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
     public long countUsers(UserDetail userDetail) {
         return corgiUserMapper.countUserProfile(userDetail);
     }
@@ -406,6 +411,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public int countUserNickname(String nickname) {
         return corgiUserMapper.countNickname(nickname, "", "");
+    }
+
+    @Override
+    public List<UserProfile> recommendUser(String city, String userId) {
+        return corgiUserMapper.getRecommendUser(city, userId);
     }
 
     @Override

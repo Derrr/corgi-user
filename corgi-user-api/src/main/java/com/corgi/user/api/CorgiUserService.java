@@ -41,6 +41,8 @@ public interface CorgiUserService {
 
     List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize);
 
+    List<UserProfile> searchInfluencer(UserDetail userDetail, String userId, Integer page, Integer pageSize);
+
     long countUsers(UserDetail userDetail);
 
     long countActiveUser(long beginTime, long endTime);
@@ -60,6 +62,8 @@ public interface CorgiUserService {
     String updateUserNickname(String userId, String nickname, String checkNickname);
 
     int countUserNickname(String nickname);
+
+    List<UserProfile> recommendUser(String city, String userId);
 
     void deleteUser(String userId);
 }

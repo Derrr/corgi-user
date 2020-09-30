@@ -126,5 +126,12 @@
         where a.create_time like concat(#{date},'%')
     </select>
 
-
+    <select id="getParticipateActivity" resultType="java.lang.String">
+        select a.activity_id from (
+        select activity_id, ctime from corgi_activity_creator where creator_id = #{userId} and category = 'activity'
+        union
+        select activity_id, update_time ctime from corgi_activity_attender where user_id = #{userId} and status = '1') a
+        order by a.ctime desc
+        limit #{start}, #{size}
+    </select>
 </mapper>

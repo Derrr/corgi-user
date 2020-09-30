@@ -24,4 +24,10 @@ public interface CorgiBillboardService {
     void updateBillboardByNickname(String from, String to, String date);
 
     List<Billboard> getBillboardByDate(String startDate,String endDate);
+
+    void addActivityBillboard(String activityId);
+
+    void deleteActivityBillboard(String activityId);
+
+    List<String> getActivityBillboard();
 }
