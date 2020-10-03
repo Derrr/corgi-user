@@ -59,4 +59,8 @@ public interface CorgiToolService {
     ActivityMessage getLastActivityMessageByType(String userId, String type);
 
     void deleteActivityMessage(String userId, Long time);
+
+    void bindWechat(String wechatId, String corgId);
+
+    String getIdByWechatId(String wechatId);
 }

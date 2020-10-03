@@ -208,6 +208,16 @@ public class CorgiToolServiceImpl implements CorgiToolService {
         corgiToolMapper.deleteActivityMessage(userId, time);
     }
 
+    @Override
+    public void bindWechat(String wechatId, String corgId) {
+
+    }
+
+    @Override
+    public String getIdByWechatId(String wechatId) {
+        return null;
+    }
+
     public List<ActivityMessage> buildActivityMessage(List<ActivityMessage> activityMessages) {
         if (CollectionUtils.isEmpty(activityMessages)) {
             return new ArrayList<>();

@@ -184,4 +184,18 @@ public interface CorgiToolMapper {
      */
     void readActivityMessageByType(@Param("userId") String userId, @Param("type") String type);
 
+    /**
+     * 绑定微信ID
+     * @param wechatId
+     * @param corgiId
+     */
+    void bindWechatId(@Param("wechatId")String wechatId, @Param("corgiId")String corgiId);
+
+    /**
+     * 根据wechat id获取ID
+     * @param wechatId
+     * @return
+     */
+    String getIdByWechat(@Param("wechatId")String wechatId);
+
 }

@@ -204,4 +204,13 @@
         and message_type = #{type}
     </update>
 
+    <insert id="bindWechatId">
+        insert ignore into corgi_wechat_bind(wechat_id, corgi_id)
+        values(#{wechatId}, #{corgiId})
+    </insert>
+    
+    <select id="getIdByWechat" resultType="java.lang.String">
+        select corgi_id from corgi_wechat_bind
+        where wechat_id = #{wechatId}
+    </select>
 </mapper>
