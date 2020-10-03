@@ -209,13 +209,13 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public void bindWechat(String wechatId, String corgId) {
-
+    public void bindWechat(String wechatId, String corgiId) {
+        corgiToolMapper.bindWechatId(wechatId, corgiId);
     }
 
     @Override
     public String getIdByWechatId(String wechatId) {
-        return null;
+        return corgiToolMapper.getIdByWechat(wechatId);
     }
 
     public List<ActivityMessage> buildActivityMessage(List<ActivityMessage> activityMessages) {

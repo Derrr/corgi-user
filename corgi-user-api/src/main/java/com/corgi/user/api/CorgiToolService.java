@@ -60,7 +60,7 @@ public interface CorgiToolService {
 
     void deleteActivityMessage(String userId, Long time);
 
-    void bindWechat(String wechatId, String corgId);
+    void bindWechat(String wechatId, String corgiId);
 
     String getIdByWechatId(String wechatId);
 }
