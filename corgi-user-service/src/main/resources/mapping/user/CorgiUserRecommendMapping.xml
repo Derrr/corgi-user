@@ -42,7 +42,7 @@
     </select>
 
     <update id="clearRecUsers">
-        update corgi_user_recommend set `weight` = 0;
+        update corgi_user_recommend set `weight` = 0
         where user_id = #{userId}
     </update>
 </mapper>
