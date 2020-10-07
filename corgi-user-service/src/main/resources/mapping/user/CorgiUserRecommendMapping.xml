@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiUserRecommendMapper">
+    <insert id="insertUserRecommend">
+        insert ignore into corgi_user_recommend(user_id, rec_user_id)
+        values(#{userId},#{recId})
+    </insert>
+
+    <update id="addRecommend">
+        update corgi_user_recommend set `weight` = `weight` + 1
+        where user_id = #{userId} and rec_user_id = #{recId}
+    </update>
+
+    <update id="updateStatus">
+        update corgi_user_recommend set `status` = #{status}, opt_time = #{opt}
+        where user_id = #{userId} and rec_user_id = #{recId}
+    </update>
+    
+    <select id="getRecUsers" resultType="com.corgi.user.entity.UserProfile">
+        select r.rec_user_id userId,
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.avatar_status avatarStatus,
+        d.avatar_check_status avatarCheckStatus,
+        d.role role,
+        d.hide_role hideRole,
+        d.group `group`,
+        d.hide_group `hideGroup`,
+        d.hide_prefer_group `hidePreferGroup`,
+        d.con con,
+        d.relation,
+        d.check_status checkStatus,
+        d.weight,
+        d.height,
+        d.birthday
+        from corgi_user_recommend r
+        left join corgi_user_detail d on d.user_id = r.rec_user_id
+        where r.user_id = #{userId}
+        and r.`status` = '0'
+        order by r.`weight` desc
+        limit #{start}, #{size}
+    </select>
+
+    <update id="clearRecUsers">
+        update corgi_user_recommend set `weight` = 0;
+        where user_id = #{userId}
+    </update>
+</mapper>
