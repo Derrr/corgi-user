@@ -50,6 +50,6 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
 
     @Override
     public void deleteRecUserByWeight(String userId, Integer weight) {
-
+        corgiUserRecommendMapper.deleteByWeight(userId, weight);
     }
 }
