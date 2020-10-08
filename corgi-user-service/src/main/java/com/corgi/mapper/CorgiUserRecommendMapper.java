@@ -46,4 +46,11 @@ public interface CorgiUserRecommendMapper {
      */
     void clearRecUsers(@Param("userId")String userId);
 
+    /**
+     * 根据权重删除
+     * @param userId
+     * @param weight
+     */
+    void deleteByWeight(@Param("userId")String userId, @Param("weight")Integer weight);
+
 }

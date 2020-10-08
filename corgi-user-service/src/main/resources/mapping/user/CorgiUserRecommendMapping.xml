@@ -45,4 +45,11 @@
         update corgi_user_recommend set `weight` = 0
         where user_id = #{userId}
     </update>
+
+    <delete id="deleteByWeight">
+        delete from corgi_user_recommend
+        where user_id = #{userId}
+        and `weight` &lt; #{weight}
+        and `status` = '0'
+    </delete>
 </mapper>

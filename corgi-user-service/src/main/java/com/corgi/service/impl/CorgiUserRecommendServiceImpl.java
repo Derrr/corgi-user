@@ -47,4 +47,9 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     public List<UserProfile> getRecUser(String userId, Integer page, Integer size) {
         return corgiUserRecommendMapper.getRecUsers(userId, (page - 1) * size, size);
     }
+
+    @Override
+    public void deleteRecUserByWeight(String userId, Integer weight) {
+
+    }
 }

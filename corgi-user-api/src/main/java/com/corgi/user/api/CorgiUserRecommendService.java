@@ -17,4 +17,6 @@ public interface CorgiUserRecommendService {
     void updateRecStatus(String userId, String recId, String status);
 
     List<UserProfile> getRecUser(String userId, Integer page, Integer size);
+
+    void deleteRecUserByWeight(String userId, Integer weight);
 }
