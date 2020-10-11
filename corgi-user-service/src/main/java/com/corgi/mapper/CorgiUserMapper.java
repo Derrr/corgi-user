@@ -190,6 +190,7 @@ public interface CorgiUserMapper {
     List<UserPosition> getUserPositionByPage(@Param("start") Integer start, @Param("size") Integer size);
 
     /**
+     * 获取同城粉丝
      * @param city
      * @param userId
      * @param start

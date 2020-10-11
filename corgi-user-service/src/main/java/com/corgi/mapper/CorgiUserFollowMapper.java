@@ -35,6 +35,7 @@ public interface CorgiUserFollowMapper {
 
     /**
      * 清除关注
+     *
      * @param userId
      * @param followId
      */
@@ -83,6 +84,7 @@ public interface CorgiUserFollowMapper {
 
     /**
      * 获取所有曾被关注数
+     *
      * @param userId
      * @return
      */
@@ -115,8 +117,8 @@ public interface CorgiUserFollowMapper {
      * @return
      */
     List<UserProfile> getMatchUserByPage(@Param("userId") String userId, @Param("type") String type,
-                                          @Param("lat") double lat, @Param("lng") double lng,
-                                          @Param("start") Integer start, @Param("size") Integer size);
+                                         @Param("lat") double lat, @Param("lng") double lng,
+                                         @Param("start") Integer start, @Param("size") Integer size);
 
     /**
      * 分页获取被关注列表
@@ -148,6 +150,7 @@ public interface CorgiUserFollowMapper {
 
     /**
      * 已读关注
+     *
      * @param userId
      * @param followedUserId
      */
