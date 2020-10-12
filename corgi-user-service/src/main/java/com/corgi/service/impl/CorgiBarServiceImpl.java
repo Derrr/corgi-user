@@ -54,6 +54,12 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     }
 
     @Override
+    public List<BarProfile> getBarAccountList(String status) {
+        List<BarProfile> barProfiles = corgiBarMapper.getBarAccountList(status);
+        return barProfiles;
+    }
+
+    @Override
     public List<BarProfile> getBarListByCity(String city) {
         return corgiBarMapper.getBarListByCity(city);
     }
@@ -90,6 +96,16 @@ public class CorgiBarServiceImpl implements CorgiBarService {
             barProfile.setLng(null);
         }
         return corgiBarMapper.searchBar(barProfile);
+    }
+
+    @Override
+    public void setBarAccount(String barId, String account, String password) {
+        corgiBarMapper.setBarAccount(barId, account, password);
+    }
+
+    @Override
+    public BarProfile getBarByAccount(String account, String password) {
+        return corgiBarMapper.getBarByAccount(account,password);
     }
 
     private String createBarId(String maxBarId) {

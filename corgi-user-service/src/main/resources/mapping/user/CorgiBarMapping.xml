@@ -65,6 +65,27 @@
         </if>
     </select>
 
+    <select id="getBarAccountList" resultType="com.corgi.user.entity.BarProfile">
+        select
+        bar_id barId,
+        bar_name barName,
+        `address`,
+        `lat`,
+        `lng`,
+        `tel`,
+        `range`,
+        `logo`,
+        `status`,
+        `city`,
+        `account`,
+        `password`,
+        `ctime`
+        from corgi_bar_detail
+        <if test="status != null and status != ''">
+            where `status` = #{status}
+        </if>
+    </select>
+
     <select id="getBarListByCity" resultType="com.corgi.user.entity.BarProfile">
         select
         b.bar_id barId,
@@ -100,6 +121,7 @@
         `range`,
         `logo`,
         `status`,
+        `account`,
         `city`,
         `ctime`
         from corgi_bar_detail
@@ -125,6 +147,7 @@
         `logo`,
         `status`,
         `city`,
+        `account`,
         `ctime`
         from corgi_bar_detail
         where 1=1
@@ -137,6 +160,32 @@
         <if test="bar.lat != null and bar.lng != null">
             order by st_distance_sphere(point(#{bar.lng},#{bar.lat}),point(lng,lat))
         </if>
+    </select>
+
+    <update id="setBarAccount">
+        update corgi_bar_detail
+        set account = #{account}
+        <if test="password != null">
+            ,password = #{password}
+        </if>
+        where bar_id = #{barId}
+    </update>
+
+    <select id="getBarByAccount" resultType="com.corgi.user.entity.BarProfile">
+        select bar_id barId,
+        bar_name barName,
+        `address`,
+        `lat`,
+        `lng`,
+        `tel`,
+        `range`,
+        `logo`,
+        `status`,
+        `city`,
+        `ctime`
+        from corgi_bar_detail
+        where `account` = #{account}
+        and `password` = #{password}
     </select>
 
 </mapper>
