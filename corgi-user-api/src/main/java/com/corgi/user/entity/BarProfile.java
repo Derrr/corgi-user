@@ -3,6 +3,7 @@ package com.corgi.user.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author tairanliu
@@ -26,4 +27,8 @@ public class BarProfile implements Serializable {
     private Long heat;
     private String city;
     private String ctime;
+
+    List<BarPic> barPics;
+
+    private String video;
 }

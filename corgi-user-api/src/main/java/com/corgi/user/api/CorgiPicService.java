@@ -12,7 +12,7 @@ import java.util.List;
 public interface CorgiPicService {
     String addUserPic(UserPic userPic);
 
-    String deleteUserPic(String picId);
+    String deleteUserPic(String picId, String userId);
 
     List<UserPic> getUserPic(String userId);
 
@@ -30,11 +30,11 @@ public interface CorgiPicService {
 
     String passCheckPic(CheckPic checkPic);
 
-    List<CheckPic> getCheckPic(String status,String type, int page, int size);
+    List<CheckPic> getCheckPic(String status, String type, int page, int size);
 
     List<CheckPic> getCheckPicBySourceId(String type, String sourceId);
 
-    long countCheckPic(String status,String type);
+    long countCheckPic(String status, String type);
 
     String updateUserPic(UserPic userPic);
 }
