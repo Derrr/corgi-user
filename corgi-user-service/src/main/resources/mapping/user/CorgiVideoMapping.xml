@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiVideoMapper">
+    <select id="getVideo" resultType="com.corgi.user.entity.UserVideo">
+        select
+        id videoId,
+        video_url videoUrl,
+        user_id userId
+        from corgi_user_video
+        where user_id = #{userId}
+    </select>
+
+    <insert id="addVideo" parameterType="com.corgi.user.entity.UserVideo">
+        insert into corgi_user_video(user_id, video_url)
+        VALUES (#{video.userId}, #{video.videoUrl})
+    </insert>
+
+    <delete id="deleteVideo">
+        delete from corgi_user_video
+        where user_id = #{userId}
+    </delete>
+</mapper>

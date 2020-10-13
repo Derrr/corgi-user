@@ -23,4 +23,6 @@ public interface CorgiUserRecommendService {
     List<UserProfile> getCityPopulate(String userId, String city, Integer page, Integer size);
 
     void deleteRecUserByWeight(String userId, Integer weight);
+
+    void distLikeUser(String userId, String disLikeUserId);
 }

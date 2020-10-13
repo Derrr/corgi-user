@@ -11,6 +11,7 @@ import java.util.List;
 public interface CorgiUserRecommendMapper {
     /**
      * 初始化用户
+     *
      * @param userId
      * @param recId
      */
@@ -18,6 +19,7 @@ public interface CorgiUserRecommendMapper {
 
     /**
      * 添加推荐权重
+     *
      * @param userId
      * @param recId
      */
@@ -25,14 +27,16 @@ public interface CorgiUserRecommendMapper {
 
     /**
      * 更新推荐状态
+     *
      * @param userId
      * @param recId
      * @param status
      */
-    void updateStatus(@Param("userId") String userId, @Param("recId") String recId, @Param("status") String status, @Param("opt")String opt);
+    void updateStatus(@Param("userId") String userId, @Param("recId") String recId, @Param("status") String status, @Param("opt") String opt);
 
     /**
      * 获取推荐用户
+     *
      * @param userId
      * @param start
      * @param size
@@ -41,16 +45,34 @@ public interface CorgiUserRecommendMapper {
     List<UserProfile> getRecUsers(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
+     * 获取当地天菜创始人
+     *
+     * @param city
+     * @return
+     */
+    List<UserProfile> getCityInfluencer(@Param("city") String city, @Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
+     * 获取当地天红人
+     *
+     * @param city
+     * @return
+     */
+    List<UserProfile> getCityPopulate(@Param("city") String city, @Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
      * 清空推荐
+     *
      * @param userId
      */
-    void clearRecUsers(@Param("userId")String userId);
+    void clearRecUsers(@Param("userId") String userId);
 
     /**
      * 根据权重删除
+     *
      * @param userId
      * @param weight
      */
-    void deleteByWeight(@Param("userId")String userId, @Param("weight")Integer weight);
+    void deleteByWeight(@Param("userId") String userId, @Param("weight") Integer weight);
 
 }

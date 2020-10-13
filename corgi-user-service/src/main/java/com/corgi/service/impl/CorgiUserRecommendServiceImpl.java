@@ -49,7 +49,23 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     }
 
     @Override
+    public List<UserProfile> getInfluencerByCity(String userId, String city, Integer page, Integer size) {
+        return corgiUserRecommendMapper.getCityInfluencer(city, userId, (page - 1) * size, size);
+    }
+
+    @Override
+    public List<UserProfile> getCityPopulate(String userId, String city, Integer page, Integer size) {
+        return corgiUserRecommendMapper.getCityPopulate(city, userId, (page - 1) * size, size);
+    }
+
+    @Override
     public void deleteRecUserByWeight(String userId, Integer weight) {
         corgiUserRecommendMapper.deleteByWeight(userId, weight);
+    }
+
+    @Override
+    public void distLikeUser(String userId, String disLikeUserId) {
+        corgiUserRecommendMapper.insertUserRecommend(userId, disLikeUserId);
+        corgiUserRecommendMapper.updateStatus(userId, disLikeUserId, "2", System.currentTimeMillis() + "");
     }
 }

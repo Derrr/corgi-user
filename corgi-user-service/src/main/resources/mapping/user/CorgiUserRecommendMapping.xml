@@ -37,7 +37,68 @@
         left join corgi_user_detail d on d.user_id = r.rec_user_id
         where r.user_id = #{userId}
         and r.`status` = '0'
-        order by r.`weight` desc
+        and not exists(select 1 from corgi_user_follow f where f.user_id = #{userId} and f.follow_user_id = r.rec_user_id)
+        and r.rec_user_id != #{userId}
+        order by d.avatar_status desc, r.`weight` desc
+        limit #{start}, #{size}
+    </select>
+
+    <select id="getCityInfluencer" resultType="com.corgi.user.entity.UserProfile">
+        select d.user_id userId,
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.avatar_status avatarStatus,
+        d.avatar_check_status avatarCheckStatus,
+        d.role role,
+        d.hide_role hideRole,
+        d.group `group`,
+        d.hide_group `hideGroup`,
+        d.hide_prefer_group `hidePreferGroup`,
+        d.con con,
+        d.relation,
+        d.check_status checkStatus,
+        d.weight,
+        d.height,
+        d.birthday,
+        from corgi_user_detail d
+        join corgi_user_position p on p.user_id = d.user_id
+        where d.user_id != #{userId}
+        and not exists(select 1 from corgi_user_follow f where f.user_id = #{userId} and f.follow_user_id = d.user_id)
+        and not exists(select 1 from corgi_user_recommend r where r.user_id = #{userId} and r.rec_user_id = d.user_id and r.status = '2')
+        and p.city = #{city}
+        and d.avatar_status = 'influencer'
+        and d.user_id != '8'
+        limit #{start}, #{size}
+    </select>
+
+    <select id="getCityPopulate" resultType="com.corgi.user.entity.UserProfile">
+        select d.user_id userId,
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.avatar_status avatarStatus,
+        d.avatar_check_status avatarCheckStatus,
+        d.role role,
+        d.hide_role hideRole,
+        d.group `group`,
+        d.hide_group `hideGroup`,
+        d.hide_prefer_group `hidePreferGroup`,
+        d.con con,
+        d.relation,
+        d.check_status checkStatus,
+        d.weight,
+        d.height,
+        d.birthday,
+        count(1) isFollowed
+        from corgi_user_detail d
+        join corgi_user_position p on p.user_id = d.user_id
+        left join corgi_user_follow f on d.user_id = f.follow_user_id and is_deleted = '0'
+        where d.user_id != #{userId}
+        and not exists(select 1 from corgi_user_follow f where f.user_id = #{userId} and f.follow_user_id = d.user_id)
+        and not exists(select 1 from corgi_user_recommend r where r.user_id = #{userId} and r.rec_user_id = d.user_id and r.status = '2')
+        and p.city = #{city}
+        and d.avatar_status != 'influencer'
+        group by d.user_id
+        order by isFollowed desc
         limit #{start}, #{size}
     </select>
 

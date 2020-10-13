@@ -42,8 +42,8 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     }
 
     @Override
-    public String deleteUserPic(String picId) {
-        corgiPicMapper.deleteUserPic(picId);
+    public String deleteUserPic(String picId, String userId) {
+        corgiPicMapper.deleteUserPic(picId, userId);
         return CorgiConstants.SUCCESS;
     }
 
