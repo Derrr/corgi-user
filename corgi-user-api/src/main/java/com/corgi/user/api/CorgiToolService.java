@@ -24,13 +24,15 @@ public interface CorgiToolService {
 
     List<CorgiTopic> searchTopic(String text, String status);
 
+    List<String> getActivityTypes();
+
     void deleteActivityMessageByMessage(ActivityMessage message);
 
     void addTopic(CorgiTopic topic);
 
     void updateTopic(CorgiTopic topic);
 
-    List<String> getActivityTopic(String activityId);
+    List<CorgiTopic> getActivityTopic(String activityId);
 
     void updateActivityTopic(String activityId, List<String> topics);
 

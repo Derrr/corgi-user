@@ -21,6 +21,11 @@ public interface CorgiToolMapper {
      */
     List<CorgiTopic> searchTopic(@Param("text") String text, @Param("status") String status);
 
+    /**
+     * 获取活动类型
+     * @return
+     */
+    List<String> getActivityTypes();
 
     /**
      * 添加话题
@@ -42,7 +47,7 @@ public interface CorgiToolMapper {
      * @param activityId
      * @return
      */
-    List<String> getActivityTopic(@Param("activityId") String activityId);
+    List<CorgiTopic> getActivityTopic(@Param("activityId") String activityId);
 
     /**
      * 添加活动话题

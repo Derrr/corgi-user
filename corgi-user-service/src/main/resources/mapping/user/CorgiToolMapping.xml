@@ -14,6 +14,10 @@
         order by id desc
     </select>
 
+    <select id="getActivityTypes" resultType="java.lang.String">
+        select `type` from corgi_activity_type
+    </select>
+
     <insert id="addTopic" parameterType="com.corgi.entity.CorgiTopic">
         insert into `corgi_topics` (`topic`,`status`, cuid, opuid, `content`)
         values (#{topic.topic}, #{topic.status}, #{topic.cuid}, #{topic.opuid}, #{topic.content});
@@ -26,7 +30,9 @@
     </update>
 
     <select id="getActivityTopic" resultType="java.lang.String">
-        select topic from corgi_activity_topic
+        select topic
+        from corgi_activity_topic a
+        left join corgi_topics t on t.ic = a.topic
         where activity_id = #{activityId}
     </select>
 

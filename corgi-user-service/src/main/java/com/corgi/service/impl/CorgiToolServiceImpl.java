@@ -79,6 +79,11 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public List<String> getActivityTypes() {
+        return null;
+    }
+
+    @Override
     public void deleteActivityMessageByMessage(ActivityMessage message) {
         corgiToolMapper.deleteActivityMessageByMessage(message);
     }
@@ -94,7 +99,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public List<String> getActivityTopic(String activityId) {
+    public List<CorgiTopic> getActivityTopic(String activityId) {
         return corgiToolMapper.getActivityTopic(activityId);
     }
 
