@@ -30,9 +30,9 @@
     </update>
 
     <select id="getActivityTopic" resultType="java.lang.String">
-        select topic
+        select content
         from corgi_activity_topic a
-        left join corgi_topics t on t.ic = a.topic
+        left join corgi_topics t on t.id = a.topic
         where activity_id = #{activityId}
     </select>
 

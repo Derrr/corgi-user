@@ -32,7 +32,7 @@ public interface CorgiToolService {
 
     void updateTopic(CorgiTopic topic);
 
-    List<CorgiTopic> getActivityTopic(String activityId);
+    List<String> getActivityTopic(String activityId);
 
     void updateActivityTopic(String activityId, List<String> topics);
 

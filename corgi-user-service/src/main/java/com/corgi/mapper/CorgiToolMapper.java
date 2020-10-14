@@ -47,7 +47,7 @@ public interface CorgiToolMapper {
      * @param activityId
      * @return
      */
-    List<CorgiTopic> getActivityTopic(@Param("activityId") String activityId);
+    List<String> getActivityTopic(@Param("activityId") String activityId);
 
     /**
      * 添加活动话题

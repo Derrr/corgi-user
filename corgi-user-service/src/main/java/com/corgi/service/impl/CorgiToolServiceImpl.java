@@ -99,7 +99,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public List<CorgiTopic> getActivityTopic(String activityId) {
+    public List<String> getActivityTopic(String activityId) {
         return corgiToolMapper.getActivityTopic(activityId);
     }
 
