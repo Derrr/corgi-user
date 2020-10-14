@@ -80,7 +80,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Override
     public List<String> getActivityTypes() {
-        return null;
+        return corgiToolMapper.getActivityTypes();
     }
 
     @Override
