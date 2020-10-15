@@ -15,7 +15,7 @@
         update corgi_user_recommend set `status` = #{status}, opt_time = #{opt}
         where user_id = #{userId} and rec_user_id = #{recId}
     </update>
-    
+
     <select id="getRecUsers" resultType="com.corgi.user.entity.UserProfile">
         select r.rec_user_id userId,
         d.nickname `nickname`,
@@ -40,11 +40,12 @@
         and not exists(select 1 from corgi_user_follow f where f.user_id = #{userId} and f.follow_user_id = r.rec_user_id)
         and r.rec_user_id != #{userId}
         order by d.avatar_status desc, r.`weight` desc
-        limit #{start}, #{size}
+        limit #{size}
     </select>
 
     <select id="getCityInfluencer" resultType="com.corgi.user.entity.UserProfile">
-        select d.user_id userId,
+        select
+        d.user_id userId,
         d.nickname `nickname`,
         d.avatar avatar,
         d.avatar_status avatarStatus,
@@ -60,15 +61,44 @@
         d.weight,
         d.height,
         d.birthday,
-        from corgi_user_detail d
-        join corgi_user_position p on p.user_id = d.user_id
+        from corgi_influencer_billboard b
+        left join corgi_user_detail d on d.user_id = b.user_id
         where d.user_id != #{userId}
         and not exists(select 1 from corgi_user_follow f where f.user_id = #{userId} and f.follow_user_id = d.user_id)
         and not exists(select 1 from corgi_user_recommend r where r.user_id = #{userId} and r.rec_user_id = d.user_id and r.status = '2')
-        and p.city = #{city}
-        and d.avatar_status = 'influencer'
+        and b.city = #{city}
         and d.user_id != '8'
-        limit #{start}, #{size}
+        order by b.fan desc
+        limit #{size}
+    </select>
+
+    <select id="getNotCityInfluencer" resultType="com.corgi.user.entity.UserProfile">
+        select
+        d.user_id userId,
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.avatar_status avatarStatus,
+        d.avatar_check_status avatarCheckStatus,
+        d.role role,
+        d.hide_role hideRole,
+        d.group `group`,
+        d.hide_group `hideGroup`,
+        d.hide_prefer_group `hidePreferGroup`,
+        d.con con,
+        d.relation,
+        d.check_status checkStatus,
+        d.weight,
+        d.height,
+        d.birthday,
+        from corgi_influencer_billboard b
+        left join corgi_user_detail d on d.user_id = b.user_id
+        where d.user_id != #{userId}
+        and not exists(select 1 from corgi_user_follow f where f.user_id = #{userId} and f.follow_user_id = d.user_id)
+        and not exists(select 1 from corgi_user_recommend r where r.user_id = #{userId} and r.rec_user_id = d.user_id and r.status = '2')
+        and b.city != #{city}
+        and d.user_id != '8'
+        order by b.fan desc
+        limit #{size}
     </select>
 
     <select id="getCityPopulate" resultType="com.corgi.user.entity.UserProfile">
@@ -113,4 +143,18 @@
         and `weight` &lt;= #{weight}
         and `status` = '0'
     </delete>
+
+    <delete id="clearInfluencerBillboard">
+       delete from corgi_influencer_billboard
+    </delete>
+
+    <insert id="initInfluencerBillboard">
+        insert into corgi_influencer_billboard(user_id, nickname, fan, city)
+        select d.user_id, d.nickname, count(1) fan, p.city
+        from corgi_user_detail d
+        left join corgi_user_position p on p.user_id = d.user_id
+        left join corgi_user_follow f on f.follow_user_id = d.user_id and f.is_deleted = '0'
+        where d.avatar_status = 'influencer'
+        group by d.user_id
+    </insert>
 </mapper>

@@ -44,13 +44,18 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     }
 
     @Override
-    public List<UserProfile> getRecUser(String userId, Integer page, Integer size) {
-        return corgiUserRecommendMapper.getRecUsers(userId, (page - 1) * size, size);
+    public List<UserProfile> getRecUser(String userId, Integer size) {
+        return corgiUserRecommendMapper.getRecUsers(userId, size);
     }
 
     @Override
-    public List<UserProfile> getInfluencerByCity(String userId, String city, Integer page, Integer size) {
-        return corgiUserRecommendMapper.getCityInfluencer(city, userId, (page - 1) * size, size);
+    public List<UserProfile> getInfluencerByCity(String userId, String city, Integer size) {
+        List<UserProfile> userProfiles = corgiUserRecommendMapper.getCityInfluencer(city, userId, size);
+        if (userProfiles.size() < size) {
+            List<UserProfile> nationalProfiles = corgiUserRecommendMapper.getNotCityInfluencer(city, userId, size - userProfiles.size());
+            userProfiles.addAll(nationalProfiles);
+        }
+        return userProfiles;
     }
 
     @Override
@@ -67,5 +72,10 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     public void distLikeUser(String userId, String disLikeUserId) {
         corgiUserRecommendMapper.insertUserRecommend(userId, disLikeUserId);
         corgiUserRecommendMapper.updateStatus(userId, disLikeUserId, "2", System.currentTimeMillis() + "");
+    }
+
+    @Override
+    public void initInfluencer() {
+
     }
 }

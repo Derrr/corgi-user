@@ -38,11 +38,10 @@ public interface CorgiUserRecommendMapper {
      * 获取推荐用户
      *
      * @param userId
-     * @param start
      * @param size
      * @return
      */
-    List<UserProfile> getRecUsers(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+    List<UserProfile> getRecUsers(@Param("userId") String userId, @Param("size") Integer size);
 
     /**
      * 获取当地天菜创始人
@@ -50,7 +49,15 @@ public interface CorgiUserRecommendMapper {
      * @param city
      * @return
      */
-    List<UserProfile> getCityInfluencer(@Param("city") String city, @Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+    List<UserProfile> getCityInfluencer(@Param("city") String city, @Param("userId") String userId, @Param("size") Integer size);
+
+    /**
+     * 获取全国天菜创始人
+     *
+     * @param city
+     * @return
+     */
+    List<UserProfile> getNotCityInfluencer(@Param("city") String city, @Param("userId") String userId, @Param("size") Integer size);
 
     /**
      * 获取当地天红人
@@ -74,5 +81,17 @@ public interface CorgiUserRecommendMapper {
      * @param weight
      */
     void deleteByWeight(@Param("userId") String userId, @Param("weight") Integer weight);
+
+    /**
+     * 清理天菜创始人榜单
+     *
+     */
+    void clearInfluencerBillboard();
+
+    /**
+     * 初始化天菜创始人榜单
+     *
+     */
+    void initInfluencerBillboard();
 
 }
