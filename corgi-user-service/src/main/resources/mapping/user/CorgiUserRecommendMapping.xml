@@ -60,7 +60,7 @@
         d.check_status checkStatus,
         d.weight,
         d.height,
-        d.birthday,
+        d.birthday
         from corgi_influencer_billboard b
         left join corgi_user_detail d on d.user_id = b.user_id
         where d.user_id != #{userId}
@@ -89,7 +89,7 @@
         d.check_status checkStatus,
         d.weight,
         d.height,
-        d.birthday,
+        d.birthday
         from corgi_influencer_billboard b
         left join corgi_user_detail d on d.user_id = b.user_id
         where d.user_id != #{userId}
