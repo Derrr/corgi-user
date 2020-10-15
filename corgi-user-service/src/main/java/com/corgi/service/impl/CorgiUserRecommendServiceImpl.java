@@ -76,6 +76,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
 
     @Override
     public void initInfluencer() {
-
+        corgiUserRecommendMapper.clearInfluencerBillboard();
+        corgiUserRecommendMapper.initInfluencerBillboard();
     }
 }
