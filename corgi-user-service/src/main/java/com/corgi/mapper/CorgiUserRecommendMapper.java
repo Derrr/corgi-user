@@ -84,14 +84,29 @@ public interface CorgiUserRecommendMapper {
 
     /**
      * 清理天菜创始人榜单
-     *
      */
     void clearInfluencerBillboard();
 
     /**
      * 初始化天菜创始人榜单
-     *
      */
     void initInfluencerBillboard();
+
+    /**
+     * 获取当地推荐动态
+     *
+     * @param city
+     * @return
+     */
+    List<String> getCityImage(@Param("city") String city, @Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
+     * 获取全国推荐动态
+     *
+     * @param city
+     * @return
+     */
+    List<String> getNotCityImage(@Param("city") String city, @Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
 
 }

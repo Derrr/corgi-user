@@ -27,4 +27,9 @@ public interface CorgiUserRecommendService {
     void distLikeUser(String userId, String disLikeUserId);
 
     void initInfluencer();
+
+    List<String> getCityRecommendImage(String userId, String city, Integer page, Integer pageSize);
+
+    List<String> getNotCityRecommendImage(String userId, String city, Integer page, Integer pageSize);
+
 }

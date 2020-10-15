@@ -79,4 +79,15 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
         corgiUserRecommendMapper.clearInfluencerBillboard();
         corgiUserRecommendMapper.initInfluencerBillboard();
     }
+
+    @Override
+    public List<String> getCityRecommendImage(String userId, String city, Integer page, Integer pageSize) {
+        return corgiUserRecommendMapper.getCityImage(city, userId, (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
+    public List<String> getNotCityRecommendImage(String userId, String city, Integer page, Integer pageSize) {
+        return corgiUserRecommendMapper.getNotCityImage(city, userId, (page - 1) * pageSize, pageSize);
+    }
+
 }
