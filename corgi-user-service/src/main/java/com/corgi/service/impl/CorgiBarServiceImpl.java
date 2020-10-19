@@ -44,8 +44,6 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     private CorgiUserFollowService corgiUserFollowService;
     @Autowired
     private CorgiUserService corgiUserService;
-    @Autowired
-    private CorgiCouponService corgiCouponService;
     @Reference
     private CorgiActivityService corgiActivityService;
 
@@ -78,8 +76,6 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         if (barProfile != null) {
             barProfile.setHeat(countBarHeat(barProfile));
         }
-        barProfile.setCupons(corgiCouponService.getCoupon(barId, null));
-
         CorgiActivity corgiActivity = new CorgiActivity();
         corgiActivity.setUserId(barId);
         corgiActivity.setStatus(CorgiActivity.NOT_DELETED);
@@ -120,7 +116,6 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     @Override
     public BarProfile getBarByAccount(String account, String password) {
         BarProfile barProfile =  corgiBarMapper.getBarByAccount(account, password);
-        barProfile.setCupons(corgiCouponService.getCoupon(barProfile.getBarId(), null));
         CorgiActivity corgiActivity = new CorgiActivity();
         corgiActivity.setUserId(barProfile.getBarId());
         corgiActivity.setStatus(CorgiActivity.NOT_DELETED);

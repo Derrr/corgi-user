@@ -32,7 +32,6 @@ public class BarProfile implements Serializable {
     private String ctime;
 
     Integer activityCount;
-    List<CorgiCoupon> cupons;
     List<BarPic> barPics;
 
     private String video;
