@@ -24,10 +24,15 @@ public class BarProfile implements Serializable {
     private String status;
     private String account;
     private String password;
+    private String startTime;
+    private String endTime;
+    private String detail;
     private Long heat;
     private String city;
     private String ctime;
 
+    Integer activityCount;
+    List<CorgiCoupon> cupons;
     List<BarPic> barPics;
 
     private String video;

@@ -4,8 +4,8 @@
 
     <insert id="addBar" parameterType="com.corgi.user.entity.BarProfile">
         INSERT INTO `corgi_bar_detail`
-    (`bar_id`, `bar_name`, `address`, `lat`, `lng`, `tel`, `range`, `logo`, `status`,`city`)
-    VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range}, #{bar.logo}, #{bar.status}, #{bar.city})
+    (`bar_id`, `bar_name`, `address`, `lat`, `lng`, `tel`, `range`, `logo`, `status`,`city`,`start_time`,`end_time`,`detail`, `spending`)
+    VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range}, #{bar.logo}, #{bar.status}, #{bar.city}, #{bar.startTime}, #{bar.endTime}, #{bar.detail}, #{bar.spending})
     </insert>
     <update id="updateBar" parameterType="com.corgi.user.entity.BarProfile">
         update corgi_bar_detail
@@ -37,6 +37,18 @@
             <if test="bar.city != null and bar.city != ''">
                 `city` = #{bar.city},
             </if>
+            <if test="bar.startTime != null and bar.startTime != ''">
+                `start_time` = #{bar.startTime},
+            </if>
+            <if test="bar.endTime != null and bar.endTime != ''">
+                `end_time` = #{bar.endTime},
+            </if>
+            <if test="bar.detail != null and bar.detail != ''">
+                `detail` = #{bar.detail},
+            </if>
+            <if test="bar.spending != null and bar.spending != ''">
+                `spending` = #{bar.spending},
+            </if>
 
         </set>
         where bar_id = #{bar.barId}
@@ -58,6 +70,9 @@
         `logo`,
         `status`,
         `city`,
+        `start_time` startTime,
+        `end_time` endTime,
+        `spending`,
         `ctime`
         from corgi_bar_detail
         <if test="status != null and status != ''">
@@ -79,6 +94,9 @@
         `city`,
         `account`,
         `password`,
+        `start_time` startTime,
+        `end_time` endTime,
+        `spending`,
         `ctime`
         from corgi_bar_detail
         <if test="status != null and status != ''">
@@ -98,6 +116,9 @@
         b.logo,
         b.status,
         b.ctime,
+        b.`start_time` startTime,
+        b.`end_time` endTime,
+        b.`spending`,
         b.city
         from corgi_bar_detail b
         left join corgi_user_follow f on f.follow_user_id = b.bar_id
@@ -123,6 +144,10 @@
         `status`,
         `account`,
         `city`,
+        `start_time` startTime,
+        `end_time` endTime,
+        `spending`,
+        `detail`,
         `ctime`
         from corgi_bar_detail
         where bar_id = #{barId}
@@ -148,6 +173,9 @@
         `status`,
         `city`,
         `account`,
+        `start_time` startTime,
+        `end_time` endTime,
+        `spending`,
         `ctime`
         from corgi_bar_detail
         where 1=1
@@ -182,6 +210,10 @@
         `logo`,
         `status`,
         `city`,
+        `start_time` startTime,
+        `end_time` endTime,
+        `detail`,
+        `spending`,
         `ctime`
         from corgi_bar_detail
         where `account` = #{account}

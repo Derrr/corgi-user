@@ -1,6 +1,9 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.activity.api.CorgiActivityService;
+import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.common.CorgiConstants;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
@@ -8,6 +11,7 @@ import com.corgi.entity.ActivityQuery;
 import com.corgi.mapper.*;
 import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiBarService;
+import com.corgi.user.api.CorgiCouponService;
 import com.corgi.user.api.CorgiUserFollowService;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.*;
@@ -40,6 +44,10 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     private CorgiUserFollowService corgiUserFollowService;
     @Autowired
     private CorgiUserService corgiUserService;
+    @Autowired
+    private CorgiCouponService corgiCouponService;
+    @Reference
+    private CorgiActivityService corgiActivityService;
 
 
     @Override
@@ -70,6 +78,12 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         if (barProfile != null) {
             barProfile.setHeat(countBarHeat(barProfile));
         }
+        barProfile.setCupons(corgiCouponService.getCoupon(barId, null));
+
+        CorgiActivity corgiActivity = new CorgiActivity();
+        corgiActivity.setUserId(barId);
+        corgiActivity.setStatus(CorgiActivity.NOT_DELETED);
+        barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
         return barProfile;
     }
 
@@ -105,7 +119,13 @@ public class CorgiBarServiceImpl implements CorgiBarService {
 
     @Override
     public BarProfile getBarByAccount(String account, String password) {
-        return corgiBarMapper.getBarByAccount(account,password);
+        BarProfile barProfile =  corgiBarMapper.getBarByAccount(account, password);
+        barProfile.setCupons(corgiCouponService.getCoupon(barProfile.getBarId(), null));
+        CorgiActivity corgiActivity = new CorgiActivity();
+        corgiActivity.setUserId(barProfile.getBarId());
+        corgiActivity.setStatus(CorgiActivity.NOT_DELETED);
+        barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
+        return barProfile;
     }
 
     private String createBarId(String maxBarId) {
