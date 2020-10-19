@@ -79,6 +79,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         CorgiActivity corgiActivity = new CorgiActivity();
         corgiActivity.setUserId(barId);
         corgiActivity.setStatus(CorgiActivity.NOT_DELETED);
+        corgiActivity.setCategory(CorgiActivity.CAT_BUSINESS);
         barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
         return barProfile;
     }
