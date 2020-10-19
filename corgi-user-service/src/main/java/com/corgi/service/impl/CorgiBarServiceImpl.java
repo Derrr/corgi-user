@@ -10,10 +10,7 @@ import com.corgi.common.messages.MatchRefresher;
 import com.corgi.entity.ActivityQuery;
 import com.corgi.mapper.*;
 import com.corgi.support.UserQuerySupporter;
-import com.corgi.user.api.CorgiBarService;
-import com.corgi.user.api.CorgiCouponService;
-import com.corgi.user.api.CorgiUserFollowService;
-import com.corgi.user.api.CorgiUserService;
+import com.corgi.user.api.*;
 import com.corgi.user.entity.*;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +43,8 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     private CorgiUserService corgiUserService;
     @Reference
     private CorgiActivityService corgiActivityService;
+    @Autowired
+    private CorgiVideoService corgiVideoService;
 
 
     @Override
@@ -81,6 +80,10 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         corgiActivity.setStatus(CorgiActivity.NOT_DELETED);
         corgiActivity.setCategory(CorgiActivity.CAT_BUSINESS);
         barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
+        List<UserVideo> userVideos = corgiVideoService.getVideo(barId);
+        if (!CollectionUtils.isEmpty(userVideos)) {
+            barProfile.setVideo(userVideos.get(0).getVideoUrl());
+        }
         return barProfile;
     }
 
@@ -116,11 +119,15 @@ public class CorgiBarServiceImpl implements CorgiBarService {
 
     @Override
     public BarProfile getBarByAccount(String account, String password) {
-        BarProfile barProfile =  corgiBarMapper.getBarByAccount(account, password);
+        BarProfile barProfile = corgiBarMapper.getBarByAccount(account, password);
         CorgiActivity corgiActivity = new CorgiActivity();
         corgiActivity.setUserId(barProfile.getBarId());
         corgiActivity.setStatus(CorgiActivity.NOT_DELETED);
         barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
+        List<UserVideo> userVideos = corgiVideoService.getVideo(barProfile.getBarId());
+        if (!CollectionUtils.isEmpty(userVideos)) {
+            barProfile.setVideo(userVideos.get(0).getVideoUrl());
+        }
         return barProfile;
     }
 
