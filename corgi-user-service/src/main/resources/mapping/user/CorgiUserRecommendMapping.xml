@@ -32,9 +32,11 @@
         d.check_status checkStatus,
         d.weight,
         d.height,
-        d.birthday
+        d.birthday,
+        p.uptime time
         from corgi_user_recommend r
         left join corgi_user_detail d on d.user_id = r.rec_user_id
+        left join corgi_user_position p on p.user_id = r.rec_user_id
         where r.user_id = #{userId}
         and r.`status` = '0'
         and not exists(select 1 from corgi_user_follow f where f.user_id = #{userId} and f.follow_user_id = r.rec_user_id)
@@ -60,9 +62,11 @@
         d.check_status checkStatus,
         d.weight,
         d.height,
-        d.birthday
+        d.birthday,
+        p.uptime time
         from corgi_influencer_billboard b
         left join corgi_user_detail d on d.user_id = b.user_id
+        left join corgi_user_position p on p.user_id = b.user_id
         where d.user_id != #{userId}
         and not exists(select 1 from corgi_user_follow f where f.user_id = #{userId} and f.follow_user_id = d.user_id)
         and not exists(select 1 from corgi_user_recommend r where r.user_id = #{userId} and r.rec_user_id = d.user_id and r.status = '2')
