@@ -30,6 +30,7 @@
         SELECT
         id,
         detail,
+        `status`,
         bar_id barId
         from corgi_coupon
         where bar_id = #{barId}
@@ -57,8 +58,9 @@
 
     <select id="getActivityCoupon" resultType="com.corgi.user.entity.CorgiCoupon">
         SELECT
-        id,
-        detail,
+        c.id,
+        c.detail,
+        c.status,
         bar_id barId
         from corgi_activity_coupon ac
         join corgi_coupon c on c.id = ac.coupon_id
