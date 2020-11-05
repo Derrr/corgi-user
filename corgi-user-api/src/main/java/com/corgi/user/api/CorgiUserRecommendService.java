@@ -16,7 +16,20 @@ public interface CorgiUserRecommendService {
 
     void updateRecStatus(String userId, String recId, String status);
 
-    List<UserProfile> getRecUser(String userId, Integer page, Integer size);
+    List<UserProfile> getRecUser(String userId, Integer size);
+
+    List<UserProfile> getInfluencerByCity(String userId, String city, Integer size);
+
+    List<UserProfile> getCityPopulate(String userId, String city, Integer page, Integer size);
 
     void deleteRecUserByWeight(String userId, Integer weight);
+
+    void distLikeUser(String userId, String disLikeUserId);
+
+    void initInfluencer();
+
+    List<String> getCityRecommendImage(String userId, String city, Integer page, Integer pageSize);
+
+    List<String> getNotCityRecommendImage(String userId, String city, Integer page, Integer pageSize);
+
 }

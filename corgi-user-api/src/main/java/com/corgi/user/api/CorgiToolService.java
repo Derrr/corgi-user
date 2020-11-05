@@ -24,6 +24,8 @@ public interface CorgiToolService {
 
     List<CorgiTopic> searchTopic(String text, String status);
 
+    List<String> getActivityTypes();
+
     void deleteActivityMessageByMessage(ActivityMessage message);
 
     void addTopic(CorgiTopic topic);
@@ -59,4 +61,8 @@ public interface CorgiToolService {
     ActivityMessage getLastActivityMessageByType(String userId, String type);
 
     void deleteActivityMessage(String userId, Long time);
+
+    void bindWechat(String wechatId, String corgiId);
+
+    String getIdByWechatId(String wechatId);
 }

@@ -13,4 +13,6 @@ public class ActivityLike implements Serializable {
     private String likeUserId;
     private String likeUserName;
     private String likeUserAvatar;
+
+    private Integer isFollow;
 }

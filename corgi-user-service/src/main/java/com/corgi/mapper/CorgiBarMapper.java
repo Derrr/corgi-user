@@ -39,6 +39,13 @@ public interface CorgiBarMapper {
     List<BarProfile> getBarList(@Param("status")String status);
 
     /**
+     * 获取所有商户列表
+     *
+     * @return
+     */
+    List<BarProfile> getBarAccountList(@Param("status")String status);
+
+    /**
      * 根据城市获取所有商户列表
      *
      * @return
@@ -68,5 +75,23 @@ public interface CorgiBarMapper {
      * @return
      */
     List<BarProfile> searchBar(@Param("bar")BarProfile barProfile);
+
+    /**
+     *
+     * 设置账号密码
+     *
+     * @param account
+     * @param account
+     * @param password
+     */
+    void setBarAccount(@Param("barId")String barId, @Param("account")String account, @Param("password")String password);
+
+    /**
+     * 验证账号密码
+     * @param account
+     * @param password
+     * @return
+     */
+    BarProfile getBarByAccount(@Param("account")String account, @Param("password")String password);
 
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiCouponMapper">
+    <insert id="insertCoupon" parameterType="com.corgi.user.entity.CorgiCoupon">
+        insert into corgi_coupon(bar_id, detail, status)
+        values(#{coupon.barId}, #{coupon.detail}, #{coupon.status})
+    </insert>
+
+    <update id="updateCoupon" parameterType="com.corgi.user.entity.CorgiCoupon">
+        update corgi_coupon
+        <set>
+            <if test="coupon.detail != null and coupon.detail != ''">
+                `detail` = #{coupon.detail},
+            </if>
+            <if test="coupon.status != null and coupon.status != ''">
+                `status` = #{coupon.status},
+            </if>
+        </set>
+        where id = #{coupon.id}
+        and bar_id = #{coupon.barId}
+    </update>
+
+    <delete id="deleteCoupon">
+        delete from corgi_coupon
+        where id = #{id}
+        and bar_id = #{barId}
+    </delete>
+
+    <select id="getBarCoupon" resultType="com.corgi.user.entity.CorgiCoupon">
+        SELECT
+        id,
+        detail,
+        `status`,
+        bar_id barId
+        from corgi_coupon
+        where bar_id = #{barId}
+        <if test="status != null and status != ''">
+            and `status` = #{status}
+        </if>
+    </select>
+
+    <insert id="addActivityCoupon">
+        insert ignore into corgi_activity_coupon(activity_id, coupon_id)
+        values(#{activityId}, #{couponId})
+    </insert>
+
+    <delete id="deleteActivityCoupon">
+        delete from corgi_activity_coupon ac
+        where activity_id = #{activityId}
+    </delete>
+
+    <delete id="deleteActivityCouponId">
+        delete ac.* from corgi_activity_coupon ac
+        left join corgi_coupon c on c.id = ac.coupon_id
+        where ac.coupon_id = #{couponId}
+        and c.bar_id = #{barId}
+    </delete>
+
+    <select id="getActivityCoupon" resultType="com.corgi.user.entity.CorgiCoupon">
+        SELECT
+        c.id,
+        c.detail,
+        c.status,
+        bar_id barId
+        from corgi_activity_coupon ac
+        join corgi_coupon c on c.id = ac.coupon_id
+        where ac.activity_id = #{activityId}
+        <if test="status != null and status != ''">
+            and c.`status` = #{status}
+        </if>
+    </select>
+</mapper>

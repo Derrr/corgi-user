@@ -24,7 +24,7 @@ public interface CorgiPicMapper {
      *
      * @param picId
      */
-    void deleteUserPic(@Param("picId") String picId);
+    void deleteUserPic(@Param("picId") String picId, @Param("userId")String userId);
 
     /**
      * 删除用户图片

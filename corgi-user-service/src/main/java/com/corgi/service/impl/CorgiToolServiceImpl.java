@@ -79,6 +79,11 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public List<String> getActivityTypes() {
+        return corgiToolMapper.getActivityTypes();
+    }
+
+    @Override
     public void deleteActivityMessageByMessage(ActivityMessage message) {
         corgiToolMapper.deleteActivityMessageByMessage(message);
     }
@@ -206,6 +211,16 @@ public class CorgiToolServiceImpl implements CorgiToolService {
             userId = "8";
         }
         corgiToolMapper.deleteActivityMessage(userId, time);
+    }
+
+    @Override
+    public void bindWechat(String wechatId, String corgiId) {
+        corgiToolMapper.bindWechatId(wechatId, corgiId);
+    }
+
+    @Override
+    public String getIdByWechatId(String wechatId) {
+        return corgiToolMapper.getIdByWechat(wechatId);
     }
 
     public List<ActivityMessage> buildActivityMessage(List<ActivityMessage> activityMessages) {

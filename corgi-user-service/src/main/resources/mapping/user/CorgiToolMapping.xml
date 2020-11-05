@@ -14,6 +14,10 @@
         order by id desc
     </select>
 
+    <select id="getActivityTypes" resultType="java.lang.String">
+        select `type` from corgi_activity_type
+    </select>
+
     <insert id="addTopic" parameterType="com.corgi.entity.CorgiTopic">
         insert into `corgi_topics` (`topic`,`status`, cuid, opuid, `content`)
         values (#{topic.topic}, #{topic.status}, #{topic.cuid}, #{topic.opuid}, #{topic.content});
@@ -26,7 +30,9 @@
     </update>
 
     <select id="getActivityTopic" resultType="java.lang.String">
-        select topic from corgi_activity_topic
+        select content
+        from corgi_activity_topic a
+        left join corgi_topics t on t.id = a.topic
         where activity_id = #{activityId}
     </select>
 
@@ -204,4 +210,13 @@
         and message_type = #{type}
     </update>
 
+    <insert id="bindWechatId">
+        insert ignore into corgi_wechat_bind(wechat_id, corgi_id)
+        values(#{wechatId}, #{corgiId})
+    </insert>
+    
+    <select id="getIdByWechat" resultType="java.lang.String">
+        select corgi_id from corgi_wechat_bind
+        where wechat_id = #{wechatId}
+    </select>
 </mapper>
