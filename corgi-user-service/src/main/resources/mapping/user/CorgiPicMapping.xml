@@ -23,7 +23,7 @@
         pic_url = #{pic.picUrl},
         `result` = #{pic.result}
         where id = #{pic.picId}
-        <if test='pic.userId != "" and pic.userId != "-1"'>
+        <if test='pic.userId != ""'>
             and user_id = #{pic.userId}
         </if>
     </update>
