@@ -23,7 +23,9 @@
         pic_url = #{pic.picUrl},
         `result` = #{pic.result}
         where id = #{pic.picId}
-        and user_id = #{pic.userId}
+        <if test="pic.userId != '' and pic.userId != '-1'">
+            and user_id = #{pic.userId}
+        </if>
     </update>
 
     <delete id="deleteUserPicByDataId">
