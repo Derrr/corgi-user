@@ -11,7 +11,7 @@
     <delete id="deleteUserPic">
         delete from corgi_user_pic
         where id = #{picId}
-        <if test="userId != '-1'">
+        <if test="userId != ''">
             and user_id = #{userId}
         </if>
     </delete>
