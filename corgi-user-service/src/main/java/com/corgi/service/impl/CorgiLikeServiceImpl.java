@@ -35,7 +35,7 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
         }
         UserDetail userDetail = corgiUserService.getUserDetail(userId, null);
         activityLike.setLikeUserName(userDetail.getNickname());
-        activityLike.setLikeUserAvatar(userDetail.getUserPics().get(0).getPicUrl());
+        activityLike.setLikeUserAvatar(userDetail.getAvatar());
 
         corgiLikeMapper.addActivityLike(activityLike);
         if (!userDetail.getUserPics().equals(activityLike.getUserId())) {

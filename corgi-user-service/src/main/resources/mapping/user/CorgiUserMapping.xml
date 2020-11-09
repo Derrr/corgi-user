@@ -282,7 +282,7 @@
 
     <select id="getFollowedCityUser" resultType="com.corgi.user.entity.UserPosition">
         select p.user_id userId, p.lat, p.lng, p.real_lat realLat, p.real_lng realLng, p.locate_type locateType,
-        p.uptime, p.city, p.province from corgi_user_position p
+        p.uptime, p.city, p.province, p.version from corgi_user_position p
         <if test="userId != null and userId != ''">
             join corgi_user_follow f on f.user_id = p.user_id
             and f.follow_user_id = #{userId}
