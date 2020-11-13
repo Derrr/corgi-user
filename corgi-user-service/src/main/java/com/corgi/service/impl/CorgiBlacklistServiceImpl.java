@@ -117,6 +117,11 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
         return corgiBlacklistMapper.countReport(report);
     }
 
+    @Override
+    public List<String> getBeBlacked(String userId) {
+        return corgiBlacklistMapper.getBeBlacklist(userId);
+    }
+
     private void deleteSignUp(String userId, String blackId) {
         int start = 0;
         int size = 500;
