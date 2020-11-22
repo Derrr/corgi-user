@@ -276,7 +276,7 @@
     </insert>
 
     <select id="getUserPosition" resultType="com.corgi.user.entity.UserPosition">
-        select user_id userId, lat, lng, real_lat realLat, real_lng realLng, locate_type locateType,city, province from corgi_user_position
+        select user_id userId, lat, lng, real_lat realLat, real_lng realLng, locate_type locateType,city, province, version from corgi_user_position
         where user_id = #{userId}
     </select>
 
