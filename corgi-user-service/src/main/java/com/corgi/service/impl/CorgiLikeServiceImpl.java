@@ -38,10 +38,10 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
         activityLike.setLikeUserAvatar(userDetail.getAvatar());
 
         corgiLikeMapper.addActivityLike(activityLike);
-        if (!userDetail.getUserPics().equals(activityLike.getUserId())) {
+        if (!userDetail.getUserId().equals(activityLike.getUserId())) {
             corgiToolService.addActivityMessage(ActivityMessage.builder()
                     .activityId(activityLike.getActivityId())
-                    .fromUserAvatar(userDetail.getUserPics().get(0).getPicUrl())
+                    .fromUserAvatar(userDetail.getAvatar())
                     .fromUserId(userDetail.getUserId())
                     .fromUserName(userDetail.getNickname())
                     .toUserId(activityLike.getUserId())
