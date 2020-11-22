@@ -20,4 +20,6 @@ public interface CorgiBlacklistService {
     List<CorgiReport> getReport(CorgiReport report, Integer page, Integer size);
 
     Integer countReport(CorgiReport report);
+
+    List<String> getBeBlacked(String userId);
 }
