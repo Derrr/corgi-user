@@ -490,6 +490,9 @@
         <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
             and d.check_status = #{userDetail.checkStatus}
         </if>
+        <if test="userDetail.avatarStatus != null and userDetail.avatarStatus != ''">
+            and d.avatar_status = #{userDetail.avatarStatus}
+        </if>
         order by d.user_id
         limit #{start},#{size}
     </select>
