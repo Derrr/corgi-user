@@ -11,7 +11,7 @@
         <if test="text != null and text != ''">
             and `topic` like concat('%',#{text},'%')
         </if>
-        order by id desc
+        order by `order`
     </select>
 
     <select id="getActivityTypes" resultType="java.lang.String">
