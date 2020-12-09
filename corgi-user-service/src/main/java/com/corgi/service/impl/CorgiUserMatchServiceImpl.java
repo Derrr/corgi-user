@@ -153,7 +153,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public Double getUserMatch(String userId1, String userId2) {
-        String matchKey = CorgiConstants.getUserMatchKey(userId1, userId2);
+//        String matchKey = CorgiConstants.getUserMatchKey(userId1, userId2);
 //        String matchStr = redisTemplate.opsForValue().get(matchKey);
 //        log.info("match key:{}, value:{}", matchKey, matchStr + "");
 //        if (StringUtils.isEmpty(matchStr)) {
