@@ -154,30 +154,30 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     @Override
     public Double getUserMatch(String userId1, String userId2) {
         String matchKey = CorgiConstants.getUserMatchKey(userId1, userId2);
-        String matchStr = redisTemplate.opsForValue().get(matchKey);
-        log.info("match key:{}, value:{}", matchKey, matchStr + "");
-        if (StringUtils.isEmpty(matchStr)) {
+//        String matchStr = redisTemplate.opsForValue().get(matchKey);
+//        log.info("match key:{}, value:{}", matchKey, matchStr + "");
+//        if (StringUtils.isEmpty(matchStr)) {
             Double match = userMatchMapper.getMatchCache(userId1, userId2);
             if (match == null) {
                 match = this.calculateUserMatch(userId1, userId2);
                 userMatchMapper.addMatchCache(userId1, userId2, match);
             }
-            redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
+//            redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
             return match;
-        }
-        Double match = null;
-        try {
-            match = Double.valueOf(matchStr);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-        if (match == null) {
-            match = this.calculateUserMatch(userId1, userId2);
-            if (match != null) {
-                redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
-            }
-        }
-        return match;
+//        }
+//        Double match = null;
+//        try {
+//            match = Double.valueOf(matchStr);
+//        } catch (Exception e) {
+//            log.error(e.getMessage());
+//        }
+//        if (match == null) {
+//            match = this.calculateUserMatch(userId1, userId2);
+//            if (match != null) {
+//                redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
+//            }
+//        }
+//        return match;
     }
 
     @Override
