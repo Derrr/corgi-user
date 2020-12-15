@@ -15,6 +15,10 @@ public class SystemMessage implements Serializable{
     private String id;
     private String title;
     private String content;
+    private String type;
+    private String picUrl;
+    private String urlType;
+    private String url;
     private String status;
     private Long sentTime;
     private String ctime;

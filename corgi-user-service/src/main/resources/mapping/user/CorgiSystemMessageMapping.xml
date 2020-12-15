@@ -5,6 +5,10 @@
         select
         `id`,
         `content`,
+        `type`,
+        `pic_url` picUrl,
+        `url`,
+        `url_type` urlType,
         `sent_time` sentTime,
         `status`,
         `ctime`,
@@ -19,6 +23,10 @@
         select
         `id`,
         `content`,
+        `type`,
+        `pic_url` picUrl,
+        `url`,
+        `url_type` urlType,
         `sent_time` sentTime,
         `status`,
         `ctime`,
@@ -32,6 +40,10 @@
         select
         `id`,
         `content`,
+        `type`,
+        `pic_url` picUrl,
+        `url`,
+        `url_type` urlType,
         `sent_time` sentTime,
         `status`,
         `ctime`,
@@ -43,8 +55,8 @@
     </select>
 
     <insert id="addSystemMessage" useGeneratedKeys="true" keyProperty="message.id" parameterType="com.corgi.user.entity.SystemMessage">
-        insert into corgi_system_message (`content`, `sent_time`, `status`, `title`)
-        VALUES(#{message.content},#{message.sentTime}, #{message.status}, #{message.title})
+        insert into corgi_system_message (`content`, `sent_time`, `status`, `title`,`type`,`pic_url`,`url_type`,`url`)
+        VALUES(#{message.content},#{message.sentTime}, #{message.status}, #{message.title}, #{message.type}, #{message.picUrl}, #{message.urlType}, #{message.url})
     </insert>
 
     <update id="updateSystemMessage" parameterType="com.corgi.user.entity.SystemMessage">
@@ -61,6 +73,18 @@
             </if>
             <if test="message.title != null and message.title != ''">
                 `title` = #{message.title},
+            </if>
+            <if test="message.type != null and message.type != ''">
+                `type` = #{message.type},
+            </if>
+            <if test="message.url != null and message.url != ''">
+                `url` = #{message.url},
+            </if>
+            <if test="message.urlType != null and message.urlType != ''">
+                `url_type` = #{message.urlType},
+            </if>
+            <if test="message.picUrl != null and message.picUrl != ''">
+                `pic_url` = #{message.picUrl},
             </if>
         </set>
         where id = #{message.id}
