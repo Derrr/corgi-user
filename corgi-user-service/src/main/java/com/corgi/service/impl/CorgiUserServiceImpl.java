@@ -426,7 +426,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         corgiUserMapper.deletePreferGroup(userId);
         corgiUserFollowMapper.deleteAllUserFollow(userId);
         corgiBlacklistMapper.deleteAll(userId);
-        redisTemplate.opsForGeo().remove("user", userId);
+        if (!StringUtils.isEmpty(userId)) {
+            redisTemplate.opsForGeo().remove("user", userId);
+        }
     }
 
 
@@ -444,7 +446,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (userDetail != null &&
                 (CorgiPic.NORMAL.equals(userDetail.getAvatarCheckStatus())
                         || UserDetail.NO_FACE.equals(userDetail.getAvatarCheckStatus()))
-                ) {
+        ) {
             redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
         }
     }
@@ -493,7 +495,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 String userId = userIds.remove(index);
                 UserProfile profile = corgiUserMapper.getUserProfile(userId);
                 if (profile == null) {
-                    redisTemplate.opsForGeo().remove("user", userId);
                     continue;
                 }
                 if (CorgiPic.NORMAL.equals(profile.getAvatarCheckStatus())) {

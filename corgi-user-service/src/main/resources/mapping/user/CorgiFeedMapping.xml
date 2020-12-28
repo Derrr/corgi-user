@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiFeedMapper">
+    <insert id="addFeed" parameterType="com.corgi.user.entity.CorgiFeed">
+        insert ignore into corgi_feed_${index} (`user_id`, `feed`, `feed_user_id`)
+        values (#{feed.userId}, #{feed.feed}, #{feed.feedUserId})
+    </insert>
+
+    <select id="getUnviewFeed" resultType="java.lang.String">
+        select `feed` from corgi_feed_${index} where view_count = 0 and user_id = #{userId} limit 20
+    </select>
+
+    <update id="viewFeed">
+        update corgi_feed_${index} set view_count = view_count + 1 where user_id = #{userId} and `feed` = #{feed}
+    </update>
+</mapper>
