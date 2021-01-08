@@ -36,4 +36,31 @@
         and not exists(select 1 from corgi_feed_${index} where user_id = #{userId} and `feed` = activity_id)
         order by like_count desc limit 20
     </select>
+
+    <select id="getVlogById" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="vlog"/>
+        from corgi_vlog v
+        where activity_id = #{activityId}
+    </select>
+
+    <delete id="deleteVlog">
+        delete from corgi_vlog where activity_id = #{activityId}
+    </delete>
+
+    <update id="addVlogCount" parameterType="com.corgi.user.entity.CorgiVlog">
+        update corgi_vlog
+        <set>
+            <if test="vlog.likeCount != null and vlog.likeCount > 0">
+                `like_count` = like_count + ${vlog.likeCount},
+            </if>
+            <if test="vlog.viewCount != null and vlog.viewCount > 0">
+                `view_count` = view_count + ${vlog.viewCount},
+            </if>
+            <if test="vlog.commentCount != null and vlog.commentCount > 0">
+                `comment_count` = comment_count + ${vlog.commentCount},
+            </if>
+        </set>
+        where activity_id = #{vlog.activityId}
+    </update>
 </mapper>
