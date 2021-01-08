@@ -145,6 +145,11 @@
         where `group` = #{group}
     </select>
 
+    <select id="countPreferGroupByUserId" resultType="java.lang.Long">
+        select count(1) from corgi_prefer_group
+        where `user_id` = #{userId}
+    </select>
+
     <select id="countBirthday" resultType="java.lang.Long">
         select count(1) from corgi_user_detail
         where birthday >= #{beginDate} and birthday &lt; #{endDate}

@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface CorgiFeedMapper {
 
+    Long countFeed(@Param("userId") String userId, @Param("index") String index);
+
     /**
      * 获取feed
      *

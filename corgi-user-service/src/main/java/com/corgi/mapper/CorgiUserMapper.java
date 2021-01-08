@@ -150,6 +150,14 @@ public interface CorgiUserMapper {
     long countPreferGroup(@Param("group") String group);
 
     /**
+     * 统计喜欢类型
+     *
+     * @param userId
+     * @return
+     */
+    long countPreferGroupByUserId(@Param("userId") String userId);
+
+    /**
      * 统计年龄范围
      *
      * @param beginDate

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiVlogMapper">
+    <sql id="vlog">v
+    .
+    id
+    ,v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
+
+    <insert id="addVlog" parameterType="com.corgi.user.entity.CorgiVlog">
+        INSERT INTO `corgi_vlog` (`activity_id`, `user_id`, `ctime`, `type`, `status`)
+        VALUES (#{vlog.activityId}, #{vlog.userId}, #{vlog.ctime}, #{vlog.type}, #{vlog.status});
+    </insert>
+
+    <select id="deleteVlogByActivityId">
+        delete
+        from corgi_vlog
+        where activity_id = #{activityId}
+    </select>
+
+    <select id="getInitVlog" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="vlog"/>
+        from corgi_vlog v left join corgi_user_detail d on d.user_id = v.user_id
+        where v.ctime &lt;=#{ctime}
+        <if test="userId != null">
+            and d.group in (select `group` from user_prefer_group where user_id = #{userId})
+        </if>
+        order by like_count desc limit 20
+    </select>
+
+    <select id="getPopularVlog" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="vlog"/>
+        from corgi_vlog v left join corgi_user_detail d on d.user_id = v.user_id
+        where v.ctime &lt;=#{ctime}
+        and not exists(select 1 from corgi_feed_${index} where user_id = #{userId} and `feed` = activity_id)
+        order by like_count desc limit 20
+    </select>
+</mapper>
