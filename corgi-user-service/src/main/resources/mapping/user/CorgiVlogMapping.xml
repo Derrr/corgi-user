@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiVlogMapper">
-    <sql id="vlog">v
-    .
-    id
-    ,v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
+    <sql id="vlog">v.id,v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
 
     <insert id="addVlog" parameterType="com.corgi.user.entity.CorgiVlog">
         INSERT INTO `corgi_vlog` (`activity_id`, `user_id`, `ctime`, `type`, `status`)
@@ -63,4 +60,13 @@
         </set>
         where activity_id = #{vlog.activityId}
     </update>
+
+    <select id="recallVlog" resultType="com.corgi.user.entity.CorgiVlog">
+        select <include refid="vlog"/> from corgi_vlog v
+        where not exists(select 1 from corgi_feed_${index} where user_id = #{vlog.userId})
+        <if test="vlog.ctime != null">
+            and ctime like '${vlog.ctime}%'
+        </if>
+        order by v.like_count desc limit #{size}
+    </select>
 </mapper>

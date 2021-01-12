@@ -14,4 +14,6 @@ public interface CorgiVlogService {
     void addVlog(CorgiVlog corgiVlog);
 
     void addVlogCount(CorgiVlog corgiVlog);
+
+    List<CorgiVlog> recallVlog(CorgiVlog corgiVlog, Integer limit);
 }

@@ -18,9 +18,11 @@ public interface CorgiVlogMapper {
 
     List<CorgiVlog> getPopularVlog(@Param("userId") String userId, @Param("ctime") String ctime, @Param("index") String index);
 
-    CorgiVlog getVlogById(@Param("activityId")String activityId);
+    CorgiVlog getVlogById(@Param("activityId") String activityId);
 
-    void deleteVlog(@Param("activityId")String activityId);
+    void deleteVlog(@Param("activityId") String activityId);
 
-    void addVlogCount(@Param("vlog")CorgiVlog corgiVlog);
+    void addVlogCount(@Param("vlog") CorgiVlog corgiVlog);
+
+    List<CorgiVlog> recallVlog(@Param("vlog") CorgiVlog corgiVlog, @Param("size") Integer size, @Param("index") String index);
 }

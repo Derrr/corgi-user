@@ -54,4 +54,8 @@ public class UserUtils {
         }
         return "";
     }
+
+    public static String getIndex(String userId) {
+        return Math.floorMod(Integer.valueOf(userId), 8) + "";
+    }
 }

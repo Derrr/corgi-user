@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiVlogMapper;
 import com.corgi.user.api.*;
 import com.corgi.user.entity.CorgiVlog;
+import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,5 +35,10 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     @Override
     public void addVlogCount(CorgiVlog corgiVlog) {
         corgiVlogMapper.addVlogCount(corgiVlog);
+    }
+
+    @Override
+    public List<CorgiVlog> recallVlog(CorgiVlog corgiVlog, Integer limit) {
+        return corgiVlogMapper.recallVlog(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
     }
 }

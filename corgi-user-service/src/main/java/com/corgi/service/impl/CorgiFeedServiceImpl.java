@@ -11,6 +11,7 @@ import com.corgi.user.api.CorgiFeedService;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.CorgiFeed;
 import com.corgi.user.entity.CorgiVlog;
+import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,14 +40,14 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> getUnviewFeed(String userId) {
-        List<String> result = corgiFeedMapper.getUnviewFeed(userId, getIndex(userId));
+        List<String> result = corgiFeedMapper.getUnviewFeed(userId, UserUtils.getIndex(userId));
         if (result.size() > 0) {
             return result;
         }
         List<CorgiVlog> logList;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if (corgiFeedMapper.countFeed(userId, getIndex(userId)) > 0) {
-            logList = corgiVlogMapper.getPopularVlog(userId, sdf.format(new Date()), getIndex(userId));
+        if (corgiFeedMapper.countFeed(userId, UserUtils.getIndex(userId)) > 0) {
+            logList = corgiVlogMapper.getPopularVlog(userId, sdf.format(new Date()), UserUtils.getIndex(userId));
         } else {
             if (corgiUserMapper.countPreferGroupByUserId(userId) > 0) {
                 logList = corgiVlogMapper.getInitVlog(userId, sdf.format(new Date()));
@@ -55,26 +56,24 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             }
         }
         for (CorgiVlog corgiVlog : logList) {
-            corgiFeedMapper.addFeed(buildFeed(corgiVlog, userId), getIndex(userId));
+            corgiFeedMapper.addFeed(buildFeed(corgiVlog, userId), UserUtils.getIndex(userId));
         }
-        return corgiFeedMapper.getUnviewFeed(userId, getIndex(userId));
+        return corgiFeedMapper.getUnviewFeed(userId, UserUtils.getIndex(userId));
     }
 
     @Override
     public void viewFeed(String userId, String feed) {
-        corgiFeedMapper.viewFeed(userId, feed, getIndex(userId));
+        corgiFeedMapper.viewFeed(userId, feed, UserUtils.getIndex(userId));
     }
 
     @Override
     public void addFeed(CorgiFeed corgiFeed) {
         if (corgiFeed != null && corgiFeed.hasValue()) {
-            corgiFeedMapper.addFeed(corgiFeed, getIndex(corgiFeed.getUserId()));
+            corgiFeedMapper.addFeed(corgiFeed, UserUtils.getIndex(corgiFeed.getUserId()));
         }
     }
 
-    private String getIndex(String userId) {
-        return Math.floorMod(Integer.valueOf(userId), 8) + "";
-    }
+
 
     private CorgiFeed buildFeed(CorgiVlog vlog, String userId) {
         CorgiFeed feed = new CorgiFeed();

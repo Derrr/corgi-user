@@ -6,13 +6,13 @@ import java.io.Serializable;
 
 @Data
 public class CorgiVlog implements Serializable {
-    interface TYPE {
+    public interface TYPE {
         String USER = "user";
         String ACTIVITY = "activity";
         String GOODS = "goods";
     }
 
-    interface STATUS {
+    public interface STATUS {
         String UNCHECK = "uncheck";
         String PASS = "pass";
         String FAILED = "failed";
