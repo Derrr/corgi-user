@@ -52,6 +52,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
         return corgiVlogMapper.getFollowVlog(userId, (page - 1) * size, size, getNowDate());
     }
 
+    @Override
+    public List<CorgiVlog> getUserVlog(String userId, Integer page, Integer size) {
+        return null;
+    }
+
     private String getNowDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());

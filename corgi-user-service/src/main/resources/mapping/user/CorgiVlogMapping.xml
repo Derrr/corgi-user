@@ -91,6 +91,17 @@
         from corgi_vlog v
         where v.user_id in (select follow_user_id from corgi_user_follow where user_id = #{userId})
         and v.ctime &lt;=#{ctime}
+        order by v.id desc
+        limit #{start}, #{size}
+    </select>
+
+    <select id="getUserVlog" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="vlog"/>
+        from corgi_vlog v
+        where v.user_id = #{userId}
+        and v.ctime &lt;=#{ctime}
+        order by v.id desc
         limit #{start}, #{size}
     </select>
 </mapper>
