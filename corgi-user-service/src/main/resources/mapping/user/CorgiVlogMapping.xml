@@ -104,4 +104,9 @@
         order by v.id desc
         limit #{start}, #{size}
     </select>
+
+    <update id="failVlog">
+        update corgi_vlog set status = 'failed'
+        where activity_id = #{activityId}
+    </update>
 </mapper>

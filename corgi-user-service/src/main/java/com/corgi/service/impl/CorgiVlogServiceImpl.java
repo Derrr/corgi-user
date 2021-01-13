@@ -33,6 +33,16 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     }
 
     @Override
+    public void deleteVlog(String activityId) {
+        corgiVlogMapper.deleteVlog(activityId);
+    }
+
+    @Override
+    public void failVlog(String activityId) {
+        corgiVlogMapper.failVlog(activityId);
+    }
+
+    @Override
     public void addVlog(CorgiVlog corgiVlog) {
         corgiVlogMapper.addVlog(corgiVlog);
     }
@@ -54,7 +64,7 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
 
     @Override
     public List<CorgiVlog> getUserVlog(String userId, Integer page, Integer size) {
-        return null;
+        return corgiVlogMapper.getUserVlog(userId, (page - 1) * size, size, getNowDate());
     }
 
     private String getNowDate() {

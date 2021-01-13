@@ -11,6 +11,10 @@ import java.util.List;
 public interface CorgiVlogService {
     CorgiVlog getVlog(String activityId);
 
+    void deleteVlog(String activityId);
+
+    void failVlog(String activityId);
+
     void addVlog(CorgiVlog corgiVlog);
 
     void addVlogCount(CorgiVlog corgiVlog);
