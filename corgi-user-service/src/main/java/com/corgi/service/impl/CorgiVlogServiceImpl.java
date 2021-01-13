@@ -38,11 +38,6 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     }
 
     @Override
-    public void failVlog(String activityId) {
-        corgiVlogMapper.failVlog(activityId);
-    }
-
-    @Override
     public void addVlog(CorgiVlog corgiVlog) {
         corgiVlogMapper.addVlog(corgiVlog);
     }
