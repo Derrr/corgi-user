@@ -1,12 +1,15 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiCommentMapper;
 import com.corgi.user.api.CorgiCommentService;
 import com.corgi.user.api.CorgiToolService;
 import com.corgi.user.api.CorgiUserService;
+import com.corgi.user.api.CorgiVlogService;
 import com.corgi.user.entity.ActivityComment;
 import com.corgi.user.entity.ActivityMessage;
+import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.UserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,8 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     private CorgiUserService corgiUserService;
     @Autowired
     private CorgiToolService corgiToolService;
+    @Reference
+    private CorgiVlogService corgiVlogService;
 
     @Override
     public ActivityComment addActivityComment(ActivityComment activityComment) {
@@ -45,6 +50,8 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
             activityComment.setReplyUserName(replyUserDetail.getNickname());
             activityComment.setReplyUserAvatar(replyUserDetail.getUserPics().get(0).getPicUrl());
         }
+        CorgiVlog corgiVlog = CorgiVlog.builder().activityId(activityComment.getActivityId()).commentCount(1).build();
+        corgiVlogService.addVlogCount(corgiVlog);
         activityComment.setCommentId(UUID.randomUUID().toString());
         corgiCommentMapper.addActivityComment(activityComment);
         if (!commentUserDetail.getUserId().equals(activityComment.getUserId())) {
@@ -81,6 +88,8 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         ActivityComment activityComment = corgiCommentMapper.getActivityCommentByCommentId(commentId);
         if (activityComment != null) {
             corgiCommentMapper.deleteActivityComment(commentId);
+            CorgiVlog corgiVlog = CorgiVlog.builder().activityId(activityComment.getActivityId()).commentCount(-1).build();
+            corgiVlogService.addVlogCount(corgiVlog);
             corgiToolService.deleteActivityMessageByMessage(ActivityMessage.builder()
                     .fromUserId(activityComment.getCommentUserId())
                     .commentId(commentId)

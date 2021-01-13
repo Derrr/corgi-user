@@ -25,4 +25,6 @@ public interface CorgiVlogMapper {
     void addVlogCount(@Param("vlog") CorgiVlog corgiVlog);
 
     List<CorgiVlog> recallVlog(@Param("vlog") CorgiVlog corgiVlog, @Param("size") Integer size, @Param("index") String index);
+
+    List<CorgiVlog> getFollowVlog(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size, @Param("ctime") String ctime);
 }

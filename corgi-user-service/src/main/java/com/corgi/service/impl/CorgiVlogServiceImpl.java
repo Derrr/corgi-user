@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +23,9 @@ import java.util.List;
 public class CorgiVlogServiceImpl implements CorgiVlogService {
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
+
+    @Reference
+    private CorgiFeedService corgiFeedService;
 
     @Override
     public CorgiVlog getVlog(String activityId) {
@@ -40,5 +45,15 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     @Override
     public List<CorgiVlog> recallVlog(CorgiVlog corgiVlog, Integer limit) {
         return corgiVlogMapper.recallVlog(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
+    }
+
+    @Override
+    public List<CorgiVlog> getFollowVlog(String userId, Integer page, Integer size) {
+        return corgiVlogMapper.getFollowVlog(userId, (page - 1) * size, size, getNowDate());
+    }
+
+    private String getNowDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(new Date());
     }
 }

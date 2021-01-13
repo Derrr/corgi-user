@@ -16,4 +16,6 @@ public interface CorgiVlogService {
     void addVlogCount(CorgiVlog corgiVlog);
 
     List<CorgiVlog> recallVlog(CorgiVlog corgiVlog, Integer limit);
+
+    List<CorgiVlog> getFollowVlog(String userId, Integer page, Integer size);
 }

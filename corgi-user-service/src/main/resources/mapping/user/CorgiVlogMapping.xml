@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiVlogMapper">
-    <sql id="vlog">v.id,v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
+    <sql id="vlog">v
+    .
+    id
+    ,v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
 
     <insert id="addVlog" parameterType="com.corgi.user.entity.CorgiVlog">
-        INSERT INTO `corgi_vlog` (`activity_id`, `user_id`, `ctime`, `type`, `status`)
-        VALUES (#{vlog.activityId}, #{vlog.userId}, #{vlog.ctime}, #{vlog.type}, #{vlog.status});
+        INSERT
+        IGNORE INTO `corgi_vlog` (`activity_id`, `user_id`, `ctime`, `type`, `status`)
+        VALUES (
+        #{vlog.activityId},
+        #{vlog.userId},
+        #{vlog.ctime},
+        #{vlog.type},
+        #{vlog.status}
+        );
     </insert>
 
     <select id="deleteVlogByActivityId">
@@ -18,7 +28,7 @@
         select
         <include refid="vlog"/>
         from corgi_vlog v left join corgi_user_detail d on d.user_id = v.user_id
-        where v.ctime &lt;=#{ctime}
+        where v.ctime &lt;=#{ctime} and v.user_id != #{userId}
         <if test="userId != null">
             and d.group in (select `group` from user_prefer_group where user_id = #{userId})
         </if>
@@ -31,6 +41,7 @@
         from corgi_vlog v left join corgi_user_detail d on d.user_id = v.user_id
         where v.ctime &lt;=#{ctime}
         and not exists(select 1 from corgi_feed_${index} where user_id = #{userId} and `feed` = activity_id)
+        and v.user_id != #{userId}
         order by like_count desc limit 20
     </select>
 
@@ -42,7 +53,9 @@
     </select>
 
     <delete id="deleteVlog">
-        delete from corgi_vlog where activity_id = #{activityId}
+        delete
+        from corgi_vlog
+        where activity_id = #{activityId}
     </delete>
 
     <update id="addVlogCount" parameterType="com.corgi.user.entity.CorgiVlog">
@@ -62,11 +75,22 @@
     </update>
 
     <select id="recallVlog" resultType="com.corgi.user.entity.CorgiVlog">
-        select <include refid="vlog"/> from corgi_vlog v
+        select
+        <include refid="vlog"/>
+        from corgi_vlog v
         where not exists(select 1 from corgi_feed_${index} where user_id = #{vlog.userId})
         <if test="vlog.ctime != null">
             and ctime like '${vlog.ctime}%'
         </if>
         order by v.like_count desc limit #{size}
+    </select>
+
+    <select id="getFollowVlog" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="vlog"/>
+        from corgi_vlog v
+        where v.user_id in (select follow_user_id from corgi_user_follow where user_id = #{userId})
+        and v.ctime &lt;=#{ctime}
+        limit #{start}, #{size}
     </select>
 </mapper>
