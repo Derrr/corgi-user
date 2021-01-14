@@ -44,4 +44,14 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
         Random random = new Random();
         return corgiFakeMapper.selectFakeUser(random.nextInt(count));
     }
+
+    @Override
+    public void addFakeFollower(String userId, String followId) {
+        corgiFakeMapper.addFakeFollower(userId, followId);
+    }
+
+    @Override
+    public Integer countFakeFollower(String userId) {
+        return corgiFakeMapper.countFakeFollower(userId);
+    }
 }

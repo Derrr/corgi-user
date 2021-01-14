@@ -10,4 +10,8 @@ public interface CorgiFakeService {
     void refreshFakeUser(Integer size);
 
     String selectFakeUser();
+
+    void addFakeFollower(String userId, String followId);
+
+    Integer countFakeFollower(String userId);
 }

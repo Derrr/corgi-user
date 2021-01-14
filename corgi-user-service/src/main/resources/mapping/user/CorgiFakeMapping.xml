@@ -25,4 +25,13 @@
         select count(1)
         from corgi_fake_user_pool
     </select>
+
+    <insert id="addFakeFollower">
+        insert ignore into corgi_user_follow (`user_id`, `follow_user_id`, `uptime`, `type`)
+        values (#{userId}, #{followId}, NOW(), 'fake');
+    </insert>
+
+    <select id="countFakeFollower" resultType="java.lang.Integer">
+        count(1) from corgi_user_follow where follow_user_id =#{userId} and `type` = 'fake'
+    </select>
 </mapper>
