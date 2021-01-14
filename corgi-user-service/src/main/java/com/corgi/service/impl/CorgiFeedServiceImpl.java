@@ -46,15 +46,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         }
         List<CorgiVlog> logList;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        if (corgiFeedMapper.countFeed(userId, UserUtils.getIndex(userId)) > 0) {
-            logList = corgiVlogMapper.getPopularVlog(userId, sdf.format(new Date()), UserUtils.getIndex(userId));
-        } else {
-            if (corgiUserMapper.countPreferGroupByUserId(userId) > 0) {
-                logList = corgiVlogMapper.getInitVlog(userId, sdf.format(new Date()));
-            } else {
-                logList = corgiVlogMapper.getInitVlog(null, sdf.format(new Date()));
-            }
-        }
+        logList = corgiVlogMapper.getPopularVlog(userId, sdf.format(new Date()), UserUtils.getIndex(userId));
+
         for (CorgiVlog corgiVlog : logList) {
             corgiFeedMapper.addFeed(buildFeed(corgiVlog, userId), UserUtils.getIndex(userId));
         }
@@ -72,7 +65,6 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             corgiFeedMapper.addFeed(corgiFeed, UserUtils.getIndex(corgiFeed.getUserId()));
         }
     }
-
 
 
     private CorgiFeed buildFeed(CorgiVlog vlog, String userId) {
