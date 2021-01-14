@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiFakeMapper">
+    <insert id="initFakeUserPool">
+        insert into corgi_fake_user_pool (`user_id`)
+        select f.user_id
+        from corgi_user_follow f
+                 join corgi_user_position p on p.user_id = f.follow_user_id
+                 join corgi_user_detail d on d.user_id = f.follow_user_id
+        where p.uptime &lt; #{time}
+        group by f.follow_user_id
+        order by count(1) desc limit #{size}
+    </insert>
+
+    <update id="clearFakeUserPool">
+        truncate corgi_fake_user_pool;
+    </update>
+
+    <select id="selectFakeUser" resultType="java.lang.String">
+        select user_id
+        from corgi_fake_user_pool limit #{limit}, 1
+    </select>
+
+    <select id="countFakeUser" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_fake_user_pool
+    </select>
+</mapper>
