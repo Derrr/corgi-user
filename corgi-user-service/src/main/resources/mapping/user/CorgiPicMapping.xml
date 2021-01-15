@@ -137,10 +137,10 @@
             and `type` = #{type}
         </if>
         <if test="userId != null and userId != ''">
-            <if test='type = "activity"'>
+            <if test='type == "activity"'>
                 and ac.creator_id = #{userId}
             </if>
-            <if test='type = "user"'>
+            <if test='type == "user" or type == "avatar"'>
                 and c.source_id = #{userId}
             </if>
         </if>
