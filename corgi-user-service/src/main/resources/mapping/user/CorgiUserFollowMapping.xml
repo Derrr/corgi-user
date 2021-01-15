@@ -162,7 +162,7 @@
         p.lng lng,
         p.uptime `time`,
         l.im_id imId,
-        f.ctime followTime,
+        f.uptime followTime,
         f.is_read isRead
         from corgi_user_follow f
         left join corgi_user_detail d on d.user_id = f.user_id
