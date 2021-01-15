@@ -6,10 +6,7 @@ import com.corgi.mapper.CorgiBillboardMapper;
 import com.corgi.user.api.CorgiBillboardService;
 import com.corgi.user.api.CorgiPicService;
 import com.corgi.user.api.CorgiUserService;
-import com.corgi.user.entity.Billboard;
-import com.corgi.user.entity.UserDetail;
-import com.corgi.user.entity.UserPic;
-import com.corgi.user.entity.UserProfile;
+import com.corgi.user.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -125,6 +122,7 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     @Override
     public void addActivityBillboard(String activityId) {
         corgiBillboardMapper.addActivityBillboard(activityId);
+        corgiBillboardMapper.addActivityBillboardStatus(activityId);
     }
 
     @Override
@@ -135,5 +133,10 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     @Override
     public List<String> getActivityBillboard() {
         return corgiBillboardMapper.getActivityBillboard();
+    }
+
+    @Override
+    public List<ActivityBillboard> getAllActivityBillboard() {
+        return corgiBillboardMapper.getAllActivityBillboard();
     }
 }

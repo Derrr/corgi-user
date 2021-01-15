@@ -1,6 +1,7 @@
 package com.corgi.mapper;
 
 import com.corgi.entity.CorgiArea;
+import com.corgi.user.entity.ActivityBillboard;
 import com.corgi.user.entity.Billboard;
 import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserProfile;
@@ -68,6 +69,7 @@ public interface CorgiBillboardMapper {
 
     /**
      * 获取过去上榜用户
+     *
      * @param date
      * @return
      */
@@ -75,6 +77,7 @@ public interface CorgiBillboardMapper {
 
     /**
      * 获取过去经常上榜用户
+     *
      * @param date
      * @return
      */
@@ -82,43 +85,59 @@ public interface CorgiBillboardMapper {
 
     /**
      * 根据昵称更新榜单
+     *
      * @param fromId
      * @param toId
      * @param date
      */
-    void updateBillboard(@Param("fromId")String fromId, @Param("toId")String toId, @Param("date")String date);
+    void updateBillboard(@Param("fromId") String fromId, @Param("toId") String toId, @Param("date") String date);
 
     /**
      * 根据昵称获取ID
+     *
      * @param nickname
      * @return
      */
-    String getUserIdByNickname(@Param("nickname")String nickname);
+    String getUserIdByNickname(@Param("nickname") String nickname);
 
 
     /**
      * 获取榜单数据
+     *
      * @param startDate
      * @param endDate
      * @return
      */
-    List<Billboard> getBillboardByDate(@Param("startDate")String startDate,@Param("endDate")String endDate);
+    List<Billboard> getBillboardByDate(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
     /**
      * 添加榜单活动
+     *
      * @param activityId
      */
-    void addActivityBillboard(@Param("activityId")String activityId);
+    void addActivityBillboard(@Param("activityId") String activityId);
+    void addActivityBillboardStatus(@Param("activityId") String activityId);
+    void updateActivityBillboardTime(@Param("activityId") String activityId);
 
     /**
      * 删除榜单活动
+     *
      * @param activityId
      */
-    void deleteActivityBillboard(@Param("activityId")String activityId);
+    void deleteActivityBillboard(@Param("activityId") String activityId);
+
 
     /**
      * 获取榜单活动
+     *
      * @return
      */
     List<String> getActivityBillboard();
+
+    /**
+     * 获取榜单活动
+     *
+     * @return
+     */
+    List<ActivityBillboard> getAllActivityBillboard();
 }

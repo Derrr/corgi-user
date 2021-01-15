@@ -1,5 +1,6 @@
 package com.corgi.user.api;
 
+import com.corgi.user.entity.ActivityBillboard;
 import com.corgi.user.entity.Billboard;
 import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserProfile;
@@ -30,4 +31,6 @@ public interface CorgiBillboardService {
     void deleteActivityBillboard(String activityId);
 
     List<String> getActivityBillboard();
+
+    List<ActivityBillboard> getAllActivityBillboard();
 }
