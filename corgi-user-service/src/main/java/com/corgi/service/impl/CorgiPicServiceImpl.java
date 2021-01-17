@@ -153,8 +153,8 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     }
 
     @Override
-    public long countCheckPic(String status, String type) {
-        return corgiPicMapper.countCheckPic(status, type);
+    public long countCheckPic(String status, String type, String userId) {
+        return corgiPicMapper.countCheckPic(status, type, userId);
     }
 
     @Override

@@ -24,7 +24,7 @@ public interface CorgiPicMapper {
      *
      * @param picId
      */
-    void deleteUserPic(@Param("picId") String picId, @Param("userId")String userId);
+    void deleteUserPic(@Param("picId") String picId, @Param("userId") String userId);
 
     /**
      * 删除用户图片
@@ -50,10 +50,11 @@ public interface CorgiPicMapper {
 
     /**
      * 根据DataId获取用户图片
+     *
      * @param dataId
      * @return
      */
-    UserPic getUserPicByDataId(@Param("dataId")String dataId);
+    UserPic getUserPicByDataId(@Param("dataId") String dataId);
 
 
     /**
@@ -132,7 +133,7 @@ public interface CorgiPicMapper {
      * @param status
      * @return
      */
-    long countCheckPic(@Param("status") String status, @Param("type") String type);
+    long countCheckPic(@Param("status") String status, @Param("type") String type, @Param("userId") String userId);
 
     /**
      * 获取审核图片
@@ -143,7 +144,7 @@ public interface CorgiPicMapper {
      * @param size
      * @return
      */
-    List<CheckPic> getCheckPic(@Param("userId")String userId, @Param("status") String status, @Param("type") String type, @Param("start") long start, @Param("size") int size);
+    List<CheckPic> getCheckPic(@Param("userId") String userId, @Param("status") String status, @Param("type") String type, @Param("start") long start, @Param("size") int size);
 
     /**
      * 获取审核图片
@@ -152,6 +153,6 @@ public interface CorgiPicMapper {
      * @param sourceId
      * @return
      */
-    List<CheckPic> getCheckPicBySourceId(@Param("type") String type, @Param("sourceId")String sourceId);
+    List<CheckPic> getCheckPicBySourceId(@Param("type") String type, @Param("sourceId") String sourceId);
 
 }
