@@ -1,4 +1,5 @@
 package com.corgi.user.entity;
+
 import lombok.Data;
 
 import java.io.Serializable;
@@ -29,6 +30,10 @@ public class ActivityComment implements Serializable {
     private String replyUserId;
     private String replyUserName;
     private String replyUserAvatar;
+
+    private Integer likeCount;
+
+    private Integer hasLike = 0;
 
     List<ActivityComment> childComments;
 

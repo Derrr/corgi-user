@@ -98,9 +98,9 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     }
 
     @Override
-    public List<ActivityComment> getActivityComment(String activityId) {
+    public List<ActivityComment> getActivityComment(String activityId, String userId) {
         List<ActivityComment> comments = corgiCommentMapper.getActivityComment(activityId);
-        return buildComments(comments);
+        return buildComments(comments, userId);
     }
 
     @Override
@@ -123,11 +123,25 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         return corgiCommentMapper.countCommentUserByDate(date, category);
     }
 
-    private List<ActivityComment> buildComments(List<ActivityComment> activityComments) {
+    @Override
+    public void likeComment(String commentId, String userId) {
+        corgiCommentMapper.addCommentLike(commentId, userId);
+        corgiCommentMapper.updateCommentLikeStatus(commentId, userId, "1");
+    }
+
+    @Override
+    public void disLikeComment(String commentId, String userId) {
+        corgiCommentMapper.updateCommentLikeStatus(commentId, userId, "0");
+    }
+
+    private List<ActivityComment> buildComments(List<ActivityComment> activityComments, String userId) {
         List<ActivityComment> results = new ArrayList<>();
         HashMap<String, ActivityComment> commentHashMap = new HashMap<>();
         if (activityComments != null) {
             for (ActivityComment comment : activityComments) {
+                if (comment.getLikeCount() != null && comment.getLikeCount() > 0) {
+                    comment.setHasLike(corgiCommentMapper.hasLike(comment.getCommentId(), userId));
+                }
                 if ("0".equals(comment.getParentCommentId())) {
                     results.add(comment);
                     commentHashMap.put(comment.getCommentId(), comment);

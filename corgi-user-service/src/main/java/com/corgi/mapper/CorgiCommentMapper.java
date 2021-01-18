@@ -78,5 +78,31 @@ public interface CorgiCommentMapper {
      */
     long countCommentUserByDate(@Param("date") String date, @Param("category") String category);
 
+    /**
+     * 查看是否点赞
+     *
+     * @param commentId
+     * @param userId
+     * @return
+     */
+    Integer hasLike(@Param("commentId") String commentId, @Param("userId") String userId);
 
+    /**
+     * 更新评论点赞状态
+     *
+     * @param commentId
+     * @param userId
+     * @param status
+     * @return
+     */
+    void updateCommentLikeStatus(@Param("commentId") String commentId, @Param("userId") String userId, @Param("status") String status);
+
+    /**
+     * 添加评论点赞状态
+     *
+     * @param commentId
+     * @param userId
+     * @return
+     */
+    void addCommentLike(@Param("commentId") String commentId, @Param("userId") String userId);
 }

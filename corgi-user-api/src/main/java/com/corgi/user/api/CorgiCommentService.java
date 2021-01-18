@@ -13,7 +13,7 @@ public interface CorgiCommentService {
 
     void deleteActivityComment(String commentId);
 
-    List<ActivityComment> getActivityComment(String activityId);
+    List<ActivityComment> getActivityComment(String activityId, String userId);
 
     Long countActivityComment(String activityId);
 
@@ -22,4 +22,8 @@ public interface CorgiCommentService {
     long countCommentByDate(String date, String category);
 
     long countCommentUserByDate(String date, String category);
+
+    void likeComment(String commentId, String userId);
+
+    void disLikeComment(String commentId, String userId);
 }
