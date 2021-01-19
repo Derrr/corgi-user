@@ -135,11 +135,14 @@
     <insert id="addActivityBillboard">
         insert
         ignore into corgi_activity_billboard(activity_id)
-        values(#{activityId})
+        values(
+        #{activityId}
+        )
     </insert>
 
     <insert id="addActivityBillboardStatus">
-        update corgi_activity_billboard set status = '1'
+        update corgi_activity_billboard
+        set status = '1'
         where activity_id = #{activityId}
     </insert>
 
@@ -171,5 +174,11 @@
         where b.status = '1'
         group by b.activity_id
         order by count(1) desc
+    </select>
+
+    <select id="countOnBoard" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_billboard
+        where user_id = #{userId}
     </select>
 </mapper>

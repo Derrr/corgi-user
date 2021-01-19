@@ -139,4 +139,10 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     public List<ActivityBillboard> getAllActivityBillboard() {
         return corgiBillboardMapper.getAllActivityBillboard();
     }
+
+    @Override
+    public Integer countOnBoard(String userId) {
+        return corgiBillboardMapper.countOnBoard(userId);
+    }
+
 }

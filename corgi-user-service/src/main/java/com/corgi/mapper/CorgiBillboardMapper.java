@@ -116,7 +116,9 @@ public interface CorgiBillboardMapper {
      * @param activityId
      */
     void addActivityBillboard(@Param("activityId") String activityId);
+
     void addActivityBillboardStatus(@Param("activityId") String activityId);
+
     void updateActivityBillboardTime(@Param("activityId") String activityId);
 
     /**
@@ -140,4 +142,11 @@ public interface CorgiBillboardMapper {
      * @return
      */
     List<ActivityBillboard> getAllActivityBillboard();
+
+    /**
+     * 统计上榜次数
+     *
+     * @return
+     */
+    Integer countOnBoard(@Param("userId") String userId);
 }
