@@ -684,6 +684,7 @@
     <select id="getUserDetailByPage" resultType="com.corgi.user.entity.UserProfile">
         select user_id userId,
                avatar_status avatarStatus,
+               avatar_check_status avatarCheckStatus,
                ctime createTime
         from corgi_user_detail limit #{start}, #{size}
     </select>
