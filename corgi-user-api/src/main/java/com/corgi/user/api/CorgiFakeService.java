@@ -13,11 +13,13 @@ public interface CorgiFakeService {
 
     String selectFakeUser();
 
-    void addFakeFollower(String userId, String followId);
+    Boolean addFakeFollower(String userId, String followId);
 
-    void addFakeLike(ActivityLike activityLike);
+    Boolean addFakeLike(ActivityLike activityLike);
 
     Integer countFakeFollower(String userId);
 
     Integer countFakeLike(String activityId);
+
+    String getLastActivity(String userId);
 }

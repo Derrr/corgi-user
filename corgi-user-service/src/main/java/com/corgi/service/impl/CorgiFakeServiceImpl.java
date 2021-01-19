@@ -30,6 +30,10 @@ import java.util.Random;
 public class CorgiFakeServiceImpl implements CorgiFakeService {
     @Autowired
     private CorgiFakeMapper corgiFakeMapper;
+    @Reference
+    private CorgiUserFollowService corgiUserFollowService;
+    @Reference
+    private CorgiLikeService corgiLikeService;
 
     @Override
     public void refreshFakeUser(Integer size) {
@@ -47,13 +51,25 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     }
 
     @Override
-    public void addFakeFollower(String userId, String followId) {
-        corgiFakeMapper.addFakeFollower(userId, followId);
+    public Boolean addFakeFollower(String userId, String followId) {
+        int result = corgiUserFollowService.isFollowed(userId, followId);
+        if (result != 1 && result < 3) {
+            corgiFakeMapper.addFakeFollower(userId, followId);
+            corgiUserFollowService.follow(userId, followId);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void addFakeLike(ActivityLike activityLike) {
-
+    public Boolean addFakeLike(ActivityLike activityLike) {
+        Integer result = corgiLikeService.countUserLike(activityLike.getActivityId(), activityLike.getLikeUserId());
+        if (result > 0) {
+            return false;
+        }
+        activityLike.setType("fake");
+        corgiLikeService.addActivityLike(activityLike);
+        return true;
     }
 
     @Override
@@ -63,6 +79,11 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
 
     @Override
     public Integer countFakeLike(String activityId) {
-        return null;
+        return corgiFakeMapper.countFakeLike(activityId);
+    }
+
+    @Override
+    public String getLastActivity(String userId) {
+        return corgiFakeMapper.getLastActivity(userId);
     }
 }
