@@ -97,10 +97,11 @@ public interface CorgiUserMapper {
 
     /**
      * 获取推荐用户
+     *
      * @param city
      * @return
      */
-    List<UserProfile> getRecommendUser(@Param("city") String city, @Param("userId")String userId);
+    List<UserProfile> getRecommendUser(@Param("city") String city, @Param("userId") String userId);
 
     /**
      * 修改头像状态
@@ -199,6 +200,7 @@ public interface CorgiUserMapper {
 
     /**
      * 获取同城粉丝
+     *
      * @param city
      * @param userId
      * @param start
@@ -338,4 +340,10 @@ public interface CorgiUserMapper {
      * @param userId
      */
     void deleteUserPosition(@Param("userId") String userId);
+
+    /**
+     * 获取用户基本信息
+     *
+     */
+    List<UserProfile> getUserDetailByPage(@Param("start") Integer start, @Param("size") Integer size);
 }

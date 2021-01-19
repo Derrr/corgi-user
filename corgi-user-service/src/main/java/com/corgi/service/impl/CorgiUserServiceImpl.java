@@ -436,6 +436,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
     }
 
+    @Override
+    public List<UserProfile> getBasicUserDetailByPage(Integer page, Integer pageSize) {
+        return corgiUserMapper.getUserDetailByPage((page - 1) * pageSize, pageSize);
+    }
+
 
     private void addGeo(String geoKey, UserPosition userPosition) {
         if (userPosition.getLng() == null || userPosition.getLng() > 180 || userPosition.getLng() < -180) {

@@ -68,4 +68,6 @@ public interface CorgiUserService {
     List<UserProfile> recommendUser(String city, String userId);
 
     void deleteUser(String userId);
+
+    List<UserProfile> getBasicUserDetailByPage(Integer page, Integer pageSize);
 }
