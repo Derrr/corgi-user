@@ -1,6 +1,8 @@
 package com.corgi.user.api;
 
 
+import com.corgi.user.entity.ActivityLike;
+
 import java.util.List;
 
 /**
@@ -13,5 +15,9 @@ public interface CorgiFakeService {
 
     void addFakeFollower(String userId, String followId);
 
+    void addFakeLike(ActivityLike activityLike);
+
     Integer countFakeFollower(String userId);
+
+    Integer countFakeLike(String activityId);
 }

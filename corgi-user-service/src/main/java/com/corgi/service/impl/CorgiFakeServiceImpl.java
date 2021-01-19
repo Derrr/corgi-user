@@ -7,6 +7,7 @@ import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.mapper.CorgiBarMapper;
 import com.corgi.mapper.CorgiFakeMapper;
 import com.corgi.user.api.*;
+import com.corgi.user.entity.ActivityLike;
 import com.corgi.user.entity.BarProfile;
 import com.corgi.user.entity.UserQuery;
 import com.corgi.user.entity.UserVideo;
@@ -35,7 +36,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -30);
         corgiFakeMapper.clearFakeUserPool();
-        corgiFakeMapper.initFakeUserPool(1000, calendar.getTimeInMillis());
+        corgiFakeMapper.initFakeUserPool(size, calendar.getTimeInMillis());
     }
 
     @Override
@@ -51,7 +52,17 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     }
 
     @Override
+    public void addFakeLike(ActivityLike activityLike) {
+
+    }
+
+    @Override
     public Integer countFakeFollower(String userId) {
         return corgiFakeMapper.countFakeFollower(userId);
+    }
+
+    @Override
+    public Integer countFakeLike(String activityId) {
+        return null;
     }
 }
