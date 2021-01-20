@@ -4,8 +4,8 @@
 
     <insert id="addUserPic" useGeneratedKeys="true" keyProperty="userPic.picId"
             parameterType="com.corgi.user.entity.UserPic">
-        insert into corgi_user_pic (`user_id`, `pic_url`, `data_id`, `status`, `result`)
-        values (#{userPic.userId}, #{userPic.picUrl}, #{userPic.dataId}, #{userPic.status}, #{userPic.result})
+      insert into corgi_user_pic (`user_id`, `pic_url`, `data_id`, `status`, `result`)
+      values (#{userPic.userId}, #{userPic.picUrl}, #{userPic.dataId}, #{userPic.status}, #{userPic.result})
     </insert>
 
     <delete id="deleteUserPic">
@@ -29,8 +29,7 @@
     </update>
 
     <delete id="deleteUserPicByDataId">
-        delete
-        from corgi_user_pic
+        delete from corgi_user_pic
         where data_id = #{dataId}
     </delete>
 
@@ -55,13 +54,11 @@
     <insert id="addActivityPic" useGeneratedKeys="true" keyProperty="activityPic.picId" keyColumn="id"
             parameterType="com.corgi.activity.entity.ActivityPic">
         insert into corgi_activity_pic (`activity_id`, `pic_url`, `data_id`, `status`, `result`)
-        values (#{activityPic.activityId}, #{activityPic.picUrl}, #{activityPic.dataId}, #{activityPic.status},
-                #{activityPic.result})
+        values (#{activityPic.activityId}, #{activityPic.picUrl}, #{activityPic.dataId}, #{activityPic.status}, #{activityPic.result})
     </insert>
 
     <delete id="deleteActivityPic">
-        delete
-        from corgi_activity_pic
+        delete from corgi_activity_pic
         where id = #{picId}
     </delete>
 
@@ -72,8 +69,7 @@
     </select>
 
     <delete id="deleteActivityPicByDataId">
-        delete
-        from corgi_activity_pic
+        delete from corgi_activity_pic
         where data_id = #{dataId}
     </delete>
 
@@ -91,22 +87,13 @@
 
     <insert id="addCheckPic" useGeneratedKeys="true" keyProperty="checkPic.picId" keyColumn="id"
             parameterType="com.corgi.entity.CheckPic">
-        insert
-        ignore into `corgi_check_pic` (`data_id`, `pic_url`, `type`, `result`, `status`, `source_id`)
-        values (
-        #{checkPic.dataId},
-        #{checkPic.picUrl},
-        #{checkPic.type},
-        #{checkPic.result},
-        #{checkPic.status},
-        #{checkPic.userId}
-        );
+        insert ignore into `corgi_check_pic` (`data_id`, `pic_url`, `type`, `result`, `status`, `source_id`)
+        values (#{checkPic.dataId}, #{checkPic.picUrl}, #{checkPic.type}, #{checkPic.result}, #{checkPic.status},#{checkPic.userId});
     </insert>
 
     <update id="updateCheckPic">
-        update corgi_check_pic
-        set `status` = #{status},
-            opuid    = #{userId}
+        update corgi_check_pic set
+        `status` = #{status}, opuid = #{userId}
         where data_id = #{dataId}
     </update>
 
@@ -122,13 +109,9 @@
     </select>
 
     <select id="getCheckPic" resultType="com.corgi.entity.CheckPic">
-        select c.id picId, c.data_id dataId, c.pic_url picUrl, c.`type`, c.`source_id` userId,
-        c.`result`, c.`status`, c.ctime, c.uptime
-        from corgi_check_pic c
-        <if test="type = 'activity'">
-            left join corgi_activity_pic ap on ap.data_id =c.data_id
-            left join corgi_activity_creator ac on ac.activity_id = ap.activity_id
-        </if>
+        select id picId, data_id dataId, pic_url picUrl, `type`, `source_id` userId,
+        `result`, `status`, ctime, uptime
+        from corgi_check_pic
         where 1=1
         <if test="status != null and status != ''">
             and `status` = #{status}
@@ -136,30 +119,15 @@
         <if test="type != null and type != ''">
             and `type` = #{type}
         </if>
-        <if test="userId != null and userId != ''">
-            <if test='type = "activity"'>
-                and ac.creator_id = #{userId}
-            </if>
-            <if test='type = "user"'>
-                and c.source_id = #{userId}
-            </if>
-        </if>
         limit #{start}, #{size}
     </select>
 
     <select id="getCheckPicBySourceId" resultType="com.corgi.entity.CheckPic">
-        select id          picId,
-               data_id     dataId,
-               pic_url     picUrl,
-               `type`,
-               `source_id` userId,
-               `result`,
-               `status`,
-               ctime,
-               uptime
+        select id picId, data_id dataId, pic_url picUrl, `type`, `source_id` userId,
+        `result`, `status`, ctime, uptime
         from corgi_check_pic
         where `type` = #{type}
-          and `source_id` = #{sourceId}
+        and `source_id` = #{sourceId}
     </select>
 
 </mapper>
