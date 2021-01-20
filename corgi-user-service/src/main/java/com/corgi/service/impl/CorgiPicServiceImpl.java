@@ -118,14 +118,14 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     }
 
     @Override
-    public List<CheckPic> getCheckPic(String status, String type, int page, int size) {
+    public List<CheckPic> getCheckPic(String userId, String status, String type, int page, int size) {
         if (page < 1) {
             page = 1;
         }
         if (size <= 0) {
             size = 20;
         }
-        List<CheckPic> checkPics = corgiPicMapper.getCheckPic(status, type, (page - 1) * size, size);
+        List<CheckPic> checkPics = corgiPicMapper.getCheckPic(userId, status, type, (page - 1) * size, size);
         if (!CollectionUtils.isEmpty(checkPics)) {
             for (CheckPic checkPic : checkPics) {
                 if (!StringUtils.isEmpty(checkPic.getUserId())) {
