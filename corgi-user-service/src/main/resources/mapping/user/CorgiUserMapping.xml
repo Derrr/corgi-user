@@ -115,11 +115,11 @@
     </insert>
 
     <select id="getUserDetail" resultType="com.corgi.user.entity.UserDetail">
-        select d.`user_id`           userId,
+        select d.`user_id`                            userId,
                d.`nickname`,
                d.`avatar`,
-               d.avatar_status       avatarStatus,
-               d.avatar_check_status avatarCheckStatus,
+               d.avatar_status                        avatarStatus,
+               d.avatar_check_status                  avatarCheckStatus,
                d.`height`,
                d.`weight`,
                d.`desc`,
@@ -132,12 +132,12 @@
                d.`con`,
                d.`relation`,
                d.`city`,
-               l.im_id               imId,
-               l.tel_no              telNo,
-               p.lat                 lat,
-               p.lng                 lng,
-               p.uptime              `time`,
-               `check_status`        checkStatus
+               l.im_id                                imId,
+               l.tel_no                               telNo,
+               p.lat                                  lat,
+               p.lng                                  lng,
+               if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
+               `check_status`                         checkStatus
         from corgi_user_detail d
                  left join corgi_user_login l on l.id = d.user_id
                  left join corgi_user_position p on p.user_id = d.user_id
@@ -153,12 +153,6 @@
         select count(1)
         from corgi_prefer_group
         where `group` = #{group}
-    </select>
-
-    <select id="countPreferGroupByUserId" resultType="java.lang.Long">
-        select count(1)
-        from corgi_prefer_group
-        where `user_id` = #{userId}
     </select>
 
     <select id="countBirthday" resultType="java.lang.Long">
@@ -344,6 +338,7 @@
         lat = #{position.lat},
         lng = #{position.lng},
         uptime = #{position.uptime},
+        fuptime = 0,
         locate_type = #{position.locateType},
         pt=point(#{position.lng},#{position.lat}),
         real_lat = #{position.realLat},
@@ -361,6 +356,7 @@
     <update id="updateUserPositionUptime" parameterType="com.corgi.user.entity.UserPosition">
         update corgi_user_position
         set uptime      = #{position.uptime},
+            fuptime     = 0,
             real_lat    = #{position.realLat},
             real_lng    = #{position.realLng},
             locate_type = #{position.locateType},
@@ -405,27 +401,27 @@
     </select>
 
     <select id="getUserProfile" resultType="com.corgi.user.entity.UserProfile">
-        select p.user_id             userId,
-               p.lat                 lat,
-               p.lng                 lng,
-               p.uptime              `time`,
-               p.locate_type         locateType,
-               d.nickname            `nickname`,
-               d.avatar              avatar,
-               d.avatar_status       avatarStatus,
-               d.avatar_check_status avatarCheckStatus,
+        select p.user_id                              userId,
+               p.lat                                  lat,
+               p.lng                                  lng,
+               if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
+               p.locate_type                          locateType,
+               d.nickname                             `nickname`,
+               d.avatar                               avatar,
+               d.avatar_status                        avatarStatus,
+               d.avatar_check_status                  avatarCheckStatus,
                d.height,
                d.weight,
                d.birthday,
-               d.role                role,
-               d.hide_role           hideRole,
-               d.group               `group`,
-               d.hide_group          `hideGroup`,
-               d.hide_prefer_group   `hidePreferGroup`,
-               d.con                 con,
+               d.role                                 role,
+               d.hide_role                            hideRole,
+               d.group                                `group`,
+               d.hide_group                           `hideGroup`,
+               d.hide_prefer_group                    `hidePreferGroup`,
+               d.con                                  con,
                d.relation,
-               d.check_status        checkStatus,
-               l.im_id               imId
+               d.check_status                         checkStatus,
+               l.im_id                                imId
         from corgi_user_position p
                  join corgi_user_detail d on d.user_id = p.user_id
                  left join corgi_user_login l on l.id = d.user_id
@@ -433,27 +429,27 @@
     </select>
 
     <select id="getUserProfileList" resultType="com.corgi.user.entity.UserProfile">
-        select p.user_id             userId,
-               p.lat                 lat,
-               p.lng                 lng,
-               p.uptime              `time`,
-               p.locate_type         locateType,
-               d.nickname            `nickname`,
-               d.avatar              avatar,
-               d.avatar_status       avatarStatus,
-               d.avatar_check_status avatarCheckStatus,
+        select p.user_id                              userId,
+               p.lat                                  lat,
+               p.lng                                  lng,
+               if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
+               p.locate_type                          locateType,
+               d.nickname                             `nickname`,
+               d.avatar                               avatar,
+               d.avatar_status                        avatarStatus,
+               d.avatar_check_status                  avatarCheckStatus,
                d.height,
                d.weight,
                d.birthday,
-               d.role                role,
-               d.hide_role           hideRole,
-               d.group               `group`,
-               d.hide_group          `hideGroup`,
-               d.hide_prefer_group   `hidePreferGroup`,
-               d.con                 con,
+               d.role                                 role,
+               d.hide_role                            hideRole,
+               d.group                                `group`,
+               d.hide_group                           `hideGroup`,
+               d.hide_prefer_group                    `hidePreferGroup`,
+               d.con                                  con,
                d.relation,
-               d.check_status        checkStatus,
-               l.im_id               imId
+               d.check_status                         checkStatus,
+               l.im_id                                imId
         from corgi_user_position p
                  join corgi_user_detail d on d.user_id = p.user_id
                  left join corgi_user_login l on l.id = d.user_id
@@ -481,7 +477,7 @@
         l.tel_no telNo,
         p.lat lat,
         p.lng lng,
-        p.uptime `time`,
+        if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
         l.ctime createTime,
         d.check_status checkStatus
         from corgi_user_detail d
@@ -541,13 +537,13 @@
     </select>
 
     <select id="queryInfluencer" resultType="com.corgi.user.entity.UserProfile">
-        select d.user_id             userId,
-               d.nickname            nickname,
-               d.avatar              avatar,
-               d.avatar_check_status avatarCheckStatus,
-               p.lat                 lat,
-               p.lng                 lng,
-               p.uptime              `time`
+        select d.user_id                              userId,
+               d.nickname                             nickname,
+               d.avatar                               avatar,
+               d.avatar_check_status                  avatarCheckStatus,
+               p.lat                                  lat,
+               p.lng                                  lng,
+               if(p.fuptime > 0, p.fuptime, p.uptime) `time`
         from corgi_user_detail d
                  left join corgi_user_position p on p.user_id = d.user_id
         where d.avatar_status = 'influencer'
@@ -681,12 +677,4 @@
         where user_id = #{userId}
     </delete>
 
-    <select id="getUserDetailByPage" resultType="com.corgi.user.entity.UserProfile">
-        select user_id             userId,
-               avatar_status       avatarStatus,
-               avatar_check_status avatarCheckStatus,
-               ctime               createTime,
-               uptime              followTime
-        from corgi_user_detail limit #{start}, #{size}
-    </select>
 </mapper>
