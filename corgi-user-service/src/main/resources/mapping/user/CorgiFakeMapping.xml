@@ -58,7 +58,13 @@
         from corgi_activity_creator
         where creator_id = #{userId}
           and category in ('video', 'image')
-        and ctime >= #{time}
+          and ctime >= #{time}
         order by id desc limit 1
     </select>
+
+    <update id="updateFakeUserPosition">
+        update corgi_user_position
+        set fuptime = #{time}
+        where user_id = #{userId}
+    </update>
 </mapper>
