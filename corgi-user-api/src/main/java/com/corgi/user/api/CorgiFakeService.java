@@ -21,5 +21,5 @@ public interface CorgiFakeService {
 
     Integer countFakeLike(String activityId);
 
-    String getLastActivity(String userId);
+    String getLastActivity(String userId, String time);
 }

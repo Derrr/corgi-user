@@ -83,7 +83,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     }
 
     @Override
-    public String getLastActivity(String userId) {
-        return corgiFakeMapper.getLastActivity(userId);
+    public String getLastActivity(String userId, String time) {
+        return corgiFakeMapper.getLastActivity(userId, time);
     }
 }

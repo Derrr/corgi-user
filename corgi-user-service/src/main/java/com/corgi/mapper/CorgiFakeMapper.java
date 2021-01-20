@@ -18,9 +18,9 @@ public interface CorgiFakeMapper {
 
     void addFakeFollower(@Param("userId") String userId, @Param("followId") String followUserId);
 
-    Integer countFakeFollower(@Param("userId")String userId);
+    Integer countFakeFollower(@Param("userId") String userId);
 
-    Integer countFakeLike(@Param("activityId")String activityId);
+    Integer countFakeLike(@Param("activityId") String activityId);
 
-    String getLastActivity(@Param("userId")String userId);
+    String getLastActivity(@Param("userId") String userId, @Param("time") String time);
 }
