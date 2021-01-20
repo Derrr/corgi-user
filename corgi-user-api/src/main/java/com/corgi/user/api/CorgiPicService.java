@@ -30,7 +30,7 @@ public interface CorgiPicService {
 
     String passCheckPic(CheckPic checkPic);
 
-    List<CheckPic> getCheckPic(String status, String type, int page, int size);
+    List<CheckPic> getCheckPic(String userId, String status, String type, int page, int size);
 
     List<CheckPic> getCheckPicBySourceId(String type, String sourceId);
 

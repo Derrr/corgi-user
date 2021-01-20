@@ -675,6 +675,6 @@
         delete
         from corgi_user_position
         where user_id = #{userId}
-    </delete>
+    </delete>c
 
 </mapper>
