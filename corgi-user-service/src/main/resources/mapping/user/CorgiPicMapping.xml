@@ -112,10 +112,6 @@
 
     <select id="countCheckPic" resultType="java.lang.Long">
         select count(1) from corgi_check_pic c
-        <if test="type = 'activity'">
-            left join corgi_activity_pic ap on ap.data_id =c.data_id
-            left join corgi_activity_creator ac on ac.activity_id = ap.activity_id
-        </if>
         where 1=1
         <if test="status != null and status != ''">
             and c.`status` = #{status}
@@ -124,12 +120,7 @@
             and c.`type` = #{type}
         </if>
         <if test="userId != null and userId != ''">
-            <if test='type == "activity"'>
-                and ac.creator_id = #{userId}
-            </if>
-            <if test='type == "user" or type == "avatar"'>
-                and c.source_id = #{userId}
-            </if>
+            and c.source_id = #{userId}
         </if>
     </select>
 
