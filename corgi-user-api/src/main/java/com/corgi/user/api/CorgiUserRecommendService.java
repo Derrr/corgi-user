@@ -12,7 +12,7 @@ public interface CorgiUserRecommendService {
 
     void followRecUser(String userId, String recId);
 
-    void addRecUser(String userId, String recId);
+    void addRecUser(String userId, String recId, Integer weight);
 
     void updateRecStatus(String userId, String recId, String status);
 

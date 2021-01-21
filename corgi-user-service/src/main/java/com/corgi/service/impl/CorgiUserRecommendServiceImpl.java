@@ -33,9 +33,12 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     }
 
     @Override
-    public void addRecUser(String userId, String recId) {
+    public void addRecUser(String userId, String recId, Integer weight) {
+        if (weight == null) {
+            weight = 1;
+        }
         corgiUserRecommendMapper.insertUserRecommend(userId, recId);
-        corgiUserRecommendMapper.addRecommend(userId, recId);
+        corgiUserRecommendMapper.addRecommend(userId, recId, weight);
     }
 
     @Override

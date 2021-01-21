@@ -7,7 +7,7 @@
     </insert>
 
     <update id="addRecommend">
-        update corgi_user_recommend set `weight` = `weight` + 1
+        update corgi_user_recommend set `weight` = `weight` + #{weight}
         where user_id = #{userId} and rec_user_id = #{recId}
     </update>
 

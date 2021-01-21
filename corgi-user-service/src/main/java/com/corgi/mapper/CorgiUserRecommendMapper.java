@@ -23,7 +23,7 @@ public interface CorgiUserRecommendMapper {
      * @param userId
      * @param recId
      */
-    void addRecommend(@Param("userId") String userId, @Param("recId") String recId);
+    void addRecommend(@Param("userId") String userId, @Param("recId") String recId, @Param("weight") Integer weight);
 
     /**
      * 更新推荐状态
