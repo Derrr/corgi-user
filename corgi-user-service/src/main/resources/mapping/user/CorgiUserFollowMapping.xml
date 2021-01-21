@@ -3,57 +3,82 @@
 <mapper namespace="com.corgi.mapper.CorgiUserFollowMapper">
 
     <insert id="addFollowUser">
-        insert ignore into corgi_user_follow (`user_id`, `follow_user_id`, `uptime`)
-        values (#{userId}, #{followId}, NOW());
+        insert
+        ignore into corgi_user_follow (`user_id`, `follow_user_id`, `uptime`)
+        values (
+        #{userId},
+        #{followId},
+        NOW
+        (
+        )
+        );
     </insert>
 
     <update id="createFollowUser">
         update corgi_user_follow
-        set is_deleted = '0',is_read = '0', uptime = NOW()
-        where user_id = #{userId} and follow_user_id = #{followId}
+        set is_deleted = '0',
+            is_read    = '0',
+            uptime     = NOW()
+        where user_id = #{userId}
+          and follow_user_id = #{followId}
     </update>
 
     <update id="deleteFollowUser">
         update corgi_user_follow
         set is_deleted = '1'
-        where user_id = #{userId} and follow_user_id = #{followId}
+        where user_id = #{userId}
+          and follow_user_id = #{followId}
     </update>
 
     <delete id="removeFollowUser">
-        delete from corgi_user_follow
-        where user_id = #{userId} and follow_user_id = #{followId}
+        delete
+        from corgi_user_follow
+        where user_id = #{userId}
+          and follow_user_id = #{followId}
     </delete>
 
 
     <select id="countFollow" resultType="java.lang.Integer">
-        select count(1) from corgi_user_follow
-        where user_id = #{userId1} and follow_user_id = #{userId2}
-        and is_deleted = '0'
+        select count(1)
+        from corgi_user_follow
+        where user_id = #{userId1}
+          and follow_user_id = #{userId2}
+          and is_deleted = '0'
     </select>
 
     <select id="getFollowUser" resultType="java.lang.String">
-        select follow_user_id from corgi_user_follow
-        where user_id = #{userId} and is_deleted = '0'
+        select follow_user_id
+        from corgi_user_follow
+        where user_id = #{userId}
+          and is_deleted = '0'
     </select>
 
     <select id="countFollowUser" resultType="java.lang.Integer">
-        select count(1) from corgi_user_follow
-        where user_id = #{userId} and is_deleted = '0'
+        select count(1)
+        from corgi_user_follow
+        where user_id = #{userId}
+          and is_deleted = '0'
     </select>
 
     <select id="countMatchUser" resultType="java.lang.Integer">
-        select count(1) from corgi_user_follow f1
-        join corgi_user_follow f2 on f2.follow_user_id = f1.user_id and f2.user_id = f1.follow_user_id
-        where f1.user_id = #{userId} and f1.is_deleted = '0' and f2.is_deleted = '0'
+        select count(1)
+        from corgi_user_follow f1
+                 join corgi_user_follow f2 on f2.follow_user_id = f1.user_id and f2.user_id = f1.follow_user_id
+        where f1.user_id = #{userId}
+          and f1.is_deleted = '0'
+          and f2.is_deleted = '0'
     </select>
 
     <select id="countFollowedUser" resultType="java.lang.Integer">
-        select count(1) from corgi_user_follow
-        where follow_user_id = #{userId} and is_deleted = '0'
+        select count(1)
+        from corgi_user_follow
+        where follow_user_id = #{userId}
+          and is_deleted = '0'
     </select>
 
     <select id="countAllFollowedUser" resultType="java.lang.Integer">
-        select count(1) from corgi_user_follow
+        select count(1)
+        from corgi_user_follow
         where follow_user_id = #{userId}
     </select>
 
@@ -64,8 +89,8 @@
         if(p.lng is null,b.lng,p.lng) lng,
         p.uptime `time`,
         if(d.nickname is null,b.bar_name,d.nickname) `nickname`,
-        if(d.avatar is null,b.logo,d.avatar)  avatar,
-        if(b.logo is null, d.avatar_check_status, 'normal')  avatarCheckStatus,
+        if(d.avatar is null,b.logo,d.avatar) avatar,
+        if(b.logo is null, d.avatar_check_status, 'normal') avatarCheckStatus,
         d.role role,
         d.group `group`,
         d.con con,
@@ -84,7 +109,8 @@
             order by p.uptime desc
         </if>
         <if test="type == 'distance'">
-            order by if(if(p.lat is null,b.lat,p.lat) &lt; 200 and if(p.lng is null,b.lng,p.lng) &lt; 200,st_distance_sphere(point(#{lng},#{lat}),if(p.pt is null,point(b.lng,b.lat) ,p.pt))/100000,100000)
+            order by if(if(p.lat is null,b.lat,p.lat) &lt; 200 and if(p.lng is null,b.lng,p.lng) &lt;
+            200,st_distance_sphere(point(#{lng},#{lat}),if(p.pt is null,point(b.lng,b.lat) ,p.pt))/100000,100000)
         </if>
         <if test="type == 'follow'">
             order by f.ctime desc
@@ -125,64 +151,75 @@
     </select>
 
     <select id="getFollowedUserByPage" resultType="com.corgi.user.entity.UserProfile">
-        select
-        p.user_id userId,
-        p.lat lat,
-        p.lng lng,
-        p.uptime `time`,
-        d.nickname `nickname`,
-        d.avatar avatar,
-        d.avatar_check_status avatarCheckStatus,
-        d.role role,
-        d.group `group`,
-        d.con con,
-        f.uptime followTime,
-        l.im_id imId
+        select p.user_id             userId,
+               p.lat                 lat,
+               p.lng                 lng,
+               p.uptime              `time`,
+               d.nickname            `nickname`,
+               d.avatar              avatar,
+               d.avatar_check_status avatarCheckStatus,
+               d.role                role,
+               d.group               `group`,
+               d.con                 con,
+               f.uptime              followTime,
+               l.im_id               imId
         from corgi_user_follow f
-        left join corgi_user_position p on f.user_id = p.user_id
-        left join corgi_user_login l on l.id = p.user_id
-        left join corgi_user_detail d on d.user_id = p.user_id
-        where f.follow_user_id = #{userId} and is_deleted = '0'
+                 left join corgi_user_position p on f.user_id = p.user_id
+                 left join corgi_user_login l on l.id = p.user_id
+                 left join corgi_user_detail d on d.user_id = p.user_id
+        where f.follow_user_id = #{userId}
+          and is_deleted = '0'
         order by f.uptime desc
-        limit #{start},#{size}
+            limit #{start}, #{size}
     </select>
 
     <select id="getFollowedHistoryByPage" resultType="com.corgi.user.entity.UserProfile">
-        select
-        d.nickname `nickname`,
-        d.avatar avatar,
-        d.avatar_status avatarStatus,
-        d.role role,
-        d.group `group`,
-        d.con con,
-        d.check_status checkStatus,
-        d.avatar_check_status avatarCheckStatus,
-        p.user_id userId,
-        p.lat lat,
-        p.lng lng,
-        p.uptime `time`,
-        l.im_id imId,
-        f.uptime followTime,
-        f.is_read isRead
+        select d.nickname            `nickname`,
+               d.avatar              avatar,
+               d.avatar_status       avatarStatus,
+               d.role                role,
+               d.group               `group`,
+               d.con                 con,
+               d.check_status        checkStatus,
+               d.avatar_check_status avatarCheckStatus,
+               p.user_id             userId,
+               p.lat                 lat,
+               p.lng                 lng,
+               p.uptime              `time`,
+               l.im_id               imId,
+               f.uptime              followTime,
+               f.is_read             isRead
         from corgi_user_follow f
-        left join corgi_user_detail d on d.user_id = f.user_id
-        left join corgi_user_position p on f.user_id = p.user_id
-        join corgi_user_login l on l.id = p.user_id
+                 left join corgi_user_detail d on d.user_id = f.user_id
+                 left join corgi_user_position p on f.user_id = p.user_id
+                 join corgi_user_login l on l.id = p.user_id
         where f.follow_user_id = #{userId}
         order by f.uptime desc
-        limit #{start},#{size}
+            limit #{start}, #{size}
     </select>
 
 
     <delete id="deleteAllUserFollow">
-        delete from corgi_user_follow
+        delete
+        from corgi_user_follow
         where user_id = #{userId}
-        or follow_user_id = #{userId}
+           or follow_user_id = #{userId}
     </delete>
 
     <update id="readFollowedUser">
         update corgi_user_follow
         set is_read = '1'
-        where user_id = #{userId} and follow_user_id = #{followedUserId}
+        where user_id = #{userId}
+          and follow_user_id = #{followedUserId}
     </update>
+
+    <select id="getAllFollowUserByPage" resultType="com.corgi.user.entity.UserProfile">
+        select f.user_id userId,
+               f.ctime   createTime
+        from corgi_user_follow f
+        where f.type = 'real'
+        and f.is_deleted = '0'
+        order by f.id desc
+            limit #{start}, #{size}
+    </select>
 </mapper>

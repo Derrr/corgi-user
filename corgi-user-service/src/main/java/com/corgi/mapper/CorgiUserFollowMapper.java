@@ -155,4 +155,12 @@ public interface CorgiUserFollowMapper {
      * @param followedUserId
      */
     void readFollowedUser(@Param("userId") String userId, @Param("followedUserId") String followedUserId);
+
+    /**
+     * 获取所有关注列表
+     *
+     * @param start
+     * @param size
+     */
+    List<UserProfile> getAllFollowUserByPage(@Param("start") Integer start, @Param("size") Integer size);
 }

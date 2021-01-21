@@ -33,4 +33,6 @@ public interface CorgiUserFollowService {
     List<UserProfile> getFollowUserHistoryByPage(String userId, Integer page, Integer pageSize);
 
     void readFollowUser(String userId, String followedUserId);
+
+    List<UserProfile> getAllFollowUserByPage(Integer page, Integer pageSize);
 }
