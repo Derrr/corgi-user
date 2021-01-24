@@ -5,10 +5,10 @@
         insert into corgi_fake_user_pool (`user_id`)
         select f.user_id
         from corgi_user_follow f
-                 join corgi_user_position p on p.user_id = f.follow_user_id
+                 join corgi_user_position p on p.user_id = f.follow_user_id and f.type = 'real'
                  join corgi_user_detail d on d.user_id = f.follow_user_id
         where p.uptime &lt; #{time}
-        and d.avatar_status != 'influencer' and avatar_check_status = 'normal'
+        and d.avatar_status is null and avatar_check_status = 'normal'
         group by f.follow_user_id
         having count(1) > 0
         order by count(1) limit #{size}
