@@ -35,9 +35,7 @@
         values (
         #{userId},
         #{followId},
-        NOW
-        (
-        ),
+        NOW(),
         'fake'
         );
     </insert>
