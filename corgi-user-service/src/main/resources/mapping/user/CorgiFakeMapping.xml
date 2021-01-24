@@ -8,8 +8,10 @@
                  join corgi_user_position p on p.user_id = f.follow_user_id
                  join corgi_user_detail d on d.user_id = f.follow_user_id
         where p.uptime &lt; #{time}
+        and d.avatar_status != 'influencer' and avatar_check_status = 'normal'
         group by f.follow_user_id
-        order by count(1) desc limit #{size}
+        having count(1) > 0
+        order by count(1) limit #{size}
     </insert>
 
     <update id="clearFakeUserPool">
