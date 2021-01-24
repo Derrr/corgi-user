@@ -682,8 +682,10 @@
                d.nickname            nickname,
                d.avatar              avatar,
                d.avatar_check_status avatarCheckStatus,
-               d.cime createTime,
-               d.uptime followTime
-               from corgi_user_detail d
+               d.cime                createTime,
+               d.uptime              followTime
+        from corgi_user_detail d
+            limit #{start}
+           , #{size}
     </select>
 </mapper>
