@@ -7,7 +7,7 @@
     </insert>
 
     <select id="getUnviewFeed" resultType="java.lang.String">
-        select `feed` from corgi_feed_${index} where view_count = 0 and user_id = #{userId} limit 20
+        select `feed` from corgi_feed_${index} where  user_id = #{userId} limit 20
     </select>
 
     <update id="viewFeed">
