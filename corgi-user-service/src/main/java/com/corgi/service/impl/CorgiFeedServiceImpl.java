@@ -44,9 +44,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         if (result.size() > 0) {
             return result;
         }
-        List<CorgiVlog> logList;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        logList = corgiVlogMapper.getPopularVlog(userId, sdf.format(new Date()), UserUtils.getIndex(userId));
+        List<CorgiVlog> logList = corgiVlogMapper.getPopularVlog(userId, sdf.format(new Date()), UserUtils.getIndex(userId));
 
         for (CorgiVlog corgiVlog : logList) {
             corgiFeedMapper.addFeed(buildFeed(corgiVlog, userId), UserUtils.getIndex(userId));
