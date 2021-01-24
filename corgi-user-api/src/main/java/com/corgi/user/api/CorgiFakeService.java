@@ -24,4 +24,6 @@ public interface CorgiFakeService {
     String getLastActivity(String userId, String time);
 
     void updateFakeTime(String userId);
+
+    String getLastFakeFollowTime(String userId);
 }

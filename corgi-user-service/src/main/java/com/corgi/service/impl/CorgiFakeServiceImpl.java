@@ -91,4 +91,9 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     public void updateFakeTime(String userId) {
         corgiFakeMapper.updateFakeUserPosition(userId, System.currentTimeMillis());
     }
+
+    @Override
+    public String getLastFakeFollowTime(String userId) {
+        return corgiFakeMapper.getLastFakeFollowTime(userId);
+    }
 }
