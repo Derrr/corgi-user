@@ -179,6 +179,6 @@
     <select id="countOnBoard" resultType="java.lang.Integer">
         select count(1)
         from corgi_billboard
-        where user_id = #{userId}
+        where user_id = #{userId} and `date` = #{date}
     </select>
 </mapper>

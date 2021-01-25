@@ -148,5 +148,5 @@ public interface CorgiBillboardMapper {
      *
      * @return
      */
-    Integer countOnBoard(@Param("userId") String userId);
+    Integer countOnBoard(@Param("userId") String userId, @Param("date") String date);
 }
