@@ -10,7 +10,6 @@
         where p.uptime &lt; #{time}
         and d.avatar_status is null and avatar_check_status = 'normal'
         group by f.follow_user_id
-        having count(1) > 0
         order by count(1) limit #{size}
     </insert>
 
