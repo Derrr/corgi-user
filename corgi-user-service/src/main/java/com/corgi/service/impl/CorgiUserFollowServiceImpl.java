@@ -95,7 +95,7 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
 
     @Override
     public List<UserProfile> getAllFollowUserByPage(Integer page, Integer pageSize) {
-        return null;
+        return corgiUserFollowMapper.getAllFollowUserByPage((page - 1) * pageSize, pageSize);
     }
 
 }
