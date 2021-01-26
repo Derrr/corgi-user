@@ -22,4 +22,6 @@ public interface CorgiBlacklistService {
     Integer countReport(CorgiReport report);
 
     List<String> getBeBlacked(String userId);
+
+    Integer isBlacked(String userId, String targetUserId);
 }
