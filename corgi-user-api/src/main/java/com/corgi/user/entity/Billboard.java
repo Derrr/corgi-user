@@ -13,4 +13,5 @@ public class Billboard implements Serializable {
     private int count;
     private String countType;
     private String date;
+    private String lastDate;
 }

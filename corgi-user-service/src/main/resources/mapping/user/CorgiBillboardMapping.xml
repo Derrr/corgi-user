@@ -119,6 +119,12 @@
         where nickname = #{nickname} limit 1
     </select>
 
+    <select id="getBillboardTimeById" resultType="java.lang.String">
+        select `date`
+        from corgi_billboard
+        where user_id = #{userId}
+        order by `date` desc
+    </select>
     <select id="getBillboardByDate" resultType="com.corgi.user.entity.Billboard">
         select b.user_id  userId,
                d.nickname `nickname`,
@@ -179,6 +185,7 @@
     <select id="countOnBoard" resultType="java.lang.Integer">
         select count(1)
         from corgi_billboard
-        where user_id = #{userId} and `date` = #{date}
+        where user_id = #{userId}
+          and `date` = #{date}
     </select>
 </mapper>

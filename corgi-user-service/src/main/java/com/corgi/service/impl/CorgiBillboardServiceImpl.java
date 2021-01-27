@@ -29,6 +29,8 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     @Autowired
     private CorgiBillboardMapper corgiBillboardMapper;
     @Autowired
+    private CorgiUserService corgiUserService;
+    @Autowired
     private CorgiPicService corgiPicService;
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -111,9 +113,11 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     public List<Billboard> getBillboardByDate(String startDate, String endDate) {
         List<Billboard> billboards = corgiBillboardMapper.getBillboardByDate(startDate, endDate);
         for (Billboard billboard : billboards) {
-            List<UserPic> pic = corgiPicService.getUserPic(billboard.getUserId());
-            if (pic.size() > 0) {
-                billboard.setAvatar(pic.get(0).getPicUrl());
+            if (billboard.getCount() > 1) {
+                List<String> dates = corgiBillboardMapper.getBillboardTimeById(billboard.getUserId());
+                if (dates.size() > 1) {
+                    billboard.setLastDate(dates.get(1));
+                }
             }
         }
         return billboards;
