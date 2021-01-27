@@ -302,6 +302,7 @@
                real_lat    realLat,
                real_lng    realLng,
                locate_type locateType,
+               uptime      uptime,
                city,
                province,
                version
