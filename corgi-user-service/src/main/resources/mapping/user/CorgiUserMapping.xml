@@ -682,6 +682,7 @@
         select d.user_id             userId,
                d.nickname            nickname,
                d.avatar              avatar,
+               d.avatar_status       avatarStatus,
                d.avatar_check_status avatarCheckStatus,
                d.cime                createTime,
                d.uptime              followTime,
