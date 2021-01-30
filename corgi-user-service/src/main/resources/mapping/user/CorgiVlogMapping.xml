@@ -70,6 +70,9 @@
             <if test="vlog.commentCount != null and vlog.commentCount > 0">
                 `comment_count` = comment_count + ${vlog.commentCount},
             </if>
+            <if test="vlog.status != null">
+                `status` = #{vlog.status}
+            </if>
         </set>
         where activity_id = #{vlog.activityId}
     </update>
