@@ -106,7 +106,18 @@
     </select>
 
     <update id="failVlog">
-        update corgi_vlog set status = 'failed'
+        update corgi_vlog
+        set status = 'failed'
         where activity_id = #{activityId}
     </update>
+
+    <select id="countVlog" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_vloag;
+    </select>
+
+    <select id="selectOne" resultType="java.lang.String">
+        select activity_id
+        from corgi_vlog limit #{start},1;
+    </select>
 </mapper>

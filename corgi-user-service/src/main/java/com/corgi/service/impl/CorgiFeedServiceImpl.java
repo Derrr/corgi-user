@@ -18,8 +18,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author tairanliu
@@ -47,10 +49,23 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<CorgiVlog> logList = corgiVlogMapper.getPopularVlog(userId, sdf.format(new Date()), UserUtils.getIndex(userId));
 
-        for (CorgiVlog corgiVlog : logList) {
-            corgiFeedMapper.addFeed(buildFeed(corgiVlog, userId), UserUtils.getIndex(userId));
+        if (logList.size() > 0) {
+            for (CorgiVlog corgiVlog : logList) {
+                corgiFeedMapper.addFeed(buildFeed(corgiVlog, userId), UserUtils.getIndex(userId));
+            }
+            return corgiFeedMapper.getUnviewFeed(userId, UserUtils.getIndex(userId));
+        } else {
+            Integer total = corgiVlogMapper.countVlog();
+            Random random = new Random();
+            result = new ArrayList<>();
+            for (int i = 0; i < 20; i++) {
+                String activityId = corgiVlogMapper.selectOne(random.nextInt(total));
+                if (!result.contains(activityId)) {
+                    result.add(activityId);
+                }
+            }
+            return result;
         }
-        return corgiFeedMapper.getUnviewFeed(userId, UserUtils.getIndex(userId));
     }
 
     @Override
