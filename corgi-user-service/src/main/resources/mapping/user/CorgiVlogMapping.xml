@@ -116,7 +116,7 @@
 
     <select id="countVlog" resultType="java.lang.Integer">
         select count(1)
-        from corgi_vloag;
+        from corgi_vlog;
     </select>
 
     <select id="selectOne" resultType="java.lang.String">
