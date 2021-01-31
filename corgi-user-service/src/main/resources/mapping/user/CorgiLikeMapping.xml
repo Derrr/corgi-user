@@ -3,28 +3,38 @@
 <mapper namespace="com.corgi.mapper.CorgiLikeMapper">
 
     <insert id="addActivityLike" parameterType="com.corgi.user.entity.ActivityLike">
-        INSERT ignore INTO `corgi`.`corgi_activity_like` (`like_user_id`, `like_user_name`, `like_user_avatar`
+        INSERT
+        ignore INTO `corgi`.`corgi_activity_like` (`like_user_id`, `like_user_name`, `like_user_avatar`
         , `activity_id`,`user_id`, `type`)
-        VALUES (#{like.likeUserId}, #{like.likeUserName}, #{like.likeUserAvatar}, #{like.activityId}, #{like.userId}, #{like.type});
+        VALUES (
+        #{like.likeUserId},
+        #{like.likeUserName},
+        #{like.likeUserAvatar},
+        #{like.activityId},
+        #{like.userId},
+        #{like.type}
+        );
     </insert>
 
     <delete id="deleteActivityLike">
-        delete from `corgi`.`corgi_activity_like`
-        where activity_id = #{activityId} and like_user_id = #{userId}
+        delete
+        from `corgi`.`corgi_activity_like`
+        where activity_id = #{activityId}
+          and like_user_id = #{userId}
     </delete>
 
     <select id="getActivityLike" resultType="com.corgi.user.entity.ActivityLike">
-        select
-        `like_user_id` likeUserId,
-        `like_user_name` likeUserName,
-        `like_user_avatar` likeUserAvatar,
-        `activity_id` activityId,
-        `user_id` userId,
-        `ctime`
+        select `like_user_id`     likeUserId,
+               `like_user_name`   likeUserName,
+               `like_user_avatar` likeUserAvatar,
+               `activity_id`      activityId,
+               `user_id`          userId,
+               `ctime`,
+               `type`
         from corgi_activity_like
         where activity_id = #{activityId}
         order by id desc
-        limit #{start}, #{size}
+            limit #{start}, #{size}
     </select>
 
     <select id="countActivityLike" resultType="java.lang.Long">
@@ -37,45 +47,55 @@
         select count(1)
         from corgi_activity_like
         where activity_id = #{activityId}
-        and like_user_id = #{userId}
+          and like_user_id = #{userId}
     </select>
 
     <select id="countLikeByDate" resultType="java.lang.Long">
         select count(1)
         from corgi_activity_like l
-        left join corgi_activity_creator a
-        on l.activity_id = a.activity_id
+                 left join corgi_activity_creator a
+                           on l.activity_id = a.activity_id
         where l.ctime like concat(#{date}, '%')
-        and a.category = #{category}
+          and a.category = #{category}
     </select>
 
     <select id="countLikeUserByDate" resultType="java.lang.Long">
         select count(distinct l.like_user_id)
         from corgi_activity_like l
-        left join corgi_activity_creator a
-        on l.activity_id = a.activity_id
+                 left join corgi_activity_creator a
+                           on l.activity_id = a.activity_id
         where l.ctime like concat(#{date}, '%')
-        and a.category = #{category}
+          and a.category = #{category}
     </select>
 
     <select id="getFollowUser" resultType="com.corgi.user.entity.ActivityLike">
-        select
-        `like_user_id` likeUserId,
-        `like_user_name` likeUserName,
-        `like_user_avatar` likeUserAvatar
+        select `like_user_id`     likeUserId,
+               `like_user_name`   likeUserName,
+               `like_user_avatar` likeUserAvatar
         from corgi_activity_like l
-        join corgi_user_follow f on f.follow_user_id = l.like_user_id and f.user_id= #{userId}
+                 join corgi_user_follow f on f.follow_user_id = l.like_user_id and f.user_id = #{userId}
         where activity_id = #{activityId}
-        order by l.id desc
-        limit 3
+        order by l.id desc limit 3
     </select>
 
     <select id="getLikedActivityId" resultType="java.lang.String">
-        select
-        activity_id
+        select activity_id
         from corgi_activity_like
         where like_user_id = #{userId}
         order by id DESC
-        limit #{start}, #{size}
+            limit #{start}, #{size}
+    </select>
+
+    <select id="getLikeByPage" resultType="com.corgi.user.entity.ActivityLike">
+        select `like_user_id`     likeUserId,
+               `like_user_name`   likeUserName,
+               `like_user_avatar` likeUserAvatar,
+               `activity_id`      activityId,
+               `user_id`          userId,
+               `ctime`
+        from corgi_activity_like
+        where `type` = 'real'
+        order by id desc
+            limit #{start}, #{size}
     </select>
 </mapper>

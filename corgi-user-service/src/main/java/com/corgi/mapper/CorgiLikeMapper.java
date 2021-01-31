@@ -86,5 +86,12 @@ public interface CorgiLikeMapper {
      */
     long countLikeUserByDate(@Param("date") String date, @Param("category") String category);
 
+    /**
+     * 全量获取真实点赞
+     * @param start
+     * @param size
+     * @return
+     */
+    List<ActivityLike> getLikeByPage(@Param("start") Integer start, @Param("size") Integer size);
 
 }

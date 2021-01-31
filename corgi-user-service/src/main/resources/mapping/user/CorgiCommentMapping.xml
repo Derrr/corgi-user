@@ -32,7 +32,7 @@
                c.`content`,
                c.`user_id`             userId,
                c.`ctime`,
-               count(l.user_id)        commentLike
+               count(l.user_id)        likeCount
         from corgi_activity_comment c
                  left join corgi_comment_like l on l.comment_id = c.comment_id and l.status = '1'
         where c.activity_id = #{activityId}
