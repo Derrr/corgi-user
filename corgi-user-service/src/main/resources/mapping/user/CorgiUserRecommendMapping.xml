@@ -2,47 +2,58 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiUserRecommendMapper">
     <insert id="insertUserRecommend">
-        insert ignore into corgi_user_recommend(user_id, rec_user_id)
-        values(#{userId},#{recId})
+        insert
+        ignore into corgi_user_recommend(user_id, rec_user_id)
+        values(
+        #{userId},
+        #{recId}
+        )
     </insert>
 
     <update id="addRecommend">
-        update corgi_user_recommend set `weight` = `weight` + #{weight}
-        where user_id = #{userId} and rec_user_id = #{recId}
+        update corgi_user_recommend
+        set `weight` = `weight` + #{weight}
+        where user_id = #{userId}
+          and rec_user_id = #{recId}
     </update>
 
     <update id="updateStatus">
-        update corgi_user_recommend set `status` = #{status}, opt_time = #{opt}
-        where user_id = #{userId} and rec_user_id = #{recId}
+        update corgi_user_recommend
+        set `status` = #{status},
+            opt_time = #{opt}
+        where user_id = #{userId}
+          and rec_user_id = #{recId}
     </update>
 
     <select id="getRecUsers" resultType="com.corgi.user.entity.UserProfile">
-        select r.rec_user_id userId,
-        d.nickname `nickname`,
-        d.avatar avatar,
-        d.avatar_status avatarStatus,
-        d.avatar_check_status avatarCheckStatus,
-        d.role role,
-        d.hide_role hideRole,
-        d.group `group`,
-        d.hide_group `hideGroup`,
-        d.hide_prefer_group `hidePreferGroup`,
-        d.con con,
-        d.relation,
-        d.check_status checkStatus,
-        d.weight,
-        d.height,
-        d.birthday,
-        p.uptime time
+        select r.rec_user_id         userId,
+               d.nickname            `nickname`,
+               d.avatar              avatar,
+               d.avatar_status       avatarStatus,
+               d.avatar_check_status avatarCheckStatus,
+               d.role                role,
+               d.hide_role           hideRole,
+               d.group               `group`,
+               d.hide_group          `hideGroup`,
+               d.hide_prefer_group   `hidePreferGroup`,
+               d.con                 con,
+               d.relation,
+               d.check_status        checkStatus,
+               d.weight,
+               d.height,
+               d.birthday,
+               p.uptime time
         from corgi_user_recommend r
-        left join corgi_user_detail d on d.user_id = r.rec_user_id
-        left join corgi_user_position p on p.user_id = r.rec_user_id
+            left join corgi_user_detail d
+        on d.user_id = r.rec_user_id
+            left join corgi_user_position p on p.user_id = r.rec_user_id
         where r.user_id = #{userId}
-        and r.`status` = '0'
-        and not exists(select 1 from corgi_user_follow f where f.user_id = #{userId} and f.follow_user_id = r.rec_user_id)
-        and r.rec_user_id != #{userId}
+          and r.`status` = '0'
+          and not exists (select 1 from corgi_user_follow f where f.user_id = #{userId}
+          and f.follow_user_id = r.rec_user_id)
+          and r.rec_user_id != #{userId}
         order by d.avatar_status desc, r.`weight` desc
-        limit #{size}
+            limit #{size}
     </select>
 
     <select id="getCityInfluencer" resultType="com.corgi.user.entity.UserProfile">
@@ -149,27 +160,30 @@
     </select>
 
     <update id="clearRecUsers">
-        update corgi_user_recommend set `weight` = 0
+        update corgi_user_recommend
+        set `weight` = 0
         where user_id = #{userId}
     </update>
 
     <delete id="deleteByWeight">
-        delete from corgi_user_recommend
+        delete
+        from corgi_user_recommend
         where user_id = #{userId}
-        and `weight` &lt;= #{weight}
-        and `status` = '0'
+          and `weight` &lt;= #{weight}
+          and `status` = '0'
     </delete>
 
     <delete id="clearInfluencerBillboard">
-       delete from corgi_influencer_billboard
+        delete
+        from corgi_influencer_billboard
     </delete>
 
     <insert id="initInfluencerBillboard">
         insert into corgi_influencer_billboard(user_id, nickname, fan, city)
         select d.user_id, d.nickname, count(1) fan, p.city
         from corgi_user_detail d
-        left join corgi_user_position p on p.user_id = d.user_id
-        left join corgi_user_follow f on f.follow_user_id = d.user_id and f.is_deleted = '0'
+                 left join corgi_user_position p on p.user_id = d.user_id
+                 left join corgi_user_follow f on f.follow_user_id = d.user_id and f.is_deleted = '0'
         where d.avatar_status = 'influencer'
         group by d.user_id
     </insert>
@@ -177,26 +191,41 @@
     <select id="getCityImage" resultType="java.lang.String">
         select max(c.activity_id)
         from corgi_influencer_billboard b
-        left join corgi_activity_creator c on c.creator_id = b.user_id
+                 left join corgi_activity_creator c on c.creator_id = b.user_id
         where b.city = #{city}
-        and not exists(select 1 from corgi_user_recommend r where r.user_id = #{userId} and r.rec_user_id = b.user_id and r.status = '2')
-        and b.user_id != '8'
+          and not exists(select 1
+                         from corgi_user_recommend r
+                         where r.user_id = #{userId} and r.rec_user_id = b.user_id and r.status = '2')
+          and b.user_id != '8'
         and c.category = 'image'
         group by b.user_id
         order by b.fan desc
-        limit #{start}, #{size}
+            limit #{start}, #{size}
     </select>
 
     <select id="getNotCityImage" resultType="java.lang.String">
         select max(c.activity_id)
         from corgi_influencer_billboard b
-        left join corgi_activity_creator c on c.creator_id = b.user_id
+                 left join corgi_activity_creator c on c.creator_id = b.user_id
         where b.city != #{city}
-        and not exists(select 1 from corgi_user_recommend r where r.user_id = #{userId} and r.rec_user_id = b.user_id and r.status = '2')
-        and b.user_id != '8'
-        and c.category = 'image'
+          and not exists (select 1 from corgi_user_recommend r where r.user_id = #{userId}
+          and r.rec_user_id = b.user_id
+          and r.status = '2')
+          and b.user_id != '8'
+          and c.category = 'image'
         group by b.user_id
         order by b.fan desc
-        limit #{start}, #{size}
+            limit #{start}, #{size}
     </select>
+
+    <delete id="clearRecActivity">
+        delete
+        from corgi_user_coordinate
+        where user_id = #{userId}
+    </delete>
+
+    <insert id="addRecommendActivity">
+        insert into corgi_user_coordinate(`user_id`, `co_user_id`, `weight`)
+        values (#{userId}, #{recId}, #{weight})
+    </insert>
 </mapper>

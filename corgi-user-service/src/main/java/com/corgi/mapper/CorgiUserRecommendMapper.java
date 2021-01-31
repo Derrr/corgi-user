@@ -108,5 +108,19 @@ public interface CorgiUserRecommendMapper {
      */
     List<String> getNotCityImage(@Param("city") String city, @Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
+    /**
+     * 清空推荐
+     *
+     * @param userId
+     */
+    void clearRecActivity(@Param("userId")String userId);
+
+    /**
+     * 添加推荐权重
+     *
+     * @param userId
+     * @param recId
+     */
+    void addRecommendActivity(@Param("userId") String userId, @Param("recId") String recId, @Param("weight") Integer weight);
 
 }

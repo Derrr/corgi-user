@@ -32,4 +32,10 @@ public interface CorgiUserRecommendService {
 
     List<String> getNotCityRecommendImage(String userId, String city, Integer page, Integer pageSize);
 
+    void clearRecActivity(String userId);
+
+    void addRecActivity(String userId, String recId, Integer weight);
+
+    List<String> getRecActivity(String userId);
+
 }

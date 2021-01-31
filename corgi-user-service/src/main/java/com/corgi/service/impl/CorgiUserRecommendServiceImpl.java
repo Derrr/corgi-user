@@ -93,4 +93,19 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
         return corgiUserRecommendMapper.getNotCityImage(city, userId, (page - 1) * pageSize, pageSize);
     }
 
+    @Override
+    public void clearRecActivity(String userId) {
+        corgiUserRecommendMapper.clearRecActivity(userId);
+    }
+
+    @Override
+    public void addRecActivity(String userId, String recId, Integer weight) {
+        corgiUserRecommendMapper.addRecommendActivity(userId, recId, weight);
+    }
+
+    @Override
+    public List<String> getRecActivity(String userId) {
+        return null;
+    }
+
 }
