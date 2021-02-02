@@ -69,6 +69,11 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     @Override
+    public Integer countUnviewFeed(String userId) {
+        return null;
+    }
+
+    @Override
     public void viewFeed(String userId, String feed) {
         corgiFeedMapper.viewFeed(userId, feed, UserUtils.getIndex(userId));
     }

@@ -11,6 +11,8 @@ import java.util.List;
 public interface CorgiFeedService {
     List<String> getUnviewFeed(String userId);
 
+    Integer countUnviewFeed(String userId);
+
     void viewFeed(String userId, String feed);
 
     void addFeed(CorgiFeed corgiFeed);

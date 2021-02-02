@@ -81,9 +81,27 @@
         select
         <include refid="vlog"/>
         from corgi_vlog v
+        <if test="vlog.type == 'like'">
+            left join corgi_activity_like l on l.activity_id = v.activity_id
+        </if>
         where not exists(select 1 from corgi_feed_${index} where user_id = #{vlog.userId})
         <if test="vlog.ctime != null">
-            and ctime like '${vlog.ctime}%'
+            and v.ctime &lt;= #{vlog.ctime}
+        </if>
+        <if test="vlog.type == 'like'">
+            and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId})
+        </if>
+        order by v.ctime desc limit #{size}
+    </select>
+
+    <select id="recallTargetVlog" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="vlog"/>
+        from corgi_vlog v
+        where not exists(select 1 from corgi_feed_${index} where user_id = #{vlog.userId})
+        and user_id = #{userId}
+        <if test="vlog.ctime != null">
+            and ctime &lt;= #{vlog.ctime}
         </if>
         order by v.like_count desc limit #{size}
     </select>
