@@ -70,4 +70,6 @@ public interface CorgiUserService {
     void deleteUser(String userId);
 
     List<UserProfile> getBasicUserDetailByPage(Integer page, Integer pageSize);
+
+    List<String> getUnregisterUsers(String date);
 }

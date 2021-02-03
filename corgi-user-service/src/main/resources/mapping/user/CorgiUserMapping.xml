@@ -693,4 +693,10 @@
             limit #{start}
            , #{size}
     </select>
+
+    <select id="getUnregisterUserIds" resultType="java.lang.String">
+        select id
+        from corgi_user_login
+        where unregister_date > '0' and unregister_date &lt;= #{date}
+    </select>
 </mapper>

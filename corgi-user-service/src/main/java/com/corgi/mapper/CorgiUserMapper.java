@@ -346,4 +346,10 @@ public interface CorgiUserMapper {
      *
      */
     List<UserProfile> getUserDetailByPage(@Param("start") Integer start, @Param("size") Integer size);
+
+    /**
+     * 获取注销用户
+     *
+     */
+    List<String> getUnregisterUserIds(@Param("date")String date);
 }
