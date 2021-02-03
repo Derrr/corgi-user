@@ -2,6 +2,7 @@ package com.corgi.mapper;
 
 import com.corgi.user.entity.CorgiFeed;
 import com.corgi.user.entity.CorgiVlog;
+import com.corgi.user.entity.CorgiVlogHot;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -26,7 +27,9 @@ public interface CorgiVlogMapper {
 
     List<CorgiVlog> recallVlog(@Param("vlog") CorgiVlog corgiVlog, @Param("size") Integer size, @Param("index") String index);
 
-    List<CorgiVlog> recallTargetVlog(@Param("targetId")String userId, @Param("vlog") CorgiVlog corgiVlog, @Param("size") Integer size, @Param("index") String index);
+    List<CorgiVlog> recallTargetVlog(@Param("targetId") String userId, @Param("vlog") CorgiVlog corgiVlog, @Param("size") Integer size, @Param("index") String index);
+
+    List<CorgiVlog> recallHotVlog(@Param("vlog") CorgiVlog corgiVlog, @Param("size") Integer size, @Param("index") String index);
 
     List<CorgiVlog> getFollowVlog(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size, @Param("ctime") String ctime);
 
@@ -36,5 +39,11 @@ public interface CorgiVlogMapper {
 
     Integer countVlog();
 
-    String selectOne(@Param("start")Integer start);
+    String selectOne(@Param("start") Integer start);
+
+    void addVlogHot(@Param("vlog") CorgiVlogHot hot);
+
+    void updateVlogHot(@Param("vlog") CorgiVlogHot hot);
+
+    List<CorgiVlogHot> getVlogHot(@Param("vlog") CorgiVlogHot hot);
 }

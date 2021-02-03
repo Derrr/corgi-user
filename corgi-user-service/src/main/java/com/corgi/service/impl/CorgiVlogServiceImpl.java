@@ -5,6 +5,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiVlogMapper;
 import com.corgi.user.api.*;
 import com.corgi.user.entity.CorgiVlog;
+import com.corgi.user.entity.CorgiVlogHot;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     }
 
     @Override
+    public List<CorgiVlog> recallHotVlog(CorgiVlog corgiVlog, Integer limit) {
+        return corgiVlogMapper.recallHotVlog(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
+    }
+
+    @Override
     public List<CorgiVlog> getFollowVlog(String userId, Integer page, Integer size) {
         return corgiVlogMapper.getFollowVlog(userId, (page - 1) * size, size, getNowDate());
     }
@@ -65,6 +71,21 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     @Override
     public List<CorgiVlog> getUserVlog(String userId, Integer page, Integer size) {
         return corgiVlogMapper.getUserVlog(userId, (page - 1) * size, size, getNowDate());
+    }
+
+    @Override
+    public void addHotVlog(CorgiVlogHot corgiVlogHot) {
+        corgiVlogMapper.addVlogHot(corgiVlogHot);
+    }
+
+    @Override
+    public void updateHotVlog(CorgiVlogHot corgiVlogHot) {
+        corgiVlogMapper.updateVlogHot(corgiVlogHot);
+    }
+
+    @Override
+    public List<CorgiVlogHot> getHotVlog(CorgiVlogHot corgiVlogHot) {
+        return corgiVlogMapper.getVlogHot(corgiVlogHot);
     }
 
     private String getNowDate() {

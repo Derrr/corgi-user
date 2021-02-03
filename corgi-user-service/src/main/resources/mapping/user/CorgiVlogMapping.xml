@@ -40,7 +40,7 @@
         <include refid="vlog"/>
         from corgi_vlog v left join corgi_user_detail d on d.user_id = v.user_id
         where v.ctime &lt;=#{ctime}
-        and not exists(select 1 from corgi_feed_${index} where user_id = #{userId} and `feed` = activity_id)
+        and not exists(select 1 from corgi_feed_${index} f where f.user_id = #{userId} and f.`feed` = activity_id)
         and v.user_id != #{userId}
         order by like_count desc limit 20
     </select>
@@ -84,7 +84,7 @@
         <if test="vlog.type == 'like'">
             left join corgi_activity_like l on l.activity_id = v.activity_id
         </if>
-        where not exists(select 1 from corgi_feed_${index} where user_id = #{vlog.userId})
+        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed = v.activity_id)
         <if test="vlog.ctime != null">
             and v.ctime &lt;= #{vlog.ctime}
         </if>
@@ -98,12 +98,24 @@
         select
         <include refid="vlog"/>
         from corgi_vlog v
-        where not exists(select 1 from corgi_feed_${index} where user_id = #{vlog.userId})
+        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed = v.activity_id)
         and user_id = #{userId}
         <if test="vlog.ctime != null">
             and ctime &lt;= #{vlog.ctime}
         </if>
         order by v.like_count desc limit #{size}
+    </select>
+
+    <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="vlog"/>
+        from corgi_vlog_hot h
+        left join corgi_vlog v on h.activity_id = v.activity_id
+        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id = f.feed)
+        and h.expect_view > view_count
+        and h.status = 'close'
+        and h.type = #{vlog.type}
+        order by h.like_count limit #{size}
     </select>
 
     <select id="getFollowVlog" resultType="com.corgi.user.entity.CorgiVlog">
@@ -140,5 +152,60 @@
     <select id="selectOne" resultType="java.lang.String">
         select activity_id
         from corgi_vlog limit #{start},1;
+    </select>
+
+    <insert id="addVlogHot" parameterType="com.corgi.user.entity.CorgiVlogHot">
+        INSERT INTO `corgi_vlog` (`activity_id`, `expect_view`, `type`)
+        VALUES (#{vlog.activityId},
+                #{vlog.expectView},
+                #{vlog.type});
+    </insert>
+
+    <update id="updateVlogHot" parameterType="com.corgi.user.entity.CorgiVlogHot">
+        update corgi_vlog_hot
+        <set>
+            <if test="vlog.likeCount != null and vlog.likeCount > 0">
+                `like_count` = like_count + ${vlog.likeCount},
+            </if>
+            <if test="vlog.viewCount != null and vlog.viewCount > 0">
+                `view_count` = view_count + ${vlog.viewCount},
+            </if>
+            <if test="vlog.expectView != null and vlog.expectView > 0">
+                `expect_view` = #{vlog.expect_view}
+            </if>
+            <if test="vlog.status != null">
+                `status` = #{vlog.status}
+            </if>
+        </set>
+        where
+        <if test="vlog.id != null">
+            `id` = #{vlog.id}
+        </if>
+        <if test="vlog.id == null">
+            activity_id = #{vlog.activityId}
+        </if>
+    </update>
+
+    <select id="getVlogHot" resultType="com.corgi.user.entity.CorgiVlogHot"
+            parameterType="com.corgi.user.entity.CorgiVlogHot">
+        select id,
+        activity_id activityId,
+        like_count likeCount,
+        view_count viewCount,
+        expect_view expectView,
+        ctime,
+        `status`,
+        uptime
+        from corgi_vlog_hot where 1=1
+        <if test="vlog.type != null">
+            and `type` = #{vlog.type}
+        </if>
+        <if test="vlog.status != null">
+            and `status` = #{vlog.status}
+        </if>
+        <if test="vlog.activityId != null">
+            and `activity_id` = #{activityId}
+        </if>
+        order by id desc
     </select>
 </mapper>
