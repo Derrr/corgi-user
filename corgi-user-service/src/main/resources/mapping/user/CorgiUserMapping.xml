@@ -14,7 +14,8 @@
                new_gidar           newGidar,
                new_sign_up         newSignUp,
                new_message         newMessage,
-               new_follow_activity newFollowActivity
+               new_follow_activity newFollowActivity,
+               unregister_date     unregisterDate
         from corgi_user_login
         where id = #{userId}
     </select>
@@ -39,6 +40,9 @@
             </if>
             <if test="userLogin.newFollowActivity != null">
                 new_follow_activity = #{userLogin.newFollowActivity},
+            </if>
+            <if test="userLogin.unregisterDate != null">
+                unregister_date = #{unregisterDate},
             </if>
             <if test="userLogin.imId != null">
                 im_id = #{userLogin.imId},
