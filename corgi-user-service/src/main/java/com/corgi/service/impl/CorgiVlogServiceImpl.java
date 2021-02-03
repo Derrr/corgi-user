@@ -87,8 +87,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
             hot.setType(CorgiVlogHot.TYPE.AUTO);
             hot.setActivityId(corgiVlogHot.getActivityId());
             if (corgiVlogMapper.countVlogHot(hot) == 0) {
-                hot.setExpectView(50);
-                corgiVlogMapper.addVlogHot(hot);
+                CorgiVlog vlog = corgiVlogMapper.getVlogById(hot.getActivityId());
+                if (vlog != null) {
+                    hot.setExpectView(50);
+                    corgiVlogMapper.addVlogHot(hot);
+                }
             }
         }
         corgiVlogMapper.updateVlogHot(corgiVlogHot);
