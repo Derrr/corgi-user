@@ -171,6 +171,8 @@
                d.avatar_status       avatarStatus,
                d.role                role,
                d.group               `group`,
+               d.height              `height`,
+               d.weight              `weight`,
                d.con                 con,
                d.check_status        checkStatus,
                d.avatar_check_status avatarCheckStatus,
@@ -208,7 +210,7 @@
                f.ctime   createTime
         from corgi_user_follow f
         where f.type = 'real'
-        and f.is_deleted = '0'
+          and f.is_deleted = '0'
         order by f.id desc
             limit #{start}, #{size}
     </select>
