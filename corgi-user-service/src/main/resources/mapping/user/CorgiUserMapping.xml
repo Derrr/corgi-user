@@ -136,14 +136,11 @@
                d.`con`,
                d.`relation`,
                d.`city`,
-               l.im_id                                imId,
-               l.tel_no                               telNo,
                p.lat                                  lat,
                p.lng                                  lng,
                if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
                `check_status`                         checkStatus
         from corgi_user_detail d
-                 left join corgi_user_login l on l.id = d.user_id
                  left join corgi_user_position p on p.user_id = d.user_id
         where d.user_id = #{userId}
     </select>
@@ -425,11 +422,9 @@
                d.hide_prefer_group                    `hidePreferGroup`,
                d.con                                  con,
                d.relation,
-               d.check_status                         checkStatus,
-               l.im_id                                imId
+               d.check_status                         checkStatus
         from corgi_user_position p
                  join corgi_user_detail d on d.user_id = p.user_id
-                 left join corgi_user_login l on l.id = d.user_id
         where p.user_id = #{userId}
     </select>
 
@@ -453,11 +448,9 @@
                d.hide_prefer_group                    `hidePreferGroup`,
                d.con                                  con,
                d.relation,
-               d.check_status                         checkStatus,
-               l.im_id                                imId
+               d.check_status                         checkStatus
         from corgi_user_position p
                  join corgi_user_detail d on d.user_id = p.user_id
-                 left join corgi_user_login l on l.id = d.user_id
         where p.user_id in ${inValue}
     </select>
 
@@ -478,15 +471,12 @@
         d.relation,
         d.desc,
         d.check_desc checkDesc,
-        l.im_id imId,
-        l.tel_no telNo,
         p.lat lat,
         p.lng lng,
         if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
-        l.ctime createTime,
+        d.cime createTime,
         d.check_status checkStatus
         from corgi_user_detail d
-        left join corgi_user_login l on l.id = d.user_id
         left join corgi_user_position p on p.user_id = d.user_id
         where 1=1
         <if test="userDetail.version != null and userDetail.version != ''">
@@ -574,13 +564,9 @@
         select
         count(1)
         from corgi_user_detail d
-        left join corgi_user_login l on l.id = d.user_id
         where 1=1
         <if test="userDetail.nickname != null and userDetail.nickname != ''">
             and `nickName` like concat('%',#{userDetail.nickname},'%')
-        </if>
-        <if test="userDetail.telNo != null and userDetail.telNo != ''">
-            and l.tel_no = #{userDetail.telNo}
         </if>
         <if test="userDetail.height != null and userDetail.height != 0">
             and `height` = #{userDetail.height}
@@ -631,9 +617,8 @@
     <select id="countUserStay" resultType="java.lang.Long">
         select count(1)
         from corgi_user_position p
-                 left join corgi_user_login l on p.user_id = l.id
         where p.uptime >= #{time}
-          and l.ctime like concat(#{date}, '%')
+          and d.cime like concat(#{date}, '%')
     </select>
 
     <select id="countRegisterUser" resultType="java.lang.Long">

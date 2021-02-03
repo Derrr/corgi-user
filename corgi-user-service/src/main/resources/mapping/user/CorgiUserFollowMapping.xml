@@ -92,13 +92,11 @@
         d.role role,
         d.group `group`,
         d.con con,
-        f.uptime followTime,
-        l.im_id imId
+        f.uptime followTime
         from corgi_user_follow f
         left join corgi_user_position p on f.follow_user_id = p.user_id
         left join corgi_user_detail d on d.user_id = p.user_id
         left join corgi_bar_detail b on b.bar_id = f.follow_user_id
-        left join corgi_user_login l on l.id = p.user_id
         where f.user_id = #{userId} and is_deleted = '0'
         <if test="type == 'new'">
             order by f.id desc
@@ -128,12 +126,10 @@
         d.role role,
         d.group `group`,
         if(f.uptime > f1.uptime,f.uptime,f1.uptime) followTime,
-        d.con con,
-        l.im_id imId
+        d.con con
         from corgi_user_follow f
         left join corgi_user_position p on f.follow_user_id = p.user_id
         left join corgi_user_detail d on d.user_id = p.user_id
-        left join corgi_user_login l on l.id = p.user_id
         join corgi_user_follow f1 on f1.follow_user_id = f.user_id and f1.user_id = f.follow_user_id
         where f.user_id = #{userId} and f.is_deleted = '0' and f1.is_deleted = '0'
         <if test="type == 'new'">
@@ -159,11 +155,9 @@
                d.role                role,
                d.group               `group`,
                d.con                 con,
-               f.uptime              followTime,
-               l.im_id               imId
+               f.uptime              followTime
         from corgi_user_follow f
                  left join corgi_user_position p on f.user_id = p.user_id
-                 left join corgi_user_login l on l.id = p.user_id
                  left join corgi_user_detail d on d.user_id = p.user_id
         where f.follow_user_id = #{userId}
           and is_deleted = '0'
@@ -184,13 +178,11 @@
                p.lat                 lat,
                p.lng                 lng,
                p.uptime              `time`,
-               l.im_id               imId,
                f.uptime              followTime,
                f.is_read             isRead
         from corgi_user_follow f
                  left join corgi_user_detail d on d.user_id = f.user_id
                  left join corgi_user_position p on f.user_id = p.user_id
-                 join corgi_user_login l on l.id = p.user_id
         where f.follow_user_id = #{userId}
         order by f.uptime desc
             limit #{start}, #{size}

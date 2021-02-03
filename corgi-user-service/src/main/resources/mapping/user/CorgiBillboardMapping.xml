@@ -75,12 +75,10 @@
                d.check_status        checkStatus,
                d.weight,
                d.height,
-               d.birthday,
-               l.im_id               imId
+               d.birthday
         from corgi_billboard b
                  left join corgi_user_detail d on d.user_id = b.user_id
                  left join corgi_user_position p on p.user_id = b.user_id
-                 left join corgi_user_login l on l.id = b.user_id
         where b.date = #{date}
     </select>
 
