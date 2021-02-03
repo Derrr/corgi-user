@@ -10,6 +10,7 @@ import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -80,12 +81,27 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
 
     @Override
     public void updateHotVlog(CorgiVlogHot corgiVlogHot) {
+        if (corgiVlogHot.getId() == null && corgiVlogHot.getActivityId() != null
+                && corgiVlogHot.getLikeCount() != null && corgiVlogHot.getLikeCount() > 0) {
+            CorgiVlogHot hot = new CorgiVlogHot();
+            hot.setType(CorgiVlogHot.TYPE.AUTO);
+            hot.setActivityId(corgiVlogHot.getActivityId());
+            if (corgiVlogMapper.countVlogHot(hot) == 0) {
+                hot.setExpectView(50);
+                corgiVlogMapper.addVlogHot(hot);
+            }
+        }
         corgiVlogMapper.updateVlogHot(corgiVlogHot);
     }
 
     @Override
-    public List<CorgiVlogHot> getHotVlog(CorgiVlogHot corgiVlogHot) {
-        return corgiVlogMapper.getVlogHot(corgiVlogHot);
+    public List<CorgiVlogHot> getHotVlog(CorgiVlogHot corgiVlogHot, Integer page, Integer pageSize) {
+        return corgiVlogMapper.getVlogHot(corgiVlogHot, (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
+    public Integer countHotVlog(CorgiVlogHot corgiVlogHot) {
+        return corgiVlogMapper.countVlogHot(corgiVlogHot);
     }
 
     private String getNowDate() {

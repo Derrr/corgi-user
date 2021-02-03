@@ -84,7 +84,8 @@
         <if test="vlog.type == 'like'">
             left join corgi_activity_like l on l.activity_id = v.activity_id
         </if>
-        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed = v.activity_id)
+        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
+        v.activity_id)
         <if test="vlog.ctime != null">
             and v.ctime &lt;= #{vlog.ctime}
         </if>
@@ -98,7 +99,8 @@
         select
         <include refid="vlog"/>
         from corgi_vlog v
-        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed = v.activity_id)
+        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
+        v.activity_id)
         and user_id = #{userId}
         <if test="vlog.ctime != null">
             and ctime &lt;= #{vlog.ctime}
@@ -111,9 +113,10 @@
         <include refid="vlog"/>
         from corgi_vlog_hot h
         left join corgi_vlog v on h.activity_id = v.activity_id
-        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id = f.feed)
+        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id =
+        f.feed)
         and h.expect_view > view_count
-        and h.status = 'close'
+        and h.status = 'open'
         and h.type = #{vlog.type}
         order by h.like_count limit #{size}
     </select>
@@ -186,8 +189,7 @@
         </if>
     </update>
 
-    <select id="getVlogHot" resultType="com.corgi.user.entity.CorgiVlogHot"
-            parameterType="com.corgi.user.entity.CorgiVlogHot">
+    <select id="getVlogHot" resultType="com.corgi.user.entity.CorgiVlogHot">
         select id,
         activity_id activityId,
         like_count likeCount,
@@ -207,5 +209,20 @@
             and `activity_id` = #{activityId}
         </if>
         order by id desc
+        limit #{start}, #{size}
+    </select>
+
+    <select id="countVlogHot" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_vlog_hot where 1=1
+        <if test="vlog.type != null">
+            and `type` = #{vlog.type}
+        </if>
+        <if test="vlog.status != null">
+            and `status` = #{vlog.status}
+        </if>
+        <if test="vlog.activityId != null">
+            and `activity_id` = #{activityId}
+        </if>
     </select>
 </mapper>

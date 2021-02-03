@@ -32,5 +32,7 @@ public interface CorgiVlogService {
 
     void updateHotVlog(CorgiVlogHot corgiVlogHot);
 
-    List<CorgiVlogHot> getHotVlog(CorgiVlogHot corgiVlogHot);
+    List<CorgiVlogHot> getHotVlog(CorgiVlogHot corgiVlogHot, Integer page, Integer pageSize);
+
+    Integer countHotVlog(CorgiVlogHot corgiVlogHot);
 }

@@ -4,6 +4,7 @@ import com.corgi.user.entity.CorgiFeed;
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -45,5 +46,8 @@ public interface CorgiVlogMapper {
 
     void updateVlogHot(@Param("vlog") CorgiVlogHot hot);
 
-    List<CorgiVlogHot> getVlogHot(@Param("vlog") CorgiVlogHot hot);
+    List<CorgiVlogHot> getVlogHot(@Param("vlog") CorgiVlogHot hot, @Param("start")Integer start, @Param("size")Integer size);
+
+    Integer countVlogHot(@Param("vlog") CorgiVlogHot hot);
+
 }
