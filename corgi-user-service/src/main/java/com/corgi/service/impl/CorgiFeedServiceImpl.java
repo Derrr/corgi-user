@@ -56,11 +56,13 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                     result.add(corgiVlog.getActivityId());
                 }
             }
-        } else {
+        }
+        if (result.size() < 5) {
+            Integer max = 20 - result.size();
             Integer total = corgiVlogMapper.countVlog();
             Random random = new Random();
             result = new ArrayList<>();
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < max; i++) {
                 CorgiVlog vlog = corgiVlogMapper.selectOne(random.nextInt(total));
                 if (vlog != null && !StringUtils.isEmpty(vlog.getActivityId())
                         && !result.contains(vlog.getActivityId())) {
