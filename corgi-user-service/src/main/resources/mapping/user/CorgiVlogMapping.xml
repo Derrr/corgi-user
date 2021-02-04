@@ -38,11 +38,14 @@
     <select id="getPopularVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
         <include refid="vlog"/>
-        from corgi_vlog v left join corgi_user_detail d on d.user_id = v.user_id
-        where v.ctime &lt;=#{ctime}
-        and not exists(select 1 from corgi_feed_${index} f where f.user_id = #{userId} and f.`feed` = activity_id)
-        and v.user_id != #{userId}
-        order by like_count desc limit 20
+        from corgi_vlog_hot h
+        left join corgi_vlog v on h.activity_id = v.activity_id
+        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id =
+        f.feed)
+        and h.expect_view > h.view_count
+        and h.status = 'open'
+        and h.type = 'auto'
+        order by h.like_count desc limit #{size}
     </select>
 
     <select id="getVlogById" resultType="com.corgi.user.entity.CorgiVlog">
@@ -115,7 +118,7 @@
         left join corgi_vlog v on h.activity_id = v.activity_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id =
         f.feed)
-        and h.expect_view > view_count
+        and h.expect_view > h.view_count
         and h.status = 'open'
         and h.type = #{vlog.type}
         order by h.like_count limit #{size}
@@ -152,8 +155,9 @@
         from corgi_vlog;
     </select>
 
-    <select id="selectOne" resultType="java.lang.String">
-        select activity_id
+    <select id="selectOne" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="vlog"/>
         from corgi_vlog limit #{start},1;
     </select>
 

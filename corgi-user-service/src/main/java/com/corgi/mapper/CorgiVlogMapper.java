@@ -40,7 +40,7 @@ public interface CorgiVlogMapper {
 
     Integer countVlog();
 
-    String selectOne(@Param("start") Integer start);
+    CorgiVlog selectOne(@Param("start") Integer start);
 
     void addVlogHot(@Param("vlog") CorgiVlogHot hot);
 

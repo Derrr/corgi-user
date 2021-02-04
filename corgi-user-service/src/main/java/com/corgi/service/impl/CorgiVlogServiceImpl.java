@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/**
+/**ge
  * @author tairanliu
  */
 @Service(interfaceClass = CorgiVlogService.class)

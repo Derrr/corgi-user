@@ -51,7 +51,9 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
         if (logList.size() > 0) {
             for (CorgiVlog corgiVlog : logList) {
-                corgiFeedMapper.addFeed(buildFeed(corgiVlog, userId), UserUtils.getIndex(userId));
+                if (corgiVlog != null && !StringUtils.isEmpty(corgiVlog.getActivityId())) {
+                    corgiFeedMapper.addFeed(buildFeed(corgiVlog, userId), UserUtils.getIndex(userId));
+                }
             }
             return corgiFeedMapper.getUnviewFeed(userId, UserUtils.getIndex(userId));
         } else {
@@ -59,9 +61,11 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             Random random = new Random();
             result = new ArrayList<>();
             for (int i = 0; i < 20; i++) {
-                String activityId = corgiVlogMapper.selectOne(random.nextInt(total));
-                if (!result.contains(activityId)) {
-                    result.add(activityId);
+                CorgiVlog vlog = corgiVlogMapper.selectOne(random.nextInt(total));
+                if (vlog != null && !StringUtils.isEmpty(vlog.getActivityId())
+                        && !result.contains(vlog.getActivityId())) {
+                    result.add(vlog.getActivityId());
+                    corgiFeedMapper.addFeed(buildFeed(vlog, userId), UserUtils.getIndex(userId));
                 }
             }
             return result;
