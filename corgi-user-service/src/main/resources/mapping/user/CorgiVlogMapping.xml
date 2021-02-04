@@ -45,7 +45,7 @@
         and h.expect_view > h.view_count
         and h.status = 'open'
         and h.type = 'auto'
-        order by h.like_count desc limit #{size}
+        order by h.like_count desc limit 20
     </select>
 
     <select id="getVlogById" resultType="com.corgi.user.entity.CorgiVlog">
