@@ -89,6 +89,7 @@
         </if>
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         v.activity_id)
+          and v.user_id != #{vlog.userId}
         <if test="vlog.ctime != null">
             and v.ctime &lt;= #{vlog.ctime}
         </if>
