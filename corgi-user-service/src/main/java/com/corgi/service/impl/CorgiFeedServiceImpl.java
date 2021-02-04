@@ -43,7 +43,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     @Override
     public List<String> getUnviewFeed(String userId) {
         List<String> result = corgiFeedMapper.getUnviewFeed(userId, UserUtils.getIndex(userId));
-        if (result.size() > 0) {
+        if (result.size() >= 5) {
             return result;
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -51,11 +51,11 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
         if (logList.size() > 0) {
             for (CorgiVlog corgiVlog : logList) {
-                if (corgiVlog != null && !StringUtils.isEmpty(corgiVlog.getActivityId())) {
+                if (corgiVlog != null && !StringUtils.isEmpty(corgiVlog.getActivityId()) && !result.contains(corgiVlog.getActivityId())) {
                     corgiFeedMapper.addFeed(buildFeed(corgiVlog, userId), UserUtils.getIndex(userId));
+                    result.add(corgiVlog.getActivityId());
                 }
             }
-            return corgiFeedMapper.getUnviewFeed(userId, UserUtils.getIndex(userId));
         } else {
             Integer total = corgiVlogMapper.countVlog();
             Random random = new Random();
@@ -68,8 +68,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                     corgiFeedMapper.addFeed(buildFeed(vlog, userId), UserUtils.getIndex(userId));
                 }
             }
-            return result;
         }
+        return result;
     }
 
     @Override
