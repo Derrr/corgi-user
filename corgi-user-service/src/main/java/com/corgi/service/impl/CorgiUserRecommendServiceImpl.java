@@ -52,6 +52,11 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     }
 
     @Override
+    public List<UserProfile> getVlogRecUser(String userId, Integer size) {
+        return corgiUserRecommendMapper.getVlogRecUsers(userId, size);
+    }
+
+    @Override
     public List<UserProfile> getInfluencerByCity(String userId, String city, Integer size) {
         List<UserProfile> userProfiles = corgiUserRecommendMapper.getCityInfluencer(city, userId, size);
         if (userProfiles.size() < size) {

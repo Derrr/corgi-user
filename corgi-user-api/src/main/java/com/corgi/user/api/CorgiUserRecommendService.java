@@ -18,6 +18,8 @@ public interface CorgiUserRecommendService {
 
     List<UserProfile> getRecUser(String userId, Integer size);
 
+    List<UserProfile> getVlogRecUser(String userId, Integer size);
+
     List<UserProfile> getInfluencerByCity(String userId, String city, Integer size);
 
     List<UserProfile> getCityPopulate(String userId, String city, Integer page, Integer size);

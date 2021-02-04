@@ -56,6 +56,19 @@
             limit #{size}
     </select>
 
+    <select id="getVlogRecUsers" resultType="com.corgi.user.entity.UserProfile">
+        select r.rec_user_id         userId
+        from corgi_user_recommend r
+        where r.user_id = #{userId}
+          and r.`status` = '0'
+          and not exists (select 1 from corgi_user_follow f where f.user_id = #{userId}
+          and f.follow_user_id = r.rec_user_id)
+          and exists (select 1 from corgi_vlog v where v.user_id = r.rec_user_id)
+          and r.rec_user_id != #{userId}
+        order by r.`weight` desc
+            limit #{size}
+    </select>
+
     <select id="getCityInfluencer" resultType="com.corgi.user.entity.UserProfile">
         select
         d.user_id userId,

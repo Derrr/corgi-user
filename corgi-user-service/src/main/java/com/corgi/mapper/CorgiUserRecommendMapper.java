@@ -44,6 +44,15 @@ public interface CorgiUserRecommendMapper {
     List<UserProfile> getRecUsers(@Param("userId") String userId, @Param("size") Integer size);
 
     /**
+     * 获取短视频推荐用户
+     *
+     * @param userId
+     * @param size
+     * @return
+     */
+    List<UserProfile> getVlogRecUsers(@Param("userId") String userId, @Param("size") Integer size);
+
+    /**
      * 获取当地天菜创始人
      *
      * @param city
