@@ -156,7 +156,7 @@
     <select id="selectOne" resultType="com.corgi.user.entity.CorgiVlog">
         select
         <include refid="vlog"/>
-        from corgi_vlog limit #{start},1;
+        from corgi_vlog v limit #{start},1;
     </select>
 
     <insert id="addVlogHot" parameterType="com.corgi.user.entity.CorgiVlogHot">
