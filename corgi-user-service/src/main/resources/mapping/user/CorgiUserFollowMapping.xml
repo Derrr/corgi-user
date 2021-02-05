@@ -8,7 +8,7 @@
         values (
         #{userId},
         NOW(),
-        #{followId},
+        #{followId}
         );
     </insert>
 
