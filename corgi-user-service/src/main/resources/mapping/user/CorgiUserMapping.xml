@@ -42,7 +42,7 @@
                 new_follow_activity = #{userLogin.newFollowActivity},
             </if>
             <if test="userLogin.unregisterDate != null">
-                unregister_date = #{unregisterDate},
+                unregister_date = #{userLogin.unregisterDate},
             </if>
             <if test="userLogin.imId != null">
                 im_id = #{userLogin.imId},
