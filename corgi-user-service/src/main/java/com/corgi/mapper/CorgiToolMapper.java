@@ -66,7 +66,7 @@ public interface CorgiToolMapper {
      * @param activityId
      * @param weight
      */
-    void updateActivityWeight(@Param("activity_id") String activityId, @Param("weight") Integer weight);
+    void updateActivityWeight(@Param("activityId") String activityId, @Param("weight") Integer weight);
 
     /**
      * 添加活动话题
