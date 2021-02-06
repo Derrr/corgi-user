@@ -23,6 +23,7 @@ public interface CorgiToolMapper {
 
     /**
      * 获取活动类型
+     *
      * @return
      */
     List<String> getActivityTypes();
@@ -48,6 +49,24 @@ public interface CorgiToolMapper {
      * @return
      */
     List<String> getActivityTopic(@Param("activityId") String activityId);
+
+    /**
+     * 根据话题获取活动
+     *
+     * @param topic
+     * @param start
+     * @param size
+     * @return
+     */
+    List<String> getActivityIdsByTopic(@Param("topic") String topic, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
+     * 修改活动权重
+     *
+     * @param activityId
+     * @param weight
+     */
+    void updateActivityWeight(@Param("activity_id") String activityId, @Param("weight") Integer weight);
 
     /**
      * 添加活动话题
@@ -191,16 +210,18 @@ public interface CorgiToolMapper {
 
     /**
      * 绑定微信ID
+     *
      * @param wechatId
      * @param corgiId
      */
-    void bindWechatId(@Param("wechatId")String wechatId, @Param("corgiId")String corgiId);
+    void bindWechatId(@Param("wechatId") String wechatId, @Param("corgiId") String corgiId);
 
     /**
      * 根据wechat id获取ID
+     *
      * @param wechatId
      * @return
      */
-    String getIdByWechat(@Param("wechatId")String wechatId);
+    String getIdByWechat(@Param("wechatId") String wechatId);
 
 }

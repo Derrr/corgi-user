@@ -15,34 +15,57 @@
     </select>
 
     <select id="getActivityTypes" resultType="java.lang.String">
-        select `type` from corgi_activity_type
+        select `type`
+        from corgi_activity_type
     </select>
 
     <insert id="addTopic" parameterType="com.corgi.entity.CorgiTopic">
-        insert into `corgi_topics` (`topic`,`status`, cuid, opuid, `content`)
+        insert into `corgi_topics` (`topic`, `status`, cuid, opuid, `content`)
         values (#{topic.topic}, #{topic.status}, #{topic.cuid}, #{topic.opuid}, #{topic.content});
     </insert>
 
     <update id="updateTopic" parameterType="com.corgi.entity.CorgiTopic">
         update corgi_topics
-        set topic = #{topic.topic}, content = #{topic.content}, opuid = #{topic.opuid}, `status` = #{topic.status}
+        set topic    = #{topic.topic},
+            content  = #{topic.content},
+            opuid    = #{topic.opuid},
+            `status` = #{topic.status}
         where id = #{topic.topicId}
     </update>
 
     <select id="getActivityTopic" resultType="java.lang.String">
         select content
         from corgi_activity_topic a
-        left join corgi_topics t on t.id = a.topic
+                 left join corgi_topics t on t.id = a.topic
         where activity_id = #{activityId}
     </select>
 
+    <select id="getActivityIdsByTopic" resultType="java.lang.String">
+        select activity_id
+        from corgi_activity_topic
+        where topic = #{topic}
+        order by `weight` desc
+            limit #{start}, #{size}
+    </select>
+
+    <update id="updateActivityWeight">
+        update corgi_activity_topic
+        set `weight` = #{weight}
+        where activity_id = #{activityId}
+    </update>
+
     <insert id="addActivityTopic">
-        insert ignore into corgi_activity_topic(`activity_id`, `topic`)
-        values (#{activityId}, #{topic});
+        insert
+        ignore into corgi_activity_topic(`activity_id`, `topic`)
+        values (
+        #{activityId},
+        #{topic}
+        );
     </insert>
 
     <delete id="deleteActivityTopic">
-        delete from corgi_activity_topic
+        delete
+        from corgi_activity_topic
         where activity_id = #{activityId}
     </delete>
 
@@ -52,7 +75,8 @@
     </insert>
 
     <select id="getCountByUser" resultType="java.lang.Integer">
-        select `count` from corgi_count_influencer
+        select `count`
+        from corgi_count_influencer
         where `user` = #{user}
     </select>
 
@@ -63,13 +87,17 @@
     </update>
 
     <select id="getAllInfluencer" resultType="java.util.HashMap">
-        select `user`, `count` from corgi_count_influencer
-        limit 2000
+        select `user`, `count`
+        from corgi_count_influencer limit 2000
     </select>
 
     <insert id="addActivityMessage" parameterType="com.corgi.user.entity.ActivityMessage">
-        INSERT INTO `corgi`.`corgi_activity_message` (`message_type`, `content`, `activity_id`, `to_user_id`, `from_user_id`, `from_user_name`, `from_user_avatar`, `time`, `comment_id`)
-        VALUES (#{message.messageType}, #{message.content}, #{message.activityId}, #{message.toUserId}, #{message.fromUserId}, #{message.fromUserName}, #{message.fromUserAvatar}, #{message.time}, #{message.commentId});
+        INSERT INTO `corgi`.`corgi_activity_message` (`message_type`, `content`, `activity_id`, `to_user_id`,
+                                                      `from_user_id`, `from_user_name`, `from_user_avatar`, `time`,
+                                                      `comment_id`)
+        VALUES (#{message.messageType}, #{message.content}, #{message.activityId}, #{message.toUserId},
+                #{message.fromUserId}, #{message.fromUserName}, #{message.fromUserAvatar}, #{message.time},
+                #{message.commentId});
     </insert>
 
     <delete id="deleteActivityMessageByMessage" parameterType="com.corgi.user.entity.ActivityMessage">
@@ -91,80 +119,82 @@
 
 
     <select id="getActivityMessage" resultType="com.corgi.user.entity.ActivityMessage">
-        select message_type messageType,
-        `content`,
-        activity_id activityId,
-        `to_user_id` toUserId,
-        `from_user_id` fromUserId,
-        `from_user_name` fromUserName,
-        `from_user_avatar` fromUserAvatar,
-        `is_read` isRead,
-        `comment_id` commentId,
-        `time`
+        select message_type       messageType,
+               `content`,
+               activity_id        activityId,
+               `to_user_id`       toUserId,
+               `from_user_id`     fromUserId,
+               `from_user_name`   fromUserName,
+               `from_user_avatar` fromUserAvatar,
+               `is_read`          isRead,
+               `comment_id`       commentId,
+               `time`
         from corgi_activity_message
-        where to_user_id = #{userId} and is_read = '0'
+        where to_user_id = #{userId}
+          and is_read = '0'
         order by `time` desc
-        limit #{size}
+            limit #{size}
     </select>
 
     <select id="getActivityMessageByType" resultType="com.corgi.user.entity.ActivityMessage">
-        select message_type messageType,
-        `content`,
-        activity_id activityId,
-        `to_user_id` toUserId,
-        `from_user_id` fromUserId,
-        `from_user_name` fromUserName,
-        `from_user_avatar` fromUserAvatar,
-        `is_read` isRead,
-        `comment_id` commentId,
-        `time`
+        select message_type       messageType,
+               `content`,
+               activity_id        activityId,
+               `to_user_id`       toUserId,
+               `from_user_id`     fromUserId,
+               `from_user_name`   fromUserName,
+               `from_user_avatar` fromUserAvatar,
+               `is_read`          isRead,
+               `comment_id`       commentId,
+               `time`
         from corgi_activity_message
-        where to_user_id = #{userId} and is_read = '0'
-        and message_type = #{type}
+        where to_user_id = #{userId}
+          and is_read = '0'
+          and message_type = #{type}
         order by `time` desc
-        limit #{size}
+            limit #{size}
     </select>
 
     <select id="getAllActivityMessage" resultType="com.corgi.user.entity.ActivityMessage">
-        select message_type messageType,
-        `content`,
-        activity_id activityId,
-        `to_user_id` toUserId,
-        `from_user_id` fromUserId,
-        `from_user_name` fromUserName,
-        `from_user_avatar` fromUserAvatar,
-        `is_read` isRead,
-        `comment_id` commentId,
-        `time`
+        select message_type       messageType,
+               `content`,
+               activity_id        activityId,
+               `to_user_id`       toUserId,
+               `from_user_id`     fromUserId,
+               `from_user_name`   fromUserName,
+               `from_user_avatar` fromUserAvatar,
+               `is_read`          isRead,
+               `comment_id`       commentId,
+               `time`
         from corgi_activity_message
         where to_user_id = #{userId}
         order by `time` desc
-        limit #{start}, #{size}
+            limit #{start}, #{size}
     </select>
 
     <select id="getAllActivityMessageByType" resultType="com.corgi.user.entity.ActivityMessage">
-        select message_type messageType,
-        `content`,
-        activity_id activityId,
-        `to_user_id` toUserId,
-        `from_user_id` fromUserId,
-        `from_user_name` fromUserName,
-        `from_user_avatar` fromUserAvatar,
-        `is_read` isRead,
-        `comment_id` commentId,
-        `time`
+        select message_type       messageType,
+               `content`,
+               activity_id        activityId,
+               `to_user_id`       toUserId,
+               `from_user_id`     fromUserId,
+               `from_user_name`   fromUserName,
+               `from_user_avatar` fromUserAvatar,
+               `is_read`          isRead,
+               `comment_id`       commentId,
+               `time`
         from corgi_activity_message
         where to_user_id = #{userId}
-        and message_type = #{type}
+          and message_type = #{type}
         order by `time` desc
-        limit #{start}, #{size}
+            limit #{start}, #{size}
     </select>
 
     <select id="countActivityMessage" resultType="java.lang.Long">
         select count(1)
         from corgi_activity_message
         where to_user_id = #{userId}
-        and is_read = '0'
+          and is_read = '0'
     </select>
 
     <select id="countActivityMessageByMessage" resultType="java.lang.Integer"
@@ -192,9 +222,10 @@
 
 
     <delete id="deleteActivityMessage">
-        delete from corgi_activity_message
+        delete
+        from corgi_activity_message
         where to_user_id = #{userId}
-        and `time` &lt;= #{time}
+          and `time` &lt;= #{time}
     </delete>
 
     <update id="readActivityMessage">
@@ -207,16 +238,21 @@
         update corgi_activity_message
         set is_read = '1'
         where to_user_id = #{userId}
-        and message_type = #{type}
+          and message_type = #{type}
     </update>
 
     <insert id="bindWechatId">
-        insert ignore into corgi_wechat_bind(wechat_id, corgi_id)
-        values(#{wechatId}, #{corgiId})
+        insert
+        ignore into corgi_wechat_bind(wechat_id, corgi_id)
+        values(
+        #{wechatId},
+        #{corgiId}
+        )
     </insert>
-    
+
     <select id="getIdByWechat" resultType="java.lang.String">
-        select corgi_id from corgi_wechat_bind
+        select corgi_id
+        from corgi_wechat_bind
         where wechat_id = #{wechatId}
     </select>
 </mapper>
