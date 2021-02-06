@@ -104,6 +104,16 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public List<String> getActivityIdsByTopic(String topic, Integer page, Integer size) {
+        return corgiToolMapper.getActivityIdsByTopic(topic, (page - 1) * size, size);
+    }
+
+    @Override
+    public void updateActivityTopicWeight(String activityId, Integer weight) {
+        corgiToolMapper.updateActivityWeight(activityId, weight);
+    }
+
+    @Override
     public void updateActivityTopic(String activityId, List<String> topics) {
         corgiToolMapper.deleteActivityTopic(activityId);
         if (topics != null) {
