@@ -61,13 +61,13 @@
     <update id="addVlogCount" parameterType="com.corgi.user.entity.CorgiVlog">
         update corgi_vlog
         <set>
-            <if test="vlog.likeCount != null and vlog.likeCount > 0">
+            <if test="vlog.likeCount != null and vlog.likeCount != 0">
                 `like_count` = like_count + ${vlog.likeCount},
             </if>
             <if test="vlog.viewCount != null and vlog.viewCount > 0">
                 `view_count` = view_count + ${vlog.viewCount},
             </if>
-            <if test="vlog.commentCount != null and vlog.commentCount > 0">
+            <if test="vlog.commentCount != null and vlog.commentCount != 0">
                 `comment_count` = comment_count + ${vlog.commentCount},
             </if>
             <if test="vlog.status != null">
