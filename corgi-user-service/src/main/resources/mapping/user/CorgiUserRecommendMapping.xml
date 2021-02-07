@@ -233,8 +233,7 @@
     </select>
 
     <delete id="clearRecActivity">
-        delete
-        from corgi_user_coordinate
+        update corgi_user_coordinate set weight = '0'
         where user_id = #{userId}
     </delete>
 
