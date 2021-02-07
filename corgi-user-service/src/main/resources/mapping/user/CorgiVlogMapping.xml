@@ -169,7 +169,7 @@
     <update id="updateVlogHot" parameterType="com.corgi.user.entity.CorgiVlogHot">
         update corgi_vlog_hot
         <set>
-            <if test="vlog.likeCount != null and vlog.likeCount > 0">
+            <if test="vlog.likeCount != null and vlog.likeCount != 0">
                 `like_count` = like_count + ${vlog.likeCount},
             </if>
             <if test="vlog.viewCount != null and vlog.viewCount > 0">
