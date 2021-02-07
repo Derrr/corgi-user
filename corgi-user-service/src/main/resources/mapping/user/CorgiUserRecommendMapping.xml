@@ -238,7 +238,13 @@
     </delete>
 
     <insert id="addRecommendActivity">
-        insert into corgi_user_coordinate(`user_id`, `co_user_id`, `weight`)
-        values (#{userId}, #{recId}, #{weight})
+        insert ignore into corgi_user_coordinate(`user_id`, `co_user_id`)
+        values (#{userId}, #{recId})
     </insert>
+
+    <update id="updateRecommendActivity">
+        update corgi_user_coordinate set `weight` = `weight` + #{weight}
+where user_id = #{userId} and co_user_id = #{recId}
+    </update>
+
 </mapper>

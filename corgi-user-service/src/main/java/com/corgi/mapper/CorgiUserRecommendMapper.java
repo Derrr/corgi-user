@@ -130,6 +130,15 @@ public interface CorgiUserRecommendMapper {
      * @param userId
      * @param recId
      */
-    void addRecommendActivity(@Param("userId") String userId, @Param("recId") String recId, @Param("weight") Integer weight);
+    void addRecommendActivity(@Param("userId") String userId, @Param("recId") String recId);
+
+    /**
+     * 添加推荐权重
+     *
+     * @param userId
+     * @param recId
+     */
+    void updateRecommendActivity(@Param("userId") String userId, @Param("recId") String recId, @Param("weight") Integer weight);
+
 
 }

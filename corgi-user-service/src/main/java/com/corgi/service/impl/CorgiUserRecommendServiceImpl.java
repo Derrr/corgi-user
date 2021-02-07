@@ -105,7 +105,8 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
 
     @Override
     public void addRecActivity(String userId, String recId, Integer weight) {
-        corgiUserRecommendMapper.addRecommendActivity(userId, recId, weight);
+        corgiUserRecommendMapper.addRecommendActivity(userId, recId);
+        corgiUserRecommendMapper.updateRecommendActivity(userId, recId, weight);
     }
 
     @Override
