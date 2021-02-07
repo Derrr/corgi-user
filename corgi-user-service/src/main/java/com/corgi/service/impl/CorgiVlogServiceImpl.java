@@ -89,7 +89,7 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
             if (corgiVlogMapper.countVlogHot(hot) == 0) {
                 CorgiVlog vlog = corgiVlogMapper.getVlogById(hot.getActivityId());
                 if (vlog != null) {
-                    hot.setExpectView(50);
+                    hot.setExpectView(10);
                     corgiVlogMapper.addVlogHot(hot);
                 }
             }
