@@ -122,7 +122,11 @@
         and h.expect_view > h.view_count
         and h.status = 'open'
         and h.type = #{vlog.type}
-        order by h.like_count limit #{size}
+        order by h.like_count
+        <if test="vlog.status == 'desc'">
+            desc
+        </if>
+        limit #{size}
     </select>
 
     <select id="getFollowVlog" resultType="com.corgi.user.entity.CorgiVlog">
