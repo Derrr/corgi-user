@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiVlogMapper">
-    <sql id="vlog">v.id,v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
+    <sql id="vlog">v
+    .
+    id
+    ,v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
 
     <insert id="addVlog" parameterType="com.corgi.user.entity.CorgiVlog">
         INSERT
@@ -86,7 +89,7 @@
         </if>
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         v.activity_id)
-          and v.user_id != #{vlog.userId}
+        and v.user_id != #{vlog.userId}
         <if test="vlog.ctime != null">
             and v.ctime &lt;= #{vlog.ctime}
         </if>
@@ -160,9 +163,10 @@
     </select>
 
     <insert id="addVlogHot" parameterType="com.corgi.user.entity.CorgiVlogHot">
-        INSERT INTO `corgi_vlog` (`activity_id`, `expect_view`, `type`)
+        INSERT INTO `corgi_vlog` (`activity_id`, `expect_view`, `like_count`, `type`)
         VALUES (#{vlog.activityId},
                 #{vlog.expectView},
+                #{vlog.likeCount},
                 #{vlog.type});
     </insert>
 
@@ -170,7 +174,7 @@
         update corgi_vlog_hot
         <set>
             <if test="vlog.likeCount != null and vlog.likeCount != 0">
-                `like_count` = like_count + ${vlog.likeCount},
+                `like_count` = ${vlog.likeCount},
             </if>
             <if test="vlog.viewCount != null and vlog.viewCount > 0">
                 `view_count` = view_count + ${vlog.viewCount},
