@@ -14,7 +14,7 @@ public interface CorgiLikeMapper {
      *
      * @param activityLike
      */
-    void addActivityLike(@Param("like") ActivityLike activityLike);
+    Integer addActivityLike(@Param("like") ActivityLike activityLike);
 
     /**
      * 删除活动点赞
@@ -22,7 +22,7 @@ public interface CorgiLikeMapper {
      * @param userId
      * @param activityId
      */
-    void deleteActivityLike(@Param("userId") String userId, @Param("activityId") String activityId);
+    Integer deleteActivityLike(@Param("userId") String userId, @Param("activityId") String activityId);
 
     /**
      * 获取活动点赞

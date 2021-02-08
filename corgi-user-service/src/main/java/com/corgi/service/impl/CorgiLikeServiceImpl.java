@@ -28,7 +28,7 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     private CorgiToolService corgiToolService;
 
     @Override
-    public void addActivityLike(ActivityLike activityLike) {
+    public Integer addActivityLike(ActivityLike activityLike) {
         String userId = activityLike.getLikeUserId();
         if ("-1".equals(userId) || StringUtils.isEmpty(userId)) {
             userId = "1";
@@ -37,7 +37,7 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
         activityLike.setLikeUserName(userDetail.getNickname());
         activityLike.setLikeUserAvatar(userDetail.getAvatar());
 
-        corgiLikeMapper.addActivityLike(activityLike);
+        Integer result = corgiLikeMapper.addActivityLike(activityLike);
         if (!userDetail.getUserId().equals(activityLike.getUserId())) {
             corgiToolService.addActivityMessage(ActivityMessage.builder()
                     .activityId(activityLike.getActivityId())
@@ -49,16 +49,18 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
                     .messageType(ActivityMessage.LIKE)
                     .build());
         }
+        return result;
     }
 
     @Override
-    public void deleteActivityLike(String userId, String activityId) {
-        corgiLikeMapper.deleteActivityLike(userId, activityId);
+    public Integer deleteActivityLike(String userId, String activityId) {
+        Integer result = corgiLikeMapper.deleteActivityLike(userId, activityId);
         corgiToolService.deleteActivityMessageByMessage(ActivityMessage.builder()
                 .fromUserId(userId)
                 .activityId(activityId)
                 .messageType(ActivityMessage.LIKE)
                 .build());
+        return result;
     }
 
     @Override

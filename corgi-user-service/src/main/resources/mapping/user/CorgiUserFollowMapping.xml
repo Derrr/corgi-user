@@ -4,11 +4,11 @@
 
     <insert id="addFollowUser">
         insert
-        ignore into corgi_user_follow (`user_id`, `uptime`, `follow_user_id`)
+        ignore into corgi_user_follow (`user_id`, `follow_user_id`, `uptime`)
         values (
         #{userId},
-        NOW(),
-        #{followId}
+        #{followId},
+        NOW()
         );
     </insert>
 
