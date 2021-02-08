@@ -41,6 +41,15 @@ public interface CorgiLikeMapper {
     Long countActivityLike(@Param("activityId") String activityId);
 
     /**
+     * 真实点赞数
+     *
+     * @param activityId
+     * @return
+     */
+    Integer countRealActivityLike(@Param("activityId") String activityId);
+
+
+    /**
      * 获取点赞数
      *
      * @param activityId
