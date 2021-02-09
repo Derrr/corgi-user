@@ -617,6 +617,7 @@
     <select id="countUserStay" resultType="java.lang.Long">
         select count(1)
         from corgi_user_position p
+        left join corgi_user_detail d on d.user_id = p.user_id
         where p.uptime >= #{time}
           and d.cime like concat(#{date}, '%')
     </select>
