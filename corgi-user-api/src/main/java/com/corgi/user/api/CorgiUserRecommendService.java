@@ -12,7 +12,7 @@ public interface CorgiUserRecommendService {
 
     void followRecUser(String userId, String recId);
 
-    void addRecUser(String userId, String recId, Integer weight);
+    void addRecUser(String userId, String recId, Double weight);
 
     void updateRecStatus(String userId, String recId, String status);
 
@@ -36,7 +36,7 @@ public interface CorgiUserRecommendService {
 
     void clearRecActivity(String userId);
 
-    void addRecActivity(String userId, String recId, Integer weight);
+    void addRecActivity(String userId, String recId, Double weight);
 
     List<String> getRecActivity(String userId);
 

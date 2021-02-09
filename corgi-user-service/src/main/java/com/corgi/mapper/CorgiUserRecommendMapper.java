@@ -23,7 +23,7 @@ public interface CorgiUserRecommendMapper {
      * @param userId
      * @param recId
      */
-    void addRecommend(@Param("userId") String userId, @Param("recId") String recId, @Param("weight") Integer weight);
+    void addRecommend(@Param("userId") String userId, @Param("recId") String recId, @Param("weight") Double weight);
 
     /**
      * 更新推荐状态
@@ -138,7 +138,7 @@ public interface CorgiUserRecommendMapper {
      * @param userId
      * @param recId
      */
-    void updateRecommendActivity(@Param("userId") String userId, @Param("recId") String recId, @Param("weight") Integer weight);
+    void updateRecommendActivity(@Param("userId") String userId, @Param("recId") String recId, @Param("weight") Double weight);
 
 
 }

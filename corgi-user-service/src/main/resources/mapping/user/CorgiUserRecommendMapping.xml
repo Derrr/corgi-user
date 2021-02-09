@@ -63,7 +63,8 @@
           and r.`status` = '0'
           and exists(select 1 from corgi_vlog v where v.user_id = r.rec_user_id)
           and r.rec_user_id != #{userId}
-          and r.`weight` > 0
+          and r.`weight`
+            > 0
         order by r.`weight` desc
             limit #{size}
     </select>
@@ -233,18 +234,25 @@
     </select>
 
     <delete id="clearRecActivity">
-        update corgi_user_coordinate set weight = '0'
+        update corgi_user_coordinate
+        set weight = '0'
         where user_id = #{userId}
     </delete>
 
     <insert id="addRecommendActivity">
-        insert ignore into corgi_user_coordinate(`user_id`, `co_user_id`)
-        values (#{userId}, #{recId})
+        insert
+        ignore into corgi_user_coordinate(`user_id`, `co_user_id`)
+        values (
+        #{userId},
+        #{recId}
+        )
     </insert>
 
     <update id="updateRecommendActivity">
-        update corgi_user_coordinate set `weight` = `weight` + #{weight}
-where user_id = #{userId} and co_user_id = #{recId}
+        update corgi_user_coordinate
+        set `weight` = `weight` + #{weight}
+        where user_id = #{userId}
+          and co_user_id = #{recId}
     </update>
 
 </mapper>

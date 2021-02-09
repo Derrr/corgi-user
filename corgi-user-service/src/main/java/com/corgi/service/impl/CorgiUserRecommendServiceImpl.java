@@ -33,9 +33,9 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     }
 
     @Override
-    public void addRecUser(String userId, String recId, Integer weight) {
+    public void addRecUser(String userId, String recId, Double weight) {
         if (weight == null) {
-            weight = 1;
+            weight = 1.0;
         }
         corgiUserRecommendMapper.insertUserRecommend(userId, recId);
         corgiUserRecommendMapper.addRecommend(userId, recId, weight);
@@ -104,7 +104,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     }
 
     @Override
-    public void addRecActivity(String userId, String recId, Integer weight) {
+    public void addRecActivity(String userId, String recId, Double weight) {
         corgiUserRecommendMapper.addRecommendActivity(userId, recId);
         corgiUserRecommendMapper.updateRecommendActivity(userId, recId, weight);
     }
