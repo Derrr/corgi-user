@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiDateMapper">
     <insert id="addCorgiDate" parameterType="com.corgi.user.entity.CorgiDate">
-        INSERT INTO `corgi_date` (`user_id`, `type`, `pay_type`, `end_time`)
-        VALUES (#{date.userId}, #{date.type}, #{date.payType}, #{date.endTime});
+        INSERT INTO `corgi_date` (`user_id`, `type`, `pay_type`, `end_time`, `city`)
+        VALUES (#{date.userId}, #{date.type}, #{date.payType}, #{date.endTime}, #{date.city});
     </insert>
 
     <select id="searchDate" resultType="com.corgi.user.entity.CorgiDate">
@@ -14,6 +14,7 @@
         `pay_type` payType,
         end_time endTime,
         ctime,
+        `city`,
         status
         from corgi_date
         where `status` = 'open'
@@ -22,6 +23,9 @@
         </if>
         <if test="date.payType != null">
             and (pay_type = '0' or `pay_type` = #{date.payType})
+        </if>
+        <if test="date.city != null">
+            and city= #{date.city}
         </if>
         <if test="date.endTime != null">
             and end_time >= #{date.endTime}
@@ -36,6 +40,7 @@
                `pay_type` payType,
                end_time   endTime,
                ctime,
+               city,
                status
         from corgi_date
         where id = #{id}
