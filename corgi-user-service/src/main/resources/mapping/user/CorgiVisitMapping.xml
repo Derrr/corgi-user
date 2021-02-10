@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiVisitMapper">
+    <insert id="addVisit">
+        insert
+        ignore into corgi_visit(`user_id`,`visitor_id`) values (
+        #{userId},
+        #{visitorId}
+        )
+    </insert>
+
+    <update id="addVisitCount">
+        update corgi_visit
+        set `count` = `count` + 1
+        where user_id = #{userId}
+          and visitor_id = #{visitorId}
+    </update>
+
+    <select id="getVisitor" resultType="com.corgi.user.entity.UserProfile">
+        select d.user_id             userId,
+               d.nickname            `nickname`,
+               d.avatar              avatar,
+               d.avatar_status       avatarStatus,
+               d.avatar_check_status avatarCheckStatus,
+               d.role                role,
+               d.hide_role           hideRole,
+               d.group               `group`,
+               d.hide_group          `hideGroup`,
+               d.hide_prefer_group   `hidePreferGroup`,
+               d.con                 con,
+               d.relation,
+               d.check_status        checkStatus,
+               d.weight,
+               d.height,
+               d.birthday
+        from corgi_visit v
+                 join corgi_user_detail d on d.user_id = v.visitor_id
+        order by v.uptime desc, v.count desc
+    </select>
+</mapper>
