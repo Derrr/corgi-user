@@ -6,6 +6,10 @@ import java.io.Serializable;
 
 @Data
 public class CorgiDate implements Serializable {
+    public static final String OPEN = "open";
+    public static final String CLOSE = "close";
+    public static final String TAKEN = "taken";
+
     private Integer id;
     private String userId;
     private String takenUser;

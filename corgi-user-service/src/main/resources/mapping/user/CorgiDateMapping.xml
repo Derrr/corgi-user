@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiDateMapper">
     <insert id="addCorgiDate" parameterType="com.corgi.user.entity.CorgiDate">
-        INSERT INTO `corgi_date` (`user_id`, `type`, `pay_type`, `end_time`, `city`)
-        VALUES (#{date.userId}, #{date.type}, #{date.payType}, #{date.endTime}, #{date.city});
+        INSERT INTO `corgi_date` (`user_id`, `type`, `pay_type`, `end_time`, `city`, `status`)
+        VALUES (#{date.userId}, #{date.type}, #{date.payType}, #{date.endTime}, #{date.city}, #{date.status});
     </insert>
 
     <select id="searchDate" resultType="com.corgi.user.entity.CorgiDate">
