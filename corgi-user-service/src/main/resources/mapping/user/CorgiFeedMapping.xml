@@ -11,7 +11,11 @@
     </select>
 
     <select id="countUnviewFeed" resultType="java.lang.Integer">
-        select count(1) from corgi_feed_${index} where user_id = #{userId} and view_count = '0' limit 20
+        select count(1) from corgi_feed_${index} where user_id = #{userId} and view_count = '0'
+    </select>
+
+    <select id="countViewFeed" resultType="java.lang.Integer">
+        select count(1) from corgi_feed_${index} where ctime like concat(#{date},'%') and view_count > 1
     </select>
 
     <update id="viewFeed">

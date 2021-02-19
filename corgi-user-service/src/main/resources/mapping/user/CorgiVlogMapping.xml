@@ -235,4 +235,10 @@
             and `activity_id` = #{activityId}
         </if>
     </select>
+
+    <select id="countVlogByDate" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_vlog
+        where ctime like concat(#{date}, '%')
+    </select>
 </mapper>

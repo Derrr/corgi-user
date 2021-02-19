@@ -35,4 +35,6 @@ public interface CorgiVlogService {
     List<CorgiVlogHot> getHotVlog(CorgiVlogHot corgiVlogHot, Integer page, Integer pageSize);
 
     Integer countHotVlog(CorgiVlogHot corgiVlogHot);
+
+    Integer countVlog(String date);
 }

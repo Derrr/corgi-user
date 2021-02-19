@@ -25,4 +25,5 @@ public class UserQuery implements Serializable{
     private Integer startMatch;
     private Integer endMatch;
     private String follow;
+    private String type;
 }

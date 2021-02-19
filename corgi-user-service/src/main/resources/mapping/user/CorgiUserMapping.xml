@@ -400,6 +400,11 @@
         <if test="range.group != null and range.group != ''">
             and d.group in ${range.group} and d.hide_group != '1'
         </if>
+        <if test="range.type == 'distance'">
+            order by if(if(p.lat is null,b.lat,p.lat) &lt; 200 and if(p.lng is null,b.lng,p.lng) &lt;
+            200,st_distance_sphere(point(#{range.lng},#{range.lat}),if(p.pt is null,point(b.lng,b.lat)
+            ,p.pt))/100000,100000)
+        </if>
     </select>
 
     <select id="getUserProfile" resultType="com.corgi.user.entity.UserProfile">
@@ -617,7 +622,7 @@
     <select id="countUserStay" resultType="java.lang.Long">
         select count(1)
         from corgi_user_position p
-        left join corgi_user_detail d on d.user_id = p.user_id
+                 left join corgi_user_detail d on d.user_id = p.user_id
         where p.uptime >= #{time}
           and d.cime like concat(#{date}, '%')
     </select>
@@ -683,6 +688,7 @@
     <select id="getUnregisterUserIds" resultType="java.lang.String">
         select id
         from corgi_user_login
-        where unregister_date > '0' and unregister_date &lt;= #{date}
+        where unregister_date > '0'
+          and unregister_date &lt;= #{date}
     </select>
 </mapper>

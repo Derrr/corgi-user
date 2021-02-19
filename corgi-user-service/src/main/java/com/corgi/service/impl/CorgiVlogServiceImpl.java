@@ -16,7 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/**ge
+/**
+ * ge
+ *
  * @author tairanliu
  */
 @Service(interfaceClass = CorgiVlogService.class)
@@ -105,6 +107,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     @Override
     public Integer countHotVlog(CorgiVlogHot corgiVlogHot) {
         return corgiVlogMapper.countVlogHot(corgiVlogHot);
+    }
+
+    @Override
+    public Integer countVlog(String date) {
+        return corgiVlogMapper.countVlogByDate(date);
     }
 
     private String getNowDate() {

@@ -229,6 +229,16 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         return userProfiles;
     }
 
+    @Override
+    public MapUserProfile getMapUser(UserQuery userQuery) {
+        MapUserProfile mapUserProfile = new MapUserProfile();
+        userQuery.setType("distance");
+        List<String> userIds = getAllNearByUser(userQuery);
+        mapUserProfile.setUserIds(userIds);
+        mapUserProfile.setUsers(getMapUserProfile(userIds, userQuery.getUserId()));
+        return mapUserProfile;
+    }
+
 
     private boolean hasFilter(UserQuery userQuery) {
         return !StringUtils.isEmpty(userQuery.getNickname())
@@ -464,6 +474,37 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         ) {
             redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
         }
+    }
+
+    private List<UserProfile> getMapUserProfile(List<String> userIds, String loginUserId) {
+        userIds.remove(loginUserId);
+        List<UserBasic> userBasics = corgiBlacklistMapper.getBlacklist(loginUserId);
+        List<String> beBlacks = corgiBlacklistMapper.getBeBlacklist(loginUserId);
+        if (!CollectionUtils.isEmpty(userBasics)) {
+            List<String> blockUserIds = userBasics.stream().map(UserBasic::getUserId).collect(Collectors.toList());
+            if (blockUserIds != null) {
+                userIds.removeAll(blockUserIds);
+            }
+        }
+        if (!CollectionUtils.isEmpty(beBlacks)) {
+            userIds.removeAll(beBlacks);
+        }
+        //若没有人则返回空
+        if (CollectionUtils.isEmpty(userIds)) {
+            return new ArrayList<>();
+        }
+        Long lastTime = System.currentTimeMillis() - 14 * 24 * 3600 * 1000L;
+        List<UserProfile> result = new ArrayList<>();
+        for (String userId : userIds) {
+            UserProfile detail = corgiUserMapper.getUserProfile(userId);
+            if ("normal".equals(detail.getAvatarCheckStatus()) && detail.getTime() > lastTime) {
+                result.add(detail);
+                if (result.size() >= 30) {
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     private String getUserSql(List<String> userIds, String loginUserId, Integer startMatch, Integer endMatch, List<UserProfile> userProfiles) {

@@ -16,4 +16,6 @@ public interface CorgiFeedService {
     void viewFeed(String userId, String feed);
 
     void addFeed(CorgiFeed corgiFeed);
+
+    Integer countViewFeed(String date);
 }

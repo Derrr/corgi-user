@@ -91,6 +91,15 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         }
     }
 
+    @Override
+    public Integer countViewFeed(String date) {
+        Integer total = 0;
+        for (int i = 0; i < 8; i++) {
+            total += corgiFeedMapper.countViewFeed(date, i + "");
+        }
+        return total;
+    }
+
 
     private CorgiFeed buildFeed(CorgiVlog vlog, String userId) {
         CorgiFeed feed = new CorgiFeed();

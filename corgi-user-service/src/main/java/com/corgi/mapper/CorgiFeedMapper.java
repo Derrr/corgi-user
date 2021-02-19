@@ -29,6 +29,15 @@ public interface CorgiFeedMapper {
     Integer countUnviewFeed(@Param("userId") String userId, @Param("index") String index);
 
     /**
+     * 统计feed
+     *
+     * @param date
+     * @return
+     */
+    Integer countViewFeed(@Param("date") String date, @Param("index") String index);
+
+
+    /**
      * 添加feed
      *
      * @param corgiFeed

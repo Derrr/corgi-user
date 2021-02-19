@@ -50,4 +50,6 @@ public interface CorgiVlogMapper {
 
     Integer countVlogHot(@Param("vlog") CorgiVlogHot hot);
 
+    Integer countVlogByDate(@Param("date") String date);
+
 }

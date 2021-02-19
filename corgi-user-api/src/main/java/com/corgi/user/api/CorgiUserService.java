@@ -37,6 +37,8 @@ public interface CorgiUserService {
 
     List<UserProfile> getNearByUser(UserQuery userQuery);
 
+    MapUserProfile getMapUser(UserQuery userQuery);
+
     List<String> getAllNearByUser(UserQuery userQuery);
 
     List<UserProfile> getAllNearByUserProfile(UserQuery userQuery);
