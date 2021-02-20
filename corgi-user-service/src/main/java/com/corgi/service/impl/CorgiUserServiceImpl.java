@@ -497,6 +497,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         List<UserProfile> result = new ArrayList<>();
         for (String userId : userIds) {
             UserProfile detail = corgiUserMapper.getUserProfile(userId);
+            if (detail == null || detail.getTime() == null) {
+                continue;
+            }
             if ("normal".equals(detail.getAvatarCheckStatus()) && detail.getTime() > lastTime) {
                 result.add(detail);
                 if (result.size() >= 30) {
