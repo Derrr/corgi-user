@@ -31,6 +31,7 @@ public class UserQuerySupporter {
     private String group;
     private String relation;
     private String follow = "";
+    private String type;
 
     public UserQuerySupporter(UserQuery userQuery) {
         this.userId = userQuery.getUserId();
@@ -92,6 +93,6 @@ public class UserQuerySupporter {
             sb.append(")");
             this.group = sb.toString();
         }
-
+        this.type = userQuery.getType();
     }
 }
