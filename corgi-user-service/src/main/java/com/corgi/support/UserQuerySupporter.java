@@ -32,8 +32,13 @@ public class UserQuerySupporter {
     private String relation;
     private String follow = "";
     private String type;
+    private double lat;
+    private double lng;
 
     public UserQuerySupporter(UserQuery userQuery) {
+        this.lat = userQuery.getLat();
+        this.lng = userQuery.getLng();
+
         this.userId = userQuery.getUserId();
         this.userQuery = userQuery;
         Double range = userQuery.getRange();
