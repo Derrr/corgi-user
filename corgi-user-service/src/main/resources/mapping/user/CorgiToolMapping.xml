@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiToolMapper">
     <select id="searchTopic" resultType="com.corgi.entity.CorgiTopic">
-        select id topicId, `topic`, ctime, uptime, `status`, cuid, opuid, `content`
+        select id topicId, `topic`, ctime, uptime, `status`, cuid, opuid, `content`, `pic_url` picUrl
         from corgi_topics
         where `status` != 'deleted'
         <if test="status != null and status != ''">
@@ -20,8 +20,8 @@
     </select>
 
     <insert id="addTopic" parameterType="com.corgi.entity.CorgiTopic">
-        insert into `corgi_topics` (`topic`, `status`, cuid, opuid, `content`)
-        values (#{topic.topic}, #{topic.status}, #{topic.cuid}, #{topic.opuid}, #{topic.content});
+        insert into `corgi_topics` (`topic`, `status`, cuid, opuid, `content`, `pic_url`)
+        values (#{topic.topic}, #{topic.status}, #{topic.cuid}, #{topic.opuid}, #{topic.content}, #{topic.picUrl});
     </insert>
 
     <update id="updateTopic" parameterType="com.corgi.entity.CorgiTopic">
@@ -29,7 +29,8 @@
         set topic    = #{topic.topic},
             content  = #{topic.content},
             opuid    = #{topic.opuid},
-            `status` = #{topic.status}
+            `status` = #{topic.status},
+            `pic_url` = #{topic.picUrl}
         where id = #{topic.topicId}
     </update>
 

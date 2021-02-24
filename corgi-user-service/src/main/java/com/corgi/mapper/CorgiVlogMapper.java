@@ -52,4 +52,6 @@ public interface CorgiVlogMapper {
 
     Integer countVlogByDate(@Param("date") String date);
 
+    CorgiVlog countByTopic(@Param("topic")String topic);
+
 }

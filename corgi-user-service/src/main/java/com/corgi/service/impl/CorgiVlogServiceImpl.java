@@ -114,6 +114,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
         return corgiVlogMapper.countVlogByDate(date);
     }
 
+    @Override
+    public CorgiVlog countByTopic(String topic) {
+        return countByTopic(topic);
+    }
+
     private String getNowDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());

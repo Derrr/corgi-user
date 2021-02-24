@@ -241,4 +241,11 @@
         from corgi_vlog
         where ctime like concat(#{date}, '%')
     </select>
+
+    <select id="countByTopic" resultType="com.corgi.user.entity.CorgiVlog">
+        select count(1) id, sum(v.like_count) likeCount, sum(view_count) viewCount, sum(comment_count) commentCount
+        from corgi_vlog v
+                 left join corgi_activity_topic t on t.activity_id = v.activity_id
+        where t.topic = #{topic}
+    </select>
 </mapper>

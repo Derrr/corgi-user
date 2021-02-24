@@ -37,4 +37,6 @@ public interface CorgiVlogService {
     Integer countHotVlog(CorgiVlogHot corgiVlogHot);
 
     Integer countVlog(String date);
+
+    CorgiVlog countByTopic(String topic);
 }
