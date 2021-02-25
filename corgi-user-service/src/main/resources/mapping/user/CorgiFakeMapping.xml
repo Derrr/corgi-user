@@ -53,13 +53,12 @@
           and `type` = 'fake'
     </select>
 
-    <select id="getLastActivity" resultType="java.lang.String">
-        select activity_id
+    <select id="getActivityByDate" resultType="com.corgi.activity.entity.CorgiActivity">
+        select activity_id activityId, creator_id userId, category
         from corgi_activity_creator
         where creator_id = #{userId}
           and category in ('video', 'image')
           and ctime >= #{time}
-        order by id desc limit 1
     </select>
 
     <update id="updateFakeUserPosition">

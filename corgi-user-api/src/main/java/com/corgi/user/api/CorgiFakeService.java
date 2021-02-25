@@ -1,6 +1,7 @@
 package com.corgi.user.api;
 
 
+import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.user.entity.ActivityLike;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface CorgiFakeService {
 
     Integer countFakeLike(String activityId);
 
-    String getLastActivity(String userId, String time);
+    List<CorgiActivity> getActivityByDate(String time);
 
     void updateFakeTime(String userId);
 

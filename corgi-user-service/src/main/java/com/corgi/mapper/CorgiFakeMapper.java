@@ -1,5 +1,6 @@
 package com.corgi.mapper;
 
+import com.corgi.activity.entity.CorgiActivity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface CorgiFakeMapper {
 
     Integer countFakeLike(@Param("activityId") String activityId);
 
-    String getLastActivity(@Param("userId") String userId, @Param("time") String time);
+    List<CorgiActivity> getActivityByDate(@Param("time") String time);
 
     void updateFakeUserPosition(@Param("userId") String userId, @Param("time") Long time);
 
