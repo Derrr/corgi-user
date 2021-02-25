@@ -54,7 +54,7 @@
     </select>
 
     <select id="getActivityByDate" resultType="com.corgi.activity.entity.CorgiActivity">
-        select activity_id activityId, creator_id userId, category
+        select activity_id id, creator_id userId, category
         from corgi_activity_creator
         where creator_id = #{userId}
           and category in ('video', 'image')
