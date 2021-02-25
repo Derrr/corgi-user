@@ -5,7 +5,7 @@
         select f.follow_user_id userId,count(1) `match` from corgi_user_follow f
         left join corgi_user_detail d on d.user_id = f.follow_user_id
 
-        where f.is_deleted = '0'
+        where f.is_deleted = '0' and f.type = 'real'
         <if test='detail.role != null'>
             and f.uptime >= #{date}
         </if>
@@ -27,6 +27,8 @@
         where f.uptime >= #{date}
           and f.is_deleted = '0'
           and bf.is_deleted = '0'
+          and f.type = 'real'
+          and bf.type = 'real'
         group by f.user_id
         having `count` > 20
         order by `match` desc
@@ -38,7 +40,7 @@
         from (
                      (select user_id from corgi_activity_comment where ctime >= #{date})
                      union all
-                     (select user_id from corgi_activity_like where ctime >= #{date})
+                     (select user_id from corgi_activity_like where ctime >= #{date} and type = 'real')
              ) a
         group by user_id
         order by `match` desc limit #{limit}
