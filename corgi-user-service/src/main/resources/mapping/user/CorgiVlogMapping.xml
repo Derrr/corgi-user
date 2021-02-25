@@ -104,7 +104,7 @@
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         v.activity_id)
         and l.type = 'real'
-        and v.user_id != #{vlog.userId}
+        and l.user_id != #{vlog.userId}
         and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId})
         order by l.id desc limit #{size}
     </select>
