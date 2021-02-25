@@ -77,6 +77,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     }
 
     @Override
+    public List<CorgiVlog> getTopicVlog(String topic, Integer page, Integer size) {
+        return corgiVlogMapper.getUserVlog(topic, (page - 1) * size, size, getNowDate());
+    }
+
+    @Override
     public void addHotVlog(CorgiVlogHot corgiVlogHot) {
         corgiVlogMapper.addVlogHot(corgiVlogHot);
     }

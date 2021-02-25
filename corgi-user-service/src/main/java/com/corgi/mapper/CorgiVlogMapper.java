@@ -36,6 +36,8 @@ public interface CorgiVlogMapper {
 
     List<CorgiVlog> getUserVlog(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size, @Param("ctime") String ctime);
 
+    List<CorgiVlog> getTopicVlog(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size, @Param("ctime") String ctime);
+
     void failVlog(@Param("activityId") String activityId);
 
     Integer countVlog();

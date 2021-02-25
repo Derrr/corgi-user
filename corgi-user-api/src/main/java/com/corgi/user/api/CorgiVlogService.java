@@ -28,6 +28,8 @@ public interface CorgiVlogService {
 
     List<CorgiVlog> getUserVlog(String userId, Integer page, Integer size);
 
+    List<CorgiVlog> getTopicVlog(String topic, Integer page, Integer size);
+
     void addHotVlog(CorgiVlogHot corgiVlogH);
 
     void updateHotVlog(CorgiVlogHot corgiVlogHot);
