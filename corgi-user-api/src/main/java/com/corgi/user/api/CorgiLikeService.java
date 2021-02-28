@@ -10,9 +10,9 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiLikeService {
-    Integer addActivityLike(ActivityLike activityLike);
+    void addActivityLike(ActivityLike activityLike);
 
-    Integer deleteActivityLike(String userId, String activityId);
+    void deleteActivityLike(String userId, String activityId);
 
     List<ActivityLike> getActivityLike(String activityId, Integer page, Integer pageSize);
 
