@@ -9,7 +9,7 @@ import java.util.List;
  * @author tairanliu
  */
 @Data
-public class UserQuery implements Serializable{
+public class UserQuery implements Serializable {
     private String userId;
     private Double lat;
     private Double lng;
@@ -26,4 +26,5 @@ public class UserQuery implements Serializable{
     private Integer endMatch;
     private String follow;
     private String type;
+    private Integer limit;
 }

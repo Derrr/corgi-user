@@ -403,6 +403,11 @@
         <if test="range.type == 'distance'">
             order by st_distance_sphere(point(#{range.lng},#{range.lat}),p.pt)
         </if>
+
+        <if test="range.limit > 0">
+            limit #{range.limit}
+        </if>
+
     </select>
 
     <select id="getUserProfile" resultType="com.corgi.user.entity.UserProfile">

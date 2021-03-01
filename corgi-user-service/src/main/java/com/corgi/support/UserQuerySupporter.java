@@ -35,6 +35,8 @@ public class UserQuerySupporter {
     private double lat;
     private double lng;
 
+    private Integer limit = 0;
+
     public UserQuerySupporter(UserQuery userQuery) {
         this.lat = userQuery.getLat();
         this.lng = userQuery.getLng();
@@ -99,5 +101,9 @@ public class UserQuerySupporter {
             this.group = sb.toString();
         }
         this.type = userQuery.getType();
+
+        if (userQuery.getLimit() != null) {
+            this.limit = userQuery.getLimit();
+        }
     }
 }

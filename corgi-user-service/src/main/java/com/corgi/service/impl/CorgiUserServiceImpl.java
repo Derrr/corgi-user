@@ -233,6 +233,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     public MapUserProfile getMapUser(UserQuery userQuery) {
         MapUserProfile mapUserProfile = new MapUserProfile();
         userQuery.setType("distance");
+        userQuery.setLimit(1000);
         List<String> userIds = getAllNearByUser(userQuery);
         mapUserProfile.setUserIds(userIds);
         //mapUserProfile.setUsers(getMapUserProfile(userIds, userQuery.getUserId()));
@@ -260,7 +261,12 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
             userIds = corgiUserMapper.getNearByUser(supporter);
         } else {
-            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
+            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults;
+            if ("distance".equals(userQuery.getType())) {
+                geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(userQuery.getLimit()).sortAscending());
+            } else {
+                geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
+            }
             List<String> finalUserIds = userIds;
             geoResults.forEach(result -> finalUserIds.add(result.getContent().getName()));
         }
