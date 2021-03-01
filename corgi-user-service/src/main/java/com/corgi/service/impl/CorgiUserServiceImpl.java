@@ -235,7 +235,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userQuery.setType("distance");
         List<String> userIds = getAllNearByUser(userQuery);
         mapUserProfile.setUserIds(userIds);
-        mapUserProfile.setUsers(getMapUserProfile(userIds, userQuery.getUserId()));
+        //mapUserProfile.setUsers(getMapUserProfile(userIds, userQuery.getUserId()));
         return mapUserProfile;
     }
 
@@ -528,22 +528,22 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return "";
         }
         //滤除匹配度
-        if ((startMatch != null && startMatch > 20) || (endMatch != null && endMatch < 100)) {
-            List<String> result = new ArrayList();
-            if (startMatch == null) {
-                startMatch = 20;
-            }
-            if (endMatch == null) {
-                endMatch = 100;
-            }
-            for (String userId : userIds) {
-                Double match = corgiUserMatchService.getUserMatch(loginUserId, userId);
-                if (match > startMatch && match < endMatch) {
-                    result.add(userId);
-                }
-            }
-            userIds = result;
-        }
+//        if ((startMatch != null && startMatch > 20) || (endMatch != null && endMatch < 100)) {
+//            List<String> result = new ArrayList();
+//            if (startMatch == null) {
+//                startMatch = 20;
+//            }
+//            if (endMatch == null) {
+//                endMatch = 100;
+//            }
+//            for (String userId : userIds) {
+//                Double match = corgiUserMatchService.getUserMatch(loginUserId, userId);
+//                if (match > startMatch && match < endMatch) {
+//                    result.add(userId);
+//                }
+//            }
+//            userIds = result;
+//        }
         int size = userIds.size();
         List<UserProfile> noFaceProfile = new ArrayList<>();
         if (size > MAX_PROFILE_SIZE) {
