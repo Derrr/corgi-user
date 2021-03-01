@@ -14,6 +14,7 @@ import com.corgi.user.entity.CorgiVlog;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -76,7 +77,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public Integer countUnviewFeed(String userId) {
-        return null;
+        return corgiFeedMapper.countUnviewFeed(userId, UserUtils.getIndex(userId));
     }
 
     @Override
