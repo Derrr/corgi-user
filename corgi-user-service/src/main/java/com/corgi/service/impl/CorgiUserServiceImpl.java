@@ -544,6 +544,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 //            }
 //            userIds = result;
 //        }
+        Long lastTime = System.currentTimeMillis() - 14 * 24 * 3600 * 1000L;
         int size = userIds.size();
         List<UserProfile> noFaceProfile = new ArrayList<>();
         if (size > MAX_PROFILE_SIZE) {
@@ -556,7 +557,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 if (profile == null) {
                     continue;
                 }
-                if (CorgiPic.NORMAL.equals(profile.getAvatarCheckStatus())) {
+                if (CorgiPic.NORMAL.equals(profile.getAvatarCheckStatus()) && profile.getTime() != null && profile.getTime() > lastTime) {
                     userProfiles.add(profile);
                 } else {
                     noFaceProfile.add(profile);
