@@ -101,11 +101,9 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
 
     @Override
     public void updateBillboardByNickname(String from, String to, String date) {
-        String fromId = corgiBillboardMapper.getUserIdByNickname(from);
-        String toId = corgiBillboardMapper.getUserIdByNickname(to);
-        if (StringUtils.isNotEmpty(fromId) && StringUtils.isNotEmpty(toId)) {
-            corgiBillboardMapper.updateBillboard(fromId, toId, date);
-            redisTemplate.opsForValue().set("billboard_block_".concat(fromId), from, 30, TimeUnit.DAYS);
+        if (StringUtils.isNotEmpty(from) && StringUtils.isNotEmpty(to)) {
+            corgiBillboardMapper.updateBillboard(from, to, date);
+            redisTemplate.opsForValue().set("billboard_block_".concat(from), from, 30, TimeUnit.DAYS);
         }
     }
 
