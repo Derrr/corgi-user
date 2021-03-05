@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,5 +40,12 @@ public class CorgiOpenPageServiceImpl implements CorgiOpenPageService {
     @Override
     public List<CorgiOpenPage> listOpenPage(CorgiOpenPage corgiOpenPage) {
         return corgiOpenPageMapper.listOpenPage(corgiOpenPage);
+    }
+
+    @Override
+    public List<CorgiOpenPage> getBirthdayOpenPage(String userId) {
+        SimpleDateFormat sdf = new SimpleDateFormat("/MM/dd");
+        Long time = System.currentTimeMillis() - 30 * 24 * 3600 * 1000;
+        return corgiOpenPageMapper.getBirthdayOpenPage(userId, sdf.format(new Date()), time);
     }
 }

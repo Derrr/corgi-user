@@ -39,4 +39,12 @@ public interface CorgiOpenPageMapper {
      */
     List<CorgiOpenPage> listOpenPage(@Param("page") CorgiOpenPage corgiOpenPage);
 
+    /**
+     * 查询生日开屏
+     *
+     * @param userId
+     * @return
+     */
+    List<CorgiOpenPage> getBirthdayOpenPage(@Param("userId") String userId, @Param("date") String date, @Param("time") Long time);
+
 }

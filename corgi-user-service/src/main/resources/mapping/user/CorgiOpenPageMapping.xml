@@ -3,8 +3,10 @@
 <mapper namespace="com.corgi.mapper.CorgiOpenPageMapper">
 
     <insert id="addOpenPage" parameterType="com.corgi.user.entity.CorgiOpenPage">
-        INSERT INTO `corgi_open_page` (`title`, `pic_url`, `url`, `url_type`, `pic_type`, `status`, `city`, `duration`, `start_time`, `end_time`)
-        VALUES (#{page.title}, #{page.picUrl}, #{page.url}, #{page.urlType}, #{page.picType}, #{page.status}, #{page.city}, #{page.duration}, #{page.startTime}, #{page.endTime});
+        INSERT INTO `corgi_open_page` (`title`, `pic_url`, `url`, `url_type`, `pic_type`, `status`, `city`, `duration`,
+                                       `start_time`, `end_time`)
+        VALUES (#{page.title}, #{page.picUrl}, #{page.url}, #{page.urlType}, #{page.picType}, #{page.status},
+                #{page.city}, #{page.duration}, #{page.startTime}, #{page.endTime});
 
     </insert>
     <update id="updateOpenPage" parameterType="com.corgi.user.entity.CorgiOpenPage">
@@ -45,7 +47,8 @@
     </update>
 
     <delete id="deleteOpenPage">
-        delete from corgi_open_page
+        delete
+        from corgi_open_page
         where id = #{pageId}
     </delete>
 
@@ -66,7 +69,7 @@
         from corgi_open_page
         where 1=1
         <if test="page.title != null and page.title != ''">
-           and `title` like concat('%',#{page.title},'%')
+            and `title` like concat('%',#{page.title},'%')
         </if>
         <if test="page.status != null and page.status != ''">
             and `status` = #{page.status}
@@ -83,4 +86,13 @@
         order by `id` desc
     </select>
 
+    <select id="getBirthdayOpenPage" resultType="com.corgi.user.entity.CorgiOpenPage">
+        select follow_user_id userId, d.avatar picUrl, 'birthday' picType
+        from corgi_user_follow f
+                 left join corgi_user_detail d on d.user_id = f.follow_user_id
+                 left join corgi_user_position p on p.user_id = f.follow_user_id
+        where f.user_id = #{userId}
+          and d.birthday like concat('%', #{date})
+          and p.uptime > #{time}
+    </select>
 </mapper>

@@ -253,6 +253,14 @@ public interface CorgiUserMapper {
      */
     List<UserProfile> queryUserProfile(@Param("userDetail") UserDetail userDetail, @Param("start") int start, @Param("size") int size);
 
+    /**
+     * 查询用户昵称
+     *
+     * @param nickname
+     * @return
+     */
+    List<UserProfile> getUserProfileByNickname(@Param("nickname") String nickname);
+
 
     /**
      * 查询天菜创始人
@@ -343,13 +351,11 @@ public interface CorgiUserMapper {
 
     /**
      * 获取用户基本信息
-     *
      */
     List<UserProfile> getUserDetailByPage(@Param("start") Integer start, @Param("size") Integer size);
 
     /**
      * 获取注销用户
-     *
      */
-    List<String> getUnregisterUserIds(@Param("date")String date);
+    List<String> getUnregisterUserIds(@Param("date") String date);
 }

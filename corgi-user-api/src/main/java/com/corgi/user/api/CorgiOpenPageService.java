@@ -12,4 +12,6 @@ public interface CorgiOpenPageService {
     void updateOpenPage(CorgiOpenPage corgiOpenPage);
 
     List<CorgiOpenPage> listOpenPage(CorgiOpenPage corgiOpenPage);
+
+    List<CorgiOpenPage> getBirthdayOpenPage(String userId);
 }
