@@ -232,7 +232,7 @@
             and `status` = #{vlog.status}
         </if>
         <if test="vlog.activityId != null">
-            and `activity_id` = #{activityId}
+            and `activity_id` = #{vlog.activityId}
         </if>
         order by id desc
         limit #{start}, #{size}
