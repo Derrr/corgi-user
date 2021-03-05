@@ -183,7 +183,7 @@
     </select>
 
     <insert id="addVlogHot" parameterType="com.corgi.user.entity.CorgiVlogHot">
-        INSERT INTO `corgi_vlog` (`activity_id`, `expect_view`, `like_count`, `type`)
+        INSERT INTO `corgi_vlog_hot` (`activity_id`, `expect_view`, `like_count`, `type`)
         VALUES (#{vlog.activityId},
                 #{vlog.expectView},
                 #{vlog.likeCount},
