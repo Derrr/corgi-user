@@ -53,7 +53,7 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
 
     @Override
     public List<CorgiVlog> recallVlog(CorgiVlog corgiVlog, Integer limit) {
-        if("like".equals(corgiVlog.getType())){
+        if ("like".equals(corgiVlog.getType()) || "follow".equals(corgiVlog.getType())) {
             return corgiVlogMapper.recallLikeVlog(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
         }
         return corgiVlogMapper.recallVlog(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
