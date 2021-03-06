@@ -100,12 +100,17 @@
         select
         <include refid="vlog"/>
         from corgi_activity_like l
-        left join corgi_vlog v on l.activity_id = v.activity_id
+        join corgi_vlog v on l.activity_id = v.activity_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         v.activity_id)
         and l.type = 'real'
         and l.user_id != #{vlog.userId}
-        and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId})
+        <if test="vlog.type == 'like'">
+            and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId})
+        </if>
+        <if test="vlog.type == 'follow'">
+            and l.like_user_id in (select follow_user_id from corgi_user_follow where user_id = #{vlog.userId})
+        </if>
         order by l.id desc limit #{size}
     </select>
 
