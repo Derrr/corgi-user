@@ -297,7 +297,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 userDetail.setNickname(userDetail.getNickname().replaceAll("%", "\\\\%"));
             }
             userProfiles = corgiUserMapper.queryUserProfile(userDetail, page < 1 ? 0 : (page - 1) * pageSize, pageSize);
-            if (page == 1 && userDetail.getNickname() != null) {
+            if (page == 1 && userDetail.getNickname() != null && userDetail.getCheckStatus() == null) {
                 List<UserProfile> matchUsers = corgiUserMapper.getUserProfileByNickname(userDetail.getNickname());
                 if (matchUsers.size() > 0) {
                     List<String> userIds = matchUsers.stream().map(userProfile -> userProfile.getUserId()).collect(Collectors.toList());
