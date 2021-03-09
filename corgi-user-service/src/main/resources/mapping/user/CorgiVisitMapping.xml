@@ -61,7 +61,7 @@
                v.count               activitCount,
                v.uptime              followTime
         from corgi_visit v
-                 join corgi_user_detail d on d.user_id = v.visitor_id
+                 join corgi_user_detail d on d.user_id = v.user_id
         where visitor_id = #{userId}
         order by v.uptime desc, v.count desc
     </select>
