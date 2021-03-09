@@ -37,6 +37,39 @@
                v.uptime              followTime
         from corgi_visit v
                  join corgi_user_detail d on d.user_id = v.visitor_id
+        where v.user_id = #{userId}
         order by v.uptime desc, v.count desc
     </select>
+
+    <select id="getVisited" resultType="com.corgi.user.entity.UserProfile">
+        select d.user_id             userId,
+               d.nickname            `nickname`,
+               d.avatar              avatar,
+               d.avatar_status       avatarStatus,
+               d.avatar_check_status avatarCheckStatus,
+               d.role                role,
+               d.hide_role           hideRole,
+               d.group               `group`,
+               d.hide_group          `hideGroup`,
+               d.hide_prefer_group   `hidePreferGroup`,
+               d.con                 con,
+               d.relation,
+               d.check_status        checkStatus,
+               d.weight,
+               d.height,
+               d.birthday,
+               v.count               activitCount,
+               v.uptime              followTime
+        from corgi_visit v
+                 join corgi_user_detail d on d.user_id = v.visitor_id
+        where visitor_id = #{userId}
+        order by v.uptime desc, v.count desc
+    </select>
+
+    <select id="countVisit" resultType="java.lang.Integer">
+        select sum(v.count)
+        from corgi_visit v
+        where v.user_id = #{userId}
+    </select>
+
 </mapper>

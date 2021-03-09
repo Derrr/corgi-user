@@ -15,4 +15,8 @@ public interface CorgiVisitMapper {
     void addVisitCount(@Param("userId") String userId, @Param("visitorId") String visitorId);
 
     List<UserProfile> getVisitor(@Param("userId") String userId, @Param("limit") Integer limit);
+
+    List<UserProfile> getVisited(@Param("userId") String userId, @Param("limit") Integer limit);
+
+    Integer countVisit(@Param("userId") String userId);
 }
