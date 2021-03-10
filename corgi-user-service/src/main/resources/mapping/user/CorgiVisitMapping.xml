@@ -33,7 +33,7 @@
                d.weight,
                d.height,
                d.birthday,
-               v.count               activitCount,
+               v.count               activityCount,
                v.uptime              followTime
         from corgi_visit v
                  join corgi_user_detail d on d.user_id = v.visitor_id
@@ -58,7 +58,7 @@
                d.weight,
                d.height,
                d.birthday,
-               v.count               activitCount,
+               v.count               activityCount,
                v.uptime              followTime
         from corgi_visit v
                  join corgi_user_detail d on d.user_id = v.user_id
