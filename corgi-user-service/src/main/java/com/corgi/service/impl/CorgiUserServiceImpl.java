@@ -102,11 +102,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setCon(UserUtils.getConByBirthDay(userDetail.getBirthday()));
         corgiUserMapper.updateUserDetail(userDetail);
 
-        if (shouldRefresh(userDetail)) {
-            MatchRefresher matchRefresher = new MatchRefresher();
-            matchRefresher.setUserId(userDetail.getUserId());
-            rabbitTemplate.convertAndSend(CorgiQueueName.REFRESH_MATCH_QUEUE, matchRefresher);
-        }
+//        if (shouldRefresh(userDetail)) {
+//            MatchRefresher matchRefresher = new MatchRefresher();
+//            matchRefresher.setUserId(userDetail.getUserId());
+//            rabbitTemplate.convertAndSend(CorgiQueueName.REFRESH_MATCH_QUEUE, matchRefresher);
+//        }
         return CorgiConstants.SUCCESS;
     }
 
@@ -474,6 +474,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public List<String> getUnregisterUsers(String date) {
         return corgiUserMapper.getUnregisterUserIds(date);
+    }
+
+    @Override
+    public List<String> getUserByBirthday(String date, Long time) {
+        return corgiUserMapper.getUserByBirthday(date, time);
     }
 
 

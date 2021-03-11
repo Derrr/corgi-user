@@ -540,29 +540,28 @@
     </select>
 
     <select id="getUserProfileByNickname" resultType="com.corgi.user.entity.UserProfile">
-        select
-        d.user_id userId,
-        d.nickname nickname,
-        d.check_nickname checkNickname,
-        d.avatar avatar,
-        d.avatar_status avatarStatus,
-        d.avatar_check_status avatarCheckStatus,
-        d.role role,
-        d.hide_role hideRole,
-        d.group `group`,
-        d.hide_group `hideGroup`,
-        d.hide_prefer_group `hidePreferGroup`,
-        d.con con,
-        d.relation,
-        d.desc,
-        d.check_desc checkDesc,
-        p.lat lat,
-        p.lng lng,
-        if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
-        d.cime createTime,
-        d.check_status checkStatus
+        select d.user_id                              userId,
+               d.nickname                             nickname,
+               d.check_nickname                       checkNickname,
+               d.avatar                               avatar,
+               d.avatar_status                        avatarStatus,
+               d.avatar_check_status                  avatarCheckStatus,
+               d.role                                 role,
+               d.hide_role                            hideRole,
+               d.group                                `group`,
+               d.hide_group                           `hideGroup`,
+               d.hide_prefer_group                    `hidePreferGroup`,
+               d.con                                  con,
+               d.relation,
+               d.desc,
+               d.check_desc                           checkDesc,
+               p.lat                                  lat,
+               p.lng                                  lng,
+               if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
+               d.cime                                 createTime,
+               d.check_status                         checkStatus
         from corgi_user_detail d
-        left join corgi_user_position p on p.user_id = d.user_id
+                 left join corgi_user_position p on p.user_id = d.user_id
         where d.nickname = #{nickname}
     </select>
 
@@ -720,5 +719,14 @@
         from corgi_user_login
         where unregister_date > '0'
           and unregister_date &lt;= #{date}
+    </select>
+
+    <select id="getUserByBirthday" resultType="java.lang.String">
+        select user_id
+        from corgi_user_detail d
+                 left join corgi_user_position p on p.user_id = d.user_id
+        where d.birthday like concat('%', #{date})
+          and p.uptime > #{time}
+          and avatar_check_status = 'normal'
     </select>
 </mapper>

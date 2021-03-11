@@ -358,4 +358,9 @@ public interface CorgiUserMapper {
      * 获取注销用户
      */
     List<String> getUnregisterUserIds(@Param("date") String date);
+
+    /**
+     * 获取生日用户
+     */
+    List<String> getUserByBirthday(@Param("date") String date, @Param("time") Long time);
 }

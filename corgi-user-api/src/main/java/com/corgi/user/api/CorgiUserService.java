@@ -74,4 +74,6 @@ public interface CorgiUserService {
     List<UserProfile> getBasicUserDetailByPage(Integer page, Integer pageSize);
 
     List<String> getUnregisterUsers(String date);
+
+    List<String> getUserByBirthday(String date, Long time);
 }

@@ -205,7 +205,7 @@
                 `view_count` = view_count + ${vlog.viewCount},
             </if>
             <if test="vlog.expectView != null and vlog.expectView > 0">
-                `expect_view` = #{vlog.expect_view}
+                `expect_view` = #{vlog.expectView}
             </if>
             <if test="vlog.status != null">
                 `status` = #{vlog.status}
