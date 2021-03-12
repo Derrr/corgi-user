@@ -722,7 +722,7 @@
     </select>
 
     <select id="getUserByBirthday" resultType="java.lang.String">
-        select user_id
+        select d.user_id
         from corgi_user_detail d
                  left join corgi_user_position p on p.user_id = d.user_id
         where d.birthday like concat('%', #{date})
