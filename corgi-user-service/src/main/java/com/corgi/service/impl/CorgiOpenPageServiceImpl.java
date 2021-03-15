@@ -45,7 +45,7 @@ public class CorgiOpenPageServiceImpl implements CorgiOpenPageService {
     @Override
     public List<CorgiOpenPage> getBirthdayOpenPage(String userId) {
         SimpleDateFormat sdf = new SimpleDateFormat("/MM/dd");
-        Long time = System.currentTimeMillis() - 30 * 24 * 3600 * 1000;
+        Long time = System.currentTimeMillis() - 30 * 24 * 3600 * 1000L;
         return corgiOpenPageMapper.getBirthdayOpenPage(userId, sdf.format(new Date()), time);
     }
 }
