@@ -486,6 +486,7 @@
         d.check_status checkStatus
         from corgi_user_detail d
         left join corgi_user_position p on p.user_id = d.user_id
+        left join corgi_user_login l on l.ic = d.user_id
         where 1=1
         <if test="userDetail.version != null and userDetail.version != ''">
             and right(p.version,5) >= #{userDetail.version}
