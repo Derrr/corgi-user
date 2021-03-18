@@ -61,7 +61,7 @@
             and id = #{date.id}
         </if>
         <if test="date.userId != null">
-            and user_id = #{date.uesrId}
+            and user_id = #{date.userId}
         </if>
         <if test="date.endTime != null">
             and end_time &lt; #{date.endTime}
