@@ -17,7 +17,10 @@
         `city`,
         status
         from corgi_date
-        where `status` = 'open'
+        where 1 = 1
+        <if test="date.status != null">
+            and `status`= #{date.status}
+        </if>
         <if test="date.type != null">
             and (`type` = '不限' or `type` = #{date.type})
         </if>
