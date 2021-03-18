@@ -2,61 +2,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiSystemMessageMapper">
     <select id="getSystemMessageByPage" resultType="com.corgi.user.entity.SystemMessage">
-        select
-        `id`,
-        `content`,
-        `type`,
-        `pic_url` picUrl,
-        `url`,
-        `url_type` urlType,
-        `sent_time` sentTime,
-        `status`,
-        `ctime`,
-        `title`,
-        `uptime`
+        select `id`,
+               `content`,
+               `type`,
+               `pic_url`   picUrl,
+               `url`,
+               `url_type`  urlType,
+               `sent_time` sentTime,
+               `status`,
+               `ctime`,
+               `title`,
+               `uptime`
         from corgi_system_message
         order by id desc
-        limit #{start}, #{size}
+            limit #{start}, #{size}
     </select>
 
     <select id="getSystemMessageById" resultType="com.corgi.user.entity.SystemMessage">
-        select
-        `id`,
-        `content`,
-        `type`,
-        `pic_url` picUrl,
-        `url`,
-        `url_type` urlType,
-        `sent_time` sentTime,
-        `status`,
-        `ctime`,
-        `title`,
-        `uptime`
+        select `id`,
+               `content`,
+               `type`,
+               `pic_url`   picUrl,
+               `url`,
+               `url_type`  urlType,
+               `sent_time` sentTime,
+               `status`,
+               `ctime`,
+               `title`,
+               `uptime`
         from corgi_system_message
         where id = #{messageId}
     </select>
 
     <select id="getSystemMessageByTime" resultType="com.corgi.user.entity.SystemMessage">
-        select
-        `id`,
-        `content`,
-        `type`,
-        `pic_url` picUrl,
-        `url`,
-        `url_type` urlType,
-        `sent_time` sentTime,
-        `status`,
-        `ctime`,
-        `title`,
-        `uptime`
+        select `id`,
+               `content`,
+               `type`,
+               `pic_url`   picUrl,
+               `url`,
+               `url_type`  urlType,
+               `sent_time` sentTime,
+               `status`,
+               `ctime`,
+               `title`,
+               `uptime`
         from corgi_system_message
         where sent_time &lt;= #{time}
-        and `status` = #{status}
+          and `status` = #{status}
     </select>
 
-    <insert id="addSystemMessage" useGeneratedKeys="true" keyProperty="message.id" parameterType="com.corgi.user.entity.SystemMessage">
-        insert into corgi_system_message (`content`, `sent_time`, `status`, `title`,`type`,`pic_url`,`url_type`,`url`)
-        VALUES(#{message.content},#{message.sentTime}, #{message.status}, #{message.title}, #{message.type}, #{message.picUrl}, #{message.urlType}, #{message.url})
+    <insert id="addSystemMessage" useGeneratedKeys="true" keyProperty="message.id"
+            parameterType="com.corgi.user.entity.SystemMessage">
+        insert into corgi_system_message (`content`, `sent_time`, `status`, `title`, `type`, `pic_url`, `url_type`,
+                                          `url`)
+        VALUES (#{message.content}, #{message.sentTime}, #{message.status}, #{message.title}, #{message.type},
+                #{message.picUrl}, #{message.urlType}, #{message.url})
     </insert>
 
     <update id="updateSystemMessage" parameterType="com.corgi.user.entity.SystemMessage">
@@ -91,10 +91,9 @@
     </update>
 
     <select id="getMessageRuleById" resultType="com.corgi.user.entity.MessageRule">
-        select
-        `message_id` messageId,
-        `rule_key` ruleKey,
-        `rule_value` ruleValue
+        select `message_id` messageId,
+               `rule_key`   ruleKey,
+               `rule_value` ruleValue
         from corgi_message_rule
         where message_id = #{messageId}
     </select>
@@ -105,40 +104,40 @@
     </insert>
 
     <delete id="deleteMessageRule">
-        delete from corgi_message_rule
+        delete
+        from corgi_message_rule
         where message_id = #{messageId}
     </delete>
 
     <select id="getMessageRecordByPage" resultType="com.corgi.user.entity.MessageRecord">
-        select
-        `id`,
-        `message_id` messageId,
-        `user_id` userId,
-        `nickname`,
-        `status`,
-        `reason`,
-        `ctime`
+        select `id`,
+               `message_id` messageId,
+               `user_id`    userId,
+               `nickname`,
+               `status`,
+               `reason`,
+               `ctime`
         from corgi_message_record
         order by id DESC
-        limit #{start},#{size}
+            limit #{start}, #{size}
     </select>
 
     <select id="getMessageRecordByMessageId" resultType="com.corgi.user.entity.MessageRecord">
-        select
-        `id`,
-        `message_id` messageId,
-        `user_id` userId,
-        `nickname`,
-        `status`,
-        `reason`,
-        `ctime`
+        select `id`,
+               `message_id` messageId,
+               `user_id`    userId,
+               `nickname`,
+               `status`,
+               `reason`,
+               `ctime`
         from corgi_message_record
         where message_id = #{messageId}
         order by id DESC
-        limit #{start},#{size}
+            limit #{start}, #{size}
     </select>
 
-    <insert id="addMessageRecord" useGeneratedKeys="true" keyProperty="record.id" parameterType="com.corgi.user.entity.MessageRecord">
+    <insert id="addMessageRecord" useGeneratedKeys="true" keyProperty="record.id"
+            parameterType="com.corgi.user.entity.MessageRecord">
         INSERT INTO `corgi_message_record` (`message_id`, `user_id`, `nickname`, `status`, `reason`)
         VALUES (#{record.messageId}, #{record.userId}, #{record.nickname}, #{record.status}, #{record.reason});
     </insert>
@@ -155,4 +154,31 @@
         </set>
         where id = #{record.id}
     </update>
+
+    <select id="searchMessageRecord" resultType="com.corgi.user.entity.MessageRecord">
+        select `id`,
+        `message_id` messageId,
+        `user_id` userId,
+        `nickname`,
+        `status`,
+        `reason`,
+        `ctime`
+        from corgi_message_record
+        where 1=1
+        <if test="record.status != null and record.status != ''">
+            and `status` = #{record.status}
+        </if>
+        <if test="record.nickname != null and record.nickname != ''">
+            and `nickname` like concate('%',#{record.nickname},'%')
+        </if>
+        <if test="record.userId != null and record.userId != ''">
+            and `user_id` = #{record.userId}
+        </if>
+        <if test="record.ctime != null and record.ctime != ''">
+            and `ctime` like concat(#{record.ctime},'%')
+        </if>
+
+        order by id desc
+        limit #{start}, #{size}
+    </select>
 </mapper>

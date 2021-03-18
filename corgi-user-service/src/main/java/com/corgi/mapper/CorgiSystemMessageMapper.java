@@ -84,6 +84,7 @@ public interface CorgiSystemMessageMapper {
 
     /**
      * 分页获取消息下推送记录
+     *
      * @param messageId
      * @param start
      * @param size
@@ -93,14 +94,23 @@ public interface CorgiSystemMessageMapper {
 
     /**
      * 添加记录
+     *
      * @param messageRecord
      */
-    void addMessageRecord(@Param("record")MessageRecord messageRecord);
+    void addMessageRecord(@Param("record") MessageRecord messageRecord);
 
     /**
      * 更新记录
+     *
      * @param messageRecord
      */
-    void updateMessageRecord(@Param("record")MessageRecord messageRecord);
+    void updateMessageRecord(@Param("record") MessageRecord messageRecord);
+
+    /**
+     * 更新记录
+     *
+     * @param messageRecord
+     */
+    List<MessageRecord> searchMessageRecord(@Param("record") MessageRecord messageRecord, @Param("start") Integer start, @Param("size") Integer size);
 
 }

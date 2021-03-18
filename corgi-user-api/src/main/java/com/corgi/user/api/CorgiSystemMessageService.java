@@ -1,6 +1,7 @@
 package com.corgi.user.api;
 
 import com.corgi.user.entity.MessageRecord;
+import com.corgi.user.entity.MessageRecordPage;
 import com.corgi.user.entity.MessageRule;
 import com.corgi.user.entity.SystemMessage;
 
@@ -33,4 +34,6 @@ public interface CorgiSystemMessageService {
     String addMessageRecord(MessageRecord messageRecord);
 
     void updateMessageRecord(MessageRecord messageRecord);
+
+    MessageRecordPage searchMessageRecord(MessageRecord messageRecord, Integer page, Integer pageSize);
 }

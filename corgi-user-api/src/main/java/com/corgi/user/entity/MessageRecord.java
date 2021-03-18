@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class MessageRecord implements Serializable{
+public class MessageRecord implements Serializable {
     private String id;
     private String messageId;
     private String userId;
@@ -13,4 +13,5 @@ public class MessageRecord implements Serializable{
     private String status;
     private String reason;
     private String ctime;
+    private SystemMessage message;
 }

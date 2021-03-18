@@ -7,6 +7,7 @@ import com.corgi.mapper.CorgiSystemMessageMapper;
 import com.corgi.user.api.CorgiAreaService;
 import com.corgi.user.api.CorgiSystemMessageService;
 import com.corgi.user.entity.MessageRecord;
+import com.corgi.user.entity.MessageRecordPage;
 import com.corgi.user.entity.MessageRule;
 import com.corgi.user.entity.SystemMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -114,5 +115,18 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
     @Override
     public void updateMessageRecord(MessageRecord messageRecord) {
         corgiSystemMessageMapper.updateMessageRecord(messageRecord);
+    }
+
+    @Override
+    public MessageRecordPage searchMessageRecord(MessageRecord messageRecord, Integer page, Integer pageSize) {
+        List<MessageRecord> recordList = corgiSystemMessageMapper.searchMessageRecord(messageRecord, (page - 1) * pageSize, pageSize);
+        MessageRecordPage recordPage = new MessageRecordPage();
+        recordPage.setRecordList(recordList);
+        recordPage.setPage(page);
+        for (MessageRecord record : recordList) {
+            SystemMessage systemMessage = corgiSystemMessageMapper.getSystemMessageById(record.getMessageId());
+            record.setMessage(systemMessage);
+        }
+        return recordPage;
     }
 }
