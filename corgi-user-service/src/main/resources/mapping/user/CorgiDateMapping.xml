@@ -24,6 +24,9 @@
         <if test="date.payType != null">
             and (pay_type = '0' or `pay_type` = #{date.payType})
         </if>
+        <if test="date.userId != null">
+            and user_id = #{date.userId}
+        </if>
         <if test="date.city != null">
             and city= #{date.city}
         </if>
