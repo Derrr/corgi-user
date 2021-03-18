@@ -169,7 +169,7 @@
             and `status` = #{record.status}
         </if>
         <if test="record.nickname != null and record.nickname != ''">
-            and `nickname` like concate('%',#{record.nickname},'%')
+            and `nickname` like concat('%',#{record.nickname},'%')
         </if>
         <if test="record.userId != null and record.userId != ''">
             and `user_id` = #{record.userId}
@@ -190,7 +190,7 @@
             and `status` = #{record.status}
         </if>
         <if test="record.nickname != null and record.nickname != ''">
-            and `nickname` like concate('%',#{record.nickname},'%')
+            and `nickname` like concat('%',#{record.nickname},'%')
         </if>
         <if test="record.userId != null and record.userId != ''">
             and `user_id` = #{record.userId}
