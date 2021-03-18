@@ -181,4 +181,22 @@
         order by id desc
         limit #{start}, #{size}
     </select>
+
+    <select id="countMessageRecord" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_message_record
+        where 1=1
+        <if test="record.status != null and record.status != ''">
+            and `status` = #{record.status}
+        </if>
+        <if test="record.nickname != null and record.nickname != ''">
+            and `nickname` like concate('%',#{record.nickname},'%')
+        </if>
+        <if test="record.userId != null and record.userId != ''">
+            and `user_id` = #{record.userId}
+        </if>
+        <if test="record.ctime != null and record.ctime != ''">
+            and `ctime` like concat(#{record.ctime},'%')
+        </if>
+    </select>
 </mapper>

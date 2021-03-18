@@ -113,4 +113,12 @@ public interface CorgiSystemMessageMapper {
      */
     List<MessageRecord> searchMessageRecord(@Param("record") MessageRecord messageRecord, @Param("start") Integer start, @Param("size") Integer size);
 
+    /**
+     * 统计记录
+     *
+     * @param messageRecord
+     */
+    Integer countMessageRecord(@Param("record") MessageRecord messageRecord);
+
+
 }

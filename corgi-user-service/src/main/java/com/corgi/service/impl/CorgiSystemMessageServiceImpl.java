@@ -123,6 +123,7 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
         MessageRecordPage recordPage = new MessageRecordPage();
         recordPage.setRecordList(recordList);
         recordPage.setPage(page);
+        recordPage.setTotal(corgiSystemMessageMapper.countMessageRecord(messageRecord));
         for (MessageRecord record : recordList) {
             SystemMessage systemMessage = corgiSystemMessageMapper.getSystemMessageById(record.getMessageId());
             record.setMessage(systemMessage);
