@@ -124,7 +124,7 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
 
     @Override
     public CorgiVlog countByTopic(String topic) {
-        return countByTopic(topic);
+        return corgiVlogMapper.countByTopic(topic);
     }
 
     private String getNowDate() {
