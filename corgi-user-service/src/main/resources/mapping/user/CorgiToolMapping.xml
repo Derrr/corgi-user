@@ -20,18 +20,21 @@
     </select>
 
     <insert id="addTopic" parameterType="com.corgi.entity.CorgiTopic">
-        insert into `corgi_topics` (`topic`, `status`, cuid, opuid, `content`, `pic_url`,`order`)
-        values (#{topic.topic}, #{topic.status}, #{topic.cuid}, #{topic.opuid}, #{topic.content}, #{topic.picUrl}, #{topic.order});
+        insert into `corgi_topics` (`topic`, `status`, cuid, opuid, `content`, `pic_url`, `order`, `url`, `url_type`)
+        values (#{topic.topic}, #{topic.status}, #{topic.cuid}, #{topic.opuid}, #{topic.content}, #{topic.picUrl},
+                #{topic.order}, #{topic.url}, #{topic.urlType});
     </insert>
 
     <update id="updateTopic" parameterType="com.corgi.entity.CorgiTopic">
         update corgi_topics
-        set topic    = #{topic.topic},
-            content  = #{topic.content},
-            opuid    = #{topic.opuid},
-            `status` = #{topic.status},
+        set topic     = #{topic.topic},
+            content   = #{topic.content},
+            opuid     = #{topic.opuid},
+            `status`  = #{topic.status},
             `pic_url` = #{topic.picUrl},
-            `order` = #{topic.order}
+            `url` = #{topic.url},
+            `url_type` = #{topic.urlType},
+            `order`   = #{topic.order}
         where id = #{topic.topicId}
     </update>
 
