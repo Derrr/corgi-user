@@ -134,9 +134,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setPreferGroup(groups);
         userDetail.setTags(corgiUserTagMapper.getUserTag(userId));
         userDetail.setInterests(corgiUserTagMapper.getUserInterests(userId));
-        if (!StringUtils.isEmpty(loginUserId)) {
-            userDetail.setMatch(corgiUserMatchService.getUserMatch(userId, loginUserId));
-        }
+//        if (!StringUtils.isEmpty(loginUserId)) {
+//            userDetail.setMatch(corgiUserMatchService.getUserMatch(userId, loginUserId));
+//        }
         return userDetail;
     }
 
