@@ -710,7 +710,8 @@
                d.uptime              followTime,
                p.uptime              `time`
         from corgi_user_detail d
-                 left join corgi_user_position p on p.user_id = d.user_id
+                join corgi_user_position p on p.user_id = d.user_id
+                where d.avatar_status = 'influencer' or p.uptime > #{time}
             limit #{start}
            , #{size}
     </select>

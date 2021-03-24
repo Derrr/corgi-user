@@ -352,7 +352,7 @@ public interface CorgiUserMapper {
     /**
      * 获取用户基本信息
      */
-    List<UserProfile> getUserDetailByPage(@Param("start") Integer start, @Param("size") Integer size);
+    List<UserProfile> getUserDetailByPage(@Param("start") Integer start, @Param("size") Integer size, @Param("time")Long time);
 
     /**
      * 获取注销用户

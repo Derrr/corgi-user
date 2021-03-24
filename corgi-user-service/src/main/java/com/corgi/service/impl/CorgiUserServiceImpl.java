@@ -468,7 +468,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> getBasicUserDetailByPage(Integer page, Integer pageSize) {
-        return corgiUserMapper.getUserDetailByPage((page - 1) * pageSize, pageSize);
+        return corgiUserMapper.getUserDetailByPage((page - 1) * pageSize, pageSize, System.currentTimeMillis() - 60 * 24 * 3600 * 1000L);
     }
 
     @Override
