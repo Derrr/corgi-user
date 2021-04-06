@@ -15,5 +15,5 @@ public interface CorgiUserDateService {
 
     void updateDate(CorgiDate date);
 
-    CorgiDate getDateById(Integer id);
+    CorgiDate getDateByUserId(String userId);
 }

@@ -7,6 +7,7 @@ import com.corgi.user.entity.CorgiDate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -22,6 +23,14 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
 
     @Override
     public void addDate(CorgiDate date) {
+        if (StringUtils.isEmpty(date.getStatus())) {
+            CorgiDate oldDate = corgiDateMapper.getDateByUserId(date.getUserId());
+            if (oldDate == null) {
+                date.setStatus(CorgiDate.OPEN);
+            } else {
+                date.setStatus(oldDate.getStatus());
+            }
+        }
         corgiDateMapper.addCorgiDate(date);
     }
 
@@ -36,7 +45,7 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
     }
 
     @Override
-    public CorgiDate getDateById(Integer id) {
-        return corgiDateMapper.getDateById(id);
+    public CorgiDate getDateByUserId(String userId) {
+        return corgiDateMapper.getDateByUserId(userId);
     }
 }

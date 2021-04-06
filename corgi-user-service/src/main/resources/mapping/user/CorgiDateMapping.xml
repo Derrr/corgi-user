@@ -1,77 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiDateMapper">
+    <sql id="date">d
+    .
+    id
+    , d.user_id userId, d.type, d.ctime, d.detail, d.status</sql>
     <insert id="addCorgiDate" parameterType="com.corgi.user.entity.CorgiDate">
-        INSERT INTO `corgi_date` (`user_id`, `type`, `pay_type`, `end_time`, `city`, `status`)
-        VALUES (#{date.userId}, #{date.type}, #{date.payType}, #{date.endTime}, #{date.city}, #{date.status});
+        INSERT INTO `corgi_date` (`user_id`, `detail`, `status`)
+        VALUES (#{date.userId}, #{date.detail}, #{date.status});
     </insert>
 
     <select id="searchDate" resultType="com.corgi.user.entity.CorgiDate">
-        select id,
-        user_id userId,
-        taken_user takenUser,
-        `type`,
-        `pay_type` payType,
-        end_time endTime,
-        ctime,
-        `city`,
-        status
-        from corgi_date
+        select
+        <include refid="date"/>
+        from corgi_date d
         where 1 = 1
         <if test="date.status != null">
-            and `status`= #{date.status}
-        </if>
-        <if test="date.type != null">
-            and (`type` = '不限' or `type` = #{date.type})
-        </if>
-        <if test="date.payType != null">
-            and (pay_type = '0' or `pay_type` = #{date.payType})
+            and d.status= #{date.status}
         </if>
         <if test="date.userId != null">
             and user_id = #{date.userId}
         </if>
-        <if test="date.city != null">
-            and city= #{date.city}
-        </if>
-        <if test="date.endTime != null">
-            and (end_time >= #{date.endTime} or end_time = '0')
-        </if>
     </select>
 
-    <select id="getDateById" resultType="com.corgi.user.entity.CorgiDate">
-        select id,
-               user_id    userId,
-               taken_user takenUser,
-               `type`,
-               `pay_type` payType,
-               end_time   endTime,
-               ctime,
-               city,
-               status
-        from corgi_date
-        where id = #{id}
+    <select id="getDateByUserId" resultType="com.corgi.user.entity.CorgiDate">
+        select
+        <include refid="date"/>
+        from corgi_date d
+        where user_id = #{userId}
+        order by d.id desc
+        limit 1
     </select>
 
     <update id="updateCorgiDate">
         update corgi_date
-        <set>
-            <if test="date.takenUser != null">
-                taken_user = #{date.takenUser},
-            </if>
-            <if test="date.status != null">
-                `status` = #{date.status},
-            </if>
-        </set>
-        where `status` = 'open'
-        <if test="date.id != null">
-            and id = #{date.id}
-        </if>
-        <if test="date.userId != null">
-            and user_id = #{date.userId}
-        </if>
-        <if test="date.endTime != null">
-            and end_time &lt; #{date.endTime}
-            and end_time != '0'
-        </if>
+        set `status` = #{date.status},
+            where user_id = #{date.userId} order by id desc limit 1
     </update>
 </mapper>

@@ -14,7 +14,7 @@ public interface CorgiDateMapper {
 
     List<CorgiDate> searchDate(@Param("date") CorgiDate date);
 
-    CorgiDate getDateById(@Param("id") Integer id);
+    CorgiDate getDateByUserId(@Param("userId") String userId);
 
     void updateCorgiDate(@Param("date") CorgiDate date);
 }
