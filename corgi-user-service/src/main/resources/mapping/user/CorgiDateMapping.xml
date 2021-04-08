@@ -37,4 +37,5 @@
         set `status` = #{date.status},
             where user_id = #{date.userId} order by id desc limit 1
     </update>
+
 </mapper>

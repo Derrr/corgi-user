@@ -8,6 +8,7 @@ import com.corgi.entity.ActivityQuery;
 import com.corgi.entity.CorgiPic;
 import com.corgi.mapper.*;
 import com.corgi.support.UserQuerySupporter;
+import com.corgi.user.api.CorgiUserDateService;
 import com.corgi.user.api.CorgiUserFollowService;
 import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.*;
@@ -49,6 +50,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     private CorgiUserFollowMapper corgiUserFollowMapper;
     @Autowired
     private CorgiBlacklistMapper corgiBlacklistMapper;
+    @Autowired
+    private CorgiUserDateService corgiUserDateService;
     @Autowired
     private AmqpTemplate rabbitTemplate;
     @Autowired
@@ -134,6 +137,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setPreferGroup(groups);
         userDetail.setTags(corgiUserTagMapper.getUserTag(userId));
         userDetail.setInterests(corgiUserTagMapper.getUserInterests(userId));
+        userDetail.setDate(corgiUserDateService.getDateByUserId(userId));
 //        if (!StringUtils.isEmpty(loginUserId)) {
 //            userDetail.setMatch(corgiUserMatchService.getUserMatch(userId, loginUserId));
 //        }
@@ -190,6 +194,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 || oldUserPosition.getLng() - userPosition.getLng() < -0.0001) {
             corgiUserMapper.updateUserPosition(userPosition);
             redisTemplate.opsForGeo().remove(geoKey, userPosition.getUserId());
+            redisTemplate.opsForGeo().remove(geoKey + "-date", userPosition.getUserId());
             this.addGeo(geoKey, userPosition);
         } else {
             corgiUserMapper.updateUserPositionUptime(userPosition);
@@ -234,8 +239,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         MapUserProfile mapUserProfile = new MapUserProfile();
         userQuery.setType("distance");
         userQuery.setLimit(1000);
-        List<String> userIds = getAllNearByUser(userQuery);
-        mapUserProfile.setUserIds(userIds);
+        //List<String> userIds = getAllNearByUser(userQuery);
+        GeoResults<RedisGeoCommands.GeoLocation<String>> results = redisTemplate.opsForGeo().radius("user-date", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(userQuery.getLimit()).sortAscending());
         //mapUserProfile.setUsers(getMapUserProfile(userIds, userQuery.getUserId()));
         return mapUserProfile;
     }
@@ -463,6 +468,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         corgiBlacklistMapper.deleteAll(userId);
         if (!StringUtils.isEmpty(userId)) {
             redisTemplate.opsForGeo().remove("user", userId);
+            redisTemplate.opsForGeo().remove("user-date", userId);
         }
     }
 
@@ -492,13 +498,12 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (StringUtils.isEmpty(userPosition.getUserId()) || StringUtils.isEmpty(geoKey)) {
             return;
         }
-        UserDetail userDetail = corgiUserMapper.getUserDetail(userPosition.getUserId());
-        if (userDetail != null &&
-                (CorgiPic.NORMAL.equals(userDetail.getAvatarCheckStatus())
-                        || UserDetail.NO_FACE.equals(userDetail.getAvatarCheckStatus()))
-        ) {
-            redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
+        redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
+        CorgiDate corgiDate = corgiUserDateService.getDateByUserId(userPosition.getUserId());
+        if (!CorgiDate.EMPTY.equals(corgiDate.getStatus())) {
+            redisTemplate.opsForGeo().add(geoKey.concat("-date"), new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
         }
+
     }
 
     private List<UserProfile> getMapUserProfile(List<String> userIds, String loginUserId) {

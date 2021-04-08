@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class UserDetail implements Serializable {
     public static final String NO_FACE = "no_face";
+    public static final String VERIFIED = "verified";
 
     private String userId;
     private String telNo;
@@ -42,6 +43,7 @@ public class UserDetail implements Serializable {
     private String checkStatus;
     private Double match;
     private String version;
+    private CorgiDate date;
 
     List<String> preferGroup;
 

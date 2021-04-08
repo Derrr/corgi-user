@@ -1,8 +1,10 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiDateMapper;
 import com.corgi.user.api.CorgiUserDateService;
+import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.CorgiDate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,12 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
 
     @Override
     public CorgiDate getDateByUserId(String userId) {
-        return corgiDateMapper.getDateByUserId(userId);
+        CorgiDate date = corgiDateMapper.getDateByUserId(userId);
+        if (date == null) {
+            date = new CorgiDate();
+            date.setUserId(userId);
+            date.setStatus(CorgiDate.EMPTY);
+        }
+        return date;
     }
 }

@@ -17,4 +17,5 @@ public interface CorgiDateMapper {
     CorgiDate getDateByUserId(@Param("userId") String userId);
 
     void updateCorgiDate(@Param("date") CorgiDate date);
+
 }
