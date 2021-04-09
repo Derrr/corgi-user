@@ -98,9 +98,19 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
 
     @Override
     public List<String> getHeatActivity(CorgiActivity corgiActivity, Integer page, Integer pageSize) {
-        String category = corgiActivity.getCategory() + corgiActivity.getBarId();
+        String category;
+        if (corgiActivity.getBarId() != null) {
+            category = corgiActivity.getCategory() + corgiActivity.getBarId();
+        } else {
+            category = "video','image";
+        }
         String date = corgiActivity.getCreateTime();
-        return corgiUserActivityMapper.getHeadActivityPic(category, date, (page - 1) * pageSize, pageSize);
+        List<String> topics = corgiActivity.getTopics();
+        String topic = null;
+        if (!CollectionUtils.isEmpty(topics)) {
+            topic = topics.get(0);
+        }
+        return corgiUserActivityMapper.getHeadActivityPic(category, date, (page - 1) * pageSize, pageSize, topic);
     }
 
     @Override

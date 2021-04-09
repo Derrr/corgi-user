@@ -3,18 +3,25 @@
 <mapper namespace="com.corgi.mapper.CorgiUserActivityMapper">
 
     <insert id="addSignUp" parameterType="com.corgi.user.entity.UserSignUp">
-        insert ignore into corgi_activity_attender (`user_id`, `activity_id`, `status`)
-        values (#{userSignUp.userId}, #{userSignUp.activityId}, #{userSignUp.status});
+        insert
+        ignore into corgi_activity_attender (`user_id`, `activity_id`, `status`)
+        values (
+        #{userSignUp.userId},
+        #{userSignUp.activityId},
+        #{userSignUp.status}
+        );
     </insert>
 
     <delete id="deleteSignUp" parameterType="com.corgi.user.entity.UserSignUp">
-        delete from corgi_activity_attender
+        delete
+        from corgi_activity_attender
         where user_id = #{userSignUp.userId}
-        and activity_id = #{userSignUp.activityId}
+          and activity_id = #{userSignUp.activityId}
     </delete>
 
     <delete id="deleteSignUpByActivity">
-        delete from corgi_activity_attender
+        delete
+        from corgi_activity_attender
         where activity_id = #{activityId}
     </delete>
 
@@ -22,13 +29,15 @@
     <update id="updateSignUp" parameterType="com.corgi.user.entity.UserSignUp">
         update corgi_activity_attender
         set `status` = #{userSignUp.status}
-        where user_id = #{userSignUp.userId} and activity_id = #{userSignUp.activityId}
+        where user_id = #{userSignUp.userId}
+          and activity_id = #{userSignUp.activityId}
     </update>
 
     <select id="getStatus" resultType="java.lang.Integer">
         select `status`
         from corgi_activity_attender
-        where user_id = #{userId} and activity_id = #{activityId}
+        where user_id = #{userId}
+          and activity_id = #{activityId}
     </select>
     <select id="getUser" resultType="com.corgi.user.entity.UserProfile">
         select
@@ -81,54 +90,77 @@
     </select>
 
     <select id="getSignUpActivityId" resultType="java.lang.String">
-        select activity_id from corgi_activity_attender
-        where user_id = #{userId} order by update_time desc
-        limit #{start},#{size}
+        select activity_id
+        from corgi_activity_attender
+        where user_id = #{userId}
+        order by update_time desc
+            limit #{start}, #{size}
     </select>
 
     <select id="getHeadActivityPic" resultType="java.lang.String">
         select c.activity_id from corgi_activity_creator c
         left join corgi_activity_like l on c.activity_id = l.activity_id
-        where c.category = #{category}
-        and c.ctime >= #{date}
+        <if test="topic != null">
+            join corgi_activity_topic t on t.activity_id = c.activity_id and t.topic = #{topic}
+        </if>
+        where c.category in ('${category}')
+        <if test="date != null">
+            and c.ctime >= #{date}
+        </if>
         group by c.activity_id
         order by count(l.id) desc
         limit #{start},#{size}
     </select>
 
     <insert id="addActivityCreator">
-        insert ignore into `corgi_activity_creator` (`activity_id`, `creator_id`, `category`)
-        VALUES (#{activityId}, #{creatorId}, #{category});
+        insert
+        ignore into `corgi_activity_creator` (`activity_id`, `creator_id`, `category`)
+        VALUES (
+        #{activityId},
+        #{creatorId},
+        #{category}
+        );
     </insert>
 
     <delete id="deleteActivityCreator">
-        delete from `corgi_activity_creator`
+        delete
+        from `corgi_activity_creator`
         where activity_id = #{activityId}
     </delete>
 
     <select id="countActivity" resultType="java.lang.Long">
-        select count(1) from corgi_activity_creator c
+        select count(1)
+        from corgi_activity_creator c
         where c.category = #{category}
-        and c.ctime like concat(#{date},'%')
+          and c.ctime like concat(#{date}, '%')
     </select>
 
     <select id="countActivityUser" resultType="java.lang.Long">
-        select count(distinct creator_id) from corgi_activity_creator c
+        select count(distinct creator_id)
+        from corgi_activity_creator c
         where c.category = #{category}
-        and c.ctime like concat(#{date},'%')
+          and c.ctime like concat(#{date}, '%')
     </select>
 
     <select id="countSignUpUser" resultType="java.lang.Long">
-        select count(1) from corgi_activity_attender a
-        where a.create_time like concat(#{date},'%')
+        select count(1)
+        from corgi_activity_attender a
+        where a.create_time like concat(#{date}, '%')
     </select>
 
     <select id="getParticipateActivity" resultType="java.lang.String">
-        select a.activity_id from (
-        select activity_id, ctime from corgi_activity_creator where creator_id = #{userId} and category = 'activity'
-        union
-        select activity_id, update_time ctime from corgi_activity_attender where user_id = #{userId} and status = '1') a
+        select a.activity_id
+        from (
+                 select activity_id, ctime
+                 from corgi_activity_creator
+                 where creator_id = #{userId}
+                   and category = 'activity'
+                 union
+                 select activity_id, update_time ctime
+                 from corgi_activity_attender
+                 where user_id = #{userId}
+                   and status = '1') a
         order by a.ctime desc
-        limit #{start}, #{size}
+            limit #{start}, #{size}
     </select>
 </mapper>

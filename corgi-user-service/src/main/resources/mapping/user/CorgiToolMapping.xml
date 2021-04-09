@@ -14,6 +14,20 @@
         order by `order`
     </select>
 
+    <select id="getTopicById" resultType="com.corgi.entity.CorgiTopic">
+        select id        topicId,
+               `topic`,
+               ctime,
+               uptime,
+               `status`,
+               cuid,
+               opuid,
+               `content`,
+               `pic_url` picUrl
+        from corgi_topics
+        where id = #{id}
+    </select>
+
     <select id="getActivityTypes" resultType="java.lang.String">
         select `type`
         from corgi_activity_type
@@ -27,14 +41,14 @@
 
     <update id="updateTopic" parameterType="com.corgi.entity.CorgiTopic">
         update corgi_topics
-        set topic     = #{topic.topic},
-            content   = #{topic.content},
-            opuid     = #{topic.opuid},
-            `status`  = #{topic.status},
-            `pic_url` = #{topic.picUrl},
-            `url` = #{topic.url},
+        set topic      = #{topic.topic},
+            content    = #{topic.content},
+            opuid      = #{topic.opuid},
+            `status`   = #{topic.status},
+            `pic_url`  = #{topic.picUrl},
+            `url`      = #{topic.url},
             `url_type` = #{topic.urlType},
-            `order`   = #{topic.order}
+            `order`    = #{topic.order}
         where id = #{topic.topicId}
     </update>
 

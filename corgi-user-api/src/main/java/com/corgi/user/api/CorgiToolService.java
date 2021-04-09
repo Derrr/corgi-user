@@ -24,6 +24,8 @@ public interface CorgiToolService {
 
     List<CorgiTopic> searchTopic(String text, String status);
 
+    CorgiTopic getTopic(String id);
+
     List<String> getActivityTypes();
 
     void deleteActivityMessageByMessage(ActivityMessage message);

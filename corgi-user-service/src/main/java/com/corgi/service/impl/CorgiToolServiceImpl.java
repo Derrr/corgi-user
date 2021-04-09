@@ -79,6 +79,11 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public CorgiTopic getTopic(String id) {
+        return getTopic(id);
+    }
+
+    @Override
     public List<String> getActivityTypes() {
         return corgiToolMapper.getActivityTypes();
     }

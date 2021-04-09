@@ -22,6 +22,14 @@ public interface CorgiToolMapper {
     List<CorgiTopic> searchTopic(@Param("text") String text, @Param("status") String status);
 
     /**
+     * 获取话题
+     *
+     * @param id
+     * @return
+     */
+    CorgiTopic getTopicById(@Param("id") String id);
+
+    /**
      * 获取活动类型
      *
      * @return
