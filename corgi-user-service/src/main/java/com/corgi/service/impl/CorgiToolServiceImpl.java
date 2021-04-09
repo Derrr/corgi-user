@@ -80,7 +80,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Override
     public CorgiTopic getTopic(String id) {
-        return getTopic(id);
+        return corgiToolMapper.getTopicById(id);
     }
 
     @Override
