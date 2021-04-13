@@ -59,6 +59,22 @@
         where activity_id = #{activityId}
     </select>
 
+    <select id="getActivityTopicDetails" resultType="com.corgi.entity.CorgiTopic">
+        select t.id        topicId,
+               t.`topic`,
+               t.ctime,
+               t.uptime,
+               t.`status`,
+               t.cuid,
+               t.opuid,
+               t.`content`,
+               t.`pic_url` picUrl
+        from corgi_activity_topic a
+                 left join corgi_topics t on t.id = a.topic
+        where activity_id = #{activityId}
+    </select>
+
+
     <select id="getActivityIdsByTopic" resultType="java.lang.String">
         select activity_id
         from corgi_activity_topic

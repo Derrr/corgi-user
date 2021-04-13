@@ -109,6 +109,11 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public List<CorgiTopic> getActivityTopicDetails(String activityId) {
+        return corgiToolMapper.getActivityTopicDetails(activityId);
+    }
+
+    @Override
     public List<String> getActivityIdsByTopic(String topic, Integer page, Integer size) {
         return corgiToolMapper.getActivityIdsByTopic(topic, (page - 1) * size, size);
     }

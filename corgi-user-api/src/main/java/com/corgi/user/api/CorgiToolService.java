@@ -36,6 +36,8 @@ public interface CorgiToolService {
 
     List<String> getActivityTopic(String activityId);
 
+    List<CorgiTopic> getActivityTopicDetails(String activityId);
+
     List<String> getActivityIdsByTopic(String topic, Integer page, Integer size);
 
     void updateActivityTopicWeight(String activityId, Integer weight);
