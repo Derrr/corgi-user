@@ -57,7 +57,7 @@
     <insert id="addDateApply" useGeneratedKeys="true" keyProperty="apply.id"
             parameterType="com.corgi.user.entity.CorgiDateApply">
         insert into corgi_date_apply(apply_user_id, approval_user_id, date_id)
-        values (#{apply.applyUserId,apply.approvalUserId,apply.dateId})
+        values (#{apply.applyUserId},#{apply.approvalUserId},#{apply.dateId})
     </insert>
 
     <update id="updateDateApply" parameterType="com.corgi.user.entity.CorgiDateApply">
