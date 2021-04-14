@@ -9,7 +9,7 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiFeedService {
-    List<String> getUnviewFeed(String userId);
+    List<String> getUnviewFeed(String userId, Integer size);
 
     Integer countUnviewFeed(String userId);
 

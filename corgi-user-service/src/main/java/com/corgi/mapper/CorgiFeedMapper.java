@@ -18,7 +18,7 @@ public interface CorgiFeedMapper {
      * @param userId
      * @return
      */
-    List<String> getUnviewFeed(@Param("userId") String userId, @Param("index") String index);
+    List<String> getUnviewFeed(@Param("userId") String userId, @Param("index") String index, @Param("size")Integer size);
 
     /**
      * 统计feed

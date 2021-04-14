@@ -3,6 +3,9 @@
 <mapper namespace="com.corgi.mapper.CorgiVlogMapper">
     <sql id="vlog">v.id,v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
 
+    <sql id="creator">c.activity_id activityId,c.creator_id userId, c.ctime, c.category type, c.view_count viewCount, c.like_count likeCount</sql>
+
+
     <insert id="addVlog" parameterType="com.corgi.user.entity.CorgiVlog">
         INSERT
         IGNORE INTO `corgi_vlog` (`activity_id`, `user_id`, `ctime`, `type`, `status`)
@@ -59,19 +62,13 @@
     </delete>
 
     <update id="addVlogCount" parameterType="com.corgi.user.entity.CorgiVlog">
-        update corgi_vlog
+        update corgi_activity_creator
         <set>
-            <if test="vlog.likeCount != null and vlog.likeCount != 0">
-                `like_count` = like_count + ${vlog.likeCount},
-            </if>
             <if test="vlog.viewCount != null and vlog.viewCount > 0">
-                `view_count` = view_count + ${vlog.viewCount},
+                `view_count` = view_count + #{vlog.viewCount},
             </if>
-            <if test="vlog.commentCount != null and vlog.commentCount != 0">
-                `comment_count` = comment_count + ${vlog.commentCount},
-            </if>
-            <if test="vlog.status != null">
-                `status` = #{vlog.status}
+            <if test="vlog.likeCount != null and vlog.likeCount > 0">
+                `like_count` = #{vlog.viewCount},
             </if>
         </set>
         where activity_id = #{vlog.activityId}
@@ -79,29 +76,30 @@
 
     <select id="recallVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
-        <include refid="vlog"/>
-        from corgi_vlog v
+        <include refid="creator"/>
+        from corgi_activity_creator c
         <if test="vlog.type == 'like'">
-            left join corgi_activity_like l on l.activity_id = v.activity_id and l.type = 'real'
+            left join corgi_activity_like l on l.activity_id = c.activity_id and l.type = 'real'
         </if>
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
-        v.activity_id)
-        and v.user_id != #{vlog.userId}
+        c.activity_id)
+        and c.creator_id != #{vlog.userId}
         <if test="vlog.type == 'like'">
             and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId})
         </if>
-        order by v.ctime desc limit #{size}
+        order by c.id desc limit #{size}
     </select>
 
     <select id="recallLikeVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
-        <include refid="vlog"/>
+        <include refid="creator"/>
         from corgi_activity_like l
-        join corgi_vlog v on l.activity_id = v.activity_id
+        join corgi_activity_creator c on l.activity_id = c.activity_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
-        v.activity_id)
+        c.activity_id)
         and l.type = 'real'
         and l.user_id != #{vlog.userId}
+        and c.category in ('image','text','video')
         <if test="vlog.type == 'like'">
             and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId})
         </if>
@@ -113,25 +111,25 @@
 
     <select id="recallTargetVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
-        <include refid="vlog"/>
-        from corgi_vlog v
+        <include refid="creator"/>
+        from corgi_activity_creator c
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
-        v.activity_id)
-        and user_id = #{userId}
-        order by v.like_count desc limit #{size}
+        c.activity_id)
+        and creator_id = #{userId}
+        order by c.like_count desc limit #{size}
     </select>
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
-        <include refid="vlog"/>
+        <include refid="creator"/>
         from corgi_vlog_hot h
-        join corgi_vlog v on h.activity_id = v.activity_id
+        join corgi_activity_creator c on h.activity_id = c.activity_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id =
         f.feed)
         and h.expect_view > h.view_count
         and h.status = 'open'
         and h.type = #{vlog.type}
-        and v.user_id != #{vlog.userId}
+        and c.creator_id != #{vlog.userId}
         order by h.like_count
         <if test="vlog.status == 'desc'">
             desc
@@ -183,6 +181,13 @@
         <include refid="vlog"/>
         from corgi_vlog v limit #{start},1;
     </select>
+
+    <select id="selectOneHot" resultType="java.lang.String">
+        select
+        activity_id
+        from corgi_vlog_hot v limit #{start},1;
+    </select>
+
 
     <insert id="addVlogHot" parameterType="com.corgi.user.entity.CorgiVlogHot">
         INSERT INTO `corgi_vlog_hot` (`activity_id`, `expect_view`, `like_count`, `type`)
