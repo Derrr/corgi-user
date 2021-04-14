@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiDateMapper">
-    <sql id="date">d
-    .
-    id
-    , d.user_id userId, d.type, d.ctime, d.detail, d.status</sql>
+    <sql id="date">
+        d
+        .
+        user_id
+        userId, d.type, d.ctime,d.address,d.end_time endTime, d.detail, d.status, d.id
+    </sql>
+
+    <sql id="apply">
+        a
+        .
+        id
+        , a.apply_user_id applyUserId, a.approval_user_id approvalUserId, d.ctime, d.uptime, d.date_id dateId, d.status</sql>
+
     <insert id="addCorgiDate" parameterType="com.corgi.user.entity.CorgiDate">
-        INSERT INTO `corgi_date` (`user_id`, `detail`, `status`)
-        VALUES (#{date.userId}, #{date.detail}, #{date.status});
+        INSERT INTO `corgi_date` (`user_id`, `type` `detail`, `end_time`, `address` `status`)
+        VALUES (#{date.userId}, #{date.type}, #{date.detail}, #{date.endTime}, #{date.address}, #{date.status});
     </insert>
 
     <select id="searchDate" resultType="com.corgi.user.entity.CorgiDate">
@@ -32,10 +41,101 @@
         limit 1
     </select>
 
+    <select id="getDateById" resultType="com.corgi.user.entity.CorgiDate">
+        select
+        <include refid="date"/>
+        from corgi_date d
+        where id = #{id}
+    </select>
+
     <update id="updateCorgiDate">
         update corgi_date
         set `status` = #{date.status},
             where user_id = #{date.userId} order by id desc limit 1
     </update>
 
+    <insert id="addDateApply" useGeneratedKeys="true" keyProperty="apply.id"
+            parameterType="com.corgi.user.entity.CorgiDateApply">
+        insert into corgi_date_apply(apply_user_id, approval_user_id, date_id)
+        values (#{apply.applyUserId,apply.approvalUserId,apply.dateId})
+    </insert>
+
+    <update id="updateDateApply" parameterType="com.corgi.user.entity.CorgiDateApply">
+        update corgi_date_apply
+        set `status` = #{apply.status}
+        where id = #{apply.id}
+          and `status` = 'apply'
+    </update>
+
+    <select id="getApplyById" resultType="com.corgi.user.entity.CorgiDateApply">
+        select
+        <include refid="apply"/>
+        from corgi_date_apply a
+        where a.id = #{id}
+    </select>
+
+    <select id="getApplies" resultType="com.corgi.user.entity.CorgiDateApply">
+        select
+        <include refid="apply"/>
+        from corgi_date_apply a
+        where approval_user_id = #{userId}
+        <if test="status != null">
+            and a.status = #{status}
+        </if>
+        <if test="startTime != null">
+            and a.ctime > #{startTime}
+        </if>
+        <if test="endTime != null">
+            and a.ctime &lt;= #{endTime}
+        </if>
+        order by a.id desc
+    </select>
+
+    <select id="getCombind" resultType="com.corgi.user.entity.CorgiApplyCombind">
+        select count(1) count, min(ctime) startTime
+        from corgi_date_apply a
+        where approval_user_id = #{userId}
+        <if test="status != null">
+            and a.status = #{status}
+        </if>
+        <if test="startTime != null">
+            and a.ctime &lt;= #{startTime}
+        </if>
+    </select>
+
+    <select id="getAvatars" resultType="java.lang.String">
+        select d.avatar
+        from corgi_date_apply a
+        left join corgi_user_detail d on d.user_id = a.apply_user_id
+        where approval_user_id = #{userId}
+        and d.avatar is not null
+        and d.avatar != ''
+        <if test="status != null">
+            and a.status = #{status}
+        </if>
+        <if test="startTime != null">
+            and a.ctime &lt;= #{startTime}
+        </if>
+        limit 5
+    </select>
+
+    <select id="getUserApply" resultType="com.corgi.user.entity.CorgiDateApply">
+        select
+        <include refid="apply"/>
+        from corgi_date_apply a
+        where (a.apply_user_id = #{userId} and a.approval_user_id = #{approvalId})
+        or (a.apply_user_id = #{approvalId} and a.approval_user_id = #{userId})
+        order by id desc limit 1
+    </select>
+
+    <select id="getApprovedApplies" resultType="com.corgi.user.entity.CorgiDateApply">
+        select
+        <include refid="apply"/>
+        from corgi_date_apply a
+        where a.apply_user_id = #{userId}
+        <if test="status != null">
+            and a.status = #{status}
+        </if>
+        order by a.id desc
+    </select>
 </mapper>

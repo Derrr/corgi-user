@@ -1,7 +1,9 @@
 package com.corgi.user.api;
 
 
+import com.corgi.user.entity.CorgiApplyCombind;
 import com.corgi.user.entity.CorgiDate;
+import com.corgi.user.entity.CorgiDateApply;
 
 import java.util.List;
 
@@ -16,4 +18,18 @@ public interface CorgiUserDateService {
     void updateDate(CorgiDate date);
 
     CorgiDate getDateByUserId(String userId);
+
+    CorgiDateApply apply(CorgiDateApply apply);
+
+    CorgiDateApply approve(CorgiDateApply apply);
+
+    CorgiDateApply getApplyDetail(Integer id);
+
+    List<CorgiDateApply> getApplies(String userId, String startTime, String endTime, String status);
+
+    CorgiApplyCombind getApplyCombind(String userId, String startTime, String status);
+
+    CorgiDateApply getUserApply(String userId, String targetUser);
+
+    List<CorgiDateApply> getApprovedApplies(String userId, String status);
 }
