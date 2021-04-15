@@ -19,7 +19,7 @@
     </select>
 
     <update id="viewFeed">
-        update corgi_feed_${index} set view_count = 1 where user_id = #{userId} and `feed` = #{feed}
+        update corgi_feed_${index} set view_count = view_count + 1 where user_id = #{userId} and `feed` = #{feed}
     </update>
 
     <select id="countFeed" resultType="java.lang.Long">
