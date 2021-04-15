@@ -64,6 +64,16 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
     @Override
     public CorgiDateApply apply(CorgiDateApply apply) {
         apply.setStatus(CorgiDateApply.APPLY);
+        CorgiDateApply corgiDateApply = corgiDateMapper.getUserApply(apply.getApprovalUserId(), apply.getApplyUserId());
+        if (corgiDateApply != null && CorgiDateApply.APPLY.equals(corgiDateApply.getStatus())) {
+            apply.setStatus("exists");
+            return apply;
+        }
+        CorgiDate date = corgiDateMapper.getDateByUserId(apply.getApprovalUserId());
+        if (date == null || CorgiDate.CLOSE.equals(date.getStatus())) {
+            return apply;
+        }
+        apply.setDateId(date.getId() + "");
         return corgiDateMapper.addDateApply(apply);
     }
 
