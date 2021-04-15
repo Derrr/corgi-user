@@ -22,7 +22,7 @@ public interface CorgiDateMapper {
 
     void updateCorgiDate(@Param("date") CorgiDate date);
 
-    CorgiDateApply addDateApply(@Param("apply") CorgiDateApply apply);
+    void addDateApply(@Param("apply") CorgiDateApply apply);
 
     void updateDateApply(@Param("apply") CorgiDateApply apply);
 

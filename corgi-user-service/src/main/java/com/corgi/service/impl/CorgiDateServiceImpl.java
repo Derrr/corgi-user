@@ -74,7 +74,8 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
             return apply;
         }
         apply.setDateId(date.getId() + "");
-        return corgiDateMapper.addDateApply(apply);
+        corgiDateMapper.addDateApply(apply);
+        return apply;
     }
 
     @Override
