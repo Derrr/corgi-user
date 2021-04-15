@@ -5,7 +5,7 @@
         d
         .
         user_id
-        userId, d.type, d.ctime,d.address,d.end_time endTime, d.detail, d.status, d.id
+        userId, d.type, d.ctime,d.address,d.end_time endTime, d.detail, d.status, d.id,d.city
     </sql>
 
     <sql id="apply">
@@ -15,8 +15,8 @@
         , a.apply_user_id applyUserId, a.approval_user_id approvalUserId, d.ctime, d.uptime, d.date_id dateId, d.status</sql>
 
     <insert id="addCorgiDate" parameterType="com.corgi.user.entity.CorgiDate">
-        INSERT INTO `corgi_date` (`user_id`, `type`, `detail`, `end_time`, `address`, `status`)
-        VALUES (#{date.userId}, #{date.type}, #{date.detail}, #{date.endTime}, #{date.address}, #{date.status});
+        INSERT INTO `corgi_date` (`user_id`, `type`, `detail`, `end_time`, `address`, `status`, `city`)
+        VALUES (#{date.userId}, #{date.type}, #{date.detail}, #{date.endTime}, #{date.address}, #{date.status}, #{date.city});
     </insert>
 
     <select id="searchDate" resultType="com.corgi.user.entity.CorgiDate">
@@ -50,7 +50,7 @@
 
     <update id="updateCorgiDate">
         update corgi_date
-        set `status` = #{date.status},
+        set `status` = #{date.status}
             where user_id = #{date.userId} order by id desc limit 1
     </update>
 

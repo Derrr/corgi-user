@@ -18,4 +18,5 @@ public class CorgiDate implements Serializable {
     private String ctime;
     private String status;
     private String detail;
+    private String city;
 }
