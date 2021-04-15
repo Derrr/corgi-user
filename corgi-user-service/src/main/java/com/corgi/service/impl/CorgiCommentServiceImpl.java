@@ -50,8 +50,6 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
             activityComment.setReplyUserName(replyUserDetail.getNickname());
             activityComment.setReplyUserAvatar(replyUserDetail.getUserPics().get(0).getPicUrl());
         }
-        CorgiVlog corgiVlog = CorgiVlog.builder().activityId(activityComment.getActivityId()).commentCount(1).build();
-        corgiVlogService.addVlogCount(corgiVlog);
         activityComment.setCommentId(UUID.randomUUID().toString());
         corgiCommentMapper.addActivityComment(activityComment);
         if (!commentUserDetail.getUserId().equals(activityComment.getUserId())) {
@@ -88,8 +86,6 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         ActivityComment activityComment = corgiCommentMapper.getActivityCommentByCommentId(commentId);
         if (activityComment != null) {
             corgiCommentMapper.deleteActivityComment(commentId);
-            CorgiVlog corgiVlog = CorgiVlog.builder().activityId(activityComment.getActivityId()).commentCount(-1).build();
-            corgiVlogService.addVlogCount(corgiVlog);
             corgiToolService.deleteActivityMessageByMessage(ActivityMessage.builder()
                     .fromUserId(activityComment.getCommentUserId())
                     .commentId(commentId)
