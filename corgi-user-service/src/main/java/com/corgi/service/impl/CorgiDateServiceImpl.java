@@ -47,7 +47,13 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
 
     @Override
     public void updateDate(CorgiDate date) {
-        corgiDateMapper.updateCorgiDate(date);
+        if (date.getApplyId() != null && date.getApplyId() > 0) {
+            CorgiDateApply apply = corgiDateMapper.getApplyById(date.getApplyId());
+            date.setId(Integer.valueOf(apply.getDateId()));
+            corgiDateMapper.updateCorgiDateDetail(date);
+        } else {
+            corgiDateMapper.updateCorgiDate(date);
+        }
     }
 
     @Override
