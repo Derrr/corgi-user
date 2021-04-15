@@ -12,7 +12,7 @@
         a
         .
         id
-        , a.apply_user_id applyUserId, a.approval_user_id approvalUserId, d.ctime, d.uptime, d.date_id dateId, d.status</sql>
+        , a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.ctime, a.uptime, a.date_id dateId, a.status</sql>
 
     <insert id="addCorgiDate" parameterType="com.corgi.user.entity.CorgiDate">
         INSERT INTO `corgi_date` (`user_id`, `type`, `detail`, `end_time`, `address`, `status`, `city`)
