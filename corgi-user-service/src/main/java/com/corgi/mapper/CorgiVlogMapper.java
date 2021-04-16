@@ -18,7 +18,7 @@ public interface CorgiVlogMapper {
 
     List<CorgiVlog> getInitVlog(@Param("userId") String userId, @Param("ctime") String ctime);
 
-    List<CorgiVlog> getPopularVlog(@Param("userId") String userId, @Param("ctime") String ctime, @Param("index") String index);
+    List<String> getPopularVlog(@Param("userId") String userId, @Param("index") String index, @Param("size") Integer size);
 
     CorgiVlog getVlogById(@Param("activityId") String activityId);
 
@@ -52,12 +52,12 @@ public interface CorgiVlogMapper {
 
     void updateVlogHot(@Param("vlog") CorgiVlogHot hot);
 
-    List<CorgiVlogHot> getVlogHot(@Param("vlog") CorgiVlogHot hot, @Param("start")Integer start, @Param("size")Integer size);
+    List<CorgiVlogHot> getVlogHot(@Param("vlog") CorgiVlogHot hot, @Param("start") Integer start, @Param("size") Integer size);
 
     Integer countVlogHot(@Param("vlog") CorgiVlogHot hot);
 
     Integer countVlogByDate(@Param("date") String date);
 
-    CorgiVlog countByTopic(@Param("topic")String topic);
+    CorgiVlog countByTopic(@Param("topic") String topic);
 
 }

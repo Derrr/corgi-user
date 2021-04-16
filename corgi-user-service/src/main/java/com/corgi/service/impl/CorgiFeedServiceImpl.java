@@ -51,13 +51,19 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         if (result.size() >= size) {
             return result;
         }
+        List<String> popularFeeds = corgiVlogMapper.getPopularVlog(userId, UserUtils.getIndex(userId), size - result.size());
+        if (popularFeeds != null) {
+            result.addAll(popularFeeds);
+        }
         Integer max = size - result.size();
-        Integer total = corgiVlogMapper.countVlogHot(new CorgiVlogHot());
-        Random random = new Random();
-        result = new ArrayList<>();
-        for (int i = 0; i < max; i++) {
-            String activityId = corgiVlogMapper.selectOneHot(random.nextInt(total));
-            result.add(activityId);
+        if (max > 0) {
+            Integer total = corgiVlogMapper.countVlogHot(new CorgiVlogHot());
+            Random random = new Random();
+            result = new ArrayList<>();
+            for (int i = 0; i < max; i++) {
+                String activityId = corgiVlogMapper.selectOneHot(random.nextInt(total));
+                result.add(activityId);
+            }
         }
         return result;
     }

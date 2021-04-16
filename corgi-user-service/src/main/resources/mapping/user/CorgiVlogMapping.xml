@@ -35,17 +35,16 @@
         order by like_count desc limit 20
     </select>
 
-    <select id="getPopularVlog" resultType="com.corgi.user.entity.CorgiVlog">
+    <select id="getPopularVlog" resultType="java.lang.String">
         select
-        <include refid="vlog"/>
+        activity_id
         from corgi_vlog_hot h
-        left join corgi_vlog v on h.activity_id = v.activity_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{userId} and h.activity_id =
         f.feed)
         and h.expect_view > h.view_count
         and h.status = 'open'
         and h.type = 'auto'
-        order by h.like_count desc limit 20
+        order by h.like_count desc limit #{size}
     </select>
 
     <select id="getVlogById" resultType="com.corgi.user.entity.CorgiVlog">
