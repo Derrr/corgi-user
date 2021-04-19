@@ -240,7 +240,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userQuery.setLimit(1000);
         UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
         List<String> userIds = corgiUserMapper.getNearbyDate(supporter);
-        mapUserProfile.setUsers(getMapUserProfile(userIds, userQuery.getUserId()));
+        mapUserProfile.setUserIds(userIds);
         return mapUserProfile;
     }
 
