@@ -1,6 +1,7 @@
 package com.corgi.mapper;
 
 import com.corgi.activity.entity.CorgiActivity;
+import com.corgi.user.entity.UserDetail;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,6 +11,12 @@ import java.util.List;
  */
 public interface CorgiFakeMapper {
     void initFakeUserPool(@Param("size") Integer size, @Param("time") Long time);
+
+    void addFakeUserPool(@Param("userId") String userId);
+
+    List<UserDetail> getFakeUsers(@Param("size") Integer size, @Param("time") Long time);
+
+    String getFakeUserByStatus(@Param("status")String status);
 
     void clearFakeUserPool();
 

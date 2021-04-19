@@ -7,10 +7,7 @@ import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.mapper.CorgiBarMapper;
 import com.corgi.mapper.CorgiFakeMapper;
 import com.corgi.user.api.*;
-import com.corgi.user.entity.ActivityLike;
-import com.corgi.user.entity.BarProfile;
-import com.corgi.user.entity.UserQuery;
-import com.corgi.user.entity.UserVideo;
+import com.corgi.user.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,13 +31,52 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     private CorgiUserFollowService corgiUserFollowService;
     @Reference
     private CorgiLikeService corgiLikeService;
+    @Reference
+    private CorgiUserService corgiUserService;
+    @Reference
+    private CorgiPicService corgiPicService;
 
     @Override
     public void refreshFakeUser(Integer size) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -30);
         corgiFakeMapper.clearFakeUserPool();
-        corgiFakeMapper.initFakeUserPool(size, calendar.getTimeInMillis());
+        List<UserDetail> fakeUserDetails = corgiFakeMapper.getFakeUsers(size, calendar.getTimeInMillis());
+        for (UserDetail detail : fakeUserDetails) {
+            String avatarStatus = "fake" + detail.getUserId();
+            String fakeId = corgiFakeMapper.getFakeUserByStatus(avatarStatus);
+            if (!StringUtils.isEmpty(fakeId)) {
+                corgiFakeMapper.addFakeUserPool(fakeId);
+                continue;
+            }
+            detail.setAvatarStatus(avatarStatus);
+            detail.setAvatarCheckStatus(UserDetail.NO_FACE);
+            UserLogin userLogin = new UserLogin();
+            userLogin.setTelNo("3" + detail.getTelNo());
+            userLogin = corgiUserService.login(userLogin);
+            fakeId = userLogin.getUserId();
+            detail.setUserId(fakeId);
+            corgiUserService.addDetail(detail);
+            if (!StringUtils.isEmpty(detail.getAvatar())) {
+                UserPic userPic = new UserPic();
+                userPic.setUserId(fakeId);
+                userPic.setPicUrl(detail.getAvatar());
+                corgiPicService.addUserPic(userPic);
+            }
+            Random random = new Random();
+            UserPosition position = new UserPosition();
+            position.setUserId(fakeId);
+            position.setCity(detail.getCity());
+            position.setProvince(detail.getHideGroup());
+            position.setVersion("0.0.0");
+            position.setLat(detail.getLat() + random.nextDouble() * 2 - 1);
+            position.setLng(detail.getLng() + random.nextDouble() * 2 - 1);
+            position.setRealLat(position.getLat());
+            position.setRealLng(position.getLng());
+            corgiUserService.updateUserPosition(position);
+
+        }
+        //corgiFakeMapper.initFakeUserPool(size, calendar.getTimeInMillis());
     }
 
     @Override

@@ -8,10 +8,50 @@
                  join corgi_user_position p on p.user_id = f.follow_user_id and f.type = 'real'
                  join corgi_user_detail d on d.user_id = f.follow_user_id
         where p.uptime &lt; #{time}
-        and d.avatar_status is null and avatar_check_status = 'normal'
+          and d.avatar_status is null
+          and avatar_check_status = 'normal'
         group by f.follow_user_id
         order by count(1) limit #{size}
     </insert>
+
+    <insert id="addFakeUserPool" parameterType="java.lang.String">
+        insert into corgi_fake_user_pool (`user_id`)
+        values (#{userId})
+    </insert>
+
+    <select id="getFakeUserByStatus" resultType="java.lang.String">
+        select user_id
+        from corgi_user_detail
+        where avatar_status = #{status}
+    </select>
+
+    <select id="getFakeUsers" resultType="com.corgi.user.entity.UserDetail">
+        select d.user_id                              userId,
+               l.tel_no                               telNo,
+               d.nickname,
+               d.avatar,
+               d.`height`,
+               d.`weight`,
+               d.`role`,
+               d.`group`,
+               d.`birthday`,
+               d.`con`,
+               p.`city`,
+               p.province                             hideGroup,
+               p.lat                                  lat,
+               p.lng                                  lng,
+               if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
+        from corgi_user_follow f
+                 join corgi_user_position p on p.user_id = f.follow_user_id and f.type = 'real'
+                 join corgi_user_detail d on d.user_id = f.follow_user_id
+                 join corgi_user_login l on l.id = f.follow_user_id
+        where p.uptime &lt; #{time}
+          and d.avatar_status is null
+          and avatar_check_status != 'check'
+        group by f.follow_user_id
+        having count (1) >= 10
+        order by p.uptime
+    </select>
 
     <update id="clearFakeUserPool">
         truncate corgi_fake_user_pool;
@@ -34,7 +74,9 @@
         values (
         #{userId},
         #{followId},
-        NOW(),
+        NOW
+        (
+        ),
         'fake'
         );
     </insert>
