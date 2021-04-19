@@ -54,6 +54,12 @@
             where user_id = #{date.userId} order by id desc limit 1
     </update>
 
+    <update id="updateAllCorgiDate">
+        update corgi_date
+        set `status` = #{date.status}
+        where user_id = #{date.userId}
+    </update>
+
     <update id="updateCorgiDateDetail">
         update corgi_date
         set `type` = #{date.type},

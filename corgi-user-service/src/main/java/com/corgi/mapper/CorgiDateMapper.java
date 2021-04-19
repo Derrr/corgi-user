@@ -22,6 +22,8 @@ public interface CorgiDateMapper {
 
     void updateCorgiDate(@Param("date") CorgiDate date);
 
+    void updateAllCorgiDate(@Param("date") CorgiDate date);
+
     void updateCorgiDateDetail(@Param("date") CorgiDate date);
 
     void addDateApply(@Param("apply") CorgiDateApply apply);

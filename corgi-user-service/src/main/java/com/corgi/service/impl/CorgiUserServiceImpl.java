@@ -237,11 +237,10 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public MapUserProfile getMapUser(UserQuery userQuery) {
         MapUserProfile mapUserProfile = new MapUserProfile();
-        userQuery.setType("distance");
         userQuery.setLimit(1000);
-        //List<String> userIds = getAllNearByUser(userQuery);
-        GeoResults<RedisGeoCommands.GeoLocation<String>> results = redisTemplate.opsForGeo().radius("user-date", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(userQuery.getLimit()).sortAscending());
-        //mapUserProfile.setUsers(getMapUserProfile(userIds, userQuery.getUserId()));
+        UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
+        List<String> userIds = corgiUserMapper.getNearbyDate(supporter);
+        mapUserProfile.setUsers(getMapUserProfile(userIds, userQuery.getUserId()));
         return mapUserProfile;
     }
 

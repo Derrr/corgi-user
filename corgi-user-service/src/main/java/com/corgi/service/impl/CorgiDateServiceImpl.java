@@ -52,7 +52,11 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
             date.setId(Integer.valueOf(apply.getDateId()));
             corgiDateMapper.updateCorgiDateDetail(date);
         } else {
-            corgiDateMapper.updateCorgiDate(date);
+            if (CorgiDate.OPEN.equals(date.getStatus())) {
+                corgiDateMapper.updateCorgiDate(date);
+            } else if (CorgiDate.CLOSE.equals(date.getStatus())) {
+                corgiDateMapper.updateAllCorgiDate(date);
+            }
         }
     }
 

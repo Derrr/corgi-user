@@ -228,6 +228,15 @@ public interface CorgiUserMapper {
     List<String> getNearByUser(@Param("range") UserQuerySupporter supporter);
 
     /**
+     * 获取周围人信息
+     *
+     * @param supporter
+     * @return
+     */
+    List<String> getNearbyDate(@Param("range") UserQuerySupporter supporter);
+
+
+    /**
      * 获取人员信息列表
      *
      * @param inValue
