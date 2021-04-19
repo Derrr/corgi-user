@@ -16,7 +16,9 @@ public interface CorgiFakeMapper {
 
     List<UserDetail> getFakeUsers(@Param("size") Integer size, @Param("time") Long time);
 
-    String getFakeUserByStatus(@Param("status")String status);
+    String getFakeUserByStatus(@Param("status") String status);
+
+    void updateFakeUserByStatus(@Param("status") String status, @Param("nickname") String nickname);
 
     void clearFakeUserPool();
 
@@ -34,5 +36,5 @@ public interface CorgiFakeMapper {
 
     void updateFakeUserPosition(@Param("userId") String userId, @Param("time") Long time);
 
-    String getLastFakeFollowTime(@Param("userId")String userId);
+    String getLastFakeFollowTime(@Param("userId") String userId);
 }
