@@ -40,7 +40,7 @@
                p.province                             hideGroup,
                p.lat                                  lat,
                p.lng                                  lng,
-               if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
+               if(p.fuptime > 0, p.fuptime, p.uptime) `time`
         from corgi_user_follow f
                  join corgi_user_position p on p.user_id = f.follow_user_id and f.type = 'real'
                  join corgi_user_detail d on d.user_id = f.follow_user_id
