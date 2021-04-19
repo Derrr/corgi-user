@@ -27,4 +27,5 @@ public class UserQuery implements Serializable {
     private String follow;
     private String type;
     private Integer limit;
+    private String city;
 }

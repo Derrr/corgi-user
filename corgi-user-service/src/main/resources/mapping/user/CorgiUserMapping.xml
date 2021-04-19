@@ -414,10 +414,11 @@
         select distinct p.user_id from corgi_date d
         left join corgi_user_position p on p.user_id = d.user_id
         where d.status = 'open'
-              p.lat >= #{range.beginLat} and p.lat &lt;= #{range.endLat}
-        and p.lng >= #{range.beginLng} and p.lng &lt;= #{range.endLng}
         <if test="range.type != null and range.type != ''">
             and d.type = #{range.type}
+        </if>
+        <if test="range.city != null and range.city != ''">
+            and p.city = #{range.city}
         </if>
         order by st_distance_sphere(point(#{range.lng},#{range.lat}),p.pt)
         <if test="range.limit > 0">

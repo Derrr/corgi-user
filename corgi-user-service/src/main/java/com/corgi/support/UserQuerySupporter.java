@@ -32,6 +32,7 @@ public class UserQuerySupporter {
     private String relation;
     private String follow = "";
     private String type;
+    private String city;
     private double lat;
     private double lng;
 
@@ -44,15 +45,15 @@ public class UserQuerySupporter {
         this.userId = userQuery.getUserId();
         this.userQuery = userQuery;
         Double range = userQuery.getRange();
+        if (range != null) {
+            Double dtheta = (range * 180) / (EARTH_RADIUS * Math.PI);
+            this.beginLat = userQuery.getLat() - dtheta;
+            this.endLat = userQuery.getLat() + dtheta;
 
-        Double dtheta = (range * 180) / (EARTH_RADIUS * Math.PI);
-        this.beginLat = userQuery.getLat() - dtheta;
-        this.endLat = userQuery.getLat() + dtheta;
-
-        Double dphi = (range * 180) / (EARTH_RADIUS * Math.PI * (Math.cos(Math.toRadians(userQuery.getLat())) + INFINITY_SMALL));
-        this.beginLng = userQuery.getLng() - dphi;
-        this.endLng = userQuery.getLng() + dphi;
-
+            Double dphi = (range * 180) / (EARTH_RADIUS * Math.PI * (Math.cos(Math.toRadians(userQuery.getLat())) + INFINITY_SMALL));
+            this.beginLng = userQuery.getLng() - dphi;
+            this.endLng = userQuery.getLng() + dphi;
+        }
         if (userQuery.getStartHeight() != null) {
             this.startHeight = userQuery.getStartHeight();
         }
@@ -105,5 +106,7 @@ public class UserQuerySupporter {
         if (userQuery.getLimit() != null) {
             this.limit = userQuery.getLimit();
         }
+
+        this.city = userQuery.getCity();
     }
 }
