@@ -61,7 +61,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
                 String fakeId = corgiFakeMapper.getFakeUserByStatus(avatarStatus);
                 if (!StringUtils.isEmpty(fakeId)) {
                     corgiFakeMapper.addFakeUserPool(fakeId);
-                    corgiFakeMapper.updateFakeUserByStatus(fakeId, detail.getNickname());
+                    corgiFakeMapper.updateFakeUserByStatus(avatarStatus, detail.getNickname());
                     return;
                 }
                 detail.setAvatarStatus(avatarStatus);
