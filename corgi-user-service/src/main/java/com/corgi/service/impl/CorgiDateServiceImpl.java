@@ -37,6 +37,10 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
                 date.setStatus(oldDate.getStatus());
             }
         }
+        CorgiDate update = new CorgiDate();
+        update.setStatus(CorgiDate.CLOSE);
+        update.setUserId(date.getUserId());
+        corgiDateMapper.updateAllCorgiDate(update);
         corgiDateMapper.addCorgiDate(date);
     }
 
