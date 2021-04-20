@@ -113,6 +113,11 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     }
 
     @Override
+    public void deleteFakeFollower(String userId) {
+        corgiFakeMapper.deleteUserFakeFollows(userId);
+    }
+
+    @Override
     public Boolean addFakeLike(ActivityLike activityLike) {
         Integer result = corgiLikeService.countUserLike(activityLike.getActivityId(), activityLike.getLikeUserId());
         if (result > 0) {

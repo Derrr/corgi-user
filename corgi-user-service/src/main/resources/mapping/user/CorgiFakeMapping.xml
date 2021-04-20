@@ -56,13 +56,20 @@
           and d.avatar_status is null
           and avatar_check_status != 'check'
         group by f.follow_user_id
-        having count(1) >= 10
+        having count (1) >= 5
         order by p.uptime
     </select>
 
     <update id="clearFakeUserPool">
         truncate corgi_fake_user_pool;
     </update>
+
+    <delete id="deleteUserFakeFollows">
+        delete
+        from corgi_user_follow
+        where user_id = #{userId}
+          and type = 'fake';
+    </delete>
 
     <select id="selectFakeUser" resultType="java.lang.String">
         select user_id

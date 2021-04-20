@@ -16,6 +16,8 @@ public interface CorgiFakeService {
 
     Boolean addFakeFollower(String userId, String followId);
 
+    void deleteFakeFollower(String userId);
+
     Boolean addFakeLike(ActivityLike activityLike);
 
     Integer countFakeFollower(String userId);

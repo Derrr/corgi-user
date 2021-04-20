@@ -22,6 +22,8 @@ public interface CorgiFakeMapper {
 
     void clearFakeUserPool();
 
+    void deleteUserFakeFollows(@Param("userId")String userId);
+
     String selectFakeUser(@Param("limit") Integer limit);
 
     Integer countFakeUser();
