@@ -33,6 +33,11 @@
         from corgi_activity_type
     </select>
 
+    <select id="getDateTypes" resultType="com.corgi.user.entity.DateType">
+        select id, `type`, `content`
+        from corgi_activity_type
+    </select>
+
     <insert id="addTopic" parameterType="com.corgi.entity.CorgiTopic">
         insert into `corgi_topics` (`topic`, `status`, cuid, opuid, `content`, `pic_url`, `order`, `url`, `url_type`)
         values (#{topic.topic}, #{topic.status}, #{topic.cuid}, #{topic.opuid}, #{topic.content}, #{topic.picUrl},

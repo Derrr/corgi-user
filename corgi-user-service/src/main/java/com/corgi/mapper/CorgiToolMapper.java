@@ -2,6 +2,7 @@ package com.corgi.mapper;
 
 import com.corgi.entity.CorgiTopic;
 import com.corgi.user.entity.ActivityMessage;
+import com.corgi.user.entity.DateType;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
@@ -35,6 +36,14 @@ public interface CorgiToolMapper {
      * @return
      */
     List<String> getActivityTypes();
+
+    /**
+     * 获取约会类型
+     *
+     * @return
+     */
+    List<DateType> getDateTypes();
+
 
     /**
      * 添加话题

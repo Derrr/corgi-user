@@ -89,6 +89,11 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public List<DateType> getDateTypes() {
+        return corgiToolMapper.getDateTypes();
+    }
+
+    @Override
     public void deleteActivityMessageByMessage(ActivityMessage message) {
         corgiToolMapper.deleteActivityMessageByMessage(message);
     }

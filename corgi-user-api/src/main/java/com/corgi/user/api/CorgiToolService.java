@@ -28,6 +28,8 @@ public interface CorgiToolService {
 
     List<String> getActivityTypes();
 
+    List<DateType> getDateTypes();
+
     void deleteActivityMessageByMessage(ActivityMessage message);
 
     void addTopic(CorgiTopic topic);
