@@ -107,10 +107,15 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
     }
 
     @Override
-    public List<CorgiDateApply> getApplies(String userId, String startTime, String endTime, String status) {
-        List<CorgiDateApply> applies = corgiDateMapper.getApplies(userId, startTime, endTime, status);
+    public List<CorgiDateApply> getApplies(String userId, Integer page, Integer pageSize) {
+        List<CorgiDateApply> applies = corgiDateMapper.getApplies(userId, (page - 1) * pageSize, pageSize);
         for (CorgiDateApply apply : applies) {
-            apply.setUserInfo(corgiUserService.getUserDetailBasic(apply.getApprovalUserId()));
+            if(CorgiDateApply.APPLY.equals(apply.getStatus())) {
+                apply.setUserInfo(corgiUserService.getUserDetailBasic(apply.getApplyUserId()));
+            }
+            if(CorgiDateApply.AGREE.equals(apply.getStatus())){
+                apply.setUserInfo(corgiUserService.getUserDetailBasic(apply.getApprovalUserId()));
+            }
         }
         return applies;
     }

@@ -32,7 +32,7 @@ public interface CorgiDateMapper {
 
     CorgiDateApply getApplyById(@Param("id") Integer id);
 
-    List<CorgiDateApply> getApplies(@Param("userId")String approvalUserId,@Param("startTime")String startTime, @Param("endTime")String endTime, @Param("status")String status);
+    List<CorgiDateApply> getApplies(@Param("userId")String approvalUserId,@Param("start")Integer start, @Param("size")Integer size);
 
     CorgiApplyCombind getCombind(@Param("userId")String approvalUserId ,@Param("startTime")String startTime, @Param("status")String status);
 

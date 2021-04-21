@@ -16,7 +16,8 @@
 
     <insert id="addCorgiDate" parameterType="com.corgi.user.entity.CorgiDate">
         INSERT INTO `corgi_date` (`user_id`, `type`, `detail`, `end_time`, `address`, `status`, `city`)
-        VALUES (#{date.userId}, #{date.type}, #{date.detail}, #{date.endTime}, #{date.address}, #{date.status}, #{date.city});
+        VALUES (#{date.userId}, #{date.type}, #{date.detail}, #{date.endTime}, #{date.address}, #{date.status},
+                #{date.city});
     </insert>
 
     <select id="searchDate" resultType="com.corgi.user.entity.CorgiDate">
@@ -51,7 +52,7 @@
     <update id="updateCorgiDate">
         update corgi_date
         set `status` = #{date.status}
-            where user_id = #{date.userId} order by id desc limit 1
+        where user_id = #{date.userId} order by id desc limit 1
     </update>
 
     <update id="updateAllCorgiDate">
@@ -62,11 +63,11 @@
 
     <update id="updateCorgiDateDetail">
         update corgi_date
-        set `type` = #{date.type},
+        set `type`     = #{date.type},
             `end_time` = #{date.endTime},
-            `detail` = #{date.detail},
-            `address` = #{date.address},
-            `city` = #{date.city}
+            `detail`   = #{date.detail},
+            `address`  = #{date.address},
+            `city`     = #{date.city}
         where id = #{date.id}
     </update>
 
@@ -74,7 +75,7 @@
     <insert id="addDateApply" useGeneratedKeys="true" keyProperty="apply.id"
             parameterType="com.corgi.user.entity.CorgiDateApply">
         insert into corgi_date_apply(apply_user_id, approval_user_id, date_id)
-        values (#{apply.applyUserId},#{apply.approvalUserId},#{apply.dateId})
+        values (#{apply.applyUserId}, #{apply.approvalUserId}, #{apply.dateId})
     </insert>
 
     <update id="updateDateApply" parameterType="com.corgi.user.entity.CorgiDateApply">
@@ -95,17 +96,11 @@
         select
         <include refid="apply"/>
         from corgi_date_apply a
-        where approval_user_id = #{userId}
-        <if test="status != null">
-            and a.status = #{status}
-        </if>
-        <if test="startTime != null">
-            and a.ctime > #{startTime}
-        </if>
-        <if test="endTime != null">
-            and a.ctime &lt;= #{endTime}
-        </if>
-        order by a.id desc
+        where
+        (approval_user_id = #{userId} and status = 'apply')
+        or (apply_user_id = #{userId} and status = 'agree')
+        order by a.uptime desc
+        limit #{start}, #{size}
     </select>
 
     <select id="getCombind" resultType="com.corgi.user.entity.CorgiApplyCombind">
