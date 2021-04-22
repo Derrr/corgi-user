@@ -124,7 +124,7 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
 
     @Override
     public void updateApply(CorgiDateApply apply) {
-        corgiDateMapper.updateDateApply();
+        corgiDateMapper.updateDateApply(apply);
     }
 
     private void setUserInfo(CorgiDateApply apply) {
