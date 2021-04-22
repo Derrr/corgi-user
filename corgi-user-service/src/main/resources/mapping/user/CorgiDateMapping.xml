@@ -5,19 +5,19 @@
         d
         .
         user_id
-        userId, d.type, d.ctime,d.address,d.end_time endTime, d.detail, d.status, d.id,d.city
+        userId, d.type, d.ctime,d.address,d.end_time endTime, d.detail, d.status, d.id,d.city,d.lat,d.lng
     </sql>
 
     <sql id="apply">
         a
         .
         id
-        , a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.ctime, a.uptime, a.date_id dateId, a.status</sql>
+        , a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.ctime, a.uptime, a.date_id dateId, a.status, a.operator,a.type, a.detail, a.address, a.end_time endTime, a.lat, a.lng</sql>
 
     <insert id="addCorgiDate" parameterType="com.corgi.user.entity.CorgiDate">
-        INSERT INTO `corgi_date` (`user_id`, `type`, `detail`, `end_time`, `address`, `status`, `city`)
+        INSERT INTO `corgi_date` (`user_id`, `type`, `detail`, `end_time`, `address`, `status`, `city`, `lat`, `lng`)
         VALUES (#{date.userId}, #{date.type}, #{date.detail}, #{date.endTime}, #{date.address}, #{date.status},
-                #{date.city});
+                #{date.city}, #{date.lat}, #{date.lng});
     </insert>
 
     <select id="searchDate" resultType="com.corgi.user.entity.CorgiDate">
@@ -67,23 +67,48 @@
             `end_time` = #{date.endTime},
             `detail`   = #{date.detail},
             `address`  = #{date.address},
-            `city`     = #{date.city}
+            `city`     = #{date.city},
+            `lat`      = #{date.lat},
+            `lng`      = #{date.lng}
         where id = #{date.id}
     </update>
 
 
-    <insert id="addDateApply" useGeneratedKeys="true" keyProperty="apply.id"
-            parameterType="com.corgi.user.entity.CorgiDateApply">
-        insert into corgi_date_apply(apply_user_id, approval_user_id, date_id)
-        values (#{apply.applyUserId}, #{apply.approvalUserId}, #{apply.dateId})
+    <insert id="addDateApply" useGeneratedKeys="true" keyProperty="apply.id">
+        insert into corgi_date_apply(apply_user_id, approval_user_id, date_id, address, detail, end_time, lat, lng, `type`)
+        values (#{apply.applyUserId}, #{apply.approvalUserId}, #{apply.dateId}, #{date.address}, #{date.detail}, #{date.endTime}, #{date.lat}, #{date.lng}, #{date.type})
     </insert>
 
     <update id="updateDateApply" parameterType="com.corgi.user.entity.CorgiDateApply">
         update corgi_date_apply
-        set `status` = #{apply.status}
+        set `status` = #{apply.status},
+            operator = #{apply.operator}
         where id = #{apply.id}
           and `status` = 'apply'
     </update>
+
+    <update id="updateApplyDetail" parameterType="com.corgi.user.entity.CorgiDateApply">
+        update corgi_date_apply
+        <set>
+            <if test="apply.detail != null and apply.detail != ''">
+                `detail` = #{apply.detail},
+            </if>
+            <if test="apply.endTime != null and apply.endTime != ''">
+                `end_time` = #{apply.endTime},
+            </if>
+            <if test="apply.address != null and apply.address != ''">
+                `address` = #{apply.address},
+            </if>
+            <if test="apply.lat != null">
+                `lat` = #{apply.lat},
+            </if>
+            <if test="apply.lng != null">
+                `lng` = #{apply.lng},
+            </if>
+        </set>
+        where id = #{apply.id}
+    </update>
+
 
     <select id="getApplyById" resultType="com.corgi.user.entity.CorgiDateApply">
         select
@@ -97,8 +122,8 @@
         <include refid="apply"/>
         from corgi_date_apply a
         where
-        (approval_user_id = #{userId} and status = 'apply')
-        or (apply_user_id = #{userId} and status = 'agree')
+        approval_user_id = #{userId}
+        or (apply_user_id = #{userId} and status != 'apply')
         order by a.uptime desc
         limit #{start}, #{size}
     </select>

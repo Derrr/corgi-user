@@ -8,6 +8,7 @@ import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.CorgiApplyCombind;
 import com.corgi.user.entity.CorgiDate;
 import com.corgi.user.entity.CorgiDateApply;
+import com.corgi.user.entity.UserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -51,16 +52,10 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
 
     @Override
     public void updateDate(CorgiDate date) {
-        if (date.getApplyId() != null && date.getApplyId() > 0) {
-            CorgiDateApply apply = corgiDateMapper.getApplyById(date.getApplyId());
-            date.setId(Integer.valueOf(apply.getDateId()));
-            corgiDateMapper.updateCorgiDateDetail(date);
-        } else {
-            if (CorgiDate.OPEN.equals(date.getStatus())) {
-                corgiDateMapper.updateCorgiDate(date);
-            } else if (CorgiDate.CLOSE.equals(date.getStatus())) {
-                corgiDateMapper.updateAllCorgiDate(date);
-            }
+        if (CorgiDate.OPEN.equals(date.getStatus())) {
+            corgiDateMapper.updateCorgiDate(date);
+        } else if (CorgiDate.CLOSE.equals(date.getStatus())) {
+            corgiDateMapper.updateAllCorgiDate(date);
         }
     }
 
@@ -88,7 +83,7 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
             return apply;
         }
         apply.setDateId(date.getId() + "");
-        corgiDateMapper.addDateApply(apply);
+        corgiDateMapper.addDateApply(apply, date);
         return apply;
     }
 
@@ -101,8 +96,7 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
     @Override
     public CorgiDateApply getApplyDetail(Integer id) {
         CorgiDateApply apply = corgiDateMapper.getApplyById(id);
-        CorgiDate date = corgiDateMapper.getDateById(apply.getDateId());
-        apply.setDateDetail(date);
+        this.setUserInfo(apply);
         return apply;
     }
 
@@ -110,12 +104,7 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
     public List<CorgiDateApply> getApplies(String userId, Integer page, Integer pageSize) {
         List<CorgiDateApply> applies = corgiDateMapper.getApplies(userId, (page - 1) * pageSize, pageSize);
         for (CorgiDateApply apply : applies) {
-            if(CorgiDateApply.APPLY.equals(apply.getStatus())) {
-                apply.setUserInfo(corgiUserService.getUserDetailBasic(apply.getApplyUserId()));
-            }
-            if(CorgiDateApply.AGREE.equals(apply.getStatus())){
-                apply.setUserInfo(corgiUserService.getUserDetailBasic(apply.getApprovalUserId()));
-            }
+            this.setUserInfo(apply);
         }
         return applies;
     }
@@ -130,13 +119,38 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
     @Override
     public CorgiDateApply getUserApply(String userId, String targetUser) {
         CorgiDateApply apply = corgiDateMapper.getUserApply(userId, targetUser);
-        apply.setDateDetail(corgiDateMapper.getDateById(apply.getDateId()));
         return apply;
     }
 
     @Override
-    public List<CorgiDateApply> getApprovedApplies(String userId, String status) {
-        return null;
+    public void updateApply(CorgiDateApply apply) {
+        corgiDateMapper.updateDateApply();
+    }
+
+    private void setUserInfo(CorgiDateApply apply) {
+        if (CorgiDateApply.APPLY.equals(apply.getStatus())) {
+            UserDetail userDetail = corgiUserService.getUserDetailBasic(apply.getApplyUserId());
+            if (userDetail == null) {
+                userDetail = new UserDetail();
+                userDetail.setUserId(apply.getApplyUserId());
+                userDetail.setNickname("已注销");
+            }
+            apply.setUserInfo(userDetail);
+        } else {
+            UserDetail userDetail;
+            if ("system".equals(apply.getOperator())) {
+                userDetail = new UserDetail();
+                userDetail.setNickname("系统");
+            } else {
+                userDetail = corgiUserService.getUserDetailBasic(apply.getOperator());
+                if (userDetail == null) {
+                    userDetail = new UserDetail();
+                    userDetail.setNickname("已注销");
+                }
+            }
+            userDetail.setUserId(apply.getOperator());
+            apply.setUserInfo(userDetail);
+        }
     }
 
 }

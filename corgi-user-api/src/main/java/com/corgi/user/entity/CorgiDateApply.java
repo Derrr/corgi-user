@@ -9,7 +9,6 @@ public class CorgiDateApply implements Serializable {
     public static final String APPLY = "apply";
     public static final String AGREE = "agree";
     public static final String CANCEL = "cancel";
-    public static final String REJECT = "reject";
 
     private Integer id;
     private String applyUserId;
@@ -18,7 +17,12 @@ public class CorgiDateApply implements Serializable {
     private String ctime;
     private String uptime;
     private String status;
+    private String detail;
+    private String endTime;
+    private String address;
+    private Double lat;
+    private Double lng;
+    private String operator;
     private String result;
-    private CorgiDate dateDetail;
     private UserDetail userInfo;
 }
