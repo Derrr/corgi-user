@@ -237,7 +237,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public MapUserProfile getMapUser(UserQuery userQuery) {
         MapUserProfile mapUserProfile = new MapUserProfile();
-        userQuery.setLimit(1000);
+        if (userQuery.getLimit() == null) {
+            userQuery.setLimit(1000);
+        }
         UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
         List<String> userIds = corgiUserMapper.getNearbyDate(supporter);
         mapUserProfile.setUserIds(userIds);
