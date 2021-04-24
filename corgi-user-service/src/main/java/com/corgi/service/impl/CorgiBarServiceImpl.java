@@ -73,17 +73,18 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     public BarProfile getBarProfile(String barId) {
         BarProfile barProfile = corgiBarMapper.getBar(barId);
         if (barProfile != null) {
+            CorgiActivity corgiActivity = new CorgiActivity();
+            corgiActivity.setUserId(barId);
+            corgiActivity.setStatus(CorgiActivity.NOT_DELETED);
+            corgiActivity.setCategory(CorgiActivity.CAT_BUSINESS);
+            List<UserVideo> userVideos = corgiVideoService.getVideo(barId);
             barProfile.setHeat(countBarHeat(barProfile));
+            barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
+            if (!CollectionUtils.isEmpty(userVideos)) {
+                barProfile.setVideo(userVideos.get(0).getVideoUrl());
+            }
         }
-        CorgiActivity corgiActivity = new CorgiActivity();
-        corgiActivity.setUserId(barId);
-        corgiActivity.setStatus(CorgiActivity.NOT_DELETED);
-        corgiActivity.setCategory(CorgiActivity.CAT_BUSINESS);
-        barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
-        List<UserVideo> userVideos = corgiVideoService.getVideo(barId);
-        if (!CollectionUtils.isEmpty(userVideos)) {
-            barProfile.setVideo(userVideos.get(0).getVideoUrl());
-        }
+
         return barProfile;
     }
 
