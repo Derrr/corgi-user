@@ -32,7 +32,7 @@ public interface CorgiVlogMapper {
 
     List<CorgiVlog> recallTargetVlog(@Param("targetId") String userId, @Param("vlog") CorgiVlog corgiVlog, @Param("size") Integer size, @Param("index") String index);
 
-    List<String> recallActivityVlog(@Param("activityId") String activityId, @Param("start") Integer start, @Param("size") Integer size);
+    List<String> recallActivityVlog(@Param("activityId") String activityId,@Param("userId")String userId, @Param("start") Integer start, @Param("size") Integer size);
 
     List<CorgiVlog> recallHotVlog(@Param("vlog") CorgiVlog corgiVlog, @Param("size") Integer size, @Param("index") String index);
 

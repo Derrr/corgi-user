@@ -69,8 +69,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     @Override
-    public List<String> getFeedByActivityId(String activityId, Integer page, Integer size) {
-        List<String> activityIds = corgiVlogMapper.recallActivityVlog(activityId, (page - 1) * size, size);
+    public List<String> getFeedByActivityId(String activityId,String userId, Integer page, Integer size) {
+        List<String> activityIds = corgiVlogMapper.recallActivityVlog(activityId,userId, (page - 1) * size, size);
         if (activityIds.size() < size) {
             Integer total = corgiVlogMapper.countVlogHot(new CorgiVlogHot());
             Random random = new Random();

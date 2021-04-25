@@ -11,7 +11,7 @@ import java.util.List;
 public interface CorgiFeedService {
     List<String> getUnviewFeed(String userId, Integer size);
 
-    List<String> getFeedByActivityId(String activityId, Integer page, Integer size);
+    List<String> getFeedByActivityId(String activityId, String userId, Integer page, Integer size);
 
     Integer countUnviewFeed(String userId);
 
