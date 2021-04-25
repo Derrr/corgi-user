@@ -118,6 +118,16 @@
         order by c.like_count desc limit #{size}
     </select>
 
+    <select id="recallActivityVlog" resultType="java.lang.String">
+        select
+            distinct l.activity_id
+        from corgi_activity_like l left join corgi_activity_creator c on c.activity_id = l.activity_id
+        where l.user_id in (select user_id from(select user_id from corgi_activity_like where activity_id = #{activityId} order by id desc limit 100)a)
+          and l.activity_id != #{activityId}
+        and c.category in ('video','image','text')
+        order by l.id desc limit #{start}, #{size}
+    </select>
+
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
         <include refid="creator"/>
