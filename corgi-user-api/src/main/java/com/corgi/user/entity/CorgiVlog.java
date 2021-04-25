@@ -26,6 +26,7 @@ public class CorgiVlog implements Serializable {
 
     private Integer id;
     private String activityId;
+    private String videoId;
     private String userId;
     private String ctime;
     private Integer likeCount;

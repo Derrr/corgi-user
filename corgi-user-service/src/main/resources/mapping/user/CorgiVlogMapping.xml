@@ -3,18 +3,19 @@
 <mapper namespace="com.corgi.mapper.CorgiVlogMapper">
     <sql id="vlog">v.id,v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
 
-    <sql id="creator">c.activity_id activityId,c.creator_id userId, c.ctime, c.category type, c.view_count viewCount, c.like_count likeCount</sql>
+    <sql id="creator">c.activity_id activityId,c.video_id videoId,c.creator_id userId, c.ctime, c.category type, c.view_count viewCount, c.like_count likeCount</sql>
 
 
     <insert id="addVlog" parameterType="com.corgi.user.entity.CorgiVlog">
         INSERT
-        IGNORE INTO `corgi_vlog` (`activity_id`, `user_id`, `ctime`, `type`, `status`)
+        IGNORE INTO `corgi_vlog` (`activity_id`, `user_id`, `ctime`, `type`, `status`,`video_id`)
         VALUES (
         #{vlog.activityId},
         #{vlog.userId},
         #{vlog.ctime},
         #{vlog.type},
-        #{vlog.status}
+        #{vlog.status},
+        #{vlog.videoId}
         );
     </insert>
 
@@ -47,11 +48,18 @@
         order by h.like_count desc limit #{size}
     </select>
 
-    <select id="getVlogById" resultType="com.corgi.user.entity.CorgiVlog">
+    <select id="getVlogByActivityId" resultType="com.corgi.user.entity.CorgiVlog">
         select
         <include refid="vlog"/>
         from corgi_vlog v
         where activity_id = #{activityId}
+    </select>
+
+    <select id="getVlogById" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="vlog"/>
+        from corgi_vlog v
+        where video_id = #{videoId}
     </select>
 
     <delete id="deleteVlog">
