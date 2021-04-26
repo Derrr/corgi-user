@@ -137,7 +137,7 @@
             and a.ctime &lt; #{apply.ctime}
         </if>
         <if test="apply.status != null">
-            and a.status != #{apply.status}
+            and a.status = #{apply.status}
         </if>
         order by a.id desc
         limit #{start}, #{size}
