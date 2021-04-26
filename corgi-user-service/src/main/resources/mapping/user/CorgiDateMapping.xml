@@ -12,7 +12,7 @@
         a
         .
         id
-        , a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.ctime, a.uptime, a.date_id dateId, a.status, a.operator,a.type, a.detail, a.address, a.end_time endTime, a.lat, a.lng, a.type</sql>
+        , a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.ctime, a.uptime, a.date_id dateId, a.status, a.operator,a.type, a.detail, a.address, a.end_time endTime, a.lat, a.lng, a.type, a.budget</sql>
 
     <insert id="addCorgiDate" parameterType="com.corgi.user.entity.CorgiDate">
         INSERT INTO `corgi_date` (`user_id`, `type`, `detail`, `end_time`, `address`, `status`, `city`, `lat`, `lng`)
@@ -75,8 +75,8 @@
 
 
     <insert id="addDateApply" useGeneratedKeys="true" keyProperty="apply.id">
-        insert into corgi_date_apply(apply_user_id, approval_user_id, date_id, address, detail, end_time, lat, lng, `type`)
-        values (#{apply.applyUserId}, #{apply.approvalUserId}, #{apply.dateId}, #{date.address}, #{date.detail}, #{date.endTime}, #{date.lat}, #{date.lng}, #{date.type})
+        insert into corgi_date_apply(apply_user_id, approval_user_id, date_id, address, detail, end_time, lat, lng, `type`, budget)
+        values (#{apply.applyUserId}, #{apply.approvalUserId}, #{apply.dateId}, #{date.address}, #{date.detail}, #{date.endTime}, #{date.lat}, #{date.lng}, #{date.type}, #{date.budget})
     </insert>
 
     <update id="updateDateApply" parameterType="com.corgi.user.entity.CorgiDateApply">

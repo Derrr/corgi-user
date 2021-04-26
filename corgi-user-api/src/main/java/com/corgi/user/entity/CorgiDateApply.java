@@ -25,5 +25,6 @@ public class CorgiDateApply implements Serializable {
     private String operator;
     private String type;
     private String result;
+    private String budget;
     private UserDetail userInfo;
 }
