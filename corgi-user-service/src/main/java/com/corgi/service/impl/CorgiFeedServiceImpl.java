@@ -47,13 +47,21 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         if (size == null) {
             size = 10;
         }
-        List<String> result = corgiFeedMapper.getUnviewFeed(userId, UserUtils.getIndex(userId), size);
+        String index = UserUtils.getIndex(userId);
+        List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size);
         if (result.size() >= size) {
             return result;
         }
-        List<String> popularFeeds = corgiVlogMapper.getPopularVlog(userId, UserUtils.getIndex(userId), size - result.size());
+        List<CorgiVlog> popularFeeds = corgiVlogMapper.getPopularVlog(userId, index, size - result.size());
         if (popularFeeds != null) {
-            result.addAll(popularFeeds);
+            for (CorgiVlog vlog : popularFeeds) {
+                CorgiFeed feed = new CorgiFeed();
+                feed.setFeed(vlog.getActivityId());
+                feed.setFeedUserId(vlog.getUserId());
+                feed.setUserId(userId);
+                corgiFeedMapper.addFeed(feed, index);
+                result.add(vlog.getActivityId());
+            }
         }
         Integer max = size - result.size();
         if (max > 0) {
@@ -69,8 +77,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     @Override
-    public List<String> getFeedByActivityId(String activityId,String userId, Integer page, Integer size) {
-        List<String> activityIds = corgiVlogMapper.recallActivityVlog(activityId,userId, (page - 1) * size, size);
+    public List<String> getFeedByActivityId(String activityId, String userId, Integer page, Integer size) {
+        List<String> activityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, (page - 1) * size, size);
         if (activityIds.size() < size) {
             Integer total = corgiVlogMapper.countVlogHot(new CorgiVlogHot());
             Random random = new Random();

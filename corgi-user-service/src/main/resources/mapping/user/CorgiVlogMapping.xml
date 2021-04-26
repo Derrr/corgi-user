@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiVlogMapper">
-    <sql id="vlog">v.id,v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
+    <sql id="vlog">v.id,v.video_id videoId, v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
 
-    <sql id="creator">c.activity_id activityId,c.video_id videoId,c.creator_id userId, c.ctime, c.category type, c.view_count viewCount, c.like_count likeCount</sql>
+    <sql id="creator">c.activity_id activityId,c.creator_id userId, c.ctime, c.category type, c.view_count viewCount, c.like_count likeCount</sql>
 
 
     <insert id="addVlog" parameterType="com.corgi.user.entity.CorgiVlog">
@@ -36,10 +36,11 @@
         order by like_count desc limit 20
     </select>
 
-    <select id="getPopularVlog" resultType="java.lang.String">
+    <select id="getPopularVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
-        activity_id
+        activity_id activityId, c.creator_id userId
         from corgi_vlog_hot h
+        left join corgi_activity_creator c on c.activity_id = h.activity_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{userId} and h.activity_id =
         f.feed)
         and h.expect_view > h.view_count
