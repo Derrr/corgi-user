@@ -38,7 +38,7 @@
 
     <select id="getPopularVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
-        activity_id activityId, c.creator_id userId
+        h.activity_id activityId, c.creator_id userId
         from corgi_vlog_hot h
         left join corgi_activity_creator c on c.activity_id = h.activity_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{userId} and h.activity_id =
