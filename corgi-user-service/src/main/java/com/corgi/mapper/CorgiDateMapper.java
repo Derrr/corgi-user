@@ -36,6 +36,8 @@ public interface CorgiDateMapper {
 
     List<CorgiDateApply> getApplies(@Param("userId")String approvalUserId,@Param("start")Integer start, @Param("size")Integer size);
 
+    List<CorgiDateApply> searchApplies(@Param("apply")CorgiDateApply apply,@Param("start")Integer start, @Param("size")Integer size);
+
     CorgiApplyCombind getCombind(@Param("userId")String approvalUserId ,@Param("startTime")String startTime, @Param("status")String status);
 
     List<String> getAvatars(@Param("userId")String approvalUserId ,@Param("startTime")String startTime, @Param("status")String status);

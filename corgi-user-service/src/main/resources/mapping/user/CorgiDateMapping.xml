@@ -128,6 +128,21 @@
         limit #{start}, #{size}
     </select>
 
+    <select id="searchApplies" resultType="com.corgi.user.entity.CorgiDateApply">
+        select
+        <include refid="apply"/>
+        from corgi_date_apply a
+        where 1=1
+        <if test="apply.ctime != null">
+            and a.ctime &lt; #{apply.ctime}
+        </if>
+        <if test="apply.status != null">
+            and a.status != #{apply.status}
+        </if>
+        order by a.id desc
+        limit #{start}, #{size}
+    </select>
+
     <select id="getCombind" resultType="com.corgi.user.entity.CorgiApplyCombind">
         select count(1) count, min(ctime) startTime
         from corgi_date_apply a

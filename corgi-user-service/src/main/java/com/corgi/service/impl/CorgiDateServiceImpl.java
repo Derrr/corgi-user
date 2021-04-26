@@ -110,6 +110,11 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
     }
 
     @Override
+    public List<CorgiDateApply> searchApplies(CorgiDateApply apply, Integer page, Integer pageSize) {
+        return corgiDateMapper.searchApplies(apply, (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
     public CorgiApplyCombind getApplyCombind(String userId, String startTime, String status) {
         CorgiApplyCombind combind = corgiDateMapper.getCombind(userId, startTime, status);
         combind.setAvatars(corgiDateMapper.getAvatars(userId, startTime, status));

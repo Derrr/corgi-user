@@ -27,6 +27,8 @@ public interface CorgiUserDateService {
 
     List<CorgiDateApply> getApplies(String userId, Integer page, Integer pageSize);
 
+    List<CorgiDateApply> searchApplies(CorgiDateApply apply, Integer page, Integer pageSize);
+
     CorgiApplyCombind getApplyCombind(String userId, String startTime, String status);
 
     CorgiDateApply getUserApply(String userId, String targetUser);
