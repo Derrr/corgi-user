@@ -96,7 +96,6 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
     @Override
     public CorgiDateApply getApplyDetail(Integer id) {
         CorgiDateApply apply = corgiDateMapper.getApplyById(id);
-        this.setUserInfo(apply);
         return apply;
     }
 
@@ -104,7 +103,7 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
     public List<CorgiDateApply> getApplies(String userId, Integer page, Integer pageSize) {
         List<CorgiDateApply> applies = corgiDateMapper.getApplies(userId, (page - 1) * pageSize, pageSize);
         for (CorgiDateApply apply : applies) {
-            this.setUserInfo(apply);
+            this.setUserInfo(apply, userId);
         }
         return applies;
     }
@@ -132,30 +131,21 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
         corgiDateMapper.updateDateApply(apply);
     }
 
-    private void setUserInfo(CorgiDateApply apply) {
-        if (CorgiDateApply.APPLY.equals(apply.getStatus())) {
-            UserDetail userDetail = corgiUserService.getUserDetailBasic(apply.getApplyUserId());
-            if (userDetail == null) {
-                userDetail = new UserDetail();
-                userDetail.setUserId(apply.getApplyUserId());
-                userDetail.setNickname("已注销");
-            }
-            apply.setUserInfo(userDetail);
-        } else {
-            UserDetail userDetail;
-            if ("system".equals(apply.getOperator())) {
-                userDetail = new UserDetail();
-                userDetail.setNickname("系统");
-            } else {
-                userDetail = corgiUserService.getUserDetailBasic(apply.getOperator());
-                if (userDetail == null) {
-                    userDetail = new UserDetail();
-                    userDetail.setNickname("已注销");
-                }
-            }
-            userDetail.setUserId(apply.getOperator());
-            apply.setUserInfo(userDetail);
+    private void setUserInfo(CorgiDateApply apply, String userId) {
+        String resultId = apply.getOperator();
+        if (resultId == null || "system".equals(resultId)) {
+            resultId = apply.getApplyUserId();
         }
+        if (userId.equals(resultId)) {
+            resultId = apply.getApprovalUserId();
+        }
+        UserDetail userDetail = corgiUserService.getUserDetailBasic(resultId);
+        if (userDetail == null) {
+            userDetail = new UserDetail();
+            userDetail.setUserId(apply.getApplyUserId());
+            userDetail.setNickname("已注销");
+        }
+        apply.setUserInfo(userDetail);
     }
 
 }

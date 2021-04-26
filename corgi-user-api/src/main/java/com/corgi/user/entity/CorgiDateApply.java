@@ -23,6 +23,7 @@ public class CorgiDateApply implements Serializable {
     private Double lat;
     private Double lng;
     private String operator;
+    private String type;
     private String result;
     private UserDetail userInfo;
 }
