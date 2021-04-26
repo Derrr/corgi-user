@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiVlogMapper">
-    <sql id="vlog">v.id,v.video_id videoId, v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
+    <sql id="vlog">v
+    .
+    id
+    ,v.video_id videoId, v.activity_id activityId,v.user_id userId, v.ctime, v.type, v.status, v.like_count likeCount, v.view_count viewCount, v.comment_count commentCount</sql>
 
-    <sql id="creator">c.activity_id activityId,c.creator_id userId, c.ctime, c.category type, c.view_count viewCount, c.like_count likeCount</sql>
+    <sql id="creator">c
+    .
+    activity_id
+    activityId,c.creator_id userId, c.ctime, c.category type, c.view_count viewCount, c.like_count likeCount</sql>
 
 
     <insert id="addVlog" parameterType="com.corgi.user.entity.CorgiVlog">
@@ -37,15 +43,18 @@
     </select>
 
     <select id="getPopularVlog" resultType="com.corgi.user.entity.CorgiVlog">
-        select
-        h.activity_id activityId, c.creator_id userId
+        select h.activity_id activityId,
+               c.creator_id  userId
         from corgi_vlog_hot h
-        left join corgi_activity_creator c on c.activity_id = h.activity_id
-        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{userId} and h.activity_id =
-        f.feed)
-        and h.expect_view > h.view_count
-        and h.status = 'open'
-        and h.type = 'auto'
+                 left join corgi_activity_creator c on c.activity_id = h.activity_id
+        where not exists(select 1
+                         from corgi_feed_${index} f
+                         where f.user_id = #{userId}
+                           and h.activity_id =
+                               f.feed)
+          and h.expect_view > h.view_count
+          and h.status = 'open'
+          and h.type = 'auto'
         order by h.like_count desc limit #{size}
     </select>
 
@@ -128,13 +137,17 @@
     </select>
 
     <select id="recallActivityVlog" resultType="java.lang.String">
-        select
-            distinct l.activity_id
-        from corgi_activity_like l left join corgi_activity_creator c on c.activity_id = l.activity_id
-        where l.user_id in (select user_id from(select user_id from corgi_activity_like where activity_id = #{activityId} and user_id != #{userId} order by id desc limit 100)a)
-          and l.activity_id != #{activityId}
-        and c.category in ('video','image','text')
-        order by l.id desc limit #{start}, #{size}
+        select l2.activity_id
+        from corgi_activity_like l1
+                 left join corgi_activity_like l2 on l1.like_user_id = l2.like_user_id and l2.activity_id != l1.activity_id and l2.type = 'real'
+                 left join corgi_activity_creator c
+        on c.activity_id = l2.activity_id
+        where c.category in ('video', 'image', 'text')
+             and l1.type = 'real'
+             and l1.like_user_id != #{userId}
+             and l1.activity_id = #{activityId}
+        group by l2.activity_id
+        order by count(1) desc limit #{start}, #{size}
     </select>
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
@@ -201,9 +214,8 @@
     </select>
 
     <select id="selectOneHot" resultType="java.lang.String">
-        select
-        activity_id
-        from corgi_vlog_hot v limit #{start},1;
+        select activity_id
+        from corgi_vlog_hot v limit #{start}, 1;
     </select>
 
 
