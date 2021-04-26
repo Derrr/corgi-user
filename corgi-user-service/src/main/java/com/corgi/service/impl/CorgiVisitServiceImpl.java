@@ -22,8 +22,10 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
 
     @Override
     public void visit(String userId, String toId) {
-        corgiVisitMapper.addVisit(toId, userId);
-        corgiVisitMapper.addVisitCount(toId, userId);
+        if(!userId.equals(toId)) {
+            corgiVisitMapper.addVisit(toId, userId);
+            corgiVisitMapper.addVisitCount(toId, userId);
+        }
     }
 
     @Override
