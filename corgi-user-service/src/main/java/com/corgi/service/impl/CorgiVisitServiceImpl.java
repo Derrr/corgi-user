@@ -40,6 +40,10 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
 
     @Override
     public Integer countVisit(String userId) {
-        return corgiVisitMapper.countVisit(userId);
+        Integer result = corgiVisitMapper.countVisit(userId);
+        if(result == null){
+            result = 0;
+        }
+        return result;
     }
 }
