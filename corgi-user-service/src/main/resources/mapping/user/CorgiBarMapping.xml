@@ -4,8 +4,11 @@
 
     <insert id="addBar" parameterType="com.corgi.user.entity.BarProfile">
         INSERT INTO `corgi_bar_detail`
-    (`bar_id`, `bar_name`, `address`, `lat`, `lng`, `tel`, `range`, `logo`, `status`,`city`,`start_time`,`end_time`,`detail`, `spending`)
-    VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range}, #{bar.logo}, #{bar.status}, #{bar.city}, #{bar.startTime}, #{bar.endTime}, #{bar.detail}, #{bar.spending})
+        (`bar_id`, `bar_name`, `address`, `lat`, `lng`, `tel`, `range`, `logo`, `status`, `city`, `start_time`,
+         `end_time`, `detail`, `spending`)
+        VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range},
+                #{bar.logo}, #{bar.status}, #{bar.city}, #{bar.startTime}, #{bar.endTime}, #{bar.detail},
+                #{bar.spending})
     </insert>
     <update id="updateBar" parameterType="com.corgi.user.entity.BarProfile">
         update corgi_bar_detail
@@ -55,7 +58,8 @@
     </update>
 
     <select id="getMaxBarId" resultType="java.lang.String">
-        select max(bar_id) from corgi_bar_detail
+        select max(bar_id)
+        from corgi_bar_detail
     </select>
 
     <select id="getBarList" resultType="com.corgi.user.entity.BarProfile">
@@ -116,6 +120,7 @@
         b.logo,
         b.status,
         b.ctime,
+        '酒吧' type,
         b.`start_time` startTime,
         b.`end_time` endTime,
         b.`spending`,
@@ -132,23 +137,22 @@
 
 
     <select id="getBar" resultType="com.corgi.user.entity.BarProfile">
-        select
-        bar_id barId,
-        bar_name barName,
-        `address`,
-        `lat`,
-        `lng`,
-        `tel`,
-        `range`,
-        `logo`,
-        `status`,
-        `account`,
-        `city`,
-        `start_time` startTime,
-        `end_time` endTime,
-        `spending`,
-        `detail`,
-        `ctime`
+        select bar_id       barId,
+               bar_name     barName,
+               `address`,
+               `lat`,
+               `lng`,
+               `tel`,
+               `range`,
+               `logo`,
+               `status`,
+               `account`,
+               `city`,
+               `start_time` startTime,
+               `end_time`   endTime,
+               `spending`,
+               `detail`,
+               `ctime`
         from corgi_bar_detail
         where bar_id = #{barId}
     </select>
@@ -157,7 +161,7 @@
         select count(1)
         from corgi_user_follow f
         where f.follow_user_id = #{barId}
-        and user_id in ('${userIds}')
+          and user_id in ('${userIds}')
     </select>
 
     <select id="searchBar" resultType="com.corgi.user.entity.BarProfile">
@@ -200,24 +204,24 @@
     </update>
 
     <select id="getBarByAccount" resultType="com.corgi.user.entity.BarProfile">
-        select bar_id barId,
-        bar_name barName,
-        `address`,
-        `lat`,
-        `lng`,
-        `tel`,
-        `range`,
-        `logo`,
-        `status`,
-        `city`,
-        `start_time` startTime,
-        `end_time` endTime,
-        `detail`,
-        `spending`,
-        `ctime`
+        select bar_id       barId,
+               bar_name     barName,
+               `address`,
+               `lat`,
+               `lng`,
+               `tel`,
+               `range`,
+               `logo`,
+               `status`,
+               `city`,
+               `start_time` startTime,
+               `end_time`   endTime,
+               `detail`,
+               `spending`,
+               `ctime`
         from corgi_bar_detail
         where `account` = #{account}
-        and `password` = #{password}
+          and `password` = #{password}
     </select>
 
 </mapper>

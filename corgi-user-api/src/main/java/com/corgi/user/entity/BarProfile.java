@@ -29,6 +29,7 @@ public class BarProfile implements Serializable {
     private String detail;
     private String spending;
     private Long heat;
+    private String type;
     private String city;
     private String ctime;
 
