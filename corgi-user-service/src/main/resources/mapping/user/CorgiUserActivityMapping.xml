@@ -122,6 +122,12 @@
         );
     </insert>
 
+    <update id="failActivityCreator">
+        update corgi_activity_creator
+        set check_status = 'fail'
+        where activity_id = #{activityId}
+    </update>
+
     <delete id="deleteActivityCreator">
         delete
         from `corgi_activity_creator`

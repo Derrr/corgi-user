@@ -98,6 +98,13 @@ public interface CorgiUserActivityMapper {
     void addActivityCreator(@Param("activityId") String activityId, @Param("creatorId") String creatorId, @Param("category") String category);
 
     /**
+     * 失效
+     *
+     * @param activityId
+     */
+    void failActivityCreator(@Param("activityId") String activityId);
+
+    /**
      * 删除
      *
      * @param activityId

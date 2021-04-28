@@ -34,6 +34,8 @@ public interface CorgiUserActivityService {
 
     void addActivityCreator(String userId, String activityId, String category);
 
+    void failActivityCreator(String activityId);
+
     long countActivity(String date, String category);
 
     long countActivityUser(String date, String category);
