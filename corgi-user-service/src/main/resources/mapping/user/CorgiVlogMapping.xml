@@ -14,11 +14,10 @@
 
     <insert id="addVlog" parameterType="com.corgi.user.entity.CorgiVlog">
         INSERT
-        IGNORE INTO `corgi_vlog` (`activity_id`, `user_id`, `ctime`, `type`, `status`,`video_id`)
+        IGNORE INTO `corgi_vlog` (`activity_id`, `user_id`, `type`, `status`,`video_id`)
         VALUES (
         #{vlog.activityId},
         #{vlog.userId},
-        #{vlog.ctime},
         #{vlog.type},
         #{vlog.status},
         #{vlog.videoId}
