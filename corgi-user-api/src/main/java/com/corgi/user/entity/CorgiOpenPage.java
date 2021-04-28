@@ -19,5 +19,6 @@ public class CorgiOpenPage implements Serializable {
     private String endTime;
     private String picType = "image";
     private String city;
+    private String province;
     private String status;
 }

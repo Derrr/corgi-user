@@ -427,6 +427,13 @@
 
     </select>
 
+    <select id="getProvinceByCity" resultType="java.lang.String">
+        select province
+        from corgi_user_position
+        where city = #{city}
+          and province is not null limit 1
+    </select>
+
     <select id="getUserProfile" resultType="com.corgi.user.entity.UserProfile">
         select p.user_id                              userId,
                p.lat                                  lat,
@@ -727,10 +734,10 @@
                d.uptime              followTime,
                p.uptime              `time`
         from corgi_user_detail d
-                join corgi_user_position p on p.user_id = d.user_id
-                where d.avatar_status = 'influencer' or p.uptime > #{time}
-            limit #{start}
-           , #{size}
+                 join corgi_user_position p on p.user_id = d.user_id
+        where d.avatar_status = 'influencer'
+           or p.uptime > #{time} limit #{start}
+            , #{size}
     </select>
 
     <select id="getUnregisterUserIds" resultType="java.lang.String">

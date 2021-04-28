@@ -246,6 +246,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         return mapUserProfile;
     }
 
+    @Override
+    public String getProvince(String city) {
+        return corgiUserMapper.getProvinceByCity(city);
+    }
+
 
     private boolean hasFilter(UserQuery userQuery) {
         return !StringUtils.isEmpty(userQuery.getNickname())

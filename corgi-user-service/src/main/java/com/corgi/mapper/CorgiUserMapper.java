@@ -235,6 +235,12 @@ public interface CorgiUserMapper {
      */
     List<String> getNearbyDate(@Param("range") UserQuerySupporter supporter);
 
+    /**
+     * @param city
+     * @return
+     */
+    String getProvinceByCity(@Param("city")String city);
+
 
     /**
      * 获取人员信息列表

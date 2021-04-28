@@ -39,6 +39,8 @@ public interface CorgiUserService {
 
     MapUserProfile getMapUser(UserQuery userQuery);
 
+    String getProvince(String city);
+
     List<String> getAllNearByUser(UserQuery userQuery);
 
     List<UserProfile> getAllNearByUserProfile(UserQuery userQuery);

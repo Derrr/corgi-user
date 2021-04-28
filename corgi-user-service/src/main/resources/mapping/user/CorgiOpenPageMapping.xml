@@ -78,7 +78,7 @@
             and `pic_type` = #{page.picType}
         </if>
         <if test="page.city != null and page.city != ''">
-            and `city` = #{page.city}
+            and `city` like concat('%',#{page.city},'%')
         </if>
         <if test="page.startTime != null and page.startTime != ''">
             and `start_time` &lt;= #{page.startTime} and `end_time` >= #{page.startTime}
