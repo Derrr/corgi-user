@@ -19,7 +19,7 @@ public interface CorgiBlacklistMapper {
      * @param userId
      * @param blackId
      */
-    void deleteBlacklist(@Param("userId") String userId, @Param("blackId") String blackId);
+    Integer deleteBlacklist(@Param("userId") String userId, @Param("blackId") String blackId);
 
     /**
      * 添加黑名单
@@ -27,7 +27,7 @@ public interface CorgiBlacklistMapper {
      * @param userId
      * @param blackId
      */
-    void addBlacklist(@Param("userId") String userId, @Param("blackId") String blackId);
+    Integer addBlacklist(@Param("userId") String userId, @Param("blackId") String blackId);
 
     /**
      * 获取黑名单

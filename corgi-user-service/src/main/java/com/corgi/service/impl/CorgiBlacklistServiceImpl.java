@@ -45,19 +45,28 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
 
 
     @Override
-    public void addBlacklist(String userId, String blackId) {
-        corgiBlacklistMapper.addBlacklist(userId, blackId);
-        corgiUserFollowMapper.removeFollowUser(userId, blackId);
-        corgiUserFollowMapper.removeFollowUser(blackId, userId);
-        deleteSignUp(userId, blackId);
-        deleteSignUp(blackId, userId);
-        corgiBlackActivityService.deleteFavorActivity(userId, blackId);
-
+    public String addBlacklist(String userId, String blackId) {
+        Integer result = corgiBlacklistMapper.addBlacklist(userId, blackId);
+        if (result > 0) {
+            corgiUserFollowMapper.removeFollowUser(userId, blackId);
+            corgiUserFollowMapper.removeFollowUser(blackId, userId);
+            deleteSignUp(userId, blackId);
+            deleteSignUp(blackId, userId);
+            corgiBlackActivityService.deleteFavorActivity(userId, blackId);
+            return "success";
+        } else {
+            return "fail";
+        }
     }
 
     @Override
-    public void deleteBlacklist(String userId, String blackId) {
-        corgiBlacklistMapper.deleteBlacklist(userId, blackId);
+    public String deleteBlacklist(String userId, String blackId) {
+        Integer result = corgiBlacklistMapper.deleteBlacklist(userId, blackId);
+        if (result > 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
     }
 
     @Override
