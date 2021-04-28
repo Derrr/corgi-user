@@ -122,9 +122,9 @@
         );
     </insert>
 
-    <update id="failActivityCreator">
+    <update id="changeActivityCreator">
         update corgi_activity_creator
-        set check_status = 'fail'
+        set check_status = #{status}
         where activity_id = #{activityId}
     </update>
 

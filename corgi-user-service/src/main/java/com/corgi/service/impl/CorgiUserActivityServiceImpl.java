@@ -119,8 +119,8 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
-    public void failActivityCreator(String activityId) {
-        corgiUserActivityMapper.failActivityCreator(activityId);
+    public void changeActivityCreator(String activityId, String status) {
+        corgiUserActivityMapper.changeActivityCreator(activityId, status);
     }
 
     @Override

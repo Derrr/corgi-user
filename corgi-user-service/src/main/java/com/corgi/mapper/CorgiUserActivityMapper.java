@@ -102,7 +102,7 @@ public interface CorgiUserActivityMapper {
      *
      * @param activityId
      */
-    void failActivityCreator(@Param("activityId") String activityId);
+    void changeActivityCreator(@Param("activityId") String activityId, @Param("status")String status);
 
     /**
      * 删除
