@@ -100,6 +100,7 @@
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
         and c.creator_id != #{vlog.userId}
+        and c.check_status = 'normal'
         <if test="vlog.type == 'like'">
             and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId})
         </if>
@@ -116,6 +117,7 @@
         and l.type = 'real'
         and l.user_id != #{vlog.userId}
         and c.category in ('image','text','video')
+        and c.check_status = 'normal'
         <if test="vlog.type == 'like'">
             and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId})
         </if>
@@ -131,7 +133,8 @@
         from corgi_activity_creator c
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
-        and creator_id = #{userId}
+        and c.creator_id = #{userId}
+        and c.check_status = 'normal'
         order by c.like_count desc limit #{size}
     </select>
 
@@ -145,6 +148,7 @@
              and l1.type = 'real'
              and l1.like_user_id != #{userId}
              and l1.activity_id = #{activityId}
+             and c.check_status = 'normal'
         group by l2.activity_id
         order by count(1) desc limit #{start}, #{size}
     </select>
@@ -160,6 +164,7 @@
         and h.status = 'open'
         and h.type = #{vlog.type}
         and c.creator_id != #{vlog.userId}
+        and c.check_status = 'normal'
         order by h.like_count
         <if test="vlog.status == 'desc'">
             desc
