@@ -149,7 +149,7 @@
         <if test='message.activityId != null and message.activityId != "" '>
             and `activity_id` = #{message.activityId}
         </if>
-        <if test='message.fromUserId != null and message.fromUserId != "" '>
+        <if test='message.fromUserId != null'>
             and `from_user_id` = #{message.fromUserId}
         </if>
         <if test='message.messageType != null and message.messageType != "" '>
