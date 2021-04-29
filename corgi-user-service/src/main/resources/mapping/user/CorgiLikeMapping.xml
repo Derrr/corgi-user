@@ -20,7 +20,9 @@
         delete
         from `corgi`.`corgi_activity_like`
         where activity_id = #{activityId}
-          and like_user_id = #{userId}
+        <if test="userId != null">
+            and like_user_id = #{userId}
+        </if>
     </delete>
 
     <select id="getActivityLike" resultType="com.corgi.user.entity.ActivityLike">
