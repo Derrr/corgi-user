@@ -430,7 +430,7 @@
     <select id="getProvinceByCity" resultType="java.lang.String">
         select province
         from corgi_user_position
-        where city like concate(#{city},'%')
+        where city like concat(#{city},'%')
           and province is not null limit 1
     </select>
 
