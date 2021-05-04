@@ -83,7 +83,7 @@
             <if test="vlog.viewCount != null and vlog.viewCount > 0">
                 `view_count` = view_count + #{vlog.viewCount},
             </if>
-            <if test="vlog.likeCount != null and vlog.likeCount > 0">
+            <if test="vlog.likeCount != null and vlog.likeCount != 0">
                 `like_count` = #{vlog.viewCount},
             </if>
         </set>
