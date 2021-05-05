@@ -242,6 +242,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
         UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
         List<String> userIds = corgiUserMapper.getNearbyDate(supporter);
+        if (userIds.size() == 0) {
+            supporter.setCity(null);
+            userQuery.setLimit(100);
+            userIds = corgiUserMapper.getNearbyDate(supporter);
+        }
         mapUserProfile.setUserIds(userIds);
         return mapUserProfile;
     }
