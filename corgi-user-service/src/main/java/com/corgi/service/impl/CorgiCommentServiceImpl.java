@@ -43,7 +43,7 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         }
         UserDetail commentUserDetail = corgiUserService.getUserDetail(userId, null);
         activityComment.setCommentUserName(commentUserDetail.getNickname());
-        activityComment.setCommentUserAvatar(commentUserDetail.getUserPics().get(0).getPicUrl());
+        activityComment.setCommentUserAvatar(commentUserDetail.getAvatar());
 
         if (!StringUtils.isEmpty(activityComment.getReplyUserId())) {
             UserDetail replyUserDetail = corgiUserService.getUserDetail(activityComment.getReplyUserId(), null);
