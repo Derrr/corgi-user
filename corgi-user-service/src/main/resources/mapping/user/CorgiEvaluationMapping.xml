@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiEvaluationMapper">
+
+    <sql id="evaluation">
+        e
+        .
+        id
+        , e.user_id userId, e.evaluator_id evaluatorId, e.evaluator_name evaluatorName, e.evaluator_avatar evaluatorAvatar, e.status, e.ctime, e.score, e.tag, e.type, e.apply_id applyId
+    </sql>
+
+    <select id="getEvaluationByUser" resultType="com.corgi.user.entity.UserEvaluation">
+        select
+        <include refid="evaluation"/>
+        from corgi_evaluation e where user_id = #{userId}
+        and e.status != 'deleted'
+        order by e.id desc limit 30
+    </select>
+
+    <select id="getEvaluationByEvaluator" resultType="com.corgi.user.entity.UserEvaluation">
+        select
+        <include refid="evaluation"/>
+        from corgi_evaluation e where evaluator_id = #{userId}
+        and e.status != 'deleted'
+        order by e.id desc limit #{start}, #{size}
+    </select>
+
+    <update id="deleteEvaluation">
+        update corgi_evaluation
+        set status = 'deleted'
+        where id = #{id}
+          and evaluator_id = #{userId}
+    </update>
+
+    <insert id="addEvaluation" parameterType="com.corgi.user.entity.UserEvaluation">
+        INSERT INTO `corgi`.`corgi_evaluation` (`user_id`, `evaluator_id`, `evaluator_name`, `evaluator_avatar`, `status`, `score`, `tag`, `type`, `apply_id`)
+        VALUES (#{evaluation.userId}, #{evaluation.evaluatorId}, #{evaluation.evaluatorName}, #{evaluation.evaluatorAvatar}, #{evaluation.status}, #{evaluation.score}, #{evaluation.tag}, #{evaluation.type}, #{evaluation.applyId});
+    </insert>
+
+</mapper>
