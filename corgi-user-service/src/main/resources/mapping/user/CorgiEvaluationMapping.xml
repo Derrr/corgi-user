@@ -44,6 +44,7 @@
         select
         <include refid="evaluation"/>
         from corgi_evaluation e where apply_id = #{applyId}
+        and status != 'deleted'
         <if test="evaluatorId != null">
             and evaluator_id = #{evaluatorId}
         </if>
