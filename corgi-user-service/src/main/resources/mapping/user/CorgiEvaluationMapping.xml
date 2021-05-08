@@ -33,8 +33,19 @@
     </update>
 
     <insert id="addEvaluation" parameterType="com.corgi.user.entity.UserEvaluation">
-        INSERT INTO `corgi`.`corgi_evaluation` (`user_id`, `evaluator_id`, `evaluator_name`, `evaluator_avatar`, `status`, `score`, `tag`, `type`, `apply_id`)
-        VALUES (#{evaluation.userId}, #{evaluation.evaluatorId}, #{evaluation.evaluatorName}, #{evaluation.evaluatorAvatar}, #{evaluation.status}, #{evaluation.score}, #{evaluation.tag}, #{evaluation.type}, #{evaluation.applyId});
+        INSERT INTO `corgi`.`corgi_evaluation` (`user_id`, `evaluator_id`, `evaluator_name`, `evaluator_avatar`,
+                                                `status`, `score`, `tag`, `type`, `apply_id`)
+        VALUES (#{evaluation.userId}, #{evaluation.evaluatorId}, #{evaluation.evaluatorName},
+                #{evaluation.evaluatorAvatar}, #{evaluation.status}, #{evaluation.score}, #{evaluation.tag},
+                #{evaluation.type}, #{evaluation.applyId});
     </insert>
 
+    <select id="getEvaluationByDate" resultType="com.corgi.user.entity.UserEvaluation">
+        select
+        <include refid="evaluation"/>
+        from corgi_evaluation e where apply_id = #{applyId}
+        <if test="evaluatorId != null">
+            and evaluator_id = #{evaluatorId}
+        </if>
+    </select>
 </mapper>

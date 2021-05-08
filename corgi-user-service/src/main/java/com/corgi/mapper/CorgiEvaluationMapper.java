@@ -17,4 +17,6 @@ public interface CorgiEvaluationMapper {
     void deleteEvaluation(@Param("id") Integer id, @Param("userId") String userId);
 
     void addEvaluation(@Param("evaluation") UserEvaluation userEvaluation);
+
+    List<UserEvaluation> getEvaluationByDate(@Param("applyId")String applyId, @Param("evaluatorId")String evaluatorId);
 }

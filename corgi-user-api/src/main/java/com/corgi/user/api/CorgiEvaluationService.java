@@ -13,6 +13,8 @@ public interface CorgiEvaluationService {
 
     List<UserEvaluation> getEvaluationByEvaluator(String evaluatorId, Integer page, Integer pageSize);
 
+    List<UserEvaluation> getDateEvaluation(String applyId, String evaluatorId);
+
     void addEvaluation(UserEvaluation userEvaluation);
 
     void deleteEvaluation(UserEvaluation userEvaluation);

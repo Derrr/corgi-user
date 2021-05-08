@@ -9,6 +9,9 @@ import java.sql.Timestamp;
  */
 @Data
 public class UserEvaluation {
+    public static final String TYPE_FRIEND = "friend";
+    public static final String TYPE_DATE = "date";
+
     private Integer id;
     private String userId;
     private String evaluatorId;

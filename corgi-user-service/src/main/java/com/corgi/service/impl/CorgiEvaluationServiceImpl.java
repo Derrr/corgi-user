@@ -31,6 +31,11 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     }
 
     @Override
+    public List<UserEvaluation> getDateEvaluation(String applyId, String evaluatorId) {
+        return corgiEvaluationMapper.getEvaluationByDate(applyId, evaluatorId);
+    }
+
+    @Override
     public void addEvaluation(UserEvaluation userEvaluation) {
         corgiEvaluationMapper.addEvaluation(userEvaluation);
     }
