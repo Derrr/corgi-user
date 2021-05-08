@@ -6,7 +6,7 @@
         e
         .
         id
-        , e.user_id userId, e.evaluator_id evaluatorId, e.evaluator_name evaluatorName, e.evaluator_avatar evaluatorAvatar, e.status, e.ctime, e.score, e.tag, e.type, e.apply_id applyId
+        , e.user_id userId,e.user_name userName,e.user_avatar userAvatar, e.evaluator_id evaluatorId, e.evaluator_name evaluatorName, e.evaluator_avatar evaluatorAvatar, e.status, e.ctime, e.score, e.tag, e.type, e.apply_id applyId
     </sql>
 
     <select id="getEvaluationByUser" resultType="com.corgi.user.entity.UserEvaluation">

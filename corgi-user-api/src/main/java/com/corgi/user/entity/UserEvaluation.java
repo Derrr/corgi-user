@@ -14,6 +14,8 @@ public class UserEvaluation {
 
     private Integer id;
     private String userId;
+    private String userName;
+    private String userAvatar;
     private String evaluatorId;
     private String evaluatorName;
     private String evaluatorAvatar;
