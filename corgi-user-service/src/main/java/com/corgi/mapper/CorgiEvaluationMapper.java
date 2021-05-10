@@ -2,6 +2,7 @@ package com.corgi.mapper;
 
 import com.corgi.user.entity.CorgiDateApply;
 import com.corgi.user.entity.UserEvaluation;
+import com.corgi.user.entity.UserScore;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,4 +23,12 @@ public interface CorgiEvaluationMapper {
     List<UserEvaluation> getEvaluationByDate(@Param("applyId") String applyId, @Param("evaluatorId") String evaluatorId);
 
     List<CorgiDateApply> getNeedEvaluation(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
+    UserScore getUserScore(@Param("userId")String userId);
+
+    void initUserScore(@Param("userId")String userId);
+
+    void addUserScore(@Param("score")UserScore userScore);
+
+    Double getUserEvaluation(@Param("userId")String userId);
 }

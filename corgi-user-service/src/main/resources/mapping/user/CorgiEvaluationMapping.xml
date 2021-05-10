@@ -56,6 +56,48 @@
         from corgi_date_apply a
         where a.status = 'agree'
           and (a.approval_user_id = #{userId} or a.apply_user_id = #{userId})
-          and not exists(select 1 from corgi_evaluation where evaluator_id = #{userId} and status != 'deleted' and apply_id = a.id)
+          and not exists(
+                select 1 from corgi_evaluation where evaluator_id = #{userId} and status != 'deleted' and apply_id = a.id)
+    </select>
+
+    <select id="getUserScore" resultType="com.corgi.user.entity.UserScore">
+        select user_id userId, base, operation, evaluation
+        from corgi_user_score
+        where user_id = #{userId}
+    </select>
+
+    <insert id="initUserScore">
+        insert
+        ignore into corgi_user_score(`user_id`) values(
+        #{userId}
+        );
+    </insert>
+
+    <update id="addUserScore" parameterType="com.corgi.user.entity.UserScore">
+        update corgi_user_score
+        <set>
+            <if test="score.base != null and score.base &lt;= 100">
+                base = #{score.base}
+            </if>
+            <if test="score.evaluation != null and score.evaluation &lt;= 100">
+                evaluation = #{score.evaluation}
+            </if>
+            <if test="score.operation != null ">
+                operation = operation+#{score.operation}
+            </if>
+        </set>
+        where user_id = #{score.userId}
+        <if test="score.operation != null ">
+            and operation + #{score.operation} >= 0
+            and operation + #{score.operation} &lt;= 100
+        </if>
+    </update>
+
+    <select id="getUserEvaluation" resultType="java.lang.Double">
+        select sum(score) / count(score)
+        from corgi_evaluation
+        where user_id = #{userId}
+          and status != 'deleted'
+        order by id desc limit 30
     </select>
 </mapper>

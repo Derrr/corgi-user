@@ -3,6 +3,7 @@ package com.corgi.user.api;
 
 import com.corgi.user.entity.CorgiDateApply;
 import com.corgi.user.entity.UserEvaluation;
+import com.corgi.user.entity.UserScore;
 
 import java.util.List;
 
@@ -21,4 +22,10 @@ public interface CorgiEvaluationService {
     void addEvaluation(UserEvaluation userEvaluation);
 
     void deleteEvaluation(UserEvaluation userEvaluation);
+
+    UserScore getUserScore(String userId);
+
+    void addUserScore(UserScore userScore);
+
+    Double getUserEvaluation(String userId);
 }

@@ -5,6 +5,7 @@ import com.corgi.mapper.CorgiEvaluationMapper;
 import com.corgi.user.api.CorgiEvaluationService;
 import com.corgi.user.entity.CorgiDateApply;
 import com.corgi.user.entity.UserEvaluation;
+import com.corgi.user.entity.UserScore;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,5 +50,25 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     @Override
     public void deleteEvaluation(UserEvaluation userEvaluation) {
         corgiEvaluationMapper.deleteEvaluation(userEvaluation.getId(), userEvaluation.getEvaluatorId());
+    }
+
+    @Override
+    public UserScore getUserScore(String userId) {
+        return corgiEvaluationMapper.getUserScore(userId);
+    }
+
+    @Override
+    public void addUserScore(UserScore userScore) {
+        corgiEvaluationMapper.initUserScore(userScore.getUserId());
+        corgiEvaluationMapper.addUserScore(userScore);
+    }
+
+    @Override
+    public Double getUserEvaluation(String userId) {
+        Double result = corgiEvaluationMapper.getUserEvaluation(userId);
+        if (result == null) {
+            result = 0.0;
+        }
+        return result;
     }
 }
