@@ -139,7 +139,10 @@
         <if test="apply.status != null">
             and a.status = #{apply.status}
         </if>
-        order by a.id desc
+        <if test="apply.applyUserId != null">
+            and (a.apply_user_id = #{apply.applyUserId} or a.approval_user_id = #{apply.applyUserId})
+        </if>
+        order by a.uptime desc
         limit #{start}, #{size}
     </select>
 
