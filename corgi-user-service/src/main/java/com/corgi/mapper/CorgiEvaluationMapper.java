@@ -1,5 +1,6 @@
 package com.corgi.mapper;
 
+import com.corgi.user.entity.CorgiDateApply;
 import com.corgi.user.entity.UserEvaluation;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,5 +19,7 @@ public interface CorgiEvaluationMapper {
 
     void addEvaluation(@Param("evaluation") UserEvaluation userEvaluation);
 
-    List<UserEvaluation> getEvaluationByDate(@Param("applyId")String applyId, @Param("evaluatorId")String evaluatorId);
+    List<UserEvaluation> getEvaluationByDate(@Param("applyId") String applyId, @Param("evaluatorId") String evaluatorId);
+
+    List<CorgiDateApply> getNeedEvaluation(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 }

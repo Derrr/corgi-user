@@ -3,6 +3,7 @@ package com.corgi.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiEvaluationMapper;
 import com.corgi.user.api.CorgiEvaluationService;
+import com.corgi.user.entity.CorgiDateApply;
 import com.corgi.user.entity.UserEvaluation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     @Override
     public List<UserEvaluation> getDateEvaluation(String applyId, String evaluatorId) {
         return corgiEvaluationMapper.getEvaluationByDate(applyId, evaluatorId);
+    }
+
+    @Override
+    public List<CorgiDateApply> getNeeEvaluation(String userId, Integer page, Integer pageSize) {
+        return corgiEvaluationMapper.getNeedEvaluation(userId, (page - 1) * pageSize, pageSize);
     }
 
     @Override
