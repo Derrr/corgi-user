@@ -2,13 +2,14 @@ package com.corgi.user.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * @author tairanliu
  */
 @Data
-public class UserEvaluation {
+public class UserEvaluation implements Serializable {
     public static final String TYPE_FRIEND = "friend";
     public static final String TYPE_DATE = "date";
 
