@@ -34,10 +34,10 @@
 
     <insert id="addEvaluation" parameterType="com.corgi.user.entity.UserEvaluation">
         INSERT INTO `corgi`.`corgi_evaluation` (`user_id`, `evaluator_id`, `evaluator_name`, `evaluator_avatar`,
-                                                `status`, `score`, `tag`, `type`, `apply_id`)
+                                                `status`, `score`, `tag`, `type`, `apply_id`,`user_name`,`user_avatar`)
         VALUES (#{evaluation.userId}, #{evaluation.evaluatorId}, #{evaluation.evaluatorName},
                 #{evaluation.evaluatorAvatar}, #{evaluation.status}, #{evaluation.score}, #{evaluation.tag},
-                #{evaluation.type}, #{evaluation.applyId});
+                #{evaluation.type}, #{evaluation.applyId}, #{evaluation.userName}, #{evaluation.userAvatar});
     </insert>
 
     <select id="getEvaluationByDate" resultType="com.corgi.user.entity.UserEvaluation">
