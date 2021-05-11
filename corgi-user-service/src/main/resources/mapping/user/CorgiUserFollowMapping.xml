@@ -155,7 +155,8 @@
                d.role                role,
                d.group               `group`,
                d.con                 con,
-               f.uptime              followTime
+               f.uptime              followTime,
+               f.type                checkDesc
         from corgi_user_follow f
                  left join corgi_user_position p on f.user_id = p.user_id
                  left join corgi_user_detail d on d.user_id = p.user_id
