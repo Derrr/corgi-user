@@ -241,12 +241,17 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             userQuery.setLimit(1000);
         }
         UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
-        List<String> userIds = corgiUserMapper.getNearbyDate(supporter);
-        if (userIds.size() == 0) {
-            supporter.setCity(null);
-            userQuery.setLimit(100);
-            userIds = corgiUserMapper.getNearbyDate(supporter);
+        if (supporter.getCity() != null) {
+            UserPosition position = corgiUserMapper.getUserPosition(userQuery.getUserId());
+            if (supporter.getCity().equals(position.getCity())) {
+                supporter.setCity(null);
+            }
         }
+        List<String> userIds = corgiUserMapper.getNearbyDate(supporter);
+//        if (userIds.size() == 0) {
+//            supporter.setCity(null);
+//            userIds = corgiUserMapper.getNearbyDate(supporter);
+//        }
         List<String> beBlockUserIds = corgiBlacklistMapper.getBeBlacklist(userQuery.getUserId());
         List<String> blockUserIds = corgiBlacklistMapper.getBlacklist(userQuery.getUserId()).stream().map(basic -> basic.getUserId()).collect(Collectors.toList());
         List<String> result = new ArrayList<>();
