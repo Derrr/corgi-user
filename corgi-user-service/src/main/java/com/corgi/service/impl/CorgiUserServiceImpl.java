@@ -247,7 +247,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             userQuery.setLimit(100);
             userIds = corgiUserMapper.getNearbyDate(supporter);
         }
-        mapUserProfile.setUserIds(userIds);
+        List<String> beBlockUserIds = corgiBlacklistMapper.getBeBlacklist(userQuery.getUserId());
+        List<String> blockUserIds = corgiBlacklistMapper.getBlacklist(userQuery.getUserId()).stream().map(basic -> basic.getUserId()).collect(Collectors.toList());
+        List<String> result = new ArrayList<>();
+        for (String userId : userIds) {
+            if (!beBlockUserIds.contains(userId) && !blockUserIds.contains(userId)) {
+                result.add(userId);
+            }
+        }
+        mapUserProfile.setUserIds(result);
         return mapUserProfile;
     }
 
