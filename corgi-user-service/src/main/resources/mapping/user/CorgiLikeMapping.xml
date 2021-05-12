@@ -66,6 +66,7 @@
                            on l.activity_id = a.activity_id
         where l.ctime like concat(#{date}, '%')
           and a.category = #{category}
+          and l.type = 'real'
     </select>
 
     <select id="countLikeUserByDate" resultType="java.lang.Long">
@@ -73,8 +74,10 @@
         from corgi_activity_like l
                  left join corgi_activity_creator a
                            on l.activity_id = a.activity_id
+        left join corgi_user_login lo on lo.id = l.like_user_id
         where l.ctime like concat(#{date}, '%')
           and a.category = #{category}
+          and lo.tel_no not like '3%'
     </select>
 
     <select id="getFollowUser" resultType="com.corgi.user.entity.ActivityLike">
