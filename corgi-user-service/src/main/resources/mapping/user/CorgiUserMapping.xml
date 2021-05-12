@@ -430,7 +430,7 @@
     <select id="getProvinceByCity" resultType="java.lang.String">
         select province
         from corgi_user_position
-        where city like concat(#{city},'%')
+        where city like concat(#{city}, '%')
           and province is not null limit 1
     </select>
 
@@ -668,9 +668,10 @@
 
     <select id="countActiveUser" resultType="java.lang.Long">
         select count(1)
-        from corgi_user_position
-        where uptime >= #{beginTime}
-          and uptime &lt;= #{endTime}
+        from corgi_user_position p left join corgi_user_login l on l.id = p.user_id
+        where p.uptime >= #{beginTime}
+          and p.uptime &lt;= #{endTime}
+          and l.tel_no not like '3%'
     </select>
 
     <select id="countUserStay" resultType="java.lang.Long">
@@ -685,6 +686,7 @@
         select count(1)
         from corgi_user_login
         where ctime like concat(#{date}, '%')
+          and tel_no not like '3%'
     </select>
 
     <select id="filterUser" resultType="java.lang.String">
