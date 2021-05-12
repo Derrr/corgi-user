@@ -255,12 +255,19 @@ public class CorgiToolServiceImpl implements CorgiToolService {
         for (ActivityMessage activityMessage : activityMessages) {
             String activityId = activityMessage.getActivityId();
             List<CorgiActivity> activities = activityService.getActivityByIds(Arrays.asList(activityId));
-            if (CollectionUtils.isEmpty(activities) || CollectionUtils.isEmpty(activities.get(0).getPics())) {
+            if (CollectionUtils.isEmpty(activities)) {
                 activityMessage.setStatus(CorgiActivity.DELETED);
                 continue;
             }
             CorgiActivity activity = activities.get(0);
-            activityMessage.setActivityPic(activity.getPics().get(0).getPicUrl());
+            if (!StringUtils.isEmpty(activity.getCoverUrl())) {
+                activityMessage.setActivityPic(activity.getCoverUrl());
+            } else {
+                if (StringUtils.isEmpty(activities.get(0).getPics())) {
+                    continue;
+                }
+                activityMessage.setActivityPic(activity.getPics().get(0).getPicUrl());
+            }
             activityMessage.setStatus(CorgiActivity.DELETED.equals(activity.getStatus()) ? CorgiActivity.DELETED : CorgiActivity.CREATED);
         }
         return activityMessages;

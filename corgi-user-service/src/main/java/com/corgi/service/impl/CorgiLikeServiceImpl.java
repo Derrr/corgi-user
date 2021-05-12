@@ -5,7 +5,6 @@ import com.corgi.mapper.CorgiLikeMapper;
 import com.corgi.user.api.CorgiLikeService;
 import com.corgi.user.api.CorgiToolService;
 import com.corgi.user.api.CorgiUserService;
-import com.corgi.user.entity.ActivityComment;
 import com.corgi.user.entity.ActivityLike;
 import com.corgi.user.entity.ActivityMessage;
 import com.corgi.user.entity.UserDetail;

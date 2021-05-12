@@ -87,12 +87,13 @@
     </select>
 
     <select id="getBirthdayOpenPage" resultType="com.corgi.user.entity.CorgiOpenPage">
-        select follow_user_id url, d.avatar picUrl, 'birthday' picType, '4' urlType,d.nickname title
+        select follow_user_id url, d.avatar picUrl, 'birthday' picType, '4' urlType, d.nickname title
         from corgi_user_follow f
-                 left join corgi_user_detail d on d.user_id = f.follow_user_id
+                 join corgi_user_detail d on d.user_id = f.follow_user_id
                  left join corgi_user_position p on p.user_id = f.follow_user_id
         where f.user_id = #{userId}
           and d.birthday like concat('%', #{date})
           and p.uptime > #{time}
+          and f.is_deleted = '0'
     </select>
 </mapper>
