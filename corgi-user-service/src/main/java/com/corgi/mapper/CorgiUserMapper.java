@@ -236,6 +236,15 @@ public interface CorgiUserMapper {
     List<String> getNearbyDate(@Param("range") UserQuerySupporter supporter);
 
     /**
+     * 获取周围人信息
+     *
+     * @param supporter
+     * @return
+     */
+    List<String> getNearbyNoDate(@Param("range") UserQuerySupporter supporter);
+
+
+    /**
      * @param city
      * @return
      */

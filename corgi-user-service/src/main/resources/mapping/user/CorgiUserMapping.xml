@@ -427,6 +427,20 @@
 
     </select>
 
+    <select id="getNearbyNoDate" resultType="java.lang.String">
+        select distinct p.user_id from corgi_user_position p
+        where p.lat &lt; 180 and p.lng &lt; 180
+        and not exists (select 1 from corgi_date d where d.status = 'open' and d.user_id = p.user_id)
+        <if test="range.city != null and range.city != ''">
+            and p.city = #{range.city}
+        </if>
+        order by st_distance_sphere(point(#{range.lng},#{range.lat}),p.pt)
+        <if test="range.limit > 0">
+            limit #{range.limit}
+        </if>
+
+    </select>
+
     <select id="getProvinceByCity" resultType="java.lang.String">
         select province
         from corgi_user_position

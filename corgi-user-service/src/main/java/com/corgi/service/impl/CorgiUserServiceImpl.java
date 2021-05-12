@@ -252,10 +252,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             }
         }
         List<String> userIds = corgiUserMapper.getNearbyDate(supporter);
-//        if (userIds.size() == 0) {
-//            supporter.setCity(null);
-//            userIds = corgiUserMapper.getNearbyDate(supporter);
-//        }
         List<String> beBlockUserIds = corgiBlacklistMapper.getBeBlacklist(userQuery.getUserId());
         List<String> blockUserIds = corgiBlacklistMapper.getBlacklist(userQuery.getUserId()).stream().map(basic -> basic.getUserId()).collect(Collectors.toList());
         List<String> result = new ArrayList<>();
@@ -265,6 +261,20 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             }
         }
         mapUserProfile.setUserIds(result);
+        if (result.size() < 1000) {
+            supporter.setLimit(1000 - result.size());
+            List<String> noDateUserIds = corgiUserMapper.getNearbyNoDate(supporter);
+            result = new ArrayList<>();
+            for (String userId : noDateUserIds) {
+                if (!beBlockUserIds.contains(userId) && !blockUserIds.contains(userId)) {
+                    result.add(userId);
+                }
+            }
+            mapUserProfile.setNoDateUserIds(result);
+        } else {
+            mapUserProfile.setNoDateUserIds(new ArrayList<>());
+        }
+
         return mapUserProfile;
     }
 
