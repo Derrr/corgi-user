@@ -11,6 +11,5 @@ import java.util.List;
 @Data
 public class MapUserProfile implements Serializable {
     List<UserProfile> users;
-    List<String> noDateUserIds;
     List<String> userIds;
 }

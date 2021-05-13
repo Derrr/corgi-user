@@ -260,21 +260,17 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 result.add(userId);
             }
         }
-        mapUserProfile.setUserIds(result);
+
         if (result.size() < 1000) {
             supporter.setLimit(1000 - result.size());
             List<String> noDateUserIds = corgiUserMapper.getNearbyNoDate(supporter);
-            result = new ArrayList<>();
             for (String userId : noDateUserIds) {
                 if (!beBlockUserIds.contains(userId) && !blockUserIds.contains(userId)) {
                     result.add(userId);
                 }
             }
-            mapUserProfile.setNoDateUserIds(result);
-        } else {
-            mapUserProfile.setNoDateUserIds(new ArrayList<>());
         }
-
+        mapUserProfile.setUserIds(result);
         return mapUserProfile;
     }
 
