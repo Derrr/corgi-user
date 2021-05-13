@@ -261,7 +261,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             }
         }
 
-        if (result.size() < 1000) {
+        if (result.size() < 1000 && ("不限".equals(supporter.getType()) || StringUtils.isEmpty(supporter.getType()))) {
             supporter.setLimit(1000 - result.size());
             List<String> noDateUserIds = corgiUserMapper.getNearbyNoDate(supporter);
             for (String userId : noDateUserIds) {
