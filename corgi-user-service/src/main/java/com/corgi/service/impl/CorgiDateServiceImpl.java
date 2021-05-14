@@ -132,17 +132,14 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
     }
 
     private void setUserInfo(CorgiDateApply apply, String userId) {
-        String resultId = apply.getOperator();
-        if (resultId == null || "system".equals(resultId)) {
-            resultId = apply.getApplyUserId();
-        }
+        String resultId = apply.getApplyUserId();
         if (userId.equals(resultId)) {
             resultId = apply.getApprovalUserId();
         }
         UserDetail userDetail = corgiUserService.getUserDetailBasic(resultId);
         if (userDetail == null) {
             userDetail = new UserDetail();
-            userDetail.setUserId(apply.getApplyUserId());
+            userDetail.setUserId(resultId);
             userDetail.setNickname("已注销");
         }
         apply.setUserInfo(userDetail);

@@ -289,7 +289,7 @@
     </update>
 
     <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">
-        insert into corgi_user_position (`user_id`, `lat`, `lng`, `pt`, `uptime`, `real_lat`, `real_lng`, `locate_type`,
+        insert ignore into corgi_user_position (`user_id`, `lat`, `lng`, `pt`, `uptime`, `real_lat`, `real_lng`, `locate_type`,
                                          `version`, `city`, `province`)
         values (#{position.userId}, #{position.lat}, #{position.lng}, point(#{position.lng}, #{position.lat}),
                 #{position.uptime}, #{position.realLat}, #{position.realLng}, #{position.locateType},
