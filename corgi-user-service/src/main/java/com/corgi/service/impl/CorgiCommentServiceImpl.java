@@ -55,7 +55,7 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         if (!commentUserDetail.getUserId().equals(activityComment.getUserId())) {
             corgiToolService.addActivityMessage(ActivityMessage.builder()
                     .activityId(activityComment.getActivityId())
-                    .fromUserAvatar(commentUserDetail.getUserPics().get(0).getPicUrl())
+                    .fromUserAvatar(commentUserDetail.getAvatar())
                     .fromUserId(commentUserDetail.getUserId())
                     .fromUserName(commentUserDetail.getNickname())
                     .toUserId(activityComment.getUserId())
@@ -68,7 +68,7 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         if (!StringUtils.isEmpty(activityComment.getReplyUserId()) && !activityComment.getReplyUserId().equals(commentUserDetail.getUserId())) {
             corgiToolService.addActivityMessage(ActivityMessage.builder()
                     .activityId(activityComment.getActivityId())
-                    .fromUserAvatar(commentUserDetail.getUserPics().get(0).getPicUrl())
+                    .fromUserAvatar(commentUserDetail.getAvatar())
                     .fromUserId(commentUserDetail.getUserId())
                     .fromUserName(commentUserDetail.getNickname())
                     .toUserId(activityComment.getReplyUserId())
