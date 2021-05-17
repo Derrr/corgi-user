@@ -15,6 +15,8 @@ public interface CorgiEvaluationService {
 
     List<UserEvaluation> getEvaluationByEvaluator(String evaluatorId, Integer page, Integer pageSize);
 
+    List<UserEvaluation> getEvaluationByTag(String userId, String tag, Integer page, Integer pageSize);
+
     List<UserEvaluation> getDateEvaluation(String applyId, String evaluatorId);
 
     List<CorgiDateApply> getNeeEvaluation(String userId, Integer page, Integer pageSize);
@@ -28,4 +30,6 @@ public interface CorgiEvaluationService {
     void addUserScore(UserScore userScore);
 
     Double getUserEvaluation(String userId);
+
+    Double getTagScore(String tag);
 }

@@ -33,6 +33,11 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     }
 
     @Override
+    public List<UserEvaluation> getEvaluationByTag(String userId, String tag, Integer page, Integer pageSize) {
+        return null;
+    }
+
+    @Override
     public List<UserEvaluation> getDateEvaluation(String applyId, String evaluatorId) {
         return corgiEvaluationMapper.getEvaluationByDate(applyId, evaluatorId);
     }
@@ -57,6 +62,7 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
         return corgiEvaluationMapper.getUserScore(userId);
     }
 
+
     @Override
     public void addUserScore(UserScore userScore) {
         corgiEvaluationMapper.initUserScore(userScore.getUserId());
@@ -70,5 +76,10 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
             result = 0.0;
         }
         return result;
+    }
+
+    @Override
+    public Double getTagScore(String tag) {
+        return corgiEvaluationMapper.getTagEvaluation(tag);
     }
 }

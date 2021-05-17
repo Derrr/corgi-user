@@ -25,6 +25,7 @@ public class UserEvaluation implements Serializable {
     private String tag;
     private String type;
     private String applyId;
+    private Integer count;
     private double score;
 
     public String getTag() {

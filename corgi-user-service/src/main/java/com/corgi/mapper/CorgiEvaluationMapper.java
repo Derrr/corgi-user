@@ -16,6 +16,8 @@ public interface CorgiEvaluationMapper {
 
     List<UserEvaluation> getEvaluationByEvaluator(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
+    List<UserEvaluation> getEvaluationByTag(@Param("userId") String userId,@Param("tag")String tag, @Param("start") Integer start, @Param("size") Integer size);
+
     void deleteEvaluation(@Param("id") Integer id, @Param("userId") String userId);
 
     void addEvaluation(@Param("evaluation") UserEvaluation userEvaluation);
@@ -31,4 +33,6 @@ public interface CorgiEvaluationMapper {
     void addUserScore(@Param("score")UserScore userScore);
 
     Double getUserEvaluation(@Param("userId")String userId);
+
+    Double getTagEvaluation(@Param("tag")String tag);
 }

@@ -10,17 +10,28 @@
     </sql>
 
     <select id="getEvaluationByUser" resultType="com.corgi.user.entity.UserEvaluation">
-        select
-        <include refid="evaluation"/>
-        from corgi_evaluation e where user_id = #{userId}
-        and e.status != 'deleted'
-        order by e.id desc limit 30
+        select e.tag,
+               count(1) count
+        from corgi_evaluation e
+        where user_id = #{userId}
+          and e.status != 'deleted'
+        group by e.tag
     </select>
 
     <select id="getEvaluationByEvaluator" resultType="com.corgi.user.entity.UserEvaluation">
         select
         <include refid="evaluation"/>
         from corgi_evaluation e where evaluator_id = #{userId}
+        and e.status != 'deleted'
+        order by e.id desc limit #{start}, #{size}
+    </select>
+
+    <select id="getEvaluationByTag" resultType="com.corgi.user.entity.UserEvaluation">
+        select
+        <include refid="evaluation"/>
+        from corgi_evaluation e
+        where user_id = #{userId}
+        and tag = #{tag}
         and e.status != 'deleted'
         order by e.id desc limit #{start}, #{size}
     </select>
@@ -99,5 +110,13 @@
         where user_id = #{userId}
           and status != 'deleted'
         order by id desc limit 30
+    </select>
+
+    <select id="getTagEvaluation" resultType="java.lang.Double">
+        select score
+        from corgi_evaluation
+        where tag = #{tag}
+          and score is not null
+        order by id desc limit 1
     </select>
 </mapper>
