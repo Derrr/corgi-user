@@ -165,11 +165,9 @@
         and h.type = #{vlog.type}
         and c.creator_id != #{vlog.userId}
         and c.check_status = 'normal'
+        order by h.like_count
         <if test="vlog.status == 'desc'">
-            order by h.like_count desc
-        </if>
-        <if test="vlog.status != 'desc'">
-            order by h.uptime
+            desc
         </if>
         limit #{size}
     </select>
