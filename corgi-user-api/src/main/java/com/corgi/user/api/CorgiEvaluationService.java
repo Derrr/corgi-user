@@ -40,4 +40,6 @@ public interface CorgiEvaluationService {
     void likeEvaluation(String userId, String evaluationId);
 
     void unlikeEvaluation(String userId, String evaluationId);
+
+    List<String> getTags(String userId);
 }

@@ -161,4 +161,12 @@
           and evaluation_id = #{id})
     </update>
 
+    <select id="getUserTag" resultType="java.lang.String">
+        select tag, count(1) count
+        from corgi_evaluation e
+        left join corgi_evaluation_like l on l.evaluation_id = e.id
+        where user_id = #{userId}
+        group by tag
+        order by count desc limit 6;
+    </select>
 </mapper>

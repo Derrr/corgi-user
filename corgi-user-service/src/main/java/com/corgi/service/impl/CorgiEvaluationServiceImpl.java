@@ -103,4 +103,9 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     public void unlikeEvaluation(String userId, String evaluationId) {
         corgiEvaluationMapper.updateLike(userId, evaluationId, "0");
     }
+
+    @Override
+    public List<String> getTags(String userId) {
+        return null;
+    }
 }

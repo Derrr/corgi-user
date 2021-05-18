@@ -43,4 +43,6 @@ public interface CorgiEvaluationMapper {
     void insertLike(@Param("userId") String userId, @Param("id") String id);
 
     void updateLike(@Param("userId") String userId, @Param("id") String id, @Param("status") String status);
+
+    List<String> getUserTag(@Param("userId")String userId);
 }
