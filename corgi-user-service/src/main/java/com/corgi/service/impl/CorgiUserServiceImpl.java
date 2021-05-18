@@ -242,7 +242,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return mapUserProfile;
         }
         if (userQuery.getLimit() == null) {
-            userQuery.setLimit(1000);
+            userQuery.setLimit(500);
         }
         UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
         if (supporter.getCity() != null) {
@@ -261,11 +261,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             }
         }
 
-        if (result.size() < 1000 && ("不限".equals(supporter.getType()) || StringUtils.isEmpty(supporter.getType()))) {
-            supporter.setLimit(1000 - result.size());
+        if (result.size() < 500 && ("不限".equals(supporter.getType()) || StringUtils.isEmpty(supporter.getType()))) {
+            supporter.setLimit(500);
             List<String> noDateUserIds = corgiUserMapper.getNearbyNoDate(supporter);
             for (String userId : noDateUserIds) {
-                if (!beBlockUserIds.contains(userId) && !blockUserIds.contains(userId)) {
+                if (!beBlockUserIds.contains(userId) && !blockUserIds.contains(userId) && !result.contains(userId)) {
                     result.add(userId);
                 }
             }

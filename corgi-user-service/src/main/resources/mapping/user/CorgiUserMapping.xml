@@ -413,7 +413,7 @@
     <select id="getNearbyDate" resultType="java.lang.String">
         select distinct p.user_id from corgi_date d
         left join corgi_user_position p on p.user_id = d.user_id
-        where d.status = 'open' and p.lat &lt; 180 and p.lng &lt; 180
+        where d.status = 'open' and p.lat &lt; 90 and p.lng &lt; 180
         <if test="range.type != null and range.type != '' and range.type != '不限'">
             and (d.type = #{range.type} or d.type = '不限')
         </if>
@@ -429,8 +429,7 @@
 
     <select id="getNearbyNoDate" resultType="java.lang.String">
         select distinct p.user_id from corgi_user_position p
-        where p.lat &lt; 180 and p.lng &lt; 180
-        and not exists (select 1 from corgi_date d where d.status = 'open' and d.user_id = p.user_id)
+        where p.lat &lt; 90 and p.lng &lt; 180
         <if test="range.city != null and range.city != ''">
             and p.city = #{range.city}
         </if>
