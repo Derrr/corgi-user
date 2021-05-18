@@ -11,7 +11,9 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiEvaluationService {
-    List<UserEvaluation> getEvaluationByUser(String userId);
+    List<UserEvaluation> getEvaluationByUser(String userId,String loginUserId, Integer page, Integer pageSize);
+
+    List<UserEvaluation> getEvaluationByHeat(String userId,String loginUserId, Integer pageSize);
 
     List<UserEvaluation> getEvaluationByEvaluator(String evaluatorId, Integer page, Integer pageSize);
 
@@ -32,4 +34,10 @@ public interface CorgiEvaluationService {
     Double getUserEvaluation(String userId);
 
     Double getTagScore(String tag);
+
+    Integer getUserCount(String userId);
+
+    void likeEvaluation(String userId, String evaluationId);
+
+    void unlikeEvaluation(String userId, String evaluationId);
 }

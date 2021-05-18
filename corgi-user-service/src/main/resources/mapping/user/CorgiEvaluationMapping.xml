@@ -10,12 +10,29 @@
     </sql>
 
     <select id="getEvaluationByUser" resultType="com.corgi.user.entity.UserEvaluation">
-        select e.tag,
-               count(1) count
-        from corgi_evaluation e
-        where user_id = #{userId}
-          and e.status != 'deleted'
-        group by e.tag
+        select
+        <include refid="evaluation"/>
+        , count(1) count
+        , count(if(l.user_id = #{loginUserId},1,0)) hasLike
+        from corgi_evaluation e left join corgi_evaluation_like l on l.evaluation_id = e.id
+        where e.user_id = #{userId}
+        and e.status != 'deleted'
+        and l.status = '1'
+        group by e.id
+        order by e.id desc limit #{start}, #{size}
+    </select>
+
+    <select id="getEvaluationByHeat" resultType="com.corgi.user.entity.UserEvaluation">
+        select
+        <include refid="evaluation"/>
+        , count(1) count
+        , count(if(l.user_id = #{loginUserId},1,0)) hasLike
+        from corgi_evaluation e left join corgi_evaluation_like l on l.evaluation_id = e.id
+        where e.user_id = #{userId}
+        and e.status != 'deleted'
+        and l.status = '1'
+        group by e.id
+        order by count desc limit #{size}
     </select>
 
     <select id="getEvaluationByEvaluator" resultType="com.corgi.user.entity.UserEvaluation">
@@ -40,7 +57,9 @@
         update corgi_evaluation
         set status = 'deleted'
         where id = #{id}
-          and evaluator_id = #{userId}
+        <if test="userId != null">
+            and evaluator_id = #{userId}
+        </if>
     </update>
 
     <insert id="addEvaluation" parameterType="com.corgi.user.entity.UserEvaluation">
@@ -119,4 +138,27 @@
           and score is not null
         order by id desc limit 1
     </select>
+
+    <select id="getUserCount" resultType="java.lang.Integer">
+        select count(distinct evaluator_id)
+        from corgi_evaluation
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertLike">
+        insert
+        ignore into corgi_evaluation_like(`user_id`,`evaluation_id`)
+        values(
+        #{userId},
+        #{id}
+        )
+    </insert>
+
+    <update id="updateLike">
+        update corgi_evaluation_like
+        set status = #{status}
+        where user_id = #{userId}
+          and evaluation_id = #{id})
+    </update>
+
 </mapper>

@@ -12,11 +12,13 @@ import java.util.List;
  */
 public interface CorgiEvaluationMapper {
 
-    List<UserEvaluation> getEvaluationByUser(@Param("userId") String userId);
+    List<UserEvaluation> getEvaluationByUser(@Param("userId") String userId, @Param("loginUserId") String loginUserId, @Param("start") Integer start, @Param("size") Integer size);
+
+    List<UserEvaluation> getEvaluationByHeat(@Param("userId") String userId, @Param("loginUserId") String loginUserId, @Param("size") Integer size);
 
     List<UserEvaluation> getEvaluationByEvaluator(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
-    List<UserEvaluation> getEvaluationByTag(@Param("userId") String userId,@Param("tag")String tag, @Param("start") Integer start, @Param("size") Integer size);
+    List<UserEvaluation> getEvaluationByTag(@Param("userId") String userId, @Param("tag") String tag, @Param("start") Integer start, @Param("size") Integer size);
 
     void deleteEvaluation(@Param("id") Integer id, @Param("userId") String userId);
 
@@ -26,13 +28,19 @@ public interface CorgiEvaluationMapper {
 
     List<CorgiDateApply> getNeedEvaluation(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
-    UserScore getUserScore(@Param("userId")String userId);
+    UserScore getUserScore(@Param("userId") String userId);
 
-    void initUserScore(@Param("userId")String userId);
+    void initUserScore(@Param("userId") String userId);
 
-    void addUserScore(@Param("score")UserScore userScore);
+    void addUserScore(@Param("score") UserScore userScore);
 
-    Double getUserEvaluation(@Param("userId")String userId);
+    Double getUserEvaluation(@Param("userId") String userId);
 
-    Double getTagEvaluation(@Param("tag")String tag);
+    Double getTagEvaluation(@Param("tag") String tag);
+
+    Integer getUserCount(@Param("userId")String userId);
+
+    void insertLike(@Param("userId") String userId, @Param("id") String id);
+
+    void updateLike(@Param("userId") String userId, @Param("id") String id, @Param("status") String status);
 }

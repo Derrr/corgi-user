@@ -23,8 +23,13 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     private CorgiEvaluationMapper corgiEvaluationMapper;
 
     @Override
-    public List<UserEvaluation> getEvaluationByUser(String userId) {
-        return corgiEvaluationMapper.getEvaluationByUser(userId);
+    public List<UserEvaluation> getEvaluationByUser(String userId, String loginUserId, Integer page, Integer pageSize) {
+        return corgiEvaluationMapper.getEvaluationByUser(userId, loginUserId, (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
+    public List<UserEvaluation> getEvaluationByHeat(String userId, String loginUserId, Integer size) {
+        return corgiEvaluationMapper.getEvaluationByHeat(userId, loginUserId, size);
     }
 
     @Override
@@ -81,5 +86,21 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     @Override
     public Double getTagScore(String tag) {
         return corgiEvaluationMapper.getTagEvaluation(tag);
+    }
+
+    @Override
+    public Integer getUserCount(String userId) {
+        return corgiEvaluationMapper.getUserCount(userId);
+    }
+
+    @Override
+    public void likeEvaluation(String userId, String evaluationId) {
+        corgiEvaluationMapper.insertLike(userId, evaluationId);
+        corgiEvaluationMapper.updateLike(userId, evaluationId, "1");
+    }
+
+    @Override
+    public void unlikeEvaluation(String userId, String evaluationId) {
+        corgiEvaluationMapper.updateLike(userId, evaluationId, "0");
     }
 }

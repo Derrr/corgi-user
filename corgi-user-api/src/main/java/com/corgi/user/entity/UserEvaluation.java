@@ -27,6 +27,7 @@ public class UserEvaluation implements Serializable {
     private String applyId;
     private Integer count;
     private double score;
+    private int hasLike;
 
     public String getTag() {
         if (this.tag != null) {
