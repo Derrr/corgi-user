@@ -6,7 +6,7 @@
         e
         .
         id
-        , e.user_id userId,e.user_name userName,e.user_avatar userAvatar, e.evaluator_id evaluatorId, e.evaluator_name evaluatorName, e.evaluator_avatar evaluatorAvatar, e.status, e.ctime, e.score, e.tag, e.type, e.apply_id applyId
+        , e.user_id userId,e.user_name userName,e.user_avatar userAvatar, e.evaluator_id evaluatorId, e.evaluator_name evaluatorName, e.evaluator_avatar evaluatorAvatar, e.status, e.ctime, e.score, e.tag, e.type, e.apply_id applyId, e.check_status checkStatus
     </sql>
 
     <select id="getEvaluationByUser" resultType="com.corgi.user.entity.UserEvaluation">
@@ -17,6 +17,7 @@
         from corgi_evaluation e left join corgi_evaluation_like l on l.evaluation_id = e.id
         where e.user_id = #{userId}
         and e.status != 'deleted'
+        and e.check_status = 'pass'
         and l.status = '1'
         group by e.id
         order by e.id desc limit #{start}, #{size}
@@ -30,6 +31,7 @@
         from corgi_evaluation e left join corgi_evaluation_like l on l.evaluation_id = e.id
         where e.user_id = #{userId}
         and e.status != 'deleted'
+        and e.check_status = 'pass'
         and l.status = '1'
         group by e.id
         order by count desc limit #{size}
@@ -40,6 +42,7 @@
         <include refid="evaluation"/>
         from corgi_evaluation e where evaluator_id = #{userId}
         and e.status != 'deleted'
+        and e.check_status = 'pass'
         order by e.id desc limit #{start}, #{size}
     </select>
 
@@ -50,6 +53,7 @@
         where user_id = #{userId}
         and tag = #{tag}
         and e.status != 'deleted'
+        and e.check_status = 'pass'
         order by e.id desc limit #{start}, #{size}
     </select>
 
@@ -65,10 +69,11 @@
     <insert id="addEvaluation" parameterType="com.corgi.user.entity.UserEvaluation">
         INSERT INTO `corgi`.`corgi_evaluation` (`user_id`, `evaluator_id`, `evaluator_name`, `evaluator_avatar`,
                                                 `status`, `score`, `tag`, `type`, `apply_id`, `user_name`,
-                                                `user_avatar`)
+                                                `user_avatar`, `check_status`)
         VALUES (#{evaluation.userId}, #{evaluation.evaluatorId}, #{evaluation.evaluatorName},
                 #{evaluation.evaluatorAvatar}, #{evaluation.status}, #{evaluation.score}, #{evaluation.tag},
-                #{evaluation.type}, #{evaluation.applyId}, #{evaluation.userName}, #{evaluation.userAvatar});
+                #{evaluation.type}, #{evaluation.applyId}, #{evaluation.userName}, #{evaluation.userAvatar},
+                #{evaluation.checkStatus});
     </insert>
 
     <select id="getEvaluationByDate" resultType="com.corgi.user.entity.UserEvaluation">
@@ -76,6 +81,7 @@
         <include refid="evaluation"/>
         from corgi_evaluation e where apply_id = #{applyId}
         and status != 'deleted'
+        and e.check_status = 'pass'
         <if test="evaluatorId != null">
             and evaluator_id = #{evaluatorId}
         </if>
@@ -164,7 +170,8 @@
     <select id="getUserTag" resultType="java.lang.String">
         select tag, count(1) count
         from corgi_evaluation e
-        left join corgi_evaluation_like l on l.evaluation_id = e.id
+            left join corgi_evaluation_like l
+        on l.evaluation_id = e.id
         where user_id = #{userId}
         group by tag
         order by count desc limit 6;

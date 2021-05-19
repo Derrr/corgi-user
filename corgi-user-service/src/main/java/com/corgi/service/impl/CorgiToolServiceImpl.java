@@ -263,7 +263,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
             if (!StringUtils.isEmpty(activity.getCoverUrl())) {
                 activityMessage.setActivityPic(activity.getCoverUrl());
             } else {
-                if (StringUtils.isEmpty(activities.get(0).getPics())) {
+                if (CollectionUtils.isEmpty(activities.get(0).getPics())) {
                     continue;
                 }
                 activityMessage.setActivityPic(activity.getPics().get(0).getPicUrl());

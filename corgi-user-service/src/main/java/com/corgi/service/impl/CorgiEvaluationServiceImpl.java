@@ -39,7 +39,7 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
 
     @Override
     public List<UserEvaluation> getEvaluationByTag(String userId, String tag, Integer page, Integer pageSize) {
-        return null;
+        return corgiEvaluationMapper.getEvaluationByTag(userId, tag, (page - 1) * pageSize, pageSize);
     }
 
     @Override

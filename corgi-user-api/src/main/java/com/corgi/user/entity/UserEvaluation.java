@@ -25,6 +25,7 @@ public class UserEvaluation implements Serializable {
     private String tag;
     private String type;
     private String applyId;
+    private String checkStatus;
     private Integer count;
     private double score;
     private int hasLike;
