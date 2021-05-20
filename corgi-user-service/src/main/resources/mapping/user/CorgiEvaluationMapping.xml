@@ -28,7 +28,7 @@
         and e.status != 'deleted'
         and e.check_status = 'pass'
         group by e.tag
-        order by count desc  limit #{size}
+        order by count desc limit #{size}
     </select>
 
     <select id="getEvaluationByEvaluator" resultType="com.corgi.user.entity.UserEvaluation">
@@ -58,6 +58,13 @@
         <if test="userId != null">
             and evaluator_id = #{userId}
         </if>
+    </update>
+
+    <update id="deleteEvaluationByTag">
+        update corgi_evaluation
+        set status = 'deleted'
+        where user_id = #{userId}
+          and tag = #{tag}
     </update>
 
     <insert id="addEvaluation" parameterType="com.corgi.user.entity.UserEvaluation">

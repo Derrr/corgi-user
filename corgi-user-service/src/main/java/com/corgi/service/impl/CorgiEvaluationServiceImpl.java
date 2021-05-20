@@ -9,6 +9,7 @@ import com.corgi.user.entity.UserScore;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -60,6 +61,11 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     @Override
     public void deleteEvaluation(UserEvaluation userEvaluation) {
         corgiEvaluationMapper.deleteEvaluation(userEvaluation.getId(), userEvaluation.getEvaluatorId());
+        if (!StringUtils.isEmpty(userEvaluation.getTag())
+                && StringUtils.isEmpty(userEvaluation.getEvaluatorId())
+                && !StringUtils.isEmpty(userEvaluation.getUserId())) {
+            corgiEvaluationMapper.deleteEvaluationByTag(userEvaluation.getTag(), userEvaluation.getUserId());
+        }
     }
 
     @Override
