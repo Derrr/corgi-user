@@ -12,9 +12,9 @@ import java.util.List;
  */
 public interface CorgiEvaluationMapper {
 
-    List<UserEvaluation> getEvaluationByUser(@Param("userId") String userId, @Param("loginUserId") String loginUserId, @Param("start") Integer start, @Param("size") Integer size);
+    List<UserEvaluation> getEvaluationByUser(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
-    List<UserEvaluation> getEvaluationByHeat(@Param("userId") String userId, @Param("loginUserId") String loginUserId, @Param("size") Integer size);
+    List<UserEvaluation> getEvaluationByHeat(@Param("userId") String userId, @Param("size") Integer size);
 
     List<UserEvaluation> getEvaluationByEvaluator(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 

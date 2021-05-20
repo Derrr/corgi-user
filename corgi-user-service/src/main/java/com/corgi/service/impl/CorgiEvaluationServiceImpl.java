@@ -24,12 +24,12 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
 
     @Override
     public List<UserEvaluation> getEvaluationByUser(String userId, String loginUserId, Integer page, Integer pageSize) {
-        return corgiEvaluationMapper.getEvaluationByUser(userId, loginUserId, (page - 1) * pageSize, pageSize);
+        return corgiEvaluationMapper.getEvaluationByUser(userId, (page - 1) * pageSize, pageSize);
     }
 
     @Override
     public List<UserEvaluation> getEvaluationByHeat(String userId, String loginUserId, Integer size) {
-        return corgiEvaluationMapper.getEvaluationByHeat(userId, loginUserId, size);
+        return corgiEvaluationMapper.getEvaluationByHeat(userId, size);
     }
 
     @Override

@@ -12,14 +12,10 @@
     <select id="getEvaluationByUser" resultType="com.corgi.user.entity.UserEvaluation">
         select
         <include refid="evaluation"/>
-        , count(1) count
-        , count(if(l.user_id = #{loginUserId},1,0)) hasLike
-        from corgi_evaluation e left join corgi_evaluation_like l on l.evaluation_id = e.id
+        from corgi_evaluation e
         where e.user_id = #{userId}
         and e.status != 'deleted'
         and e.check_status = 'pass'
-        and l.status = '1'
-        group by e.id
         order by e.id desc limit #{start}, #{size}
     </select>
 
@@ -27,14 +23,12 @@
         select
         <include refid="evaluation"/>
         , count(1) count
-        , count(if(l.user_id = #{loginUserId},1,0)) hasLike
-        from corgi_evaluation e left join corgi_evaluation_like l on l.evaluation_id = e.id
+        from corgi_evaluation e
         where e.user_id = #{userId}
         and e.status != 'deleted'
         and e.check_status = 'pass'
-        and l.status = '1'
-        group by e.id
-        order by count desc limit #{size}
+        group by e.tag
+        order by count desc  limit #{size}
     </select>
 
     <select id="getEvaluationByEvaluator" resultType="com.corgi.user.entity.UserEvaluation">
