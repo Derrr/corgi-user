@@ -12,7 +12,7 @@
         a
         .
         id
-        , a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.ctime, a.uptime, a.date_id dateId, a.status, a.operator,a.type, a.detail, a.address, a.end_time endTime, a.lat, a.lng, a.type, a.budget</sql>
+        , a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.ctime, a.uptime, a.date_id dateId, a.status, a.operator,a.type, a.detail, a.address, a.end_time endTime, a.lat, a.lng, a.type, a.budget, a.progress</sql>
 
     <insert id="addCorgiDate" parameterType="com.corgi.user.entity.CorgiDate">
         INSERT INTO `corgi_date` (`user_id`, `type`, `detail`, `end_time`, `address`, `status`, `city`, `lat`, `lng`)
@@ -75,8 +75,10 @@
 
 
     <insert id="addDateApply" useGeneratedKeys="true" keyProperty="apply.id">
-        insert into corgi_date_apply(apply_user_id, approval_user_id, date_id, address, detail, end_time, lat, lng, `type`, budget)
-        values (#{apply.applyUserId}, #{apply.approvalUserId}, #{apply.dateId}, #{date.address}, #{date.detail}, #{date.endTime}, #{date.lat}, #{date.lng}, #{date.type}, #{date.budget})
+        insert into corgi_date_apply(apply_user_id, approval_user_id, date_id, address, detail, end_time, lat, lng,
+                                     `type`, budget)
+        values (#{apply.applyUserId}, #{apply.approvalUserId}, #{apply.dateId}, #{date.address}, #{date.detail},
+                #{date.endTime}, #{date.lat}, #{date.lng}, #{date.type}, #{date.budget})
     </insert>
 
     <update id="updateDateApply" parameterType="com.corgi.user.entity.CorgiDateApply">
@@ -85,6 +87,12 @@
             operator = #{apply.operator}
         where id = #{apply.id}
           and `status` = 'apply'
+    </update>
+
+    <update id="updateApplyProgress" parameterType="com.corgi.user.entity.CorgiDateApply">
+        update corgi_date_apply
+        set `progress` = #{apply.progress}
+        where id = #{apply.id}
     </update>
 
     <update id="updateApplyDetail" parameterType="com.corgi.user.entity.CorgiDateApply">
@@ -109,6 +117,13 @@
         where id = #{apply.id}
     </update>
 
+    <select id="getApplyByProgress" resultType="com.corgi.user.entity.CorgiDateApply">
+        select
+        <include refid="apply"/>
+        from corgi_date_apply a
+        where (a.approval_user_id = #{userId} or a.apply_user_id = #{userId})
+        and a.progress = #{progress}
+    </select>
 
     <select id="getApplyById" resultType="com.corgi.user.entity.CorgiDateApply">
         select

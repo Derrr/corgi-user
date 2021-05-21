@@ -34,4 +34,8 @@ public interface CorgiUserDateService {
     CorgiDateApply getUserApply(String userId, String targetUser);
 
     void updateApply(CorgiDateApply apply);
+
+    void updateApplyProgress(CorgiDateApply apply);
+
+    List<CorgiDateApply> getMetApply(String userId);
 }

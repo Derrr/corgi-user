@@ -131,6 +131,16 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
         corgiDateMapper.updateDateApply(apply);
     }
 
+    @Override
+    public void updateApplyProgress(CorgiDateApply apply) {
+        corgiDateMapper.updateApplyProgress(apply);
+    }
+
+    @Override
+    public List<CorgiDateApply> getMetApply(String userId) {
+        return corgiDateMapper.getApplyByProgress(userId, "met");
+    }
+
     private void setUserInfo(CorgiDateApply apply, String userId) {
         String resultId = apply.getApplyUserId();
         if (userId.equals(resultId)) {

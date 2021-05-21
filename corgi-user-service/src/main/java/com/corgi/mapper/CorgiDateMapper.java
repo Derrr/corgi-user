@@ -30,6 +30,10 @@ public interface CorgiDateMapper {
 
     void updateDateApply(@Param("apply") CorgiDateApply apply);
 
+    void updateApplyProgress(@Param("apply") CorgiDateApply apply);
+
+    List<CorgiDateApply> getApplyByProgress(@Param("userId")String userId, @Param("progress")String progress);
+
     void updateApplyDetail(@Param("apply") CorgiDateApply apply);
 
     CorgiDateApply getApplyById(@Param("id") Integer id);
