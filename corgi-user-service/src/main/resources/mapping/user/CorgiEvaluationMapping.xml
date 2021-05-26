@@ -51,6 +51,14 @@
         order by e.id desc limit #{start}, #{size}
     </select>
 
+    <select id="getEvaluationById" resultType="com.corgi.user.entity.UserEvaluation">
+        select
+        <include refid="evaluation"/>
+        from corgi_evaluation e
+        where e.id = #{id}
+        and e.status != 'deleted'
+    </select>
+
     <update id="deleteEvaluation">
         update corgi_evaluation
         set status = 'deleted'
@@ -67,7 +75,8 @@
           and tag = #{tag}
     </update>
 
-    <insert id="addEvaluation" parameterType="com.corgi.user.entity.UserEvaluation">
+    <insert id="addEvaluation" useGeneratedKeys="true" keyProperty="evaluation.id"
+            parameterType="com.corgi.user.entity.UserEvaluation">
         INSERT INTO `corgi`.`corgi_evaluation` (`user_id`, `evaluator_id`, `evaluator_name`, `evaluator_avatar`,
                                                 `status`, `score`, `tag`, `type`, `apply_id`, `user_name`,
                                                 `user_avatar`, `check_status`)
@@ -81,7 +90,7 @@
         select
         <include refid="evaluation"/>
         from corgi_evaluation e where apply_id = #{applyId}
-        and status != 'deleted'
+        and e.status != 'deleted'
         and e.check_status = 'pass'
         <if test="evaluatorId != null">
             and evaluator_id = #{evaluatorId}
@@ -135,6 +144,7 @@
         from corgi_evaluation
         where user_id = #{userId}
           and status != 'deleted'
+          and check_status = 'pass'
         order by id desc limit 30
     </select>
 
@@ -150,6 +160,16 @@
         select count(distinct evaluator_id)
         from corgi_evaluation
         where user_id = #{userId}
+          and status != 'deleted'
+          and check_status = 'pass'
+    </select>
+
+    <select id="countByTag" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_evaluation
+        where user_id = #{userId}
+          and tag = #{tag}
+          and status != 'deleted' and e.check_status = 'pass'
     </select>
 
     <insert id="insertLike">
@@ -174,6 +194,8 @@
             left join corgi_evaluation_like l
         on l.evaluation_id = e.id
         where user_id = #{userId}
+          and e.status != 'deleted'
+          and e.check_status = 'pass'
         group by tag
         order by count desc limit 6;
     </select>

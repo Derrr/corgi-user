@@ -49,13 +49,19 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     }
 
     @Override
+    public UserEvaluation getEvaluationById(String id) {
+        return null;
+    }
+
+    @Override
     public List<CorgiDateApply> getNeeEvaluation(String userId, Integer page, Integer pageSize) {
         return corgiEvaluationMapper.getNeedEvaluation(userId, (page - 1) * pageSize, pageSize);
     }
 
     @Override
-    public void addEvaluation(UserEvaluation userEvaluation) {
+    public String addEvaluation(UserEvaluation userEvaluation) {
         corgiEvaluationMapper.addEvaluation(userEvaluation);
+        return userEvaluation.getId() + "";
     }
 
     @Override
@@ -97,6 +103,11 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     @Override
     public Integer getUserCount(String userId) {
         return corgiEvaluationMapper.getUserCount(userId);
+    }
+
+    @Override
+    public Integer countByTag(String tag, String userId) {
+        return null;
     }
 
     @Override
