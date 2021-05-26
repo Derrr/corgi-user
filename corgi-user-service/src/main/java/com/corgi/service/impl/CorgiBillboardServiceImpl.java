@@ -108,6 +108,11 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     }
 
     @Override
+    public void updateBillboardOrder(String userId, String date, Integer order) {
+        corgiBillboardMapper.updateBillboardOrder(userId, date, order);
+    }
+
+    @Override
     public List<Billboard> getBillboardByDate(String startDate, String endDate) {
         List<Billboard> billboards = corgiBillboardMapper.getBillboardByDate(startDate, endDate);
         for (Billboard billboard : billboards) {

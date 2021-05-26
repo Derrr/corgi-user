@@ -93,6 +93,15 @@ public interface CorgiBillboardMapper {
     void updateBillboard(@Param("fromId") String fromId, @Param("toId") String toId, @Param("date") String date);
 
     /**
+     * 根据ID更新榜单顺序
+     *
+     * @param userId
+     * @param order
+     * @param date
+     */
+    void updateBillboardOrder(@Param("userId") String userId, @Param("date") String date, @Param("order")Integer order);
+
+    /**
      * 根据昵称获取ID
      *
      * @param nickname

@@ -4,10 +4,9 @@
 
     <insert id="addBanner" parameterType="com.corgi.user.entity.CorgiBanner">
         INSERT INTO `corgi_banner` (`title`, `pic_url`, `url`, `url_type`, `type`, `status`, `order`, `start_time`,
-                                    `end_time`)
+                                    `end_time`,`topic`)
         VALUES (#{banner.title}, #{banner.picUrl}, #{banner.url}, #{banner.urlType}, #{banner.type}, #{banner.status},
-                #{banner.order}, #{banner.startTime}, #{banner.endTime});
-
+                #{banner.order}, #{banner.startTime}, #{banner.endTime}, #{banner.topic});
     </insert>
     <update id="updateBanner" parameterType="com.corgi.user.entity.CorgiBanner">
         update corgi_banner
@@ -38,6 +37,9 @@
             </if>
             <if test="banner.endTime != null and banner.endTime != ''">
                 `end_time` = #{banner.endTime},
+            </if>
+            <if test="banner.topic != null and banner.topic != ''">
+                `topic` = #{banner.topic},
             </if>
         </set>
         where id = #{banner.id}
@@ -72,6 +74,9 @@
         </if>
         <if test="banner.type != null and banner.type != ''">
             and `type` = #{banner.type}
+        </if>
+        <if test="banner.topic != null and banner.topic != ''">
+            and `topic` = #{banner.topic}
         </if>
         order by `order`
     </select>

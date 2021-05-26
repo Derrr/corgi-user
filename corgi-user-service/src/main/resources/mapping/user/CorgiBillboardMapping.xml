@@ -112,6 +112,13 @@
           and user_id = #{fromId}
     </update>
 
+    <update id="updateBillboardOrder">
+        update corgi.corgi_billboard
+        set `order` = #{order}
+        where `date` = #{date}
+          and user_id = #{userId}
+    </update>
+
     <select id="getUserIdByNickname" resultType="java.lang.String">
         select user_id
         from corgi_user_detail
