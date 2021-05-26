@@ -692,6 +692,7 @@
         from corgi_user_position p
                  left join corgi_user_detail d on d.user_id = p.user_id
         where p.uptime >= #{time}
+          and p.version != '0.0.0'
           and d.cime like concat(#{date}, '%')
     </select>
 
