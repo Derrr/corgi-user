@@ -12,7 +12,7 @@ public interface CorgiBarService {
 
     List<BarProfile> getBarAccountList(String status);
 
-    List<BarProfile> getBarListByCity(String city);
+    List<BarProfile> getBarListByCity(String city, Double lat, Double lng);
 
     BarProfile getBarProfile(String barId);
 

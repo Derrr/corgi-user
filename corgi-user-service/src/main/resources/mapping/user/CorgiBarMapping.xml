@@ -131,8 +131,13 @@
         <if test="city != null and city != ''">
             and b.city = #{city}
         </if>
-        group by b.bar_id
-        order by count(f.user_id) desc
+        <if test="city != null and city != ''">
+            group by b.bar_id
+            order by count(f.user_id) desc
+        </if>
+        <if test="lat != null and lng == ''">
+            order by st_distance_sphere(point(#{lng},#{lat}),point(b.lng,b.lat))
+        </if>
     </select>
 
 

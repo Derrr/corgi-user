@@ -50,7 +50,7 @@ public interface CorgiBarMapper {
      *
      * @return
      */
-    List<BarProfile> getBarListByCity(@Param("city")String city);
+    List<BarProfile> getBarListByCity(@Param("city")String city, @Param("lat")Double lat, @Param("lng")Double lng);
 
     /**
      * 获取商户信息
