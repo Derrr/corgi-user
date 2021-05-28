@@ -20,4 +20,6 @@ public interface CorgiFeedService {
     void addFeed(CorgiFeed corgiFeed);
 
     Integer countViewFeed(String date);
+
+    void deleteFeed(CorgiFeed feed);
 }

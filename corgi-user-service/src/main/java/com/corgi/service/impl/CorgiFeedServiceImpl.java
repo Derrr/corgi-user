@@ -124,6 +124,13 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         return total;
     }
 
+    @Override
+    public void deleteFeed(CorgiFeed feed) {
+        for (int i = 0; i < 8; i++) {
+            corgiFeedMapper.deleteFeed(feed, i + "");
+        }
+    }
+
 
     private CorgiFeed buildFeed(CorgiVlog vlog, String userId) {
         CorgiFeed feed = new CorgiFeed();

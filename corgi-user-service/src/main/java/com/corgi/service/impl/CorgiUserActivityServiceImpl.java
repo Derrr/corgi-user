@@ -4,12 +4,13 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.entity.ActivityPic;
 import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.CorgiTopic;
+import com.corgi.mapper.CorgiFeedMapper;
 import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserActivityMapper;
-import com.corgi.user.api.CorgiPicService;
-import com.corgi.user.api.CorgiToolService;
-import com.corgi.user.api.CorgiUserActivityService;
-import com.corgi.user.api.CorgiUserService;
+import com.corgi.mapper.CorgiVlogMapper;
+import com.corgi.user.api.*;
+import com.corgi.user.entity.CorgiFeed;
+import com.corgi.user.entity.CorgiVlogHot;
 import com.corgi.user.entity.UserProfile;
 import com.corgi.user.entity.UserSignUp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,10 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     private CorgiPicService corgiPicService;
     @Autowired
     private CorgiToolService corgiToolService;
+    @Autowired
+    private CorgiVlogMapper corgiVlogMapper;
+    @Autowired
+    private CorgiFeedService corgiFeedService;
 
     @Override
     public boolean signUp(UserSignUp userSignUp) {
@@ -141,6 +146,13 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     @Override
     public void deleteActivityCreator(String activityId) {
         corgiUserActivityMapper.deleteActivityCreator(activityId);
+        CorgiVlogHot hot = new CorgiVlogHot();
+        hot.setStatus("close");
+        hot.setActivityId(activityId);
+        corgiVlogMapper.updateVlogHot(hot);
+        CorgiFeed feed = new CorgiFeed();
+        feed.setFeed(activityId);
+        corgiFeedService.deleteFeed(feed);
     }
 
     @Override

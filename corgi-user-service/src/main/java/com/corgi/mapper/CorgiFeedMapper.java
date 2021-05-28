@@ -18,7 +18,7 @@ public interface CorgiFeedMapper {
      * @param userId
      * @return
      */
-    List<String> getUnviewFeed(@Param("userId") String userId, @Param("index") String index, @Param("size")Integer size);
+    List<String> getUnviewFeed(@Param("userId") String userId, @Param("index") String index, @Param("size") Integer size);
 
     /**
      * 统计feed
@@ -52,4 +52,11 @@ public interface CorgiFeedMapper {
      */
     void viewFeed(@Param("userId") String userId, @Param("feed") String feed, @Param("index") String index);
 
+    /**
+     * 删除feed
+     *
+     * @param corgiFeed
+     * @param index
+     */
+    void deleteFeed(@Param("feed") CorgiFeed corgiFeed, @Param("index") String index);
 }
