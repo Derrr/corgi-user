@@ -50,7 +50,7 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
 
     @Override
     public UserEvaluation getEvaluationById(String id) {
-        return null;
+        return corgiEvaluationMapper.getEvaluationById(id);
     }
 
     @Override
