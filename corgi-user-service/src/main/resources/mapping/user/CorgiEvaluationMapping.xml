@@ -56,7 +56,6 @@
         <include refid="evaluation"/>
         from corgi_evaluation e
         where e.id = #{id}
-        and e.status != 'deleted'
     </select>
 
     <update id="deleteEvaluation">
