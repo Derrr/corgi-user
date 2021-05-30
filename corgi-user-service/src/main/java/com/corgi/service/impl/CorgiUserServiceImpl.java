@@ -247,7 +247,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
         if (supporter.getCity() != null) {
             UserPosition position = corgiUserMapper.getUserPosition(userQuery.getUserId());
-            if (supporter.getCity().equals(position.getCity())) {
+            if (position != null && supporter.getCity().equals(position.getCity())) {
                 supporter.setCity(null);
             }
         }

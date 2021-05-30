@@ -65,8 +65,8 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     }
 
     @Override
-    public List<BarProfile> getBarListByCity(String city) {
-        return corgiBarMapper.getBarListByCity(city);
+    public List<BarProfile> getBarListByCity(String city, Double lat, Double lng) {
+        return corgiBarMapper.getBarListByCity(city, lat, lng);
     }
 
     @Override
