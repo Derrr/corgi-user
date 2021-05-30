@@ -126,17 +126,19 @@
         b.`spending`,
         b.city
         from corgi_bar_detail b
-        left join corgi_user_follow f on f.follow_user_id = b.bar_id
+        <if test="lat == null or lng == null">
+            left join corgi_user_follow f on f.follow_user_id = b.bar_id
+        </if>
         where b.status = '1'
         <if test="city != null and city != ''">
             and b.city = #{city}
         </if>
-        <if test="city != null and city != ''">
+        <if test="lat != null and lng != null">
+            order by st_distance_sphere(point(#{lng},#{lat}),point(b.lng,b.lat))
+        </if>
+        <if test="lat == null or lng == null">
             group by b.bar_id
             order by count(f.user_id) desc
-        </if>
-        <if test="lat != null and lng == ''">
-            order by st_distance_sphere(point(#{lng},#{lat}),point(b.lng,b.lat))
         </if>
     </select>
 
