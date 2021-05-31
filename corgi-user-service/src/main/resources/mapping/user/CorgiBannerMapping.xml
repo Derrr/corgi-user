@@ -4,7 +4,7 @@
 
     <insert id="addBanner" parameterType="com.corgi.user.entity.CorgiBanner">
         INSERT INTO `corgi_banner` (`title`, `pic_url`, `url`, `url_type`, `type`, `status`, `order`, `start_time`,
-                                    `end_time`,`topic`)
+                                    `end_time`, `topic`)
         VALUES (#{banner.title}, #{banner.picUrl}, #{banner.url}, #{banner.urlType}, #{banner.type}, #{banner.status},
                 #{banner.order}, #{banner.startTime}, #{banner.endTime}, #{banner.topic});
     </insert>
@@ -53,32 +53,34 @@
 
     <select id="listBanner" resultType="com.corgi.user.entity.CorgiBanner">
         select
-        id,
-        title,
-        `pic_url` picUrl,
-        `url`,
-        `url_type` urlType,
-        `type`,
-        `status`,
-        `order`,
-        `start_time` startTime,
-        `end_time` endTime,
-        `ctime`
+        t.id,
+        t.title,
+        t.`pic_url` picUrl,
+        t.`url`,
+        t.`url_type` urlType,
+        t.`type`,
+        t.`status`,
+        t.`order`,
+        t.`start_time` startTime,
+        t.`end_time` endTime,
+        t.`ctime`,
+        p.topic topicName
         from corgi_banner t
+        left join corgi_topics p on p.id = t.topic
         where 1=1
         <if test="banner.title != null and banner.title != ''">
-            and `title` like concat('%',#{banner.title},'%')
+            and t.`title` like concat('%',#{banner.title},'%')
         </if>
         <if test="banner.status != null and banner.status != ''">
-            and `status` = #{banner.status}
+            and t.`status` = #{banner.status}
         </if>
         <if test="banner.type != null and banner.type != ''">
-            and `type` = #{banner.type}
+            and t.`type` = #{banner.type}
         </if>
         <if test="banner.topic != null and banner.topic != ''">
-            and `topic` = #{banner.topic}
+            and t.`topic` = #{banner.topic}
         </if>
-        order by `order`
+        order by t.`order`
     </select>
 
 </mapper>

@@ -20,6 +20,7 @@ public class CorgiBanner implements Serializable {
     private String type;
     private Integer order;
     private String topic;
+    private String topicName;
     private String status;
     private String startTime;
     private String endTime;
