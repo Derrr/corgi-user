@@ -29,8 +29,8 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     }
 
     @Override
-    public List<UserEvaluation> getEvaluationByHeat(String userId, String loginUserId, Integer size) {
-        return corgiEvaluationMapper.getEvaluationByHeat(userId, size);
+    public List<UserEvaluation> getEvaluationByHeat(String userId, String loginUserId, Integer page, Integer size) {
+        return corgiEvaluationMapper.getEvaluationByHeat(userId, (page - 1) * size, size);
     }
 
     @Override

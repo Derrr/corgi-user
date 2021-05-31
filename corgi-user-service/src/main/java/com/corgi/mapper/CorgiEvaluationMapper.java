@@ -14,7 +14,7 @@ public interface CorgiEvaluationMapper {
 
     List<UserEvaluation> getEvaluationByUser(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
-    List<UserEvaluation> getEvaluationByHeat(@Param("userId") String userId, @Param("size") Integer size);
+    List<UserEvaluation> getEvaluationByHeat(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
     List<UserEvaluation> getEvaluationByEvaluator(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
@@ -42,13 +42,13 @@ public interface CorgiEvaluationMapper {
 
     Double getTagEvaluation(@Param("tag") String tag);
 
-    Integer getUserCount(@Param("userId")String userId);
+    Integer getUserCount(@Param("userId") String userId);
 
-    Integer countByTag(@Param("tag")String tag, @Param("userId")String userId);
+    Integer countByTag(@Param("tag") String tag, @Param("userId") String userId);
 
     void insertLike(@Param("userId") String userId, @Param("id") String id);
 
     void updateLike(@Param("userId") String userId, @Param("id") String id, @Param("status") String status);
 
-    List<String> getUserTag(@Param("userId")String userId);
+    List<String> getUserTag(@Param("userId") String userId);
 }

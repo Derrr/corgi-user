@@ -11,9 +11,9 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiEvaluationService {
-    List<UserEvaluation> getEvaluationByUser(String userId,String loginUserId, Integer page, Integer pageSize);
+    List<UserEvaluation> getEvaluationByUser(String userId, String loginUserId, Integer page, Integer pageSize);
 
-    List<UserEvaluation> getEvaluationByHeat(String userId,String loginUserId, Integer pageSize);
+    List<UserEvaluation> getEvaluationByHeat(String userId, String loginUserId, Integer page, Integer pageSize);
 
     List<UserEvaluation> getEvaluationByEvaluator(String evaluatorId, Integer page, Integer pageSize);
 
