@@ -70,7 +70,9 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
 
     @Override
     public List<UserProfile> getCityPopulate(String userId, String city, Integer page, Integer size) {
-        return corgiUserRecommendMapper.getCityPopulate(city, userId, (page - 1) * size, size);
+        Long time = System.currentTimeMillis();
+        time -= 3 * 24 * 3600 * 1000;
+        return corgiUserRecommendMapper.getCityPopulate(city, userId, time, (page - 1) * size, size);
     }
 
     @Override

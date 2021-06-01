@@ -170,6 +170,7 @@
             d.user_id and r.status = '2')
         </if>
         and da.status = 'open'
+        and p.uptime > #{time}
         group by d.user_id
         order by isFollowed desc
         limit #{start}, #{size}

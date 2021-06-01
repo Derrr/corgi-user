@@ -74,7 +74,7 @@ public interface CorgiUserRecommendMapper {
      * @param city
      * @return
      */
-    List<UserProfile> getCityPopulate(@Param("city") String city, @Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+    List<UserProfile> getCityPopulate(@Param("city") String city, @Param("userId") String userId, @Param("time") Long time, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
      * 清空推荐
