@@ -97,7 +97,7 @@
     </select>
 
     <select id="getNeedEvaluation" resultType="com.corgi.user.entity.CorgiDateApply">
-        select a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.type
+        select a.id,a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.type
         from corgi_date_apply a
         where a.status = 'agree'
           and (a.approval_user_id = #{userId} or a.apply_user_id = #{userId})
