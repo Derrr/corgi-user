@@ -52,6 +52,8 @@
           and not exists (select 1 from corgi_user_follow f where f.user_id = #{userId}
           and f.follow_user_id = r.rec_user_id)
           and r.rec_user_id != #{userId}
+          and `weight` > 0
+          and p.uptime > #{time}
         order by r.`weight` desc
             limit #{size}
     </select>
@@ -155,10 +157,11 @@
         d.height,
         d.birthday,
         count(1) isFollowed
-        from corgi_user_detail d
+        from corgi_date da
+        left join corgi_user_detail d where d.user_id = da.user_id
         join corgi_user_position p on p.user_id = d.user_id
         left join corgi_user_follow f on d.user_id = f.follow_user_id and is_deleted = '0'
-        where and p.city = #{city}
+        where p.city = #{city}
         <if test="userId != null and userId != ''">
             and d.user_id != #{userId}
             and not exists(select 1 from corgi_user_follow f where f.user_id = #{userId} and f.follow_user_id =
@@ -166,7 +169,7 @@
             and not exists(select 1 from corgi_user_recommend r where r.user_id = #{userId} and r.rec_user_id =
             d.user_id and r.status = '2')
         </if>
-        and d.avatar_status != 'influencer'
+        and da.status = 'open'
         group by d.user_id
         order by isFollowed desc
         limit #{start}, #{size}

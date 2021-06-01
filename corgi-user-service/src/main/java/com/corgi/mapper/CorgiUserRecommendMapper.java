@@ -41,7 +41,7 @@ public interface CorgiUserRecommendMapper {
      * @param size
      * @return
      */
-    List<UserProfile> getRecUsers(@Param("userId") String userId, @Param("size") Integer size);
+    List<UserProfile> getRecUsers(@Param("userId") String userId, @Param("size") Integer size, @Param("time") Long time);
 
     /**
      * 获取短视频推荐用户
@@ -122,7 +122,7 @@ public interface CorgiUserRecommendMapper {
      *
      * @param userId
      */
-    void clearRecActivity(@Param("userId")String userId);
+    void clearRecActivity(@Param("userId") String userId);
 
     /**
      * 添加推荐权重

@@ -48,7 +48,9 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
 
     @Override
     public List<UserProfile> getRecUser(String userId, Integer size) {
-        return corgiUserRecommendMapper.getRecUsers(userId, size);
+        Long time = System.currentTimeMillis();
+        time = time - 3 * 24 * 3600 * 1000;
+        return corgiUserRecommendMapper.getRecUsers(userId, size, time);
     }
 
     @Override
