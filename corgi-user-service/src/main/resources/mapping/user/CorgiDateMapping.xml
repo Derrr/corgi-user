@@ -156,7 +156,7 @@
         from corgi_date_apply a
         where 1=1
         <if test="apply.ctime != null">
-            and a.ctime &lt; #{apply.ctime}
+            and a.uptime &lt; #{apply.ctime}
         </if>
         <if test="apply.status != null">
             and a.status = #{apply.status}
