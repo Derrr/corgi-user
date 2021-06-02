@@ -39,4 +39,6 @@ public interface CorgiFakeMapper {
     void updateFakeUserPosition(@Param("userId") String userId, @Param("time") Long time);
 
     String getLastFakeFollowTime(@Param("userId") String userId);
+
+    void updateNickname(@Param("userId")String userId, @Param("nickname")String nickname);
 }
