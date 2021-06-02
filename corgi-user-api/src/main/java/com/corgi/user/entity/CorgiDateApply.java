@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class CorgiDateApply implements Serializable {
     public static final String APPLY = "apply";
     public static final String AGREE = "agree";
+    public static final String FINISH = "finish";
     public static final String CANCEL = "cancel";
 
     private Integer id;

@@ -89,6 +89,13 @@
           and `status` = 'apply'
     </update>
 
+    <update id="finishDateApply" parameterType="com.corgi.user.entity.CorgiDateApply">
+        update corgi_date_apply
+        set `status` = #{apply.status}
+        where id = #{apply.id}
+          and `status` = 'agree'
+    </update>
+
     <update id="updateApplyProgress" parameterType="com.corgi.user.entity.CorgiDateApply">
         update corgi_date_apply
         set `progress` = #{apply.progress}

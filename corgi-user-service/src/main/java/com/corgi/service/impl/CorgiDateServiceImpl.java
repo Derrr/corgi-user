@@ -89,7 +89,11 @@ public class CorgiDateServiceImpl implements CorgiUserDateService {
 
     @Override
     public CorgiDateApply approve(CorgiDateApply apply) {
-        corgiDateMapper.updateDateApply(apply);
+        if (CorgiDateApply.FINISH.equals(apply.getStatus())) {
+            corgiDateMapper.finishDateApply(apply);
+        } else {
+            corgiDateMapper.updateDateApply(apply);
+        }
         return this.getApplyDetail(apply.getId());
     }
 
