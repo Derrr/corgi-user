@@ -97,7 +97,7 @@
     </select>
 
     <select id="getNeedEvaluation" resultType="com.corgi.user.entity.CorgiDateApply">
-        select a.id,a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.type
+        select a.id, a.apply_user_id applyUserId, a.approval_user_id approvalUserId, a.type
         from corgi_date_apply a
         where a.status = 'agree'
           and (a.approval_user_id = #{userId} or a.apply_user_id = #{userId})
@@ -190,11 +190,14 @@
     <select id="getUserTag" resultType="java.lang.String">
         select tag, count(1) count
         from corgi_evaluation e
-            left join corgi_evaluation_like l
+        left join corgi_evaluation_like l
         on l.evaluation_id = e.id
-        where user_id = #{userId}
-          and e.status != 'deleted'
-          and e.check_status = 'pass'
+        where
+        <if test="userId != null and userId != ''">
+            user_id = #{userId} and
+        </if>
+        e.status != 'deleted'
+        and e.check_status = 'pass'
         group by tag
         order by count desc limit 6;
     </select>

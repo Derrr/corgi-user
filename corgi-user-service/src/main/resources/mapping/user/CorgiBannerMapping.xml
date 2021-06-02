@@ -64,6 +64,7 @@
         t.`start_time` startTime,
         t.`end_time` endTime,
         t.`ctime`,
+        t.`topic`,
         p.topic topicName
         from corgi_banner t
         left join corgi_topics p on p.id = t.topic
