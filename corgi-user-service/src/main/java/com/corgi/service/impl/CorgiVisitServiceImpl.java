@@ -22,7 +22,7 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
 
     @Override
     public void visit(String userId, String toId) {
-        if(!userId.equals(toId)) {
+        if (!userId.equals(toId)) {
             corgiVisitMapper.addVisit(toId, userId);
             corgiVisitMapper.addVisitCount(toId, userId);
         }
@@ -35,13 +35,15 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
 
     @Override
     public List<UserProfile> getVisited(String userId, Integer limit) {
-        return corgiVisitMapper.getVisited(userId, limit);
+        List<UserProfile> profiles = corgiVisitMapper.getVisited(userId, limit);
+        corgiVisitMapper.readVisit(userId);
+        return profiles;
     }
 
     @Override
     public Integer countVisit(String userId) {
         Integer result = corgiVisitMapper.countVisit(userId);
-        if(result == null){
+        if (result == null) {
             result = 0;
         }
         return result;

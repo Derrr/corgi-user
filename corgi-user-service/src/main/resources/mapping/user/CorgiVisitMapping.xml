@@ -11,7 +11,8 @@
 
     <update id="addVisitCount">
         update corgi_visit
-        set `count` = `count` + 1
+        set `count` = `count` + 1,
+            `read` = '0'
         where user_id = #{userId}
           and visitor_id = #{visitorId}
     </update>
@@ -34,7 +35,8 @@
                d.height,
                d.birthday,
                v.count               activityCount,
-               v.uptime              followTime
+               v.uptime              followTime,
+               v.read                isRead
         from corgi_visit v
                  join corgi_user_detail d on d.user_id = v.visitor_id
         where v.user_id = #{userId}
@@ -71,5 +73,9 @@
         from corgi_visit v
         where v.user_id = #{userId}
     </select>
+
+    <update id="readVisit">
+        update corgi_visit set `read` = '1' where user_id = #{userId}
+    </update>
 
 </mapper>
