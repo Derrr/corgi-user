@@ -123,6 +123,15 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
 
     @Override
     public List<String> getTags(String userId) {
-        return null;
+        List<String> result = corgiEvaluationMapper.getUserTag(userId);
+        if (result.size() < 6) {
+            List<String> tmpResult = corgiEvaluationMapper.getUserTag(null);
+            for (String tag : tmpResult) {
+                if(!result.contains(tag)){
+                    result.add(tag);
+                }
+            }
+        }
+        return result;
     }
 }
