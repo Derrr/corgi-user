@@ -81,6 +81,7 @@
                  left join corgi_user_detail d on d.user_id = b.user_id
                  left join corgi_user_position p on p.user_id = b.user_id
         where b.date = #{date}
+        order by b.order
     </select>
 
     <delete id="cleanBillboardByDate">
