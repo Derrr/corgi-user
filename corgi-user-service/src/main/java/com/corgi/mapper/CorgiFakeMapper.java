@@ -36,6 +36,8 @@ public interface CorgiFakeMapper {
 
     List<CorgiActivity> getActivityByDate(@Param("time") String time);
 
+    List<CorgiActivity> getHotActivityByDate(@Param("time") String time,Integer threshold);
+
     void updateFakeUserPosition(@Param("userId") String userId, @Param("time") Long time);
 
     String getLastFakeFollowTime(@Param("userId") String userId);

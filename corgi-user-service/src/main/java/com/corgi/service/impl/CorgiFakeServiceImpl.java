@@ -39,7 +39,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     @Reference
     private CorgiPicService corgiPicService;
 
-    private static final List<String> PREFIX = Arrays.asList("🍌","🍑", "🍆", "1", "0", "🐻", "💪", "🐺");
+    private static final List<String> PREFIX = Arrays.asList("🍌", "🍑", "🍆", "1", "0", "🐻", "💪", "🐺");
     private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Override
@@ -142,6 +142,11 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     @Override
     public List<CorgiActivity> getActivityByDate(String time) {
         return corgiFakeMapper.getActivityByDate(time);
+    }
+
+    @Override
+    public List<CorgiActivity> getHotActivityByDate(String time, Integer threshold) {
+        return corgiFakeMapper.getHotActivityByDate(time, threshold);
     }
 
     @Override

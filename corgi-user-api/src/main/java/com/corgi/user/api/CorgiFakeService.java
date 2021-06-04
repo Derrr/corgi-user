@@ -26,6 +26,8 @@ public interface CorgiFakeService {
 
     List<CorgiActivity> getActivityByDate(String time);
 
+    List<CorgiActivity> getHotActivityByDate(String time,Integer threshold);
+
     void updateFakeTime(String userId);
 
     String getLastFakeFollowTime(String userId);
