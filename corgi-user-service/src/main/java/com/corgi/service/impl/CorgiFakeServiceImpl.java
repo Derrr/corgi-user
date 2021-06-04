@@ -39,7 +39,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     @Reference
     private CorgiPicService corgiPicService;
 
-    private static final List<String> PREFIX = Arrays.asList("🍌", "🍆", "1", "0", "🐻", "💪", "🐺");
+    private static final List<String> PREFIX = Arrays.asList("🍌","🍑", "🍆", "1", "0", "🐻", "💪", "🐺");
     private static final ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Override
@@ -51,7 +51,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
         List<UserDetail> fakeUserDetails = corgiFakeMapper.getFakeUsers(size, calendar.getTimeInMillis());
         for (UserDetail detail : fakeUserDetails) {
             executorService.submit(() -> {
-                String prefix = PREFIX.get(random.nextInt(8));
+                String prefix = PREFIX.get(random.nextInt(9));
                 if (random.nextInt(2) > 0) {
                     detail.setNickname(detail.getNickname() + prefix);
                 } else {
