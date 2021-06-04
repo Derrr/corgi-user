@@ -59,4 +59,18 @@ public class UserDetail implements Serializable {
         }
         return character.substring(0, 4);
     }
+
+
+    public String getAvatar() {
+        if ("check".equals(this.getAvatarCheckStatus()) && this.avatar != null && !this.avatar.contains("?x-oss-process")) {
+            return this.avatar + "?x-oss-process=style/mask";
+        }
+        if ("check".equals(this.getAvatarCheckStatus())) {
+            return this.avatar;
+        }
+        if (this.avatar != null) {
+            return this.avatar.split("\\?")[0];
+        }
+        return avatar;
+    }
 }
