@@ -113,6 +113,9 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     @Override
     public Double getRank(String userId) {
         Double score = corgiEvaluationMapper.getUserEvaluation(userId);
+        if (score == null) {
+            return 0.0;
+        }
         Integer rank = corgiEvaluationMapper.getRank(score);
         Integer total = corgiEvaluationMapper.getRank(0.0);
         return 80.0 + rank * 20.0 / total;
