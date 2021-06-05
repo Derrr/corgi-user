@@ -163,6 +163,23 @@
           and check_status = 'pass'
     </select>
 
+    <select id="getEvaluationCount" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_evaluation
+        where user_id = #{userId}
+          and status != 'deleted'
+          and check_status = 'pass'
+    </select>
+
+    <select id="getRank" resultType="java.lang.Integer">
+        select count(1) from (select sum(score)/count(1) avgscore
+        from corgi_evaluation
+        where status != 'deleted'
+          and check_status = 'pass'
+        group by user_id having avgscore > #{score}
+        ) a
+    </select>
+
     <select id="countByTag" resultType="java.lang.Integer">
         select count(1)
         from corgi_evaluation

@@ -44,6 +44,10 @@ public interface CorgiEvaluationMapper {
 
     Integer getUserCount(@Param("userId") String userId);
 
+    Integer getEvaluationCount(@Param("userId") String userId);
+
+    Integer getRank(@Param("score") Double score);
+
     Integer countByTag(@Param("tag") String tag, @Param("userId") String userId);
 
     void insertLike(@Param("userId") String userId, @Param("id") String id);

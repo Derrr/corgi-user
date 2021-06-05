@@ -39,6 +39,10 @@ public interface CorgiEvaluationService {
 
     Integer getUserCount(String userId);
 
+    Integer getEvaluationCount(String userId);
+
+    Double getRank(String userId);
+
     Integer countByTag(String tag, String userId);
 
     void likeEvaluation(String userId, String evaluationId);

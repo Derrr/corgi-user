@@ -106,6 +106,19 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     }
 
     @Override
+    public Integer getEvaluationCount(String userId) {
+        return corgiEvaluationMapper.getEvaluationCount(userId);
+    }
+
+    @Override
+    public Double getRank(String userId) {
+        Double score = corgiEvaluationMapper.getUserEvaluation(userId);
+        Integer rank = corgiEvaluationMapper.getRank(score);
+        Integer total = corgiEvaluationMapper.getRank(0.0);
+        return 80.0 + rank * 20.0 / total;
+    }
+
+    @Override
     public Integer countByTag(String tag, String userId) {
         return null;
     }
@@ -127,7 +140,7 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
         if (result.size() < 6) {
             List<String> tmpResult = corgiEvaluationMapper.getUserTag(null);
             for (String tag : tmpResult) {
-                if(!result.contains(tag)){
+                if (!result.contains(tag)) {
                     result.add(tag);
                 }
             }
