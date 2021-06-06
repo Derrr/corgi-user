@@ -23,6 +23,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
 
     @Override
     public void clearRecUser(String userId) {
+        log.info("testing... clear rec user:{} ", userId);
         corgiUserRecommendMapper.clearRecUsers(userId);
     }
 
@@ -109,11 +110,13 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
 
     @Override
     public void clearRecActivity(String userId) {
+        log.info("testing... clear rec activity:{} ", userId);
         corgiUserRecommendMapper.clearRecActivity(userId);
     }
 
     @Override
     public void addRecActivity(String userId, String recId, Double weight) {
+        log.info("testing... add rec activity:{},{},{} ", userId, recId, weight);
         corgiUserRecommendMapper.addRecommendActivity(userId, recId);
         corgiUserRecommendMapper.updateRecommendActivity(userId, recId, weight);
     }
