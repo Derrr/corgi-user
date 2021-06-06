@@ -80,7 +80,7 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
 
     @Override
     public List<UserProfile> getFollowedUserByPage(String userId, long time, Integer page, Integer pageSize) {
-        log.info("followed user:{} ", userId);
+        log.info("testing... followed user:{} ", userId);
         List<UserProfile> userProfiles = corgiUserFollowMapper.getFollowedUserByPage(userId, (page - 1) * pageSize, pageSize);
         return corgiUserService.populateUserProfile(userProfiles, null);
     }
