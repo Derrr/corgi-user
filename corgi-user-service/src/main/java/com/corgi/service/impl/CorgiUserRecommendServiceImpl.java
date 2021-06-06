@@ -34,6 +34,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
 
     @Override
     public void addRecUser(String userId, String recId, Double weight) {
+        log.info("add rec user:{},{},{} ", userId, recId, weight);
         if (weight == null) {
             weight = 1.0;
         }

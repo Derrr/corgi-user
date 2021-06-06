@@ -5,6 +5,7 @@ import com.corgi.mapper.CorgiUserFollowMapper;
 import com.corgi.user.api.CorgiUserFollowService;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.UserProfile;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @Service(interfaceClass = CorgiUserFollowService.class)
 @Component
+@Slf4j
 public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
     @Autowired
     private CorgiUserFollowMapper corgiUserFollowMapper;
@@ -78,6 +80,7 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
 
     @Override
     public List<UserProfile> getFollowedUserByPage(String userId, long time, Integer page, Integer pageSize) {
+        log.info("followed user:{} ", userId);
         List<UserProfile> userProfiles = corgiUserFollowMapper.getFollowedUserByPage(userId, (page - 1) * pageSize, pageSize);
         return corgiUserService.populateUserProfile(userProfiles, null);
     }
