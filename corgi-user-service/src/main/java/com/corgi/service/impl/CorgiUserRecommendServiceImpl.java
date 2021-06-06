@@ -35,11 +35,15 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     @Override
     public void addRecUser(String userId, String recId, Double weight) {
         log.info("testing... add rec user:{},{},{} ", userId, recId, weight);
-        if (weight == null) {
-            weight = 1.0;
+        try {
+            if (weight == null) {
+                weight = 1.0;
+            }
+            corgiUserRecommendMapper.insertUserRecommend(userId, recId);
+            corgiUserRecommendMapper.addRecommend(userId, recId, weight);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
-        corgiUserRecommendMapper.insertUserRecommend(userId, recId);
-        corgiUserRecommendMapper.addRecommend(userId, recId, weight);
     }
 
     @Override
