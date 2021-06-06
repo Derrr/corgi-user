@@ -38,6 +38,4 @@ public interface CorgiUserRecommendService {
 
     void addRecActivity(String userId, String recId, Double weight);
 
-    List<String> getRecActivity(String userId);
-
 }
