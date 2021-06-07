@@ -23,7 +23,7 @@ public interface CorgiEvaluationService {
 
     UserEvaluation getEvaluationById(String id);
 
-    List<CorgiDateApply> getNeeEvaluation(String userId, Integer page, Integer pageSize);
+    List<CorgiDateApply> getNeedEvaluation(String userId, Integer page, Integer pageSize);
 
     String addEvaluation(UserEvaluation userEvaluation);
 

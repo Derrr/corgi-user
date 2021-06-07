@@ -54,7 +54,7 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     }
 
     @Override
-    public List<CorgiDateApply> getNeeEvaluation(String userId, Integer page, Integer pageSize) {
+    public List<CorgiDateApply> getNeedEvaluation(String userId, Integer page, Integer pageSize) {
         return corgiEvaluationMapper.getNeedEvaluation(userId, (page - 1) * pageSize, pageSize);
     }
 
