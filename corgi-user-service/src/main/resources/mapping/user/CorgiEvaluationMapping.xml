@@ -185,7 +185,7 @@
         from corgi_evaluation
         where user_id = #{userId}
           and tag = #{tag}
-          and status != 'deleted' and e.check_status = 'pass'
+          and status != 'deleted' and check_status = 'pass'
     </select>
 
     <insert id="insertLike">
