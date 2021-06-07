@@ -10,6 +10,7 @@ public class CorgiFeed implements Serializable {
     private String feed;
     private String userId;
     private String feedUserId;
+    private String source;
 
     public boolean hasValue() {
         return feed != null && userId != null && feedUserId != null;

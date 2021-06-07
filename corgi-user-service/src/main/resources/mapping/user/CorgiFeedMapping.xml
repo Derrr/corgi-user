@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiFeedMapper">
     <insert id="addFeed" parameterType="com.corgi.user.entity.CorgiFeed">
-        insert ignore into corgi_feed_${index} (`user_id`, `feed`, `feed_user_id`)
-        values (#{feed.userId}, #{feed.feed}, #{feed.feedUserId})
+        insert ignore into corgi_feed_${index} (`user_id`, `feed`, `feed_user_id`,`source`)
+        values (#{feed.userId}, #{feed.feed}, #{feed.feedUserId}, #{feed.source})
     </insert>
 
     <insert id="deleteFeed" parameterType="com.corgi.user.entity.CorgiFeed">
