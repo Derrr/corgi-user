@@ -123,7 +123,7 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
 
     @Override
     public Integer countByTag(String tag, String userId) {
-        return null;
+        return corgiEvaluationMapper.countByTag(tag, userId);
     }
 
     @Override
