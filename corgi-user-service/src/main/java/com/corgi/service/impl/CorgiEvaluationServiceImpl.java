@@ -150,4 +150,9 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
         }
         return result;
     }
+
+    @Override
+    public Integer countByUser(String userId, String evaluatorId) {
+        return corgiEvaluationMapper.countByUser(userId, evaluatorId);
+    }
 }

@@ -55,4 +55,6 @@ public interface CorgiEvaluationMapper {
     void updateLike(@Param("userId") String userId, @Param("id") String id, @Param("status") String status);
 
     List<String> getUserTag(@Param("userId") String userId);
+
+    Integer countByUser(@Param("userId")String userId, @Param("evaluatorId")String evaluatorId);
 }

@@ -50,4 +50,6 @@ public interface CorgiEvaluationService {
     void unlikeEvaluation(String userId, String evaluationId);
 
     List<String> getTags(String userId);
+
+    Integer countByUser(String userId, String evaluatorId);
 }
