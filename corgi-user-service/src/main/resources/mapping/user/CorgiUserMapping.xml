@@ -135,7 +135,7 @@
                d.`birthday`,
                d.`con`,
                d.`relation`,
-               d.`city`,
+               p.`city`,
                p.lat                                  lat,
                p.lng                                  lng,
                if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
