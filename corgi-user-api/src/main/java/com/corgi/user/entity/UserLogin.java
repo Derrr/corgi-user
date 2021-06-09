@@ -21,4 +21,5 @@ public class UserLogin implements Serializable{
     String newFollowActivity;
     String unregisterDate;
     String jwt;
+    String ctime;
 }

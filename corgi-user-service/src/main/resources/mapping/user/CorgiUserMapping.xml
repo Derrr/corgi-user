@@ -15,7 +15,8 @@
                new_sign_up         newSignUp,
                new_message         newMessage,
                new_follow_activity newFollowActivity,
-               unregister_date     unregisterDate
+               unregister_date     unregisterDate,
+               ctime
         from corgi_user_login
         where id = #{userId}
     </select>

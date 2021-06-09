@@ -494,6 +494,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public void deleteUser(String userId) {
+        UserLogin userLogin = corgiUserMapper.getUserLogin(userId);
+        UserDetail detail = corgiUserMapper.getUserDetail(userId);
+        UserPosition userPosition = corgiUserMapper.getUserPosition(userId);
         corgiUserMapper.deleteUserLogin(userId);
         corgiUserMapper.deleteUserDetail(userId);
         corgiUserMapper.deleteUserPosition(userId);
@@ -504,6 +507,18 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             redisTemplate.opsForGeo().remove("user", userId);
             redisTemplate.opsForGeo().remove("user-date", userId);
         }
+        if (detail == null) {
+            detail = new UserDetail();
+        }
+        if (userPosition == null) {
+            userPosition = new UserPosition();
+        }
+        if (userLogin == null) {
+            userLogin = new UserLogin();
+        }
+        detail.setTelNo(userLogin.getTelNo());
+        detail.setCtime(userLogin.getCtime());
+        corgiUserMapper.addUnregisterUser(detail, userPosition);
     }
 
     @Override

@@ -43,6 +43,7 @@ public class UserDetail implements Serializable {
     private String checkStatus;
     private Double match;
     private String version;
+    private String ctime;
     private CorgiDate date;
 
     List<String> preferGroup;
