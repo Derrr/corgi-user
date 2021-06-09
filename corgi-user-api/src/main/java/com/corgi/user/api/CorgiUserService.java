@@ -78,4 +78,6 @@ public interface CorgiUserService {
     List<String> getUnregisterUsers(String date);
 
     List<String> getUserByBirthday(String date, Long time);
+
+    void logUnregisterUser(UserDetail detail, UserPosition position);
 }

@@ -387,4 +387,9 @@ public interface CorgiUserMapper {
      * 获取生日用户
      */
     List<String> getUserByBirthday(@Param("date") String date, @Param("time") Long time);
+
+    /**
+     * 添加删除用户
+     */
+    void addUnregisterUser(@Param("detail")UserDetail detail, @Param("position")UserPosition position);
 }

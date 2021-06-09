@@ -521,6 +521,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         return corgiUserMapper.getUserByBirthday(date, time);
     }
 
+    @Override
+    public void logUnregisterUser(UserDetail detail, UserPosition position) {
+        corgiUserMapper.addUnregisterUser(detail, position);
+    }
+
 
     private void addGeo(String geoKey, UserPosition userPosition) {
         if (userPosition.getLng() == null || userPosition.getLng() > 180 || userPosition.getLng() < -180) {
