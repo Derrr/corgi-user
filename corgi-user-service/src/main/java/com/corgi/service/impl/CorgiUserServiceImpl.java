@@ -261,15 +261,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             }
         }
 
-        if (result.size() < 500 && ("不限".equals(supporter.getType()) || StringUtils.isEmpty(supporter.getType()))) {
-            supporter.setLimit(500);
-            List<String> noDateUserIds = corgiUserMapper.getNearbyNoDate(supporter);
-            for (String userId : noDateUserIds) {
-                if (!beBlockUserIds.contains(userId) && !blockUserIds.contains(userId) && !result.contains(userId)) {
-                    result.add(userId);
-                }
-            }
-        }
+//        if (result.size() < 500 && ("不限".equals(supporter.getType()) || StringUtils.isEmpty(supporter.getType()))) {
+//            supporter.setLimit(500);
+//            List<String> noDateUserIds = corgiUserMapper.getNearbyNoDate(supporter);
+//            for (String userId : noDateUserIds) {
+//                if (!beBlockUserIds.contains(userId) && !blockUserIds.contains(userId) && !result.contains(userId)) {
+//                    result.add(userId);
+//                }
+//            }
+//        }
         mapUserProfile.setUserIds(result);
         return mapUserProfile;
     }
