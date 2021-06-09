@@ -774,7 +774,7 @@
     </select>
 
     <insert id="addUnregisterUser">
-        insert into(`user_id`,`tel_no`,`province`,`city`,`register_time`,`lat`,`lng`,`nickname`,`birthday`,`avatar`)
+        insert into corgi_unregister_user(`user_id`,`tel_no`,`province`,`city`,`register_time`,`lat`,`lng`,`nickname`,`birthday`,`avatar`)
         values(#{detail.userId}, #{detail.telNo}, #{position.province}, #{position.city}, #{detail.ctime}, #{position.lat}, #{position.lng}, #{detail.nickname}, #{detail.birthday}, #{detail.avatar})
     </insert>
 </mapper>
