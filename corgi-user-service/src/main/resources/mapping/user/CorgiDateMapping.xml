@@ -145,7 +145,7 @@
         from corgi_date_apply a
         where
         approval_user_id = #{userId}
-        or (apply_user_id = #{userId} and status != 'apply')
+        or (apply_user_id = #{userId})
         order by a.uptime desc
         limit #{start}, #{size}
     </select>
