@@ -56,5 +56,7 @@ public interface CorgiEvaluationMapper {
 
     List<String> getUserTag(@Param("userId") String userId);
 
+    void updateScoreByTag(@Param("tag")String tag, @Param("score")Double score);
+
     Integer countByUser(@Param("userId")String userId, @Param("evaluatorId")String evaluatorId);
 }

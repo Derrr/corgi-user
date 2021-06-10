@@ -172,12 +172,14 @@
     </select>
 
     <select id="getRank" resultType="java.lang.Integer">
-        select count(1) from (select sum(score)/count(1) avgscore
-        from corgi_evaluation
-        where status != 'deleted'
+        select count(1)
+        from (select sum(score) / count(1) avgscore
+              from corgi_evaluation
+              where status != 'deleted'
           and check_status = 'pass'
-        group by user_id having avgscore > #{score}
-        ) a
+              group by user_id
+              having avgscore > #{score}
+             ) a
     </select>
 
     <select id="countByTag" resultType="java.lang.Integer">
@@ -216,12 +218,23 @@
         e.status != 'deleted'
         and e.check_status = 'pass'
         group by tag
-        order by count desc limit 6;
+        order by count desc
+        <if test="userId != null">
+            limit 6
+        </if>
     </select>
 
+    <update id="updateScoreByTag">
+        update corgi_evaluation
+        set score = #{score}
+        where tag = #{tag}
+    </update>
+
     <select id="countByUser" resultType="java.lang.Integer">
-        select count(1) from corgi_evaluation
-        where user_id = #{userId} and evaluator_id = #{evaluatorId}
-        and status != 'deleted'
+        select count(1)
+        from corgi_evaluation
+        where user_id = #{userId}
+          and evaluator_id = #{evaluatorId}
+          and status != 'deleted'
     </select>
 </mapper>

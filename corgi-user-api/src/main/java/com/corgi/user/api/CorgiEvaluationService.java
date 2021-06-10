@@ -51,5 +51,7 @@ public interface CorgiEvaluationService {
 
     List<String> getTags(String userId);
 
+    void updateScoreByTag(String tag, Double score);
+
     Integer countByUser(String userId, String evaluatorId);
 }

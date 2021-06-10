@@ -141,7 +141,7 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
     public List<String> getTags(String userId) {
         List<String> result = corgiEvaluationMapper.getUserTag(userId);
         if (result.size() < 6) {
-            List<String> tmpResult = corgiEvaluationMapper.getUserTag(null);
+            List<String> tmpResult = corgiEvaluationMapper.getUserTag("");
             for (String tag : tmpResult) {
                 if (!result.contains(tag)) {
                     result.add(tag);
@@ -149,6 +149,11 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
             }
         }
         return result;
+    }
+
+    @Override
+    public void updateScoreByTag(String tag, Double score) {
+        corgiEvaluationMapper.updateScoreByTag(tag, score);
     }
 
     @Override
