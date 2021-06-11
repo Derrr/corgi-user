@@ -66,7 +66,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
 
     @Override
     public List<BarProfile> getBarListByCity(String city, Double lat, Double lng) {
-        if (lat > 200 || lng > 200) {
+        if ((lat != null && lat > 200) || (lng != null && lng > 200)) {
             lat = null;
             lng = null;
         }
