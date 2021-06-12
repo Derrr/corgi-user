@@ -82,7 +82,7 @@
 
     <select id="getFollowUserByPage" resultType="com.corgi.user.entity.UserProfile">
         select
-        if(p.user_id is null,b.bar_id,p.user_id) userId,
+        f.follow_user_id userId,
         if(p.lat is null,b.lat,p.lat) lat,
         if(p.lng is null,b.lng,p.lng) lng,
         p.uptime `time`,
@@ -116,7 +116,7 @@
 
     <select id="getMatchUserByPage" resultType="com.corgi.user.entity.UserProfile">
         select
-        p.user_id userId,
+        f.follow_user_id userId,
         p.lat lat,
         p.lng lng,
         p.uptime `time`,
@@ -145,7 +145,7 @@
     </select>
 
     <select id="getFollowedUserByPage" resultType="com.corgi.user.entity.UserProfile">
-        select p.user_id             userId,
+        select f.user_id             userId,
                p.lat                 lat,
                p.lng                 lng,
                p.uptime              `time`,
