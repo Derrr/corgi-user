@@ -118,7 +118,7 @@ public class CorgiEvaluationServiceImpl implements CorgiEvaluationService {
         }
         Integer rank = corgiEvaluationMapper.getRank(score);
         Integer total = corgiEvaluationMapper.getRank(0.0);
-        return 80.0 + rank * 20.0 / total;
+        return 100.0 - rank * 20.0 / total;
     }
 
     @Override
