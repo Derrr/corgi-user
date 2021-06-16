@@ -500,9 +500,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         corgiUserMapper.deleteUserLogin(userId);
         corgiUserMapper.deleteUserDetail(userId);
         corgiUserMapper.deleteUserPosition(userId);
-        corgiUserMapper.deletePreferGroup(userId);
-        corgiUserFollowMapper.deleteAllUserFollow(userId);
-        corgiBlacklistMapper.deleteAll(userId);
+        //corgiUserMapper.deletePreferGroup(userId);
+        //corgiUserFollowMapper.deleteAllUserFollow(userId);
+        //corgiBlacklistMapper.deleteAll(userId);
         if (!StringUtils.isEmpty(userId)) {
             redisTemplate.opsForGeo().remove("user", userId);
             redisTemplate.opsForGeo().remove("user-date", userId);

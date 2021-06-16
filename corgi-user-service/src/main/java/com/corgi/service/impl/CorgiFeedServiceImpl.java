@@ -59,6 +59,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 feed.setFeed(vlog.getActivityId());
                 feed.setFeedUserId(vlog.getUserId());
                 feed.setUserId(userId);
+                feed.setSource("init");
                 corgiFeedMapper.addFeed(feed, index);
                 result.add(vlog.getActivityId());
             }
