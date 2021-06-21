@@ -100,4 +100,9 @@ public class CorgiUserFollowServiceImpl implements CorgiUserFollowService {
         return corgiUserFollowMapper.getAllFollowUserByPage((page - 1) * pageSize, pageSize);
     }
 
+    @Override
+    public List<UserProfile> getShareUserByPage(String userId, String name, Integer page, Integer pageSize) {
+        return corgiUserFollowMapper.getShareUsers(userId, name, (page - 1) * pageSize, pageSize);
+    }
+
 }

@@ -105,6 +105,8 @@ public interface CorgiUserFollowMapper {
                                           @Param("lat") double lat, @Param("lng") double lng,
                                           @Param("start") Integer start, @Param("size") Integer size);
 
+    List<UserProfile> getShareUsers(@Param("userId") String userId, @Param("name") String name, @Param("start") Integer start, @Param("size") Integer size);
+
     /**
      * 对匹配人排序
      *
