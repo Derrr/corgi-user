@@ -58,6 +58,12 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, 1, index);
         if (!CollectionUtils.isEmpty(corgiVlogs)) {
             for (CorgiVlog vlog : corgiVlogs) {
+                CorgiFeed feed = new CorgiFeed();
+                feed.setFeed(vlog.getActivityId());
+                feed.setFeedUserId(vlog.getUserId());
+                feed.setUserId(userId);
+                feed.setSource("manual");
+                corgiFeedMapper.addFeed(feed, index);
                 result.add(0, vlog.getActivityId());
             }
         }
