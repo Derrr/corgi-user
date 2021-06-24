@@ -157,7 +157,7 @@ public interface CorgiBillboardMapper {
      *
      * @return
      */
-    Integer countOnBoard(@Param("userId") String userId, @Param("date") String date);
+    Integer countOnBoard(@Param("userId") String userId);
 
     /**
      * 获取上榜时间

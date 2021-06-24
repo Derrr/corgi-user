@@ -149,8 +149,7 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
 
     @Override
     public Integer countOnBoard(String userId) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return corgiBillboardMapper.countOnBoard(userId, sdf.format(new Date()));
+        return corgiBillboardMapper.countOnBoard(userId);
     }
 
 }
