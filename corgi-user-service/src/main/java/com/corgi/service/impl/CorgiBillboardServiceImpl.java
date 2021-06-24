@@ -41,7 +41,7 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         try {
             Date pastDate = sdf.parse(date);
             Date nowDate = new Date();
-            if ((nowDate.getTime() - pastDate.getTime()) / (1000 * 3600 * 24) > 20) {
+            if ((nowDate.getTime() - pastDate.getTime()) / (1000 * 3600 * 24) > 120) {
                 return corgiBillboardMapper.getPastPopularBillboard(date);
             } else {
                 return corgiBillboardMapper.getPastBillboard(date);
