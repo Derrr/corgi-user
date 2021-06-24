@@ -9,6 +9,7 @@ import com.corgi.mapper.CorgiVlogMapper;
 import com.corgi.user.api.CorgiAreaService;
 import com.corgi.user.api.CorgiFeedService;
 import com.corgi.user.api.CorgiUserService;
+import com.corgi.user.api.CorgiVlogService;
 import com.corgi.user.entity.CorgiFeed;
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
@@ -49,6 +51,22 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         }
         String index = UserUtils.getIndex(userId);
         List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size);
+        CorgiVlog query = new CorgiVlog();
+        query.setUserId(userId);
+        query.setType(CorgiVlogHot.TYPE.MANUAL);
+        query.setStatus("asc");
+        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, 1, index);
+        if (!CollectionUtils.isEmpty(corgiVlogs)) {
+            for (CorgiVlog vlog : corgiVlogs) {
+                CorgiFeed feed = new CorgiFeed();
+                feed.setFeed(vlog.getActivityId());
+                feed.setFeedUserId(vlog.getUserId());
+                feed.setUserId(userId);
+                feed.setSource("manual");
+                corgiFeedMapper.addFeed(feed, index);
+                result.add(0, vlog.getActivityId());
+            }
+        }
         if (result.size() >= size) {
             return result;
         }

@@ -84,11 +84,10 @@
 
     <insert id="addFakeFollower">
         insert
-        ignore into corgi_user_follow (`user_id`, `follow_user_id`, `uptime`, `type`)
+        ignore into corgi_user_follow (`user_id`, `follow_user_id`, `type`)
         values (
         #{userId},
         #{followId},
-        NOW(),
         'fake'
         );
     </insert>

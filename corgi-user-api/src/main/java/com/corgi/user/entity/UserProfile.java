@@ -62,4 +62,14 @@ public class UserProfile implements Serializable {
         return followTime;
     }
 
+//    public String getAvatar() {
+//        if ("check".equals(this.getAvatarCheckStatus()) && this.avatar != null && !this.avatar.contains("?x-oss-process")) {
+//            return this.avatar + "?x-oss-process=style/mask";
+//        } else if ("check".equals(this.getAvatarCheckStatus())) {
+//            return this.avatar;
+//        } else {
+//            return this.avatar != null ? this.avatar.split("\\?")[0] : this.avatar;
+//        }
+//    }
+
 }
