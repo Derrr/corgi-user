@@ -13,7 +13,7 @@
             and feed = #{feed.feed}
         </if>
         <if test="feed.ctime != null and feed.ctime != ''">
-            and ctime = #{feed.ctime}
+            and ctime &lt; #{feed.ctime}
         </if>
     </delete>
 
