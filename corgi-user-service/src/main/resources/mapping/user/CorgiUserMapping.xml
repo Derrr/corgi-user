@@ -639,7 +639,7 @@
         from corgi_user_detail d
         where 1=1
         <if test="userDetail.nickname != null and userDetail.nickname != ''">
-            and `nickName` like concat('%',#{userDetail.nickname},'%')
+            and UPPER(`nickName`) like UPPER(concat('%',#{userDetail.nickname},'%'))
         </if>
         <if test="userDetail.height != null and userDetail.height != 0">
             and `height` = #{userDetail.height}
