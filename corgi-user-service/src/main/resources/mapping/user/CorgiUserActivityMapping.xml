@@ -141,6 +141,14 @@
           and c.ctime like concat(#{date}, '%')
     </select>
 
+    <select id="countUserActivity" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_activity_creator c
+        where c.category in ('image','video')
+          and check_status != 'fail'
+          and creator_id = #{userId}
+    </select>
+
     <select id="countActivityUser" resultType="java.lang.Long">
         select count(distinct creator_id)
         from corgi_activity_creator c

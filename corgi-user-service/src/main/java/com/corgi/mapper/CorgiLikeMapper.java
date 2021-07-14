@@ -103,4 +103,10 @@ public interface CorgiLikeMapper {
      */
     List<ActivityLike> getLikeByPage(@Param("start") Integer start, @Param("size") Integer size);
 
+    /**
+     * 用户真实收到点赞数
+     * @param userId
+     * @return
+     */
+    Integer countGetLiked(@Param("userId")String userId);
 }
