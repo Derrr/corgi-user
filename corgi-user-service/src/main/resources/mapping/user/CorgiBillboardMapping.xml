@@ -194,6 +194,5 @@
         select count(1)
         from corgi_billboard
         where user_id = #{userId}
-          and `date` = #{date}
     </select>
 </mapper>

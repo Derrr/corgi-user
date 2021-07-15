@@ -45,4 +45,5 @@ public interface CorgiUserActivityService {
     void deleteActivityCreator(String activityId);
 
     List<String> getParticipateActivity(String userId, Integer page, Integer size);
+    int countUserActivity(String userId);
 }

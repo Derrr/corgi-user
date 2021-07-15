@@ -150,7 +150,6 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         }
     }
 
-
     private CorgiFeed buildFeed(CorgiVlog vlog, String userId) {
         CorgiFeed feed = new CorgiFeed();
         feed.setFeed(vlog.getActivityId());

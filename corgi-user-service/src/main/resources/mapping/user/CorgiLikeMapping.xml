@@ -109,4 +109,11 @@
         order by id desc
             limit #{start}, #{size}
     </select>
+
+    <select id="countGetLiked" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_activity_like l
+        where l.user_id = #{userId}
+          and l.type = 'real'
+    </select>
 </mapper>

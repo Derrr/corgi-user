@@ -290,11 +290,26 @@
     </update>
 
     <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">
-        insert ignore into corgi_user_position (`user_id`, `lat`, `lng`, `pt`, `uptime`, `real_lat`, `real_lng`, `locate_type`,
+        insert
+        ignore into corgi_user_position (`user_id`, `lat`, `lng`, `pt`, `uptime`, `real_lat`, `real_lng`, `locate_type`,
                                          `version`, `city`, `province`)
-        values (#{position.userId}, #{position.lat}, #{position.lng}, point(#{position.lng}, #{position.lat}),
-                #{position.uptime}, #{position.realLat}, #{position.realLng}, #{position.locateType},
-                #{position.version}, #{position.city}, #{position.province});
+        values (
+        #{position.userId},
+        #{position.lat},
+        #{position.lng},
+        point
+        (
+        #{position.lng},
+        #{position.lat}
+        ),
+        #{position.uptime},
+        #{position.realLat},
+        #{position.realLng},
+        #{position.locateType},
+        #{position.version},
+        #{position.city},
+        #{position.province}
+        );
     </insert>
 
     <select id="getUserPosition" resultType="com.corgi.user.entity.UserPosition">
@@ -358,12 +373,16 @@
 
     <update id="updateUserPositionUptime" parameterType="com.corgi.user.entity.UserPosition">
         update corgi_user_position
-        set uptime      = #{position.uptime},
-            fuptime     = 0,
-            real_lat    = #{position.realLat},
-            real_lng    = #{position.realLng},
+        set uptime = #{position.uptime},
+        real_lat = #{position.realLat},
+        real_lng = #{position.realLng},
+        <if test="position.locateType != null and position.locateType != ''">
             locate_type = #{position.locateType},
-            `version`   = #{position.version}
+        </if>
+        <if test="position.version != null and position.version != ''">
+            `version` = #{position.version},
+        </if>
+        fuptime = 0
         where user_id = #{position.userId}
     </update>
 
@@ -414,14 +433,16 @@
     <select id="getNearbyDate" resultType="java.lang.String">
         select distinct p.user_id from corgi_date d
         left join corgi_user_position p on p.user_id = d.user_id
-        where d.status = 'open' and p.lat &lt; 90 and p.lng &lt; 180
+        where d.status = 'open'
+        and p.lat >= #{range.beginLat} and p.lat &lt;= #{range.endLat}
+        and p.lng >= #{range.beginLng} and p.lng &lt;= #{range.endLng}
         <if test="range.type != null and range.type != '' and range.type != '不限'">
             and (d.type = #{range.type} or d.type = '不限')
         </if>
         <if test="range.city != null and range.city != ''">
             and p.city = #{range.city}
         </if>
-        order by st_distance_sphere(point(#{range.lng},#{range.lat}),p.pt)
+        order by p.uptime desc
         <if test="range.limit > 0">
             limit #{range.limit}
         </if>
@@ -639,7 +660,7 @@
         from corgi_user_detail d
         where 1=1
         <if test="userDetail.nickname != null and userDetail.nickname != ''">
-            and `nickName` like concat('%',#{userDetail.nickname},'%')
+            and UPPER(`nickName`) like UPPER(concat('%',#{userDetail.nickname},'%'))
         </if>
         <if test="userDetail.height != null and userDetail.height != 0">
             and `height` = #{userDetail.height}
@@ -682,7 +703,8 @@
 
     <select id="countActiveUser" resultType="java.lang.Long">
         select count(1)
-        from corgi_user_position p left join corgi_user_login l on l.id = p.user_id
+        from corgi_user_position p
+                 left join corgi_user_login l on l.id = p.user_id
         where p.uptime >= #{beginTime}
           and p.uptime &lt;= #{endTime}
           and l.tel_no not like '3%'
@@ -694,7 +716,8 @@
                  left join corgi_user_detail d on d.user_id = p.user_id
         where p.uptime >= #{time}
           and p.version != '0.0.0'
-          and d.cime like concat(#{date}, '%')
+          and d.cime like concat(#{date}
+            , '%')
     </select>
 
     <select id="countRegisterUser" resultType="java.lang.Long">
@@ -774,7 +797,9 @@
     </select>
 
     <insert id="addUnregisterUser">
-        insert into corgi_unregister_user(`user_id`,`tel_no`,`province`,`city`,`register_time`,`lat`,`lng`,`nickname`,`birthday`,`avatar`)
-        values(#{detail.userId}, #{detail.telNo}, #{position.province}, #{position.city}, #{detail.ctime}, #{position.lat}, #{position.lng}, #{detail.nickname}, #{detail.birthday}, #{detail.avatar})
+        insert into corgi_unregister_user(`user_id`, `tel_no`, `province`, `city`, `register_time`, `lat`, `lng`,
+                                          `nickname`, `birthday`, `avatar`)
+        values (#{detail.userId}, #{detail.telNo}, #{position.province}, #{position.city}, #{detail.ctime},
+                #{position.lat}, #{position.lng}, #{detail.nickname}, #{detail.birthday}, #{detail.avatar})
     </insert>
 </mapper>

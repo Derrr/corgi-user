@@ -2,8 +2,10 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiLikeMapper;
+import com.corgi.mapper.CorgiUserActivityMapper;
 import com.corgi.user.api.CorgiLikeService;
 import com.corgi.user.api.CorgiToolService;
+import com.corgi.user.api.CorgiUserActivityService;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.ActivityLike;
 import com.corgi.user.entity.ActivityMessage;
@@ -25,6 +27,8 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     private CorgiLikeMapper corgiLikeMapper;
     @Autowired
     private CorgiToolService corgiToolService;
+    @Autowired
+    private CorgiUserActivityService corgiUserActivityService;
 
     @Override
     public Integer addActivityLike(ActivityLike activityLike) {
@@ -105,5 +109,15 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     @Override
     public List<ActivityLike> getLikeByPage(Integer page, Integer pageSize) {
         return corgiLikeMapper.getLikeByPage((page - 1) * pageSize, pageSize);
+    }
+
+    @Override
+    public Double getAvgLike(String userId) {
+        Integer ac = corgiUserActivityService.countUserActivity(userId);
+        if (ac < 2) {
+            return 4.0;
+        }
+        Integer lc = corgiLikeMapper.countGetLiked(userId);
+        return lc * 1.0 / ac;
     }
 }

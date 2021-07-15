@@ -73,6 +73,13 @@
           and is_deleted = '0'
     </select>
 
+    <select id="countRealFollowedUser" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_user_follow
+        where follow_user_id = #{userId}
+          and is_deleted = '0'
+    </select>
+
     <select id="countAllFollowedUser" resultType="java.lang.Integer">
         select count(1)
         from corgi_user_follow

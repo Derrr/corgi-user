@@ -132,6 +132,14 @@ public interface CorgiUserActivityMapper {
     long countActivity(@Param("category") String category, @Param("date") String date);
 
     /**
+     * 统计用户动态数
+     *
+     * @param userId
+     * @return
+     */
+    int countUserActivity(@Param("userId") String userId);
+
+    /**
      * 统计发活动人数
      *
      * @param category

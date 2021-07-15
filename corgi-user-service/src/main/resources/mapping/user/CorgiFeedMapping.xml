@@ -6,10 +6,21 @@
         values (#{feed.userId}, #{feed.feed}, #{feed.feedUserId}, #{feed.source})
     </insert>
 
-    <insert id="deleteFeed" parameterType="com.corgi.user.entity.CorgiFeed">
+    <delete id="deleteFeed" parameterType="com.corgi.user.entity.CorgiFeed">
         delete from corgi_feed_${index}
-        where feed = #{feed.feed} and view_count = '0'
-    </insert>
+        where view_count = '0'
+        <if test="feed.feed != null and feed.feed != ''">
+            and feed = #{feed.feed}
+        </if>
+        <if test="feed.ctime != null and feed.ctime != ''">
+            and ctime &lt; #{feed.ctime}
+        </if>
+    </delete>
+
+    <delete id="clearFeed" parameterType="com.corgi.user.entity.CorgiFeed">
+        delete from corgi_feed_${index}
+        where ctime = #{feed.ctime} and view_count = '0'
+    </delete>
 
     <select id="getUnviewFeed" resultType="java.lang.String">
         select `feed` from corgi_feed_${index} where user_id = #{userId} and view_count = '0' limit #{size}

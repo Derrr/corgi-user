@@ -59,4 +59,12 @@ public interface CorgiFeedMapper {
      * @param index
      */
     void deleteFeed(@Param("feed") CorgiFeed corgiFeed, @Param("index") String index);
+
+    /**
+     * 删除feed
+     *
+     * @param corgiFeed
+     * @param index
+     */
+    void clearFeed(@Param("feed") CorgiFeed corgiFeed, @Param("index") String index);
 }

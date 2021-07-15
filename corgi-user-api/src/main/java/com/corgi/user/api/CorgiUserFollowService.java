@@ -20,6 +20,8 @@ public interface CorgiUserFollowService {
 
     int countFollowed(String userId);
 
+    int countRealFollowed(String userId);
+
     int countAllFollowed(String userId);
 
     List<String> getFollowUser(String userId);
