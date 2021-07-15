@@ -94,15 +94,13 @@
         select
         <include refid="creator"/>
         from corgi_activity_creator c
-        <if test="vlog.type == 'like'">
-            left join corgi_activity_like l on l.activity_id = c.activity_id and l.type = 'real'
-        </if>
+        left join corgi_user_detail d on d.user_id = c.creator_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
         and c.creator_id != #{vlog.userId}
         and c.check_status = 'normal'
-        <if test="vlog.type == 'like'">
-            and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId})
+        <if test="vlog.type != '' and vlog.type != null ">
+            and (d.group is null or d.group = '' or d.group in ('${vlog.type}'))
         </if>
         order by c.id desc limit #{size}
     </select>
@@ -144,13 +142,15 @@
                  left join corgi_activity_like l2 on l1.like_user_id = l2.like_user_id and l2.activity_id != l1.activity_id and l2.type = 'real'
                  left join corgi_activity_creator c
         on c.activity_id = l2.activity_id
-        where c.category in ('video', 'image', 'text')
-             and l1.type = 'real'
-             and l1.like_user_id != #{userId}
-             and l1.activity_id = #{activityId}
-             and c.check_status = 'normal'
+        where c.category in ('video'
+            , 'image'
+            , 'text')
+          and l1.type = 'real'
+          and l1.like_user_id != #{userId}
+          and l1.activity_id = #{activityId}
+          and c.check_status = 'normal'
         group by l2.activity_id
-        order by count(1) desc limit #{start}, #{size}
+        order by count (1) desc limit #{start}, #{size}
     </select>
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
@@ -158,13 +158,19 @@
         <include refid="creator"/>
         from corgi_vlog_hot h
         join corgi_activity_creator c on h.activity_id = c.activity_id
+        <if test="vlog.type != '' and vlog.type != null ">
+            left join corgi_user_detail d on d.user_id = c.creator_id
+        </if>
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id =
         f.feed)
         and h.expect_view > h.view_count
         and h.status = 'open'
         and h.type = #{vlog.type}
         and c.creator_id != #{vlog.userId}
-        and c.check_status = 'normal'
+        and c.check_status != 'fail'
+        <if test="vlog.type != '' and vlog.type != null ">
+            and (d.group is null or d.group = '' or d.group in ('${vlog.type}'))
+        </if>
         order by h.like_count
         <if test="vlog.status == 'desc'">
             desc

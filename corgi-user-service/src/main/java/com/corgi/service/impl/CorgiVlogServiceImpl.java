@@ -9,6 +9,7 @@ import com.corgi.user.entity.CorgiVlogHot;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -27,6 +28,8 @@ import java.util.List;
 public class CorgiVlogServiceImpl implements CorgiVlogService {
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Reference
     private CorgiFeedService corgiFeedService;
