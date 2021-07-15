@@ -145,6 +145,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
+    public List<String> getPreferGroup(String userId) {
+        return corgiUserMapper.getPreferGroup(userId);
+    }
+
+    @Override
     public UserDetail getUserDetailBasic(String userId) {
         return corgiUserMapper.getUserDetail(userId);
     }
