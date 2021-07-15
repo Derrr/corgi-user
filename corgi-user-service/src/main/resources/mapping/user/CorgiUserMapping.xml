@@ -433,7 +433,7 @@
     <select id="getNearbyDate" resultType="java.lang.String">
         select distinct p.user_id from corgi_date d
         left join corgi_user_position p on p.user_id = d.user_id
-        where d.status = 'open' --and p.lat &lt; 90 and p.lng &lt; 180
+        where d.status = 'open'
         and p.lat >= #{range.beginLat} and p.lat &lt;= #{range.endLat}
         and p.lng >= #{range.beginLng} and p.lng &lt;= #{range.endLng}
         <if test="range.type != null and range.type != '' and range.type != '不限'">
@@ -443,7 +443,6 @@
             and p.city = #{range.city}
         </if>
         order by p.uptime desc
-        --order by st_distance_sphere(point(#{range.lng},#{range.lat}),p.pt)
         <if test="range.limit > 0">
             limit #{range.limit}
         </if>
