@@ -244,13 +244,21 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (userQuery.getLimit() == null) {
             userQuery.setLimit(500);
         }
+        userQuery.setRange(100.0 / 1.4);
+        userQuery.setCity(null);
         UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
-        if (supporter.getCity() != null) {
-            UserPosition position = corgiUserMapper.getUserPosition(userQuery.getUserId());
-            if (position != null && supporter.getCity().equals(position.getCity())) {
-                supporter.setCity(null);
-            }
-        }
+//        if (supporter.getCity() != null) {
+//            UserPosition position = corgiUserMapper.getUserPosition(userQuery.getUserId());
+//            if (position != null && supporter.getCity().equals(position.getCity())) {
+//                supporter.setCity(null);
+//            }
+//        }
+        UserPosition userPosition = new UserPosition();
+        userPosition.setUserId(supporter.getUserId());
+        userPosition.setRealLng(userQuery.getLng());
+        userPosition.setRealLat(userQuery.getLat());
+        userPosition.setUptime(System.currentTimeMillis());
+        corgiUserMapper.updateUserPositionUptime(userPosition);
         List<String> userIds = corgiUserMapper.getNearbyDate(supporter);
         List<String> beBlockUserIds = corgiBlacklistMapper.getBeBlacklist(userQuery.getUserId());
         List<String> blockUserIds = corgiBlacklistMapper.getBlacklist(userQuery.getUserId()).stream().map(basic -> basic.getUserId()).collect(Collectors.toList());
