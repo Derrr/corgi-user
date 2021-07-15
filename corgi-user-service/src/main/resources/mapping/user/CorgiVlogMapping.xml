@@ -158,7 +158,7 @@
         <include refid="creator"/>
         from corgi_vlog_hot h
         join corgi_activity_creator c on h.activity_id = c.activity_id
-        <if test="vlog.type != '' and vlog.type != null ">
+        <if test="vlog.activityId != '' and vlog.activityId != null ">
             left join corgi_user_detail d on d.user_id = c.creator_id
         </if>
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id =
@@ -168,8 +168,8 @@
         and h.type = #{vlog.type}
         and c.creator_id != #{vlog.userId}
         and c.check_status != 'fail'
-        <if test="vlog.type != '' and vlog.type != null ">
-            and (d.group is null or d.group = '' or d.group in ('${vlog.type}'))
+        <if test="vlog.activityId != '' and vlog.activityId != null ">
+            and (d.group is null or d.group = '' or d.group in ('${vlog.activityId}'))
         </if>
         order by h.like_count
         <if test="vlog.status == 'desc'">
