@@ -46,6 +46,7 @@
                c.creator_id  userId
         from corgi_vlog_hot h
                  left join corgi_activity_creator c on c.activity_id = h.activity_id
+                 left join corgi_user_detail d on d.user_id = c.creator_id
         where not exists(select 1
                          from corgi_feed_${index} f
                          where f.user_id = #{userId}
@@ -54,6 +55,9 @@
           and h.expect_view > h.view_count
           and h.status = 'open'
           and h.type = 'auto'
+          and (d.group is null or d.group = ''
+            or not exists(select `group` from corgi_prefer_group where user_id = #{userId})
+            or d.group in (select `group` from corgi_prefer_group where user_id = #{userId}))
         order by h.like_count desc limit #{size}
     </select>
 
