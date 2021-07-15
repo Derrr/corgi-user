@@ -4,7 +4,7 @@
     <sql id="apply">
         corgi_nickname
         corgiNickname,
-        weichat_nickname weichatNickname,
+        wechat_nickname wechatNickname,
         height,
         weight,
         age,
