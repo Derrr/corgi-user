@@ -97,6 +97,7 @@ public interface CorgiLikeMapper {
 
     /**
      * 全量获取真实点赞
+     *
      * @param start
      * @param size
      * @return
@@ -105,8 +106,18 @@ public interface CorgiLikeMapper {
 
     /**
      * 用户真实收到点赞数
+     *
      * @param userId
      * @return
      */
-    Integer countGetLiked(@Param("userId")String userId);
+    Integer countGetLiked(@Param("userId") String userId);
+
+    /**
+     * 用户某日期后点赞数
+     *
+     * @param userId
+     * @param date
+     * @return
+     */
+    Integer countUserLikeByDate(@Param("userId") String userId, @Param("date") String date);
 }

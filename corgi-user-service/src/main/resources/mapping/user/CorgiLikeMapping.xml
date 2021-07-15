@@ -116,4 +116,12 @@
         where l.user_id = #{userId}
           and l.type = 'real'
     </select>
+
+    <select id="countUserLikeByDate" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_activity_like
+        where user_id = #{userId}
+        and type = 'real'
+        and ctime > #{date}
+    </select>
 </mapper>

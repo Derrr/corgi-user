@@ -107,6 +107,11 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     }
 
     @Override
+    public Integer countUserLikeByDate(String userId, String date) {
+        return corgiLikeMapper.countUserLikeByDate(userId, date);
+    }
+
+    @Override
     public List<ActivityLike> getLikeByPage(Integer page, Integer pageSize) {
         return corgiLikeMapper.getLikeByPage((page - 1) * pageSize, pageSize);
     }
