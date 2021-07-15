@@ -3,6 +3,7 @@ package com.corgi.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.entity.CorgiArea;
 import com.corgi.mapper.CorgiAreaMapper;
+import com.corgi.mapper.CorgiInfluencerApplyMapper;
 import com.corgi.user.api.CorgiAreaService;
 import com.corgi.user.api.CorgiInfluencerApplyService;
 import com.corgi.user.entity.InfluencerApply;
@@ -19,14 +20,16 @@ import java.util.List;
 @Slf4j
 @Component
 public class CorgiInfluencerApplyServiceImpl implements CorgiInfluencerApplyService {
+    @Autowired
+    private CorgiInfluencerApplyMapper corgiInfluencerApplyMapper;
 
     @Override
     public void addApply(InfluencerApply apply) {
-
+        corgiInfluencerApplyMapper.addApply(apply);
     }
 
     @Override
     public List<InfluencerApply> getApplies(Integer page, Integer size) {
-        return null;
+        return corgiInfluencerApplyMapper.getApplies((page - 1) * size, size);
     }
 }
