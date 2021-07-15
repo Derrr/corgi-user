@@ -19,7 +19,8 @@
         snapshot2,
         desc2,
         `source`,
-        detail
+        detail,
+        ctime
     </sql>
     <insert id="addApply" parameterType="com.corgi.user.entity.InfluencerApply">
         INSERT INTO `corgi_influencer_apply` (`corgi_nickname`, `wechat_nickname`, `height`, `weight`, `age`, `city`,
