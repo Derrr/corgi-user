@@ -102,7 +102,7 @@
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
         and c.creator_id != #{vlog.userId}
-        and c.check_status = 'normal'
+        and c.check_status != 'fail'
         <if test="vlog.type != '' and vlog.type != null ">
             and (d.group is null or d.group = '' or d.group in ('${vlog.type}'))
         </if>
