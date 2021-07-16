@@ -1,13 +1,17 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.mapper.CorgiFeedMapper;
 import com.corgi.mapper.CorgiUserRecommendMapper;
 import com.corgi.user.api.CorgiUserRecommendService;
+import com.corgi.user.entity.UserPosition;
 import com.corgi.user.entity.UserProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +23,8 @@ import java.util.List;
 public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService {
     @Autowired
     private CorgiUserRecommendMapper corgiUserRecommendMapper;
+    @Autowired
+    private CorgiFeedMapper corgiFeedMapper;
 
 
     @Override
@@ -61,7 +67,17 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
 
     @Override
     public List<UserProfile> getVlogRecUser(String userId, Integer size) {
-        return corgiUserRecommendMapper.getVlogRecUsers(userId, size);
+        List<UserProfile> userProfiles = corgiUserRecommendMapper.getVlogRecUsers(userId, size);
+        if (CollectionUtils.isEmpty(userProfiles)) {
+            userProfiles = new ArrayList<>();
+            List<String> userIds = corgiFeedMapper.getPopularUserIds();
+            for (String popularIds : userIds) {
+                UserProfile profile = new UserProfile();
+                profile.setUserId(popularIds);
+                userProfiles.add(profile);
+            }
+        }
+        return userProfiles;
     }
 
     @Override

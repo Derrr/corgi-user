@@ -67,4 +67,10 @@ public interface CorgiFeedMapper {
      * @param index
      */
     void clearFeed(@Param("feed") CorgiFeed corgiFeed, @Param("index") String index);
+
+    /**
+     * 获取推荐用户ID
+     *
+     */
+    List<String> getPopularUserIds();
 }

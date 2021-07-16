@@ -13,6 +13,7 @@ import com.corgi.user.api.CorgiVlogService;
 import com.corgi.user.entity.CorgiFeed;
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
+import com.corgi.user.entity.UserProfile;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         if (result.size() >= size) {
             return result;
         }
-        List<CorgiVlog> popularFeeds = corgiVlogMapper.getPopularVlog(userId, index, size - result.size());
+        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size(), index);
         if (popularFeeds != null) {
             for (CorgiVlog vlog : popularFeeds) {
                 CorgiFeed feed = new CorgiFeed();
@@ -93,6 +94,28 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             }
         }
         return result;
+    }
+
+    private List<CorgiVlog> getPopularFeeds(String userId, Integer size, String userIndex) {
+        List<String> popularUserIds = corgiFeedMapper.getPopularUserIds();
+        List<CorgiVlog> vlogs = new ArrayList<>();
+        CorgiVlog recall = new CorgiVlog();
+        recall.setUserId(userId);
+        Random random = new Random();
+        for (int i = 0; i < popularUserIds.size(); i++) {
+            int index = random.nextInt(popularUserIds.size());
+            String popularUserId = popularUserIds.get(index);
+            List<CorgiVlog> vlogList = corgiVlogMapper.recallTargetVlog(popularUserId, recall, 1, userIndex);
+            if (CollectionUtils.isEmpty(vlogList)) {
+                popularUserIds.remove(index);
+                continue;
+            }
+            vlogs.addAll(vlogList);
+            if (vlogs.size() >= size) {
+                break;
+            }
+        }
+        return vlogs;
     }
 
     @Override
