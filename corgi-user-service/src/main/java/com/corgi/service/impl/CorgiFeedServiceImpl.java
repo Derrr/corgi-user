@@ -103,6 +103,9 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         recall.setUserId(userId);
         Random random = new Random();
         for (int i = 0; i < popularUserIds.size(); i++) {
+            if (CollectionUtils.isEmpty(popularUserIds)) {
+                break;
+            }
             int index = random.nextInt(popularUserIds.size());
             String popularUserId = popularUserIds.get(index);
             List<CorgiVlog> vlogList = corgiVlogMapper.recallTargetVlog(popularUserId, recall, 1, userIndex);
@@ -114,6 +117,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             if (vlogs.size() >= size) {
                 break;
             }
+            popularUserIds.remove(index);
         }
         return vlogs;
     }
