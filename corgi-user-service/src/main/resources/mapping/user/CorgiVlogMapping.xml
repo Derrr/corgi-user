@@ -135,7 +135,7 @@
         from corgi_activity_creator c
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
-        and c.creator_id = #{userId}
+        and c.creator_id = #{targetId}
         and c.check_status = 'normal'
         order by c.like_count desc limit #{size}
     </select>
