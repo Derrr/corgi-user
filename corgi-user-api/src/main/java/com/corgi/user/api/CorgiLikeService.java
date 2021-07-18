@@ -30,6 +30,8 @@ public interface CorgiLikeService {
 
     long countLikeUserByDate(String date, String category);
 
+    Integer countUserLikeByDate(String userId, String date);
+
     List<ActivityLike> getLikeByPage(Integer page, Integer pageSize);
 
     Double getAvgLike(String userId);
