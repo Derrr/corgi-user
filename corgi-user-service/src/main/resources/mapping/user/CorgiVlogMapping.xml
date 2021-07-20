@@ -175,9 +175,11 @@
         <if test="vlog.activityId != '' and vlog.activityId != null ">
             and (d.group is null or d.group = '' or d.group in ('${vlog.activityId}'))
         </if>
-        order by h.like_count
+        <if test="vlog.status != 'desc'">
+            order by h.ctime desc
+        </if>
         <if test="vlog.status == 'desc'">
-            desc
+            order by h.like_count desc
         </if>
         limit #{size}
     </select>
