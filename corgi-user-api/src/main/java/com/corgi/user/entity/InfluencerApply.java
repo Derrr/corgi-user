@@ -18,6 +18,7 @@ public class InfluencerApply implements Serializable {
     private String tiktok;
     private String instagram;
     private String weibo;
+    private String wechat;
     private String snapshot1;
     private String desc1;
     private String snapshot2;

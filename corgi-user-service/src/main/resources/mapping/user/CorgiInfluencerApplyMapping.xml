@@ -20,16 +20,17 @@
         desc2,
         `source`,
         detail,
+        wechat,
         ctime
     </sql>
     <insert id="addApply" parameterType="com.corgi.user.entity.InfluencerApply">
         INSERT INTO `corgi_influencer_apply` (`corgi_nickname`, `wechat_nickname`, `height`, `weight`, `age`, `city`,
                                               `pic1`, `pic2`, `tiktok`, `instagram`, `weibo`, `snapshot1`, `desc1`,
-                                              `snapshot2`, `desc2`, `source`, `detail`)
+                                              `snapshot2`, `desc2`, `source`, `detail`,`wechat`)
         VALUES (#{apply.corgiNickname}, #{apply.wechatNickname}, #{apply.height}, #{apply.weight}, #{apply.age},
                 #{apply.city}, #{apply.pic1}, #{apply.pic2}, #{apply.tiktok}, #{apply.instagram}, #{apply.weibo},
                 #{apply.snapshot1}, #{apply.desc1}, #{apply.snapshot2}, #{apply.desc2}, #{apply.source},
-                #{apply.detail});
+                #{apply.detail}, #{apply.wechat});
     </insert>
 
     <select id="getApplies" resultType="com.corgi.user.entity.InfluencerApply">
