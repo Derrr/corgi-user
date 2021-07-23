@@ -60,8 +60,10 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     @Override
     public void updateUserTag(String userId, List<String> tags) {
         corgiUserTagMapper.deleteUserTag(userId);
-        for (String tag : tags) {
-            corgiUserTagMapper.addUserTag(userId, tag);
+        if (tags != null) {
+            for (String tag : tags) {
+                corgiUserTagMapper.addUserTag(userId, tag);
+            }
         }
     }
 
