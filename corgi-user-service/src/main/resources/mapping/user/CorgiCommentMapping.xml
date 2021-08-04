@@ -45,9 +45,6 @@
         </if>
         group by c.comment_id
         order by c.id desc
-        <if test="size != null and size > 0">
-            limit #{size}
-        </if>
     </select>
 
     <select id="getHotComment" resultType="com.corgi.user.entity.ActivityComment">
