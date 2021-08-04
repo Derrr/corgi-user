@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -61,10 +62,19 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
 
     @Override
     public List<CorgiVlog> recallVlog(CorgiVlog corgiVlog, Integer limit) {
-        if ("like".equals(corgiVlog.getType()) || "follow".equals(corgiVlog.getType())) {
-            return corgiVlogMapper.recallLikeVlog(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
+        List<CorgiVlog> vlogs = new ArrayList<>();
+        if (Math.random() < 0.5) {
+            vlogs = corgiVlogMapper.recallVlog(corgiVlog, limit, null, UserUtils.getIndex(corgiVlog.getUserId()));
+            for(CorgiVlog vlog:vlogs){
+                vlog.setType("new|");
+            }
+        } else {
+            vlogs = corgiVlogMapper.recallVlog(corgiVlog, limit, corgiVlog.getStatus(), UserUtils.getIndex(corgiVlog.getUserId()));
+            for(CorgiVlog vlog:vlogs){
+                vlog.setType("city|");
+            }
         }
-        return corgiVlogMapper.recallVlog(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
+        return vlogs;
     }
 
     @Override

@@ -99,12 +99,18 @@
         <include refid="creator"/>
         from corgi_activity_creator c
         left join corgi_user_detail d on d.user_id = c.creator_id
+        <if test="city != null and city != ''">
+            left join corgi_user_position p on p.user_id = c.creator_id
+        </if>
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
         and c.creator_id != #{vlog.userId}
         and c.check_status != 'fail'
         <if test="vlog.type != '' and vlog.type != null ">
             and (d.group is null or d.group = '' or d.group in ('${vlog.type}'))
+        </if>
+        <if test="city != null and city != ''">
+            and p.city = #{city}
         </if>
         order by c.id desc limit #{size}
     </select>
@@ -135,8 +141,9 @@
         from corgi_activity_creator c
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
-        and c.creator_id = #{targetId}
+        and c.creator_id in ('${targetId}')
         and c.check_status = 'normal'
+        and c.category in('image','video','text')
         order by c.like_count desc limit #{size}
     </select>
 
@@ -154,7 +161,7 @@
           and l1.activity_id = #{activityId}
           and c.check_status = 'normal'
         group by l2.activity_id
-        order by count(1) desc limit #{start}, #{size}
+        order by count (1) desc limit #{start}, #{size}
     </select>
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
@@ -171,6 +178,7 @@
         and h.status = 'open'
         and h.type = #{vlog.type}
         and c.creator_id != #{vlog.userId}
+        and c.category in('image','video','text')
         and c.check_status != 'fail'
         <if test="vlog.activityId != '' and vlog.activityId != null ">
             and (d.group is null or d.group = '' or d.group in ('${vlog.activityId}'))
