@@ -32,7 +32,24 @@ public interface CorgiCommentMapper {
      * @param activityId
      * @return
      */
-    List<ActivityComment> getActivityComment(@Param("activityId") String activityId, @Param("commentId") Integer commentId, @Param("size") Integer size);
+    List<ActivityComment> getActivityComment(@Param("activityId") String activityId);
+
+    /**
+     * 获取父活动评论
+     *
+     * @param activityId
+     * @return
+     */
+    List<ActivityComment> getParentComment(@Param("activityId") String activityId, @Param("id") Integer id, @Param("size") Integer size);
+
+    /**
+     * 获取活动评论
+     *
+     * @param activityId
+     * @return
+     */
+    List<ActivityComment> getCommentByPage(@Param("activityId") String activityId, @Param("commentId") Integer commentId, @Param("size") Integer size);
+
 
     /**
      * 获取热门评论
@@ -49,6 +66,14 @@ public interface CorgiCommentMapper {
      * @return
      */
     ActivityComment getActivityCommentByCommentId(@Param("commentId") String commentId);
+
+    /**
+     * 根据ID获取子comment
+     *
+     * @param commentId
+     * @return
+     */
+    List<ActivityComment> getChildrenComment(@Param("commentId") String commentId);
 
 
     /**

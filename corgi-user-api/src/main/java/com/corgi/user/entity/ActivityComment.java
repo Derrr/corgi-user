@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 public class ActivityComment implements Serializable {
+    private Integer id;
     private String commentId;
 
     public String getParentCommentId() {
@@ -34,6 +35,8 @@ public class ActivityComment implements Serializable {
     private Integer likeCount;
 
     private Integer hasLike = 0;
+
+    private Boolean hasMore = false;
 
     List<ActivityComment> childComments;
 

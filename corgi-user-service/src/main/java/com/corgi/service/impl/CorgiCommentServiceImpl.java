@@ -96,8 +96,13 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
 
     @Override
     public List<ActivityComment> getActivityComment(String activityId, Integer commentId, Integer size, String userId) {
-        List<ActivityComment> comments = corgiCommentMapper.getActivityComment(activityId, commentId, size);
-        return buildComments(comments, userId);
+        if (size != null && size > 0) {
+            List<ActivityComment> comments = corgiCommentMapper.getParentComment(activityId, commentId, size);
+            return buildParentComments(comments, userId);
+        } else {
+            List<ActivityComment> comments = corgiCommentMapper.getActivityComment(activityId);
+            return buildComments(comments, userId);
+        }
     }
 
     @Override
@@ -144,6 +149,22 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     @Override
     public void disLikeComment(String commentId, String userId) {
         corgiCommentMapper.updateCommentLikeStatus(commentId, userId, "0");
+    }
+
+    private List<ActivityComment> buildParentComments(List<ActivityComment> activityComments, String userId) {
+        if (activityComments != null) {
+            for (ActivityComment comment : activityComments) {
+                if (comment.getLikeCount() != null && comment.getLikeCount() > 0) {
+                    comment.setHasLike(corgiCommentMapper.hasLike(comment.getCommentId(), userId));
+                }
+                List<ActivityComment> comments = corgiCommentMapper.getChildrenComment(comment.getCommentId());
+                if (!CollectionUtils.isEmpty(comments)) {
+                    comment.setChildComments(comments);
+                    comment.setHasMore(comments.size() > 1);
+                }
+            }
+        }
+        return activityComments;
     }
 
     private List<ActivityComment> buildComments(List<ActivityComment> activityComments, String userId) {
