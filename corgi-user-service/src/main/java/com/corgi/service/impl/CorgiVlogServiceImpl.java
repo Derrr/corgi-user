@@ -62,7 +62,7 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
 
     @Override
     public List<CorgiVlog> recallVlog(CorgiVlog corgiVlog, Integer limit) {
-        List<CorgiVlog> vlogs = new ArrayList<>();
+        List<CorgiVlog> vlogs;
         if (Math.random() < 0.5) {
             vlogs = corgiVlogMapper.recallVlog(corgiVlog, limit, null, UserUtils.getIndex(corgiVlog.getUserId()));
             for(CorgiVlog vlog:vlogs){

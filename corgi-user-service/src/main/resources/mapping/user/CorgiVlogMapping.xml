@@ -144,7 +144,12 @@
         and c.creator_id in ('${targetId}')
         and c.check_status = 'normal'
         and c.category in('image','video','text')
-        order by c.like_count desc limit #{size}
+        <if test="vlog.type == 'id'">
+            order by c.id desc limit #{size}
+        </if>
+        <if test="vlog.type == 'like'">
+            order by c.like_count desc limit #{size}
+        </if>
     </select>
 
     <select id="recallActivityVlog" resultType="java.lang.String">
