@@ -14,6 +14,7 @@ import com.corgi.user.entity.UserDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.rmi.activation.ActivationID;
@@ -94,9 +95,24 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     }
 
     @Override
-    public List<ActivityComment> getActivityComment(String activityId, String userId) {
-        List<ActivityComment> comments = corgiCommentMapper.getActivityComment(activityId);
+    public List<ActivityComment> getActivityComment(String activityId, Integer commentId, Integer size, String userId) {
+        List<ActivityComment> comments = corgiCommentMapper.getActivityComment(activityId, commentId, size);
         return buildComments(comments, userId);
+    }
+
+    @Override
+    public List<ActivityComment> getHotComment(String activityId, String userId) {
+        List<ActivityComment> comments = corgiCommentMapper.getHotComment(activityId);
+        if (CollectionUtils.isEmpty(comments) || comments.size() < 5) {
+            return new ArrayList<>();
+        }
+        List<ActivityComment> result = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            ActivityComment comment = comments.get(i);
+            comment.setHasLike(corgiCommentMapper.hasLike(comment.getCommentId(), userId));
+            result.add(comment);
+        }
+        return result;
     }
 
     @Override

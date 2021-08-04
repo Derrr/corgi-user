@@ -13,7 +13,9 @@ public interface CorgiCommentService {
 
     void deleteActivityComment(String commentId);
 
-    List<ActivityComment> getActivityComment(String activityId, String userId);
+    List<ActivityComment> getActivityComment(String activityId, Integer commentId, Integer size, String userId);
+
+    List<ActivityComment> getHotComment(String activityId, String userId);
 
     Long countActivityComment(String activityId);
 

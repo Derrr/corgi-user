@@ -32,7 +32,15 @@ public interface CorgiCommentMapper {
      * @param activityId
      * @return
      */
-    List<ActivityComment> getActivityComment(@Param("activityId") String activityId);
+    List<ActivityComment> getActivityComment(@Param("activityId") String activityId, @Param("commentId") Integer commentId, @Param("size") Integer size);
+
+    /**
+     * 获取热门评论
+     *
+     * @param activityId
+     * @return
+     */
+    List<ActivityComment> getHotComment(@Param("activityId") String activityId);
 
     /**
      * 根据ID获取comment
