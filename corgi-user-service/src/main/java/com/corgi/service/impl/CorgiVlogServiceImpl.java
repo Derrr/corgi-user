@@ -70,6 +70,7 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
                     vlogs.addAll(corgiVlogMapper.recallLikeVlog(corgiVlog, creatorId, 1, UserUtils.getIndex(corgiVlog.getUserId())));
                 }
             }
+            return vlogs;
         }
         if (Math.random() < 0.5) {
             vlogs = corgiVlogMapper.recallVlog(corgiVlog, limit, null, UserUtils.getIndex(corgiVlog.getUserId()));
