@@ -62,15 +62,9 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
 
     @Override
     public List<CorgiVlog> recallVlog(CorgiVlog corgiVlog, Integer limit) {
-        List<CorgiVlog> vlogs = new ArrayList<>();
+        List<CorgiVlog> vlogs ;
         if ("like".equals(corgiVlog.getType()) || "follow".equals(corgiVlog.getType())) {
-            List<String> creatorIds = corgiVlogMapper.recallLikeUser(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
-            if (creatorIds != null) {
-                for (String creatorId : creatorIds) {
-                    vlogs.addAll(corgiVlogMapper.recallLikeVlog(corgiVlog, creatorId, 1, UserUtils.getIndex(corgiVlog.getUserId())));
-                }
-            }
-            return vlogs;
+            return corgiVlogMapper.recallLikeVlog(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
         }
         if (Math.random() < 0.5) {
             vlogs = corgiVlogMapper.recallVlog(corgiVlog, limit, null, UserUtils.getIndex(corgiVlog.getUserId()));
