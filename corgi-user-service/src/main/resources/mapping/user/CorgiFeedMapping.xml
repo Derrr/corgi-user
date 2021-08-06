@@ -23,7 +23,7 @@
     </delete>
 
     <select id="getUnviewFeed" resultType="java.lang.String">
-        select `feed` from corgi_feed_${index} where user_id = #{userId} and view_count = '0' limit #{size}
+        select `feed` from corgi_feed_${index} where user_id = #{userId} and view_count = '0' order by id limit #{size}
     </select>
 
     <select id="countUnviewFeed" resultType="java.lang.Integer">

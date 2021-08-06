@@ -115,9 +115,9 @@
         order by c.id desc limit #{size}
     </select>
 
-    <select id="recallLikeUser" resultType="java.lang.String">
+    <select id="recallLikeVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
-        distinct c.creator_id
+        distinct c.creator_id userId, c.activity_id activityId
         from corgi_activity_like l
         join corgi_activity_creator c on l.activity_id = c.activity_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
@@ -128,27 +128,6 @@
         and c.check_status != 'fail'
         <if test="vlog.type == 'like'">
             and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId} and weight > 0)
-        </if>
-        <if test="vlog.type == 'follow'">
-            and l.like_user_id in (select follow_user_id from corgi_user_follow where user_id = #{vlog.userId})
-        </if>
-        order by l.id desc limit #{size}
-    </select>
-
-    <select id="recallLikeVlog" resultType="com.corgi.user.entity.CorgiVlog">
-        select
-        <include refid="creator"/>
-        from corgi_activity_like l
-        join corgi_activity_creator c on l.activity_id = c.activity_id
-        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
-        c.activity_id)
-        and l.type = 'real'
-        and l.user_id != #{vlog.userId}
-        and c.category in ('image','text','video')
-        and c.check_status = 'normal'
-        and c.creator_id = #{creatorId}
-        <if test="vlog.type == 'like'">
-            and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId})
         </if>
         <if test="vlog.type == 'follow'">
             and l.like_user_id in (select follow_user_id from corgi_user_follow where user_id = #{vlog.userId})
