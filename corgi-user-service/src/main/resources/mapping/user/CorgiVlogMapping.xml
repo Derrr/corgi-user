@@ -166,7 +166,7 @@
           and l1.activity_id = #{activityId}
           and c.check_status = 'normal'
         group by l2.activity_id
-        order by count (1) desc limit #{start}, #{size}
+        order by count(1) desc limit #{start}, #{size}
     </select>
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
