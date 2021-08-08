@@ -189,7 +189,7 @@
             and (d.group is null or d.group = '' or d.group in ('${vlog.activityId}'))
         </if>
         <if test="vlog.status != 'desc'">
-            order by h.ctime desc
+            order by h.id desc
         </if>
         <if test="vlog.status == 'desc'">
             order by h.like_count desc
