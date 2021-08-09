@@ -127,7 +127,8 @@
         and c.category in ('image','text','video')
         and c.check_status != 'fail'
         <if test="vlog.type == 'like'">
-            and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId} and weight > 0)
+            and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId} and
+            weight > 0)
         </if>
         <if test="vlog.type == 'follow'">
             and l.like_user_id in (select follow_user_id from corgi_user_follow where user_id = #{vlog.userId})
@@ -244,7 +245,11 @@
 
     <select id="selectOneHot" resultType="java.lang.String">
         select activity_id
-        from corgi_vlog_hot v limit #{start}, 1;
+        from corgi_vlog_hot v
+        where status = 'open'
+          and type = 'auto'
+            limit #{start}
+            , 1
     </select>
 
 

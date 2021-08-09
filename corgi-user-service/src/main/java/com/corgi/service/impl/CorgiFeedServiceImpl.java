@@ -85,7 +85,10 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         }
         Integer max = size - result.size();
         if (max > 0) {
-            Integer total = corgiVlogMapper.countVlogHot(new CorgiVlogHot());
+            CorgiVlogHot queryHot = new CorgiVlogHot();
+            queryHot.setStatus(CorgiVlogHot.STATUS.OPEN);
+            queryHot.setType(CorgiVlogHot.TYPE.AUTO);
+            Integer total = corgiVlogMapper.countVlogHot(queryHot);
             Random random = new Random();
             result = new ArrayList<>();
             for (int i = 0; i < max; i++) {
