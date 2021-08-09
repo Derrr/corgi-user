@@ -62,7 +62,7 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
 
     @Override
     public List<CorgiVlog> recallVlog(CorgiVlog corgiVlog, Integer limit) {
-        List<CorgiVlog> vlogs ;
+        List<CorgiVlog> vlogs;
         if ("like".equals(corgiVlog.getType()) || "follow".equals(corgiVlog.getType())) {
             return corgiVlogMapper.recallLikeVlog(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
         }
@@ -74,7 +74,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
         } else {
             vlogs = corgiVlogMapper.recallVlog(corgiVlog, limit, corgiVlog.getStatus(), UserUtils.getIndex(corgiVlog.getUserId()));
             for (CorgiVlog vlog : vlogs) {
-                vlog.setType("city|");
+                if (corgiVlog.getStatus() != null) {
+                    vlog.setType("city" + corgiVlog.getStatus() + "|");
+                } else {
+                    vlog.setType("new|");
+                }
             }
         }
         return vlogs;
