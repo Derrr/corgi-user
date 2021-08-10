@@ -3,6 +3,7 @@ package com.corgi.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.entity.ActivityPic;
 import com.corgi.activity.entity.CorgiActivity;
+import com.corgi.entity.ActivityQuery;
 import com.corgi.entity.CorgiTopic;
 import com.corgi.mapper.CorgiFeedMapper;
 import com.corgi.mapper.CorgiPicMapper;
@@ -94,6 +95,11 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     @Override
     public Integer countUsers(String activityId, String status) {
         return corgiUserActivityMapper.countUser(activityId, status);
+    }
+
+    @Override
+    public List<String> getFollowUserActivity(ActivityQuery query) {
+        return corgiUserActivityMapper.getFollowedActivityIds(query);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.corgi.user.api;
 
 import com.corgi.activity.entity.CorgiActivity;
+import com.corgi.entity.ActivityQuery;
 import com.corgi.user.entity.UserProfile;
 import com.corgi.user.entity.UserSignUp;
 
@@ -27,6 +28,8 @@ public interface CorgiUserActivityService {
     List<UserProfile> getPopularUsers(String activityId, String status);
 
     Integer countUsers(String activityId, String status);
+
+    List<String> getFollowUserActivity(ActivityQuery query);
 
     List<String> getSignUpActivity(String userId, Integer page, Integer pageSize);
 

@@ -1,6 +1,7 @@
 package com.corgi.mapper;
 
 import com.corgi.activity.entity.CorgiActivity;
+import com.corgi.entity.ActivityQuery;
 import com.corgi.user.entity.UserMatch;
 import com.corgi.user.entity.UserProfile;
 import com.corgi.user.entity.UserSignUp;
@@ -76,6 +77,14 @@ public interface CorgiUserActivityMapper {
      * @return
      */
     Integer countUser(@Param("activityId") String activityId, @Param("status") String status);
+
+    /**
+     * 返回关注人动态
+     *
+     * @param activityQuery
+     * @return
+     */
+    List<String> getFollowedActivityIds(@Param("query")ActivityQuery activityQuery);
 
 
     /**

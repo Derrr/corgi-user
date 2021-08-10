@@ -153,6 +153,12 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
                 }
                 List<ActivityComment> comments = corgiCommentMapper.getChildrenComment(comment.getCommentId());
                 if (!CollectionUtils.isEmpty(comments)) {
+                    for (ActivityComment comment1 : comments) {
+                        if (userId.equals(comment1.getCommentUserId())) {
+                            comment.setHasAuthor(true);
+                            break;
+                        }
+                    }
                     comment.setChildComments(comments);
                     comment.setHasMore(comments.size() > 1);
                 }

@@ -36,7 +36,8 @@ public class ActivityComment implements Serializable {
 
     private Integer hasLike = 0;
 
-    private Boolean hasMore = false;
+    private boolean hasMore;
+    private boolean hasAuthor;
 
     List<ActivityComment> childComments;
 
