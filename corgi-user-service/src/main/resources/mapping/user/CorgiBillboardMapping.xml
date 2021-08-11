@@ -23,6 +23,7 @@
         left join corgi_user_detail d on d.user_id = l.user_id
         left join corgi_user_position p on p.user_id = l.user_id
         where l.type = 'real'
+        and l.like_user_id != l.user_id
         and (d.avatar_status not like 'fake%' or d.avatar_status is null)
         and l.ctime >= #{date}
         <if test="detail.city != null and detail.city !=''">
