@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiBillboardMapper">
     <select id="getPopularUsers" resultType="com.corgi.user.entity.UserProfile">
-        select l.user_id userId
+        select l.user_id userId,
         p.lat lat,
         p.lng lng,
         p.uptime `time`,
