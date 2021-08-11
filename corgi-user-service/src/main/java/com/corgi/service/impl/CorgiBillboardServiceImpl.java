@@ -74,7 +74,7 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     @Override
     public List<UserProfile> getPopularUser(UserDetail userDetail, Integer limit) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1);
+        calendar.add(Calendar.DATE, -3);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = sdf.format(calendar.getTime());
         List<UserProfile> userProfiles = corgiBillboardMapper.getPopularUsers(userDetail, date, limit);

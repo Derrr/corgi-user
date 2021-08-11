@@ -2,19 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiBillboardMapper">
     <select id="getPopularUsers" resultType="com.corgi.user.entity.UserProfile">
-        select f.follow_user_id userId,count(1) `match` from corgi_user_follow f
-        left join corgi_user_detail d on d.user_id = f.follow_user_id
-        where f.is_deleted = '0' and f.type = 'real' and (d.avatar_status not like 'fake%' or d.avatar_status is null)
-        <if test='detail.role != null'>
-            and f.uptime >= #{date}
+        select l.user_id userId
+        p.lat lat,
+        p.lng lng,
+        p.uptime `time`,
+        p.locate_type locateType,
+        d.nickname `nickname`,
+        d.avatar avatar,
+        d.avatar_status avatarStatus,
+        d.avatar_check_status avatarCheckStatus,
+        d.role role,
+        d.group `group`,
+        d.con con,
+        d.check_status checkStatus,
+        d.weight,
+        d.height,
+        d.birthday,
+        count(1) `match`
+        from corgi_activity_like l
+        left join corgi_user_detail d on d.user_id = l.user_id
+        left join corgi_user_position p on p.user_id = l.user_id
+        where l.type = 'real'
+        and (d.avatar_status not like 'fake%' or d.avatar_status is null)
+        and l.ctime >= #{date}
+        <if test="detail.city != null and detail.city !=''">
+            and p.city = #{detail.city}
         </if>
-        <if test='detail.role != null and detail.role == "1"'>
-            and d.role = '1'
-        </if>
-        <if test='detail.role != null and detail.role != "1"'>
-            and d.role != '1'
-        </if>
-        group by f.follow_user_id
+        group by l.user_id
         order by `match` desc
         limit #{limit}
     </select>
