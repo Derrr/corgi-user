@@ -34,5 +34,7 @@ public interface CorgiLikeService {
 
     List<ActivityLike> getLikeByPage(Integer page, Integer pageSize);
 
+    List<ActivityLike> queryLike(ActivityLike query, Integer size);
+
     Double getAvgLike(String userId);
 }

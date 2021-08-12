@@ -3,7 +3,10 @@
 <mapper namespace="com.corgi.mapper.CorgiCommentMapper">
 
     <sql id="comment">
-        c.id id,
+        c
+        .
+        id
+        id,
         c
         .
         `comment_id`
@@ -99,20 +102,25 @@
     </select>
 
     <select id="getActivityCommentByCommentId" resultType="com.corgi.user.entity.ActivityComment">
-        select `comment_id`          commentId,
-               `comment_user_id`     commentUserId,
-               `comment_user_name`   commentUserName,
-               `comment_user_avatar` commentUserAvatar,
-               `reply_user_id`       replyUserId,
-               `reply_user_name`     replyUserName,
-               `reply_user_avatar`   replyUserAvatar,
-               `activity_id`         activityId,
-               `parent_comment_id`   parentCommentId,
-               `content`,
-               `user_id`             userId,
-               `ctime`
-        from corgi_activity_comment
-        where comment_id = #{commentId}
+        select
+        <include refid="comment"/>
+        from corgi_activity_comment c
+        where c.comment_id = #{commentId}
+    </select>
+
+    <select id="queryComment" resultType="com.corgi.user.entity.ActivityComment">
+        select
+        <include refid="comment"/>
+        from corgi_activity_comment c
+        where comment_user_id = #{comment.comment_user_id}
+        and ctime &lt; #{comment.ctime}
+        and user_id != #{comment.comment_user_id}
+        and not exists(select 1 from corgi_activity_comment c2
+        where c2.comment_user_id = c.comment_user_id
+        and c2.activity_id = c.activity_id
+        and c2.id > c.id)
+        order by id desc
+        limit #{size}
     </select>
 
     <select id="countActivityComment" resultType="java.lang.Long">

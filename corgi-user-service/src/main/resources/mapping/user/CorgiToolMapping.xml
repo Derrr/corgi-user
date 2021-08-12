@@ -46,14 +46,18 @@
 
     <update id="updateTopic" parameterType="com.corgi.entity.CorgiTopic">
         update corgi_topics
-        set topic      = #{topic.topic},
-            content    = #{topic.content},
-            opuid      = #{topic.opuid},
-            `status`   = #{topic.status},
-            `pic_url`  = #{topic.picUrl},
-            `url`      = #{topic.url},
+        <set>
+            topic = #{topic.topic},
+            content = #{topic.content},
+            opuid = #{topic.opuid},
+            `status` = #{topic.status},
+            `pic_url` = #{topic.picUrl},
+            `url` = #{topic.url},
             `url_type` = #{topic.urlType},
-            `order`    = #{topic.order}
+            <if test="topic.order != null">
+                `order` = #{topic.order},
+            </if>
+        </set>
         where id = #{topic.topicId}
     </update>
 

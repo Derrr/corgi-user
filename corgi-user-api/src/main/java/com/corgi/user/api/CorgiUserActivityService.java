@@ -33,6 +33,8 @@ public interface CorgiUserActivityService {
 
     List<String> getSignUpActivity(String userId, Integer page, Integer pageSize);
 
+    List<CorgiActivity> queryActivity(ActivityQuery query);
+
     List<String> getHeatActivity(CorgiActivity corgiActivity, Integer page, Integer pageSize);
 
     void addActivityCreator(String userId, String activityId, String category);
@@ -48,5 +50,6 @@ public interface CorgiUserActivityService {
     void deleteActivityCreator(String activityId);
 
     List<String> getParticipateActivity(String userId, Integer page, Integer size);
+
     int countUserActivity(String userId);
 }

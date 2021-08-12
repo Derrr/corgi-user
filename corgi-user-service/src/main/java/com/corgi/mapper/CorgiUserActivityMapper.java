@@ -86,6 +86,14 @@ public interface CorgiUserActivityMapper {
      */
     List<String> getFollowedActivityIds(@Param("query")ActivityQuery activityQuery);
 
+    /**
+     * 查询动态
+     *
+     * @param activityQuery
+     * @return
+     */
+    List<CorgiActivity> queryActivity(@Param("query")ActivityQuery activityQuery);
+
 
     /**
      * 获取报名活动

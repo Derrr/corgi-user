@@ -105,6 +105,15 @@ public interface CorgiLikeMapper {
     List<ActivityLike> getLikeByPage(@Param("start") Integer start, @Param("size") Integer size);
 
     /**
+     * 搜索点赞
+     *
+     * @param like
+     * @param size
+     * @return
+     */
+    List<ActivityLike> queryLike(@Param("like") ActivityLike like, @Param("size") Integer size);
+
+    /**
      * 用户真实收到点赞数
      *
      * @param userId

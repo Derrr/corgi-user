@@ -117,6 +117,11 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
     }
 
     @Override
+    public List<ActivityLike> queryLike(ActivityLike query, Integer size) {
+        return corgiLikeMapper.queryLike(query, size);
+    }
+
+    @Override
     public Double getAvgLike(String userId) {
         Integer ac = corgiUserActivityService.countUserActivity(userId);
         if (ac < 2) {

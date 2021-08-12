@@ -121,6 +121,15 @@ public interface CorgiCommentMapper {
     Integer hasLike(@Param("commentId") String commentId, @Param("userId") String userId);
 
     /**
+     * 查询评论
+     *
+     * @param comment
+     * @param size
+     * @return
+     */
+    List<ActivityComment> queryComment(@Param("comment") ActivityComment comment, @Param("size") Integer size);
+
+    /**
      * 更新评论点赞状态
      *
      * @param commentId

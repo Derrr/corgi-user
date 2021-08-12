@@ -4,9 +4,6 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.entity.ActivityPic;
 import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.ActivityQuery;
-import com.corgi.entity.CorgiTopic;
-import com.corgi.mapper.CorgiFeedMapper;
-import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserActivityMapper;
 import com.corgi.mapper.CorgiVlogMapper;
 import com.corgi.user.api.*;
@@ -108,12 +105,17 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public List<CorgiActivity> queryActivity(ActivityQuery query) {
+        return corgiUserActivityMapper.queryActivity(query);
+    }
+
+    @Override
     public List<String> getHeatActivity(CorgiActivity corgiActivity, Integer page, Integer pageSize) {
         String category;
         if (corgiActivity.getBarId() != null) {
             category = corgiActivity.getCategory() + corgiActivity.getBarId();
         } else {
-            category = "video','image";
+            category = "video','image','text";
         }
         String date = corgiActivity.getCreateTime();
         List<String> topics = corgiActivity.getTopics();
