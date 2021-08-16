@@ -46,11 +46,20 @@ public interface CorgiFeedMapper {
     void addFeed(@Param("feed") CorgiFeed corgiFeed, @Param("index") String index);
 
     /**
+     * 添加商户feed
+     *
+     * @return
+     */
+    void addBarFeed(@Param("feed") CorgiFeed corgiFeed);
+
+    /**
      * 浏览feed
      *
      * @return
      */
     void viewFeed(@Param("userId") String userId, @Param("feed") String feed, @Param("index") String index);
+
+
 
     /**
      * 删除feed

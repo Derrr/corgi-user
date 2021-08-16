@@ -158,6 +158,11 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     @Override
+    public void viewBarFeed(String userId, String barId, String feed) {
+        corgiFeedMapper.viewFeed();
+    }
+
+    @Override
     public void addFeed(CorgiFeed corgiFeed) {
         if (corgiFeed != null && corgiFeed.hasValue()) {
             corgiFeedMapper.addFeed(corgiFeed, UserUtils.getIndex(corgiFeed.getUserId()));
