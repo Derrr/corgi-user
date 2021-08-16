@@ -158,8 +158,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     @Override
-    public void viewBarFeed(String userId, String barId, String feed) {
-        corgiFeedMapper.viewFeed();
+    public void addBarFeed(CorgiFeed feed) {
+        corgiFeedMapper.addBarFeed(feed);
     }
 
     @Override
