@@ -53,6 +53,13 @@ public interface CorgiBarMapper {
     List<BarProfile> getBarListByCity(@Param("city")String city, @Param("lat")Double lat, @Param("lng")Double lng);
 
     /**
+     * 根据城市获取热门商户活动
+     *
+     * @return
+     */
+    List<String> getBarActivity(@Param("city")String city, @Param("size")Integer size);
+
+    /**
      * 获取商户信息
      *
      * @param barId

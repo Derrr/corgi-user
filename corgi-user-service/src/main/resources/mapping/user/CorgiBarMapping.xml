@@ -142,6 +142,16 @@
         </if>
     </select>
 
+    <select id="getBarActivity" resultType="java.lang.String">
+        select max(c.activity_id)
+        from corgi_bar_detail d
+                 left join corgi_activity_creator c on c.creator_id = bar_id
+        where d.city = #{city}
+        group by d.bar_id
+        order by count(1) desc
+            limit #{size}
+    </select>
+
 
     <select id="getBar" resultType="com.corgi.user.entity.BarProfile">
         select bar_id       barId,

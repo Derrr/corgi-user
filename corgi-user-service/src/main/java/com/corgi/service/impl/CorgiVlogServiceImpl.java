@@ -85,6 +85,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     }
 
     @Override
+    public List<CorgiVlog> recallBarVlog(CorgiVlog corgiVlog, Integer limit) {
+        return corgiVlogMapper.recallBarVlog(corgiVlog, limit);
+    }
+
+    @Override
     public List<CorgiVlog> recallTargetVlog(String targetId, CorgiVlog corgiVlog, Integer limit) {
         return corgiVlogMapper.recallTargetVlog(targetId, corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
     }

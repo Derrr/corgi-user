@@ -74,6 +74,11 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     }
 
     @Override
+    public List<String> getBarActivity(String city, Integer size) {
+        return corgiBarMapper.getBarActivity(city, size);
+    }
+
+    @Override
     public BarProfile getBarProfile(String barId) {
         BarProfile barProfile = corgiBarMapper.getBar(barId);
         if (barProfile != null) {

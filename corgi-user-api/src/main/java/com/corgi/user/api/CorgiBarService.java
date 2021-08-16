@@ -14,6 +14,8 @@ public interface CorgiBarService {
 
     List<BarProfile> getBarListByCity(String city, Double lat, Double lng);
 
+    List<String> getBarActivity(String city, Integer size);
+
     BarProfile getBarProfile(String barId);
 
     void updateBarProfile(BarProfile barProfile);
