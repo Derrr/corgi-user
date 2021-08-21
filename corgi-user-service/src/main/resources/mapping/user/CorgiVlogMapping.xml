@@ -99,6 +99,7 @@
         <include refid="creator"/>
         from corgi_activity_creator c
         left join corgi_user_detail d on d.user_id = c.creator_id
+        left join corgi_vlog_hot h on h.activity_id = c.activity_id
         <if test="city != null and city != ''">
             left join corgi_user_position p on p.user_id = c.creator_id
         </if>
@@ -106,6 +107,7 @@
         c.activity_id)
         and c.creator_id != #{vlog.userId}
         and c.check_status != 'fail'
+        and h.like_count >= 3
         <if test="vlog.type != '' and vlog.type != null ">
             and (d.group is null or d.group = '' or d.group in ('${vlog.type}'))
         </if>
@@ -120,12 +122,14 @@
         distinct c.creator_id userId, c.activity_id activityId
         from corgi_activity_like l
         join corgi_activity_creator c on l.activity_id = c.activity_id
+        left join corgi_vlog_hot h on h.activity_id = c.activity_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
         and l.type = 'real'
         and l.user_id != #{vlog.userId}
         and c.category in ('image','text','video')
         and c.check_status != 'fail'
+        and h.like_count >= 3
         <if test="vlog.type == 'like'">
             and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId} and
             weight > 0)
@@ -140,11 +144,13 @@
         select
         <include refid="creator"/>
         from corgi_activity_creator c
+        left join corgi_vlog_hot h on h.activity_id = c.activity_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
         and c.creator_id in ('${targetId}')
         and c.check_status = 'normal'
         and c.category in('image','video','text')
+        and h.like_count >= 3
         <if test="vlog.type == 'id'">
             order by c.id desc limit #{size}
         </if>
