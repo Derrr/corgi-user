@@ -267,19 +267,6 @@
             , 1
     </select>
 
-    <select id="selectOneVideoHot" resultType="java.lang.String">
-        select v.activity_id
-        from corgi_vlog_hot v
-                 left join corgi_activity_creator c on c.activity_id = v.activity_id
-        where v.status = 'open'
-          and v.type = 'auto'
-          and c.category = 'video'
-          and c.check_status != 'fail'
-            limit #{start}
-            , 1
-    </select>
-
-
     <insert id="addVlogHot" parameterType="com.corgi.user.entity.CorgiVlogHot">
         INSERT INTO `corgi_vlog_hot` (`activity_id`, `expect_view`, `like_count`, `type`)
         VALUES (#{vlog.activityId},
