@@ -170,7 +170,7 @@
     </select>
 
     <select id="recallActivityVlog" resultType="java.lang.String">
-        select l2.activity_id
+        select distinct l2.activity_id
         from corgi_activity_like l1
                  left join corgi_activity_like l2 on l1.like_user_id = l2.like_user_id and l2.activity_id != l1.activity_id and l2.type = 'real'
                  left join corgi_activity_creator c
@@ -183,6 +183,37 @@
           and c.check_status != 'fail'
         group by l2.activity_id
         order by count(1) desc limit #{start}, #{size}
+    </select>
+
+    <select id="countActivityVlog" resultType="java.lang.Integer">
+        select count(l2.activity_id)
+        from corgi_activity_like l1
+                 left join corgi_activity_like l2 on l1.like_user_id = l2.like_user_id and l2.activity_id != l1.activity_id and l2.type = 'real'
+                 left join corgi_activity_creator c
+        on c.activity_id = l2.activity_id
+            left join corgi_activity_creator c1 on c1.activity_id = l1.activity_id
+        where c.category = c1.category
+          and l1.type = 'real'
+          and l1.like_user_id != #{userId}
+          and l1.activity_id = #{activityId}
+          and c.check_status != 'fail'
+        group by l2.activity_id
+    </select>
+
+    <select id="recallByActivityId" resultType="java.lang.String">
+        select h.activity_id
+        from corgi_vlog_hot h
+                 left join corgi_activity_creator c on c.activity_id = h.activity_id
+        where not exists(select 1
+                         from corgi_activity_like l1
+                         where l1.activity_id = h.activity_id
+                           and l1.like_user_id
+                             in (select l2.like_user_id
+                                 from corgi_activity_like l2
+                                 where l2.activity_id = #{activityId}))
+          and c.category = 'video'
+          and c.creator_id != #{userId}
+          and c.check_status != 'fail' and h.status = 'open' and h.type = 'auto'
     </select>
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
