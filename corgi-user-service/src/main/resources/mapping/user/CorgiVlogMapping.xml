@@ -137,7 +137,7 @@
         c.activity_id)
         and l.type = 'real'
         and l.user_id != #{vlog.userId}
-        and c.category in ('image','text','video')
+        and c.category in ('image','text','video','business')
         and c.check_status != 'fail'
         and h.like_count >= 3
         <if test="vlog.type == 'like'">
@@ -159,7 +159,7 @@
         c.activity_id)
         and c.creator_id in ('${targetId}')
         and c.check_status = 'normal'
-        and c.category in('image','video','text')
+        and c.category in('image','video','text','business')
         and h.like_count >= 3
         <if test="vlog.type == 'id'">
             order by c.id desc limit #{size}
@@ -175,13 +175,12 @@
                  left join corgi_activity_like l2 on l1.like_user_id = l2.like_user_id and l2.activity_id != l1.activity_id and l2.type = 'real'
                  left join corgi_activity_creator c
         on c.activity_id = l2.activity_id
-        where c.category in ('video'
-            , 'image'
-            , 'text')
+            left join corgi_activity_creator c1 on c1.activity_id = l1.activity_id
+        where c.category = c1.category
           and l1.type = 'real'
           and l1.like_user_id != #{userId}
           and l1.activity_id = #{activityId}
-          and c.check_status = 'normal'
+          and c.check_status != 'fail'
         group by l2.activity_id
         order by count (1) desc limit #{start}, #{size}
     </select>
@@ -200,7 +199,7 @@
         and h.status = 'open'
         and h.type = #{vlog.type}
         and c.creator_id != #{vlog.userId}
-        and c.category in('image','video','text')
+        and c.category in('image','video','text','business')
         and c.check_status != 'fail'
         <if test="vlog.activityId != '' and vlog.activityId != null ">
             and (d.group is null or d.group = '' or d.group in ('${vlog.activityId}'))
