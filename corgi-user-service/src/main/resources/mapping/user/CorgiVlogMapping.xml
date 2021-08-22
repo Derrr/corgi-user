@@ -182,7 +182,7 @@
           and l1.activity_id = #{activityId}
           and c.check_status != 'fail'
         group by l2.activity_id
-        order by count (1) desc limit #{start}, #{size}
+        order by count(1) desc limit #{start}, #{size}
     </select>
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
@@ -263,6 +263,18 @@
         from corgi_vlog_hot v
         where status = 'open'
           and type = 'auto'
+            limit #{start}
+            , 1
+    </select>
+
+    <select id="selectOneVideoHot" resultType="java.lang.String">
+        select v.activity_id
+        from corgi_vlog_hot v
+                 left join corgi_activity_creator c on c.activity_id = v.activity_id
+        where v.status = 'open'
+          and v.type = 'auto'
+          and c.category = 'video'
+          and c.check_status != 'fail'
             limit #{start}
             , 1
     </select>

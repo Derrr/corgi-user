@@ -2,10 +2,7 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.entity.CorgiArea;
-import com.corgi.mapper.CorgiAreaMapper;
-import com.corgi.mapper.CorgiFeedMapper;
-import com.corgi.mapper.CorgiUserMapper;
-import com.corgi.mapper.CorgiVlogMapper;
+import com.corgi.mapper.*;
 import com.corgi.user.api.CorgiAreaService;
 import com.corgi.user.api.CorgiFeedService;
 import com.corgi.user.api.CorgiUserService;
@@ -38,9 +35,6 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Autowired
     private CorgiFeedMapper corgiFeedMapper;
-
-    @Autowired
-    private CorgiUserMapper corgiUserMapper;
 
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
@@ -93,6 +87,9 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             result = new ArrayList<>();
             for (int i = 0; i < max; i++) {
                 String activityId = corgiVlogMapper.selectOneHot(random.nextInt(total));
+                if (result.contains(activityId)) {
+                    continue;
+                }
                 result.add(activityId);
             }
         }
@@ -132,7 +129,10 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             Integer total = corgiVlogMapper.countVlogHot(new CorgiVlogHot());
             Random random = new Random();
             for (int i = 0; i < size - activityIds.size(); i++) {
-                String activityId1 = corgiVlogMapper.selectOneHot(random.nextInt(total));
+                String activityId1 = corgiVlogMapper.selectOneVideoHot(random.nextInt(total));
+                if (activityIds.contains(activityId1)) {
+                    continue;
+                }
                 activityIds.add(activityId1);
             }
         }
