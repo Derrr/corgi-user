@@ -10,11 +10,14 @@ import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.ActivityLike;
 import com.corgi.user.entity.ActivityMessage;
 import com.corgi.user.entity.UserDetail;
+import com.corgi.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service(interfaceClass = CorgiLikeService.class)
@@ -68,7 +71,8 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
 
     @Override
     public List<ActivityLike> getActivityLike(String activityId, Integer page, Integer pageSize) {
-        return corgiLikeMapper.getActivityLike(activityId, (page - 1) * pageSize, pageSize);
+        List<ActivityLike> likeList = corgiLikeMapper.getActivityLike(activityId, (page - 1) * pageSize, pageSize);
+        return this.populateLike(likeList);
     }
 
     @Override
@@ -118,7 +122,8 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
 
     @Override
     public List<ActivityLike> queryLike(ActivityLike query, Integer size) {
-        return corgiLikeMapper.queryLike(query, size);
+        List<ActivityLike> likeList = corgiLikeMapper.queryLike(query, size);
+        return this.populateLike(likeList);
     }
 
     @Override
@@ -129,5 +134,16 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
         }
         Integer lc = corgiLikeMapper.countGetLiked(userId);
         return lc * 1.0 / ac;
+    }
+
+    private List<ActivityLike> populateLike(List<ActivityLike> likeList) {
+        if (!CollectionUtils.isEmpty(likeList)) {
+            Long now = System.currentTimeMillis();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            for (ActivityLike like : likeList) {
+                like.setTimeShow(TimeUtil.buildTimeText(like.getCtime(), now, sdf));
+            }
+        }
+        return likeList;
     }
 }

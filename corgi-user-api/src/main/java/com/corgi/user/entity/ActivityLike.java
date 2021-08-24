@@ -9,6 +9,7 @@ public class ActivityLike implements Serializable {
     private String activityId;
     private String ctime;
     private String userId;
+    private String timeShow;
 
     private String likeUserId;
     private String likeUserName;

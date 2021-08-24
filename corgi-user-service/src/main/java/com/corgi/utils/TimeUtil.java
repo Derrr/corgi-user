@@ -1,10 +1,15 @@
 package com.corgi.utils;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TimeUtil {
     public static String buildTimeText(String ctime, Long now, SimpleDateFormat sdf) {
+        if (StringUtils.isEmpty(ctime)) {
+            return "";
+        }
         try {
             Date date = sdf.parse(ctime.substring(0, 19));
             Long diff = now - date.getTime();
