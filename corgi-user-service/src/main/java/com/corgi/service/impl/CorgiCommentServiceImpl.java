@@ -8,16 +8,16 @@ import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.ActivityComment;
 import com.corgi.user.entity.ActivityMessage;
 import com.corgi.user.entity.UserDetail;
+import com.corgi.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service(interfaceClass = CorgiCommentService.class)
 @Slf4j
@@ -151,8 +151,11 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     }
 
     private List<ActivityComment> buildParentComments(List<ActivityComment> activityComments, String userId) {
-        if (activityComments != null) {
+        if (!CollectionUtils.isEmpty(activityComments)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Long now = System.currentTimeMillis();
             for (ActivityComment comment : activityComments) {
+                comment.setTimeShow(TimeUtil.buildTimeText(comment.getCtime(), now, sdf));
                 if (comment.getLikeCount() != null && comment.getLikeCount() > 0) {
                     comment.setHasLike(corgiCommentMapper.hasLike(comment.getCommentId(), userId));
                 }
@@ -164,6 +167,7 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
                             break;
                         }
                     }
+                    comment.setTimeShow(TimeUtil.buildTimeText(comment.getCtime(), now, sdf));
                     comment.setChildComments(comments);
                     comment.setHasMore(comments.size() > 1);
                 }

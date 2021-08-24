@@ -23,6 +23,7 @@ public class ActivityComment implements Serializable {
     private String userId;
     private String content;
     private String ctime;
+    private String timeShow;
 
     private String commentUserId;
     private String commentUserName;
