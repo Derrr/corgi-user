@@ -180,7 +180,10 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         List<ActivityComment> results = new ArrayList<>();
         HashMap<String, ActivityComment> commentHashMap = new HashMap<>();
         if (activityComments != null) {
+            Long now = System.currentTimeMillis();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             for (ActivityComment comment : activityComments) {
+                comment.setTimeShow(TimeUtil.buildTimeText(comment.getCtime(), now, sdf));
                 if (comment.getLikeCount() != null && comment.getLikeCount() > 0) {
                     comment.setHasLike(corgiCommentMapper.hasLike(comment.getCommentId(), userId));
                 }
@@ -203,7 +206,10 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         if (result != null) {
             return result;
         }
+        Long now = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (ActivityComment comment : comments) {
+            comment.setTimeShow(TimeUtil.buildTimeText(comment.getCtime(), now, sdf));
             if (commentId.equals(comment.getCommentId())) {
                 commentHashMap.put(commentId, comment);
                 return comment;
