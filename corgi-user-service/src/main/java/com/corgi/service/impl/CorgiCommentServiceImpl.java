@@ -105,9 +105,12 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
         if (CollectionUtils.isEmpty(comments) || comments.size() < 5) {
             return new ArrayList<>();
         }
+        Long now = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         List<ActivityComment> result = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             ActivityComment comment = comments.get(i);
+            comment.setTimeShow(TimeUtil.buildTimeText(comment.getCtime(), now, sdf));
             comment.setHasLike(corgiCommentMapper.hasLike(comment.getCommentId(), userId));
             result.add(comment);
         }
