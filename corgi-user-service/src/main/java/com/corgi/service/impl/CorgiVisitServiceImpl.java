@@ -48,4 +48,13 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
         }
         return result;
     }
+
+    @Override
+    public Integer countVisitUnread(String userId) {
+        Integer result = corgiVisitMapper.countVisitUnread(userId);
+        if (result == null) {
+            result = 0;
+        }
+        return result;
+    }
 }

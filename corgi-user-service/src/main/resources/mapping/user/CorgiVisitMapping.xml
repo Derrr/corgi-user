@@ -12,7 +12,7 @@
     <update id="addVisitCount">
         update corgi_visit
         set `count` = `count` + 1,
-            `read` = '0'
+            `read`  = '0'
         where user_id = #{userId}
           and visitor_id = #{visitorId}
     </update>
@@ -74,8 +74,17 @@
         where v.user_id = #{userId}
     </select>
 
+    <select id="countVisitUnread" resultType="java.lang.Integer">
+        select sum(v.count)
+        from corgi_visit v
+        where v.user_id = #{userId}
+          and `read` = 0
+    </select>
+
     <update id="readVisit">
-        update corgi_visit set `read` = '1' where user_id = #{userId}
+        update corgi_visit
+        set `read` = '1'
+        where user_id = #{userId}
     </update>
 
 </mapper>

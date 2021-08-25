@@ -20,5 +20,7 @@ public interface CorgiVisitMapper {
 
     Integer countVisit(@Param("userId") String userId);
 
+    Integer countVisitUnread(@Param("userId") String userId);
+
     void readVisit(@Param("userId")String userId);
 }
