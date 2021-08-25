@@ -31,6 +31,8 @@ public interface CorgiUserActivityService {
 
     List<String> getFollowUserActivity(ActivityQuery query);
 
+    Integer countFollowUserActivity(ActivityQuery query);
+
     List<String> getSignUpActivity(String userId, Integer page, Integer pageSize);
 
     List<CorgiActivity> queryActivity(ActivityQuery query);

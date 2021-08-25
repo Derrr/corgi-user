@@ -100,6 +100,11 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public Integer countFollowUserActivity(ActivityQuery query) {
+        return corgiUserActivityMapper.countFollowedActivityIds(query);
+    }
+
+    @Override
     public List<String> getSignUpActivity(String userId, Integer page, Integer pageSize) {
         return corgiUserActivityMapper.getSignUpActivityId(userId, (page - 1) * pageSize, pageSize);
     }

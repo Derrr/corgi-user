@@ -104,6 +104,20 @@
         order by c.id desc limit #{query.pageSize}
     </select>
 
+    <select id="countFollowedActivityIds" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_activity_creator c
+        where c.check_status != 'fail'
+        and (c.creator_id = #{query.userId}
+        or exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id = #{query.userId}))
+        <if test="query.activityId != null and query.activityId != ''">
+            and c.activity_id > #{query.activityId}
+        </if>
+        <if test="query.endTime != null or query.endTime != ''">
+            and c.ctime > #{query.endTime}
+        </if>
+    </select>
+
     <select id="queryActivity" resultType="com.corgi.activity.entity.CorgiActivity">
         select c.activity_id id, c.ctime createTime
         from corgi_activity_creator c
