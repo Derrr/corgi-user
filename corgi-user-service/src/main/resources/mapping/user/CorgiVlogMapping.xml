@@ -98,7 +98,7 @@
         select
         <include refid="creator"/>
         from corgi_activity_creator c left join corgi_bar_detail d on d.bar_id = c.creator_id
-        where not exists(select 1 from corgi_business_feed f where f.user_id = #{vlog.userId} and f.activity_id =
+        where not exists(select 1 from corgi_business_feed f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id and f.ctime > #{vlog.ctime})
         and c.category = 'business'
         order by c.id desc limit #{size}
