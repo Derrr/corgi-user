@@ -94,7 +94,8 @@
         from corgi_activity_creator c
         where c.check_status != 'fail'
         and (c.creator_id = #{query.userId}
-        or exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id = #{query.userId}))
+        or exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
+        #{query.userId}))
         <if test="query.activityId != null and query.activityId != ''">
             and c.activity_id &lt; #{query.activityId}
         </if>
@@ -109,7 +110,8 @@
         from corgi_activity_creator c
         where c.check_status != 'fail'
         and (c.creator_id = #{query.userId}
-        or exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id = #{query.userId}))
+        or exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
+        #{query.userId}))
         <if test="query.activityId != null and query.activityId != ''">
             and c.activity_id > #{query.activityId}
         </if>
@@ -123,7 +125,8 @@
         from corgi_activity_creator c
         where c.check_status != 'fail'
         and c.creator = #{query.userId}
-          and c.ctime &lt; #{query.endTime}
+          and c.ctime
+         &lt; #{query.endTime}
         order by c.id desc limit #{query.pageSize}
     </select>
 
@@ -148,6 +151,16 @@
         group by c.activity_id
         order by count(l.id) desc
         limit #{start},#{size}
+    </select>
+
+    <select id="getCityBarActivity" resultType="java.lang.String">
+        select max(c.activity_id)
+        from corgi_activity_creator c
+                 join corgi_bar_detail d on d.bar_id = c.creator_id
+        where d.city = #{city}
+        group by c.creator_id
+        order by max(c.activity_id) desc
+            limit #{start}, #{size}
     </select>
 
     <insert id="addActivityCreator">

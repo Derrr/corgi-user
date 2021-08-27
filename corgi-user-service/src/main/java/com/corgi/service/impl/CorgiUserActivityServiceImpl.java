@@ -132,6 +132,11 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public List<String> getCityBarActivity(CorgiActivity corgiActivity, Integer page, Integer pageSize) {
+        return corgiUserActivityMapper.getCityBarActivity((page - 1) * pageSize, pageSize, corgiActivity.getCity());
+    }
+
+    @Override
     public void addActivityCreator(String userId, String activityId, String category) {
         corgiUserActivityMapper.addActivityCreator(activityId, userId, category);
     }
