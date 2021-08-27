@@ -172,7 +172,7 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
                     }
                     comment.setTimeShow(TimeUtil.buildTimeText(comment.getCtime(), now, sdf));
                     comment.setChildComments(comments);
-                    comment.setHasMore(comments.size() > 1);
+                    comment.setChildCount(comments.size());
                 }
             }
         }
