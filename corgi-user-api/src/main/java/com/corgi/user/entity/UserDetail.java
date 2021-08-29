@@ -63,11 +63,8 @@ public class UserDetail implements Serializable {
 
 
     public String getAvatar() {
-        if ("check".equals(this.getAvatarCheckStatus()) && this.avatar != null && !this.avatar.contains("?x-oss-process")) {
-            return this.avatar + "?x-oss-process=style/mask";
-        }
         if ("check".equals(this.getAvatarCheckStatus())) {
-            return this.avatar;
+            return "https://corgi-pic.oss-cn-beijing.aliyuncs.com/default-avatar/checking.png";
         }
         if (this.avatar != null) {
             return this.avatar.split("\\?")[0];
