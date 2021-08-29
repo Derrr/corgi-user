@@ -138,7 +138,9 @@
         select count(1)
         from corgi_activity_like
         where user_id = #{userId}
-          and type = 'real'
-          and ctime > #{date}
+        <if test="date != null and date != ''">
+            and type = 'real'
+            and ctime > #{date}
+        </if>
     </select>
 </mapper>
