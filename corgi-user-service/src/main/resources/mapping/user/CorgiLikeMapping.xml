@@ -120,8 +120,8 @@
         select
         <include refid="like"/>
         from corgi_activity_like
-        where like_user_id = #{like.like_user_id}
-        and user_id != #{like.like_user_id}
+        where like_user_id = #{like.likeUserId}
+        and user_id != #{like.likeUserId}
         and ctime &lt; #{like.ctime}
         order by id desc
         limit #{size}
