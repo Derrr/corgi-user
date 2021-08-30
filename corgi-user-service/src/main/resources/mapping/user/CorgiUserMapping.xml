@@ -250,7 +250,6 @@
             <if test="userDetail.bgDataId != null">
                 `bg_data_id` = #{userDetail.bgDataId},
             </if>
-
         </set>
         where user_id = #{userDetail.userId}
     </update>
