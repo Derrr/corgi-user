@@ -112,6 +112,14 @@ public interface CorgiUserMapper {
     void updateUserAvatar(@Param("userId") String userId, @Param("dataId") String dataId, @Param("status") String status);
 
     /**
+     * 修改背景图状态
+     *
+     * @param dataId
+     * @param status
+     */
+    void updateUserBackground(@Param("dataId") String dataId, @Param("status") String status, @Param("background")String background);
+
+    /**
      * 删除头像
      *
      * @param dataId

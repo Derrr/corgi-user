@@ -297,6 +297,19 @@
         where avatar_data_id = #{dataId}
     </update>
 
+    <update id="updateUserBackground">
+        update corgi_user_detail
+        <set>
+            <if test="status != null">
+                `bg_check_status` = #{status},
+            </if>
+            <if test="background != null">
+                `background` = #{background},
+            </if>
+        </set>
+        where bg_data_id = #{dataId}
+    </update>
+
     <update id="deleteUserAvatar">
         update corgi_user_detail
         set avatar         = null,

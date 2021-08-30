@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author tairanliu
@@ -33,6 +34,8 @@ public class CorgiPicServiceImpl implements CorgiPicService {
 
     @Autowired
     private static String SUFFIX = "?x-oss-process=style/mask";
+
+    public static final String BACKGROUND_PREFIX = "https://corgi-pic.oss-cn-beijing.aliyuncs.com/background/";
 
     @Override
     public String addUserPic(UserPic userPic) {
@@ -87,6 +90,8 @@ public class CorgiPicServiceImpl implements CorgiPicService {
             corgiPicMapper.deleteUserPicByDataId(checkPic.getDataId());
         } else if (CheckPic.AVATAR.equals(checkPic.getType())) {
             corgiUserMapper.deleteUserAvatar(checkPic.getDataId());
+        } else if (CheckPic.BACKGROUND.equals(checkPic.getType())) {
+            corgiUserMapper.updateUserBackground(checkPic.getDataId(), CheckPic.NORMAL, BACKGROUND_PREFIX + (new Random().nextInt() + 1) + ".png");
         } else {
             return "no type matches";
         }
@@ -109,6 +114,8 @@ public class CorgiPicServiceImpl implements CorgiPicService {
             corgiPicMapper.updateUserPicByDataId(checkPic.getDataId(), CorgiPic.NORMAL);
         } else if (CheckPic.AVATAR.equals(checkPic.getType())) {
             corgiUserMapper.updateUserAvatar(checkPic.getUserId(), checkPic.getDataId(), CorgiPic.NORMAL);
+        } else if (CheckPic.BACKGROUND.equals(checkPic.getType())) {
+            corgiUserMapper.updateUserBackground(checkPic.getDataId(), CorgiPic.NORMAL, null);
         } else {
             return "no type matches";
         }
