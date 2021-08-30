@@ -44,6 +44,9 @@ public class UserDetail implements Serializable {
     private Double match;
     private String version;
     private String ctime;
+    private String background;
+    private String bgCheckStatus;
+    private String bgDataId;
     private CorgiDate date;
 
     List<String> preferGroup;

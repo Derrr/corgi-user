@@ -93,7 +93,9 @@
         `con`,
         `relation`,
         `city`,
-        `check_status`)
+        `check_status`,
+        `background`,
+        `bg_check_status`)
         values (
         #{userDetail.userId},
         #{userDetail.nickname},
@@ -115,7 +117,9 @@
         #{userDetail.con},
         #{userDetail.relation},
         #{userDetail.city},
-        #{userDetail.checkStatus}
+        #{userDetail.checkStatus},
+        #{userDetail.background},
+        #{userDetail.bgCheckStatus}
         )
     </insert>
 
@@ -131,6 +135,8 @@
                d.`role`,
                d.`hide_role`,
                d.`character`,
+               d.background,
+               d.bg_check_status                      bgCheckStatus,
                d.`group`,
                d.`hide_group`,
                d.`birthday`,
@@ -235,6 +241,16 @@
             <if test="userDetail.checkStatus != null">
                 `check_status` = #{userDetail.checkStatus},
             </if>
+            <if test="userDetail.background != null">
+                `background` = #{userDetail.background},
+            </if>
+            <if test="userDetail.bgCheckStatus != null">
+                `bg_check_status` = #{userDetail.bgCheckStatus},
+            </if>
+            <if test="userDetail.bgDataId != null">
+                `bg_data_id` = #{userDetail.bgDataId},
+            </if>
+
         </set>
         where user_id = #{userDetail.userId}
     </update>
