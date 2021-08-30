@@ -124,7 +124,7 @@
         select c.activity_id id, c.ctime createTime
         from corgi_activity_creator c
         where c.check_status != 'fail'
-        and c.creator = #{query.userId}
+        and c.creator_id = #{query.userId}
           and c.ctime
          &lt; #{query.endTime}
         order by c.id desc limit #{query.pageSize}
