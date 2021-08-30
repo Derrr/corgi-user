@@ -143,14 +143,37 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     }
 
     @Override
-    public void likeComment(String commentId, String userId) {
+    public ActivityComment likeComment(String commentId, String userId) {
         corgiCommentMapper.addCommentLike(commentId, userId);
         corgiCommentMapper.updateCommentLikeStatus(commentId, userId, "1");
+        ActivityComment activityComment = corgiCommentMapper.getActivityCommentByCommentId(commentId);
+        if (!activityComment.getCommentUserId().equals(userId)) {
+            UserDetail likeUserDetail = corgiUserService.getUserDetailBasic(userId);
+            corgiToolService.addActivityMessage(ActivityMessage.builder()
+                    .activityId(activityComment.getActivityId())
+                    .fromUserAvatar(likeUserDetail.getAvatar())
+                    .fromUserId(likeUserDetail.getUserId())
+                    .fromUserName(likeUserDetail.getNickname())
+                    .toUserId(activityComment.getCommentUserId())
+                    .time(System.currentTimeMillis())
+                    .content("点赞了你的评论")
+                    .commentId(activityComment.getCommentId())
+                    .messageType(ActivityMessage.LIKE)
+                    .build());
+        }
+        return activityComment;
     }
 
     @Override
     public void disLikeComment(String commentId, String userId) {
         corgiCommentMapper.updateCommentLikeStatus(commentId, userId, "0");
+        ActivityComment activityComment = corgiCommentMapper.getActivityCommentByCommentId(commentId);
+        corgiToolService.deleteActivityMessageByMessage(ActivityMessage.builder()
+                .fromUserId(userId)
+                .activityId(activityComment.getActivityId())
+                .commentId(commentId)
+                .messageType(ActivityMessage.LIKE)
+                .build());
     }
 
     private List<ActivityComment> buildParentComments(List<ActivityComment> activityComments, String userId) {

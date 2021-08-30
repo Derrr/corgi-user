@@ -28,7 +28,7 @@ public interface CorgiCommentService {
 
     long countCommentUserByDate(String date, String category);
 
-    void likeComment(String commentId, String userId);
+    ActivityComment likeComment(String commentId, String userId);
 
     void disLikeComment(String commentId, String userId);
 }
