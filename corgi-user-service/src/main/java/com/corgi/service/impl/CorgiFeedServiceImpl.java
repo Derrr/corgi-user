@@ -124,18 +124,18 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> getFeedByActivityId(String activityId, String userId, Integer page, Integer size) {
-//        List<String> activityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, (page - 1) * size, size);
-//        if (activityIds.size() < size) {
-//            Integer total = corgiVlogMapper.countActivityVlog(activityId, userId);
-//            if (total == null) {
-//                total = 0;
-//            }
-//            Integer start = page * size - total;
-//            if (start > 0) {
-//                activityIds.addAll(corgiVlogMapper.recallByActivityId(activityId, userId, start, size - activityIds.size()));
-//            }
-//        }
-        return corgiVlogMapper.recallByActivityId(activityId, userId, 0, size);
+        List<String> activityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, (page - 1) * size, size);
+        if (activityIds.size() < size) {
+            Integer total = corgiVlogMapper.countActivityVlog(activityId, userId);
+            if (total == null) {
+                total = 0;
+            }
+            Integer start = page * size - total;
+            if (start > 0) {
+                activityIds.addAll(corgiVlogMapper.recallByActivityId(activityId, userId, start, size - activityIds.size()));
+            }
+        }
+        return activityIds;
     }
 
     @Override

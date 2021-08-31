@@ -198,20 +198,26 @@
           and l1.activity_id = #{activityId}
           and c.check_status != 'fail'
         group by l2.activity_id
+        limit #{start},#{size}
     </select>
 
     <select id="recallByActivityId" resultType="java.lang.String">
         select h.activity_id
         from corgi_vlog_hot h
                  left join corgi_activity_creator c on c.activity_id = h.activity_id
-        where
-        c.category = (select category from corgi_activity_creator where activity_id = #{activityId})
+        where not exists(select 1
+                         from corgi_activity_like l1
+                         where l1.activity_id = h.activity_id
+                           and l1.like_user_id
+                             in (select l2.like_user_id
+                                 from corgi_activity_like l2
+                                 where l2.activity_id = #{activityId}))
+          and c.category = (select category from corgi_activity_creator where activity_id = #{activityId})
           and c.creator_id != #{userId}
-          and h.activity_id &lt; #{activityId}
           and c.check_status != 'fail'
           and h.status = 'open'
           and h.type = 'auto'
-        order by h.activity_id desc
+        order by h.id desc
     </select>
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
