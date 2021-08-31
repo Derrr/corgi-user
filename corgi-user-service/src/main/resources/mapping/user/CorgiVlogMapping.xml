@@ -198,7 +198,7 @@
           and l1.activity_id = #{activityId}
           and c.check_status != 'fail'
         group by l2.activity_id
-        limit #{start},#{size}
+            limit #{start}, #{size}
     </select>
 
     <select id="recallByActivityId" resultType="java.lang.String">
@@ -218,6 +218,7 @@
           and h.status = 'open'
           and h.type = 'auto'
         order by h.id desc
+            limit #{start}, #{size}
     </select>
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
