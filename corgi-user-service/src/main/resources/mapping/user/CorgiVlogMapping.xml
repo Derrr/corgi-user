@@ -198,7 +198,6 @@
           and l1.activity_id = #{activityId}
           and c.check_status != 'fail'
         group by l2.activity_id
-            limit #{start}, #{size}
     </select>
 
     <select id="recallByActivityId" resultType="java.lang.String">
