@@ -37,7 +37,12 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
 
     @Override
     public CorgiVlog getVlog(String activityId) {
-        return corgiVlogMapper.getVlogByActivityId(activityId);
+        CorgiVlog v = corgiVlogMapper.getVlogByActivityId(activityId);
+        if (v == null) {
+            v = new CorgiVlog();
+            v.setActivityId(activityId);
+        }
+        return v;
     }
 
     @Override
