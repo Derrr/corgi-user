@@ -109,7 +109,7 @@ public interface CorgiUserMapper {
      * @param dataId
      * @param status
      */
-    void updateUserAvatar(@Param("userId") String userId, @Param("dataId") String dataId, @Param("status") String status);
+    void updateUserAvatar(@Param("userId") String userId, @Param("dataId") String dataId, @Param("picUrl") String picUrl, @Param("status") String status);
 
     /**
      * 修改背景图状态
@@ -117,7 +117,7 @@ public interface CorgiUserMapper {
      * @param dataId
      * @param status
      */
-    void updateUserBackground(@Param("dataId") String dataId, @Param("status") String status, @Param("background")String background);
+    void updateUserBackground(@Param("dataId") String dataId, @Param("status") String status, @Param("background") String background);
 
     /**
      * 删除头像
@@ -256,7 +256,7 @@ public interface CorgiUserMapper {
      * @param city
      * @return
      */
-    String getProvinceByCity(@Param("city")String city);
+    String getProvinceByCity(@Param("city") String city);
 
 
     /**
@@ -384,7 +384,7 @@ public interface CorgiUserMapper {
     /**
      * 获取用户基本信息
      */
-    List<UserProfile> getUserDetailByPage(@Param("start") Integer start, @Param("size") Integer size, @Param("time")Long time);
+    List<UserProfile> getUserDetailByPage(@Param("start") Integer start, @Param("size") Integer size, @Param("time") Long time);
 
     /**
      * 获取注销用户
@@ -399,5 +399,5 @@ public interface CorgiUserMapper {
     /**
      * 添加删除用户
      */
-    void addUnregisterUser(@Param("detail")UserDetail detail, @Param("position")UserPosition position);
+    void addUnregisterUser(@Param("detail") UserDetail detail, @Param("position") UserPosition position);
 }

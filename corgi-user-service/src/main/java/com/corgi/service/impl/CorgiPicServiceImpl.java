@@ -89,7 +89,7 @@ public class CorgiPicServiceImpl implements CorgiPicService {
         } else if (CheckPic.AVATAR.equals(checkPic.getType())) {
             corgiUserMapper.deleteUserAvatar(checkPic.getDataId());
         } else if (CheckPic.BACKGROUND.equals(checkPic.getType())) {
-            corgiUserMapper.updateUserBackground(checkPic.getDataId(), CheckPic.NORMAL, CheckPic.getDefaultBackground());
+            corgiUserMapper.updateUserBackground(checkPic.getDataId(), CheckPic.NORMAL, null);
         } else {
             return "no type matches";
         }
@@ -99,21 +99,22 @@ public class CorgiPicServiceImpl implements CorgiPicService {
 
     @Override
     public String noFaceCheckPic(CheckPic checkPic) {
-        corgiUserMapper.updateUserAvatar(checkPic.getUserId(), checkPic.getDataId(), UserDetail.NO_FACE);
+        corgiUserMapper.updateUserAvatar(checkPic.getUserId(), checkPic.getDataId(), UserDetail.NO_FACE, checkPic.getPicUrl());
         corgiPicMapper.updateCheckPic(checkPic.getDataId(), UserDetail.NO_FACE, checkPic.getUserId());
         return CorgiConstants.SUCCESS;
     }
 
     @Override
     public String passCheckPic(CheckPic checkPic) {
+        checkPic = corgiPicMapper.getCheckPicByDataId(checkPic.getDataId());
         if (CheckPic.ACTIVITY.equals(checkPic.getType())) {
             corgiPicMapper.updateActivityPicByDataId(checkPic.getDataId(), CorgiPic.NORMAL);
         } else if (CheckPic.USER.equals(checkPic.getType())) {
             corgiPicMapper.updateUserPicByDataId(checkPic.getDataId(), CorgiPic.NORMAL);
         } else if (CheckPic.AVATAR.equals(checkPic.getType())) {
-            corgiUserMapper.updateUserAvatar(checkPic.getUserId(), checkPic.getDataId(), CorgiPic.NORMAL);
+            corgiUserMapper.updateUserAvatar(checkPic.getUserId(), checkPic.getDataId(), checkPic.getPicUrl(), CorgiPic.NORMAL);
         } else if (CheckPic.BACKGROUND.equals(checkPic.getType())) {
-            corgiUserMapper.updateUserBackground(checkPic.getDataId(), CorgiPic.NORMAL, null);
+            corgiUserMapper.updateUserBackground(checkPic.getDataId(), CorgiPic.NORMAL, checkPic.getPicUrl());
         } else {
             return "no type matches";
         }

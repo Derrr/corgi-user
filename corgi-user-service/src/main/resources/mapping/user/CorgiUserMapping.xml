@@ -294,7 +294,8 @@
 
     <update id="updateUserAvatar">
         update corgi_user_detail
-        set avatar_check_status = #{status}
+        set avatar_check_status = #{status},
+            avatar              = #{picUrl}
         where avatar_data_id = #{dataId}
     </update>
 
@@ -313,9 +314,7 @@
 
     <update id="deleteUserAvatar">
         update corgi_user_detail
-        set avatar         = null,
-            avatar_status  = 'fail',
-            avatar_data_id = null
+        set avatar_status  = 'normal'
         where avatar_data_id = #{dataId}
     </update>
 
