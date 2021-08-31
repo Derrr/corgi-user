@@ -155,4 +155,12 @@ public interface CorgiPicMapper {
      */
     List<CheckPic> getCheckPicBySourceId(@Param("type") String type, @Param("sourceId") String sourceId);
 
+    /**
+     * 获取审核图片
+     *
+     * @param dataId
+     * @return
+     */
+    CheckPic getCheckPicByDataId(@Param("dataId") String dataId);
+
 }

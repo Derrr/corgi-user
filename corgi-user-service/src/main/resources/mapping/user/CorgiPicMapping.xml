@@ -156,4 +156,18 @@
           and `source_id` = #{sourceId}
     </select>
 
+    <select id="getCheckPicByDataId" resultType="com.corgi.entity.CheckPic">
+        select id          picId,
+               data_id     dataId,
+               pic_url     picUrl,
+               `type`,
+               `source_id` userId,
+               `result`,
+               `status`,
+               ctime,
+               uptime
+        from corgi_check_pic
+        where `data` = #{dataId}
+    </select>
+
 </mapper>

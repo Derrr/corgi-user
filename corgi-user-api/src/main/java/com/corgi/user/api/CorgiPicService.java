@@ -34,6 +34,8 @@ public interface CorgiPicService {
 
     List<CheckPic> getCheckPicBySourceId(String type, String sourceId);
 
+    CheckPic getCheckPicByDataId(String dataId);
+
     long countCheckPic(String status, String type, String userId);
 
     String updateUserPic(UserPic userPic);
