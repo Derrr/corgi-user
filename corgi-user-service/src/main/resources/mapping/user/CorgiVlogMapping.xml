@@ -186,7 +186,7 @@
     </select>
 
     <select id="countActivityVlog" resultType="java.lang.Integer">
-        select count(l2.activity_id)
+        select count(distinct l2.activity_id)
         from corgi_activity_like l1
                  left join corgi_activity_like l2 on l1.like_user_id = l2.like_user_id and l2.activity_id != l1.activity_id and l2.type = 'real'
                  left join corgi_activity_creator c
@@ -197,7 +197,6 @@
           and l1.like_user_id != #{userId}
           and l1.activity_id = #{activityId}
           and c.check_status != 'fail'
-        group by l2.activity_id
     </select>
 
     <select id="recallByActivityId" resultType="java.lang.String">
