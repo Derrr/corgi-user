@@ -3,8 +3,13 @@
 <mapper namespace="com.corgi.mapper.CorgiShareMapper">
 
     <insert id="addActivityShare" parameterType="com.corgi.user.entity.ActivityShare">
-        INSERT ignore INTO `corgi`.`corgi_activity_share` (`share_user_id`, `activity_id`,`user_id`)
-        VALUES (#{share.shareUserId}, #{share.activityId}, #{share.userId});
+        INSERT
+        ignore INTO `corgi`.`corgi_activity_share` (`share_user_id`, `activity_id`,`user_id`)
+        VALUES (
+        #{share.shareUserId},
+        #{share.activityId},
+        #{share.userId}
+        );
     </insert>
 
     <select id="countActivityShare" resultType="java.lang.Integer">
@@ -13,4 +18,19 @@
         where activity_id = #{activityId}
     </select>
 
+    <select id="countToken" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_share_token
+        where token = #{token}
+    </select>
+
+    <insert id="addToken">
+        INSERT INTO `corgi_share_token` (`token`, `type`, `user_id`, `source_id`)
+        VALUES (#{token}, #{type}, #{userId}, #{sourceId});
+    </insert>
+
+    <insert id="viewToken">
+        INSERT INTO `corgi_token_record` (`token`)
+        VALUES (#{token});
+    </insert>
 </mapper>

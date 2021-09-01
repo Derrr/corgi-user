@@ -24,4 +24,28 @@ public interface CorgiShareMapper {
      */
     Integer countActivityShare(@Param("activityId") String activityId);
 
+    /**
+     * 判断token是否重复
+     *
+     * @param token
+     * @return
+     */
+    Integer countToken(@Param("token")String token);
+
+    /**
+     * 添加token
+     *
+     * @param token
+     * @return
+     */
+    void addToken(@Param("token")String token, @Param("userId")String userId, @Param("type")String type, @Param("sourceId")String sourceId);
+
+    /**
+     * 添加token记录
+     *
+     * @param token
+     * @return
+     */
+    void viewToken(@Param("token")String token);
+
 }

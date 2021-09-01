@@ -13,4 +13,8 @@ public interface CorgiShareService {
     void addShare(ActivityShare activityShare);
 
     Integer countShare(String activityId);
+
+    String getShareToken(String userId, String type, String sourceId);
+
+    void viewShare(String token);
 }
