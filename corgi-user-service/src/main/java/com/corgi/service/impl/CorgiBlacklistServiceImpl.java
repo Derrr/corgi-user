@@ -72,11 +72,11 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
     @Override
     public List<UserBasic> getBlackUser(String userId) {
         List<UserBasic> userBasics = corgiBlacklistMapper.getBlacklist(userId);
-        if (userBasics != null) {
-            for (UserBasic userBasic : userBasics) {
-                userBasic.setUserPics(corgiPicMapper.getUserPic(userBasic.getUserId()));
-            }
-        }
+//        if (userBasics != null) {
+//            for (UserBasic userBasic : userBasics) {
+//                userBasic.setUserPics(corgiPicMapper.getUserPic(userBasic.getUserId()));
+//            }
+//        }
         return userBasics;
     }
 

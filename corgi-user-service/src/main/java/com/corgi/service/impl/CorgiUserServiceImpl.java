@@ -89,11 +89,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setCon(UserUtils.getConByBirthDay(userDetail.getBirthday()));
         corgiUserMapper.addUserDetail(userDetail);
         this.updatePreferGroup(userDetail.getUserId(), userDetail.getPreferGroup());
-        if (userDetail.getUserPics() != null) {
-            for (UserPic userPic : userDetail.getUserPics()) {
-                corgiPicMapper.addUserPic(userPic);
-            }
-        }
+//        if (userDetail.getUserPics() != null) {
+//            for (UserPic userPic : userDetail.getUserPics()) {
+//                corgiPicMapper.addUserPic(userPic);
+//            }
+//        }
         return CorgiConstants.SUCCESS;
     }
 
@@ -119,8 +119,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (userDetail == null) {
             return null;
         }
-        List<UserPic> userPics = corgiPicMapper.getUserPic(userId);
-        userDetail.setUserPics(userPics);
+        //List<UserPic> userPics = corgiPicMapper.getUserPic(userId);
+        //userDetail.setUserPics(userPics);
         if (!StringUtils.isEmpty(loginUserId)) {
             Integer countBeBlock = corgiBlacklistMapper.countBlack(userId, loginUserId);
             if (countBeBlock != null && countBeBlock > 0) {
@@ -425,7 +425,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
                 try {
-                    List<UserPic> userPics = corgiPicMapper.getUserPic(userProfile.getUserId());
+                    //List<UserPic> userPics = corgiPicMapper.getUserPic(userProfile.getUserId());
 
 //                    if (CollectionUtils.isEmpty(userPics) && userProfile.getAvatar() != null) {
 //                        UserPic userPic = new UserPic();
@@ -433,7 +433,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 //                        userPic.setStatus(userProfile.getAvatarStatus());
 //                        userProfile.setPics(Arrays.asList(userPic));
 //                    } else {
-                    userProfile.setPics(userPics);
+                    //userProfile.setPics(userPics);
                     //}
                     if (StringUtils.isEmpty(userId)) {
                         continue;
