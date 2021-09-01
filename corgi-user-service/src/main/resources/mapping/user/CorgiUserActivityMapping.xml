@@ -102,7 +102,7 @@
         <if test="query.category != null and query.category != ''">
             and c.category = #{query.category}
         </if>
-        order by c.id desc limit #{query.pageSize}
+        order by c.id desc limit #{query.page}, #{query.pageSize}
     </select>
 
     <select id="countFollowedActivityIds" resultType="java.lang.Integer">
