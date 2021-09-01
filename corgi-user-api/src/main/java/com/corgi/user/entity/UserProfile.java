@@ -63,11 +63,7 @@ public class UserProfile implements Serializable {
     }
 
     public String getAvatar() {
-        if ("check".equals(this.getAvatarCheckStatus())) {
-            return "https://corgi-pic.oss-cn-beijing.aliyuncs.com/default-avatar/checking.png";
-        } else {
-            return this.avatar != null ? this.avatar.split("\\?")[0] : this.avatar;
-        }
+        return this.avatar != null ? this.avatar.split("\\?")[0] : this.avatar;
     }
 
 }

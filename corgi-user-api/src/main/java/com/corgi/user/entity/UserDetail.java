@@ -66,9 +66,6 @@ public class UserDetail implements Serializable {
 
 
     public String getAvatar() {
-        if ("check".equals(this.getAvatarCheckStatus())) {
-            return "https://corgi-pic.oss-cn-beijing.aliyuncs.com/default-avatar/checking.png";
-        }
         if (this.avatar != null) {
             return this.avatar.split("\\?")[0];
         }
