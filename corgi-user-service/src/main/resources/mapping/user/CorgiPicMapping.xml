@@ -167,7 +167,7 @@
                ctime,
                uptime
         from corgi_check_pic
-        where `data` = #{dataId}
+        where `data_id` = #{dataId}
     </select>
 
 </mapper>
