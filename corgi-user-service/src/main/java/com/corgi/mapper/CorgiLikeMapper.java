@@ -75,7 +75,7 @@ public interface CorgiLikeMapper {
      * @param size
      * @return
      */
-    List<String> getLikedActivityId(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+    List<String> getLikedActivityId(@Param("userId") String userId, @Param("activityId") String activityId, @Param("category") String category, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
      * 统计点赞数

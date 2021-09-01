@@ -100,10 +100,17 @@
     </select>
 
     <select id="getLikedActivityId" resultType="java.lang.String">
-        select activity_id
-        from corgi_activity_like
-        where like_user_id = #{userId}
-        order by id DESC
+        select l.activity_id
+        from corgi_activity_like l
+        left join corgi_activity_creator c on c.activity_id = l.activity_id
+        where l.like_user_id = #{userId}
+        <if test="activityId != null and activityId != ''">
+            and l.id &lt; (select id from corgi_activity_like where like_user_id = #{userId} and activity_id = #{activityId})
+        </if>
+        <if test="category != null and category != ''">
+            and c.category = #{category}
+        </if>
+        order by l.id DESC
             limit #{start}, #{size}
     </select>
 
