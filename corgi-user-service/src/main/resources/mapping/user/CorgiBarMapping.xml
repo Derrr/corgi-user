@@ -127,7 +127,7 @@
         b.city
         from corgi_bar_detail b
         <if test="lat == null or lng == null">
-            left join corgi_user_follow f on f.follow_user_id = b.bar_id
+            left join corgi_user_follow f on f.follow_user_id = b.bar_id and f.is_deleted = '0'
         </if>
         where b.status = '1'
         <if test="city != null and city != ''">
@@ -178,6 +178,7 @@
         select count(1)
         from corgi_user_follow f
         where f.follow_user_id = #{barId}
+          and f.is_deleted = '0'
           and user_id in ('${userIds}')
     </select>
 

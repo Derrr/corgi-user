@@ -94,7 +94,7 @@
                `like_user_name`   likeUserName,
                `like_user_avatar` likeUserAvatar
         from corgi_activity_like l
-                 join corgi_user_follow f on f.follow_user_id = l.like_user_id and f.user_id = #{userId}
+                 join corgi_user_follow f on f.follow_user_id = l.like_user_id and f.user_id = #{userId} and f.is_deleted = '0'
         where activity_id = #{activityId}
         order by l.id desc limit 3
     </select>

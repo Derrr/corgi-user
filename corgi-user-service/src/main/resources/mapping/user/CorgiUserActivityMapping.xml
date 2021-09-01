@@ -69,7 +69,7 @@
         d.nickname `nickname`
         from corgi_activity_attender a
         left join corgi_user_detail d on d.user_id = a.user_id
-        left join corgi_user_follow f on f.follow_user_id = a.user_id
+        left join corgi_user_follow f on f.follow_user_id = a.user_id and f.is_deleted = '0'
         where a.activity_id = #{activityId}
         <if test='status != null and status !="" '>
             and a.`status` = #{status}
@@ -95,7 +95,7 @@
         where c.check_status != 'fail'
         and (c.creator_id = #{query.userId}
         or exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
-        #{query.userId}))
+        #{query.userId} and f.is_deleted = '0'))
         <if test="query.activityId != null and query.activityId != ''">
             and c.activity_id &lt; #{query.activityId}
         </if>
@@ -111,7 +111,7 @@
         where c.check_status != 'fail'
         and (c.creator_id = #{query.userId}
         or exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
-        #{query.userId}))
+        #{query.userId} and f.is_deleted = '0'))
         <if test="query.activityId != null and query.activityId != ''">
             and c.activity_id > #{query.activityId}
         </if>
