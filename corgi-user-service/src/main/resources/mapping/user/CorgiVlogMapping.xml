@@ -165,8 +165,9 @@
             order by c.id desc limit #{size}
         </if>
         <if test="vlog.type == 'like'">
-            order by c.like_count desc limit #{size}
+            order by h.like_count desc limit #{size}
         </if>
+        limit #{size}
     </select>
 
     <select id="recallActivityVlog" resultType="java.lang.String">

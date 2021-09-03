@@ -101,6 +101,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         List<CorgiVlog> vlogs = new ArrayList<>();
         CorgiVlog recall = new CorgiVlog();
         recall.setUserId(userId);
+        recall.setType("like");
         Random random = new Random();
         for (int i = 0; i < popularUserIds.size(); i++) {
             if (CollectionUtils.isEmpty(popularUserIds)) {
