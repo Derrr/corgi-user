@@ -162,10 +162,10 @@
         and c.category in('image','video','text','business')
         and h.like_count >= 3
         <if test="vlog.type == 'id'">
-            order by c.id desc limit #{size}
+            order by c.id desc
         </if>
         <if test="vlog.type == 'like'">
-            order by h.like_count desc limit #{size}
+            order by h.like_count desc
         </if>
         limit #{size}
     </select>
