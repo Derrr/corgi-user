@@ -88,6 +88,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
             corgiActivity.setCategory(CorgiActivity.CAT_BUSINESS);
             List<UserVideo> userVideos = corgiVideoService.getVideo(barId);
             barProfile.setHeat(countBarHeat(barProfile));
+            barProfile.setRelActivityCount(corgiActivityService.countBarAppraisedActivity(barId));
             barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
             if (!CollectionUtils.isEmpty(userVideos)) {
                 barProfile.setVideo(userVideos.get(0).getVideoUrl());
