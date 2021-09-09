@@ -168,9 +168,9 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
         hot.setStatus("close");
         hot.setActivityId(activityId);
         corgiVlogMapper.updateVlogHot(hot);
-        CorgiFeed feed = new CorgiFeed();
-        feed.setFeed(activityId);
-        corgiFeedService.deleteFeed(feed);
+//        CorgiFeed feed = new CorgiFeed();
+//        feed.setFeed(activityId);
+//        corgiFeedService.deleteFeed(feed);
     }
 
     @Override
