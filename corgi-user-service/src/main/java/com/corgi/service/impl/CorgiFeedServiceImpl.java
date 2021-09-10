@@ -47,6 +47,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         String index = UserUtils.getIndex(userId);
 
         List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size);
+        log.info("index:{} size:{} result:{} ", index, size, result);
         CorgiVlog query = new CorgiVlog();
         query.setUserId(userId);
         query.setType(CorgiVlogHot.TYPE.MANUAL);
@@ -63,6 +64,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 result.add(0, vlog.getActivityId());
             }
         }
+        log.info("index result:{} size:{} ", result, result.size());
         if (result.size() >= size) {
             return result;
         }
@@ -78,6 +80,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 result.add(vlog.getActivityId());
             }
         }
+        log.info("index result:{} size:{} ", result, result.size());
         Integer max = size - result.size();
         if (max > 0) {
             CorgiVlogHot queryHot = new CorgiVlogHot();
@@ -94,6 +97,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 result.add(activityId);
             }
         }
+        log.info("index result:{} size:{} ", result, result.size());
         return result;
     }
 
