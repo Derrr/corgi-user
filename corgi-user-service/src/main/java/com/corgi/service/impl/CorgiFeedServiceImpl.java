@@ -42,10 +42,12 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     @Override
     public List<String> getUnviewFeed(String userId, Integer size) {
         if (size == null) {
-            size = 10;
+            size = 8;
         }
         String index = UserUtils.getIndex(userId);
+
         List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size);
+        log.info("index:{] size:{} result:{} ", index, size, result);
         CorgiVlog query = new CorgiVlog();
         query.setUserId(userId);
         query.setType(CorgiVlogHot.TYPE.MANUAL);
