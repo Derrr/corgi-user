@@ -47,7 +47,6 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         String index = UserUtils.getIndex(userId);
 
         List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size);
-        log.info("index:{} size:{} result:{} ", index, size, result);
         CorgiVlog query = new CorgiVlog();
         query.setUserId(userId);
         query.setType(CorgiVlogHot.TYPE.MANUAL);
