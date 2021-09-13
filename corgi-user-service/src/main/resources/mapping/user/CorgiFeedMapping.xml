@@ -7,7 +7,7 @@
     </insert>
 
     <insert id="addBarFeed" parameterType="com.corgi.user.entity.CorgiFeed">
-        insert ignore into corgi_business_feed (`user_id`, `feed`, `bar_id`)
+        insert into corgi_business_feed (`user_id`, `feed`, `bar_id`)
         values (#{feed.userId}, #{feed.feed}, #{feed.feedUserId})
     </insert>
 
