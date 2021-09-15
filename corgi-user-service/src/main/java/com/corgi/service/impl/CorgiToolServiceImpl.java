@@ -262,6 +262,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
                 continue;
             }
             CorgiActivity activity = activities.get(0);
+
             if (!StringUtils.isEmpty(activity.getCoverUrl())) {
                 activityMessage.setActivityPic(activity.getCoverUrl());
             } else {
@@ -269,6 +270,12 @@ public class CorgiToolServiceImpl implements CorgiToolService {
                     continue;
                 }
                 activityMessage.setActivityPic(activity.getPics().get(0).getPicUrl());
+            }
+            String content = activity.getContent();
+            if (!StringUtils.isEmpty(content)) {
+                activityMessage.setText(content.length() > 20 ? content.substring(0, 20): content);
+            } else {
+                activityMessage.setText("");
             }
             activityMessage.setStatus(CorgiActivity.DELETED.equals(activity.getStatus()) ? CorgiActivity.DELETED : CorgiActivity.CREATED);
         }
