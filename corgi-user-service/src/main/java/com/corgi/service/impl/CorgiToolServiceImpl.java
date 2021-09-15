@@ -273,7 +273,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
             }
             String content = activity.getContent();
             if (!StringUtils.isEmpty(content)) {
-                activityMessage.setText(content.length() > 20 ? content.substring(0, 20): content);
+                activityMessage.setText(content);
             } else {
                 activityMessage.setText("");
             }
