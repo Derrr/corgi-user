@@ -272,10 +272,13 @@ public class CorgiToolServiceImpl implements CorgiToolService {
                 activityMessage.setActivityPic(activity.getPics().get(0).getPicUrl());
             }
             String content = activity.getContent();
-            if (!StringUtils.isEmpty(content)) {
-                activityMessage.setText(content);
+            if (content == null) {
+                content = "";
+            }
+            if (!StringUtils.isEmpty(activity.getTitle())) {
+                activityMessage.setText(activity.getTitle());
             } else {
-                activityMessage.setText("");
+                activityMessage.setText(content);
             }
             activityMessage.setStatus(CorgiActivity.DELETED.equals(activity.getStatus()) ? CorgiActivity.DELETED : CorgiActivity.CREATED);
         }
