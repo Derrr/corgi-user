@@ -165,9 +165,6 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     @Override
     public long countCheckPic(String status, String type, String userId) {
         long count = corgiPicMapper.countCheckPic(status, type, userId);
-        if (CheckPic.USER.equals(type)) {
-            count += corgiPicMapper.countCheckPic(status, CheckPic.BACKGROUND, userId);
-        }
         return count;
     }
 
