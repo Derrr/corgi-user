@@ -51,7 +51,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         query.setUserId(userId);
         query.setType(CorgiVlogHot.TYPE.MANUAL);
         query.setStatus("asc");
-        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, 1, index);
+        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, 2, index);
         if (!CollectionUtils.isEmpty(corgiVlogs)) {
             for (CorgiVlog vlog : corgiVlogs) {
                 CorgiFeed feed = new CorgiFeed();
