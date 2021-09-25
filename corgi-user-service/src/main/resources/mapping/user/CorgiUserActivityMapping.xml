@@ -121,12 +121,16 @@
     </select>
 
     <select id="queryActivity" resultType="com.corgi.activity.entity.CorgiActivity">
-        select c.activity_id id, c.ctime createTime
+        select c.activity_id id, c.ctime createTime, c.creator_id userId
         from corgi_activity_creator c
         where c.check_status != 'fail'
-        and c.creator_id = #{query.userId}
-          and c.ctime
-         &lt; #{query.endTime}
+        <if test="query.userId != null and query.userId !=''">
+            and c.creator_id = #{query.userId}
+        </if>
+        <if test="query.endTime != null and query.endTime !=''">
+            and c.ctime
+            &lt; #{query.endTime}
+        </if>
         order by c.id desc limit #{query.pageSize}
     </select>
 
@@ -205,6 +209,13 @@
         from corgi_activity_creator c
         where c.category = #{category}
           and c.ctime like concat(#{date}, '%')
+    </select>
+
+    <select id="countActivityDate" resultType="java.lang.Integer">
+        select count(distinct substring(c.ctime,1,10))
+        from corgi_activity_creator c
+        where c.creator_id = #{query.userId}
+          and c.ctime > #{query.endTime}
     </select>
 
     <select id="countSignUpUser" resultType="java.lang.Long">

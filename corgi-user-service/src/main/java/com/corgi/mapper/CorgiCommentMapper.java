@@ -130,6 +130,14 @@ public interface CorgiCommentMapper {
     List<ActivityComment> queryComment(@Param("comment") ActivityComment comment, @Param("size") Integer size);
 
     /**
+     * 列出评论
+     *
+     * @param comment
+     * @return
+     */
+    List<ActivityComment> listComment(@Param("comment") ActivityComment comment);
+
+    /**
      * 更新评论点赞状态
      *
      * @param commentId

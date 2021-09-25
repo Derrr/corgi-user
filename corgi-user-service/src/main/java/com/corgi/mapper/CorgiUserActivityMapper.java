@@ -185,6 +185,14 @@ public interface CorgiUserActivityMapper {
     long countActivityUser(@Param("category") String category, @Param("date") String date);
 
     /**
+     * 统计发活动人数
+     *
+     * @param query
+     * @return
+     */
+    Integer countActivityDate(@Param("query") ActivityQuery query);
+
+    /**
      * 统计报名人数
      *
      * @param date

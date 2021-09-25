@@ -123,6 +123,11 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     }
 
     @Override
+    public List<ActivityComment> listComment(ActivityComment query, Integer size) {
+        return corgiCommentMapper.listComment(query);
+    }
+
+    @Override
     public Long countActivityComment(String activityId) {
         return corgiCommentMapper.countActivityComment(activityId);
     }

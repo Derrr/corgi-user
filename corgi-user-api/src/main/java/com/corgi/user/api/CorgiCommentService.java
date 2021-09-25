@@ -20,6 +20,8 @@ public interface CorgiCommentService {
 
     List<ActivityComment> queryComment(ActivityComment query, Integer size);
 
+    List<ActivityComment> listComment(ActivityComment query, Integer size);
+
     Long countActivityComment(String activityId);
 
     ActivityComment getLastComment(String activityId, String userId);
