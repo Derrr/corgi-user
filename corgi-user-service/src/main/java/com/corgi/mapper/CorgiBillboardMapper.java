@@ -122,20 +122,20 @@ public interface CorgiBillboardMapper {
     /**
      * 添加榜单活动
      *
-     * @param activityId
+     * @param activity
      */
-    void addActivityBillboard(@Param("activityId") String activityId);
+    void addActivityBillboard(@Param("activity") ActivityBillboard activity);
 
-    void addActivityBillboardStatus(@Param("activityId") String activityId);
+    void addActivityBillboardStatus(@Param("activity") ActivityBillboard activity);
 
     void updateActivityBillboardTime(@Param("activityId") String activityId);
 
     /**
      * 删除榜单活动
      *
-     * @param activityId
+     * @param activity
      */
-    void deleteActivityBillboard(@Param("activityId") String activityId);
+    void deleteActivityBillboard(@Param("activity") ActivityBillboard activity);
 
 
     /**
@@ -143,14 +143,14 @@ public interface CorgiBillboardMapper {
      *
      * @return
      */
-    List<String> getActivityBillboard();
+    List<String> getActivityBillboard(@Param("date") String date);
 
     /**
      * 获取榜单活动
      *
      * @return
      */
-    List<ActivityBillboard> getAllActivityBillboard();
+    List<ActivityBillboard> getAllActivityBillboard(@Param("activity") ActivityBillboard activity);
 
     /**
      * 统计上榜次数

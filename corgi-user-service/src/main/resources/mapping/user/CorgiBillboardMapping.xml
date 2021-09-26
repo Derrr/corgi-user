@@ -162,18 +162,24 @@
           and b.date &lt;= #{endDate}
     </select>
 
-    <insert id="addActivityBillboard">
+    <insert id="addActivityBillboard" parameterType="com.corgi.user.entity.ActivityBillboard">
         insert
-        ignore into corgi_activity_billboard(activity_id)
+        ignore into corgi_activity_billboard(activity_id,`date`,`count`,`order`,`user_id`)
         values(
-        #{activityId}
+        #{activity.activityId},
+        #{activity.date},
+        #{activity.count},
+        #{activity.order},
+        #{activity.userId}
         )
     </insert>
 
     <insert id="addActivityBillboardStatus">
         update corgi_activity_billboard
         set status = '1'
-        where activity_id = #{activityId}
+        where activity_id = #{activity.activityId}
+        and `date` = #{activity.date}
+        and `order` = #{activity.order}
     </insert>
 
     <update id="updateActivityBillboardTime">
@@ -182,28 +188,25 @@
         where activity_id = #{activityId}
     </update>
 
-    <update id="deleteActivityBillboard">
+    <update id="deleteActivityBillboard" parameterType="com.corgi.user.entity.ActivityBillboard">
         update corgi_activity_billboard
         set `status` = '0'
-        where activity_id = #{activityId}
+        where activity_id = #{activity.activityId}
+          and `date` = #{activity.date}
     </update>
 
     <select id="getActivityBillboard" resultType="java.lang.String">
         select b.activity_id
         from corgi_activity_billboard b
-                 left join corgi_activity_attender a on a.activity_id = b.activity_id
         where b.status = '1'
-        group by b.activity_id
-        order by count(1) desc
+          and `date` = #{date}
+        order by `order`
     </select>
 
     <select id="getAllActivityBillboard" resultType="com.corgi.user.entity.ActivityBillboard">
-        select b.activity_id, b.ctime lastTime, b.uptime ctime
+        select b.activity_id activityId
         from corgi_activity_billboard b
-                 left join corgi_activity_attender a on a.activity_id = b.activity_id
-        where b.status = '1'
-        group by b.activity_id
-        order by count(1) desc
+        where status = 1 and `date` = #{activity.date}
     </select>
 
     <select id="countOnBoard" resultType="java.lang.Integer">

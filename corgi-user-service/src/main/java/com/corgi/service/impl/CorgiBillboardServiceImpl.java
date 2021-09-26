@@ -127,24 +127,24 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     }
 
     @Override
-    public void addActivityBillboard(String activityId) {
-        corgiBillboardMapper.addActivityBillboard(activityId);
-        corgiBillboardMapper.addActivityBillboardStatus(activityId);
+    public void addActivityBillboard(ActivityBillboard activity) {
+        corgiBillboardMapper.addActivityBillboard(activity);
+        corgiBillboardMapper.addActivityBillboardStatus(activity);
     }
 
     @Override
-    public void deleteActivityBillboard(String activityId) {
-        corgiBillboardMapper.deleteActivityBillboard(activityId);
+    public void deleteActivityBillboard(ActivityBillboard activityBillboard) {
+        corgiBillboardMapper.deleteActivityBillboard(activityBillboard);
     }
 
     @Override
-    public List<String> getActivityBillboard() {
-        return corgiBillboardMapper.getActivityBillboard();
+    public List<String> getActivityBillboard(String date) {
+        return corgiBillboardMapper.getActivityBillboard(date);
     }
 
     @Override
     public List<ActivityBillboard> getAllActivityBillboard() {
-        return corgiBillboardMapper.getAllActivityBillboard();
+        return corgiBillboardMapper.getAllActivityBillboard(new ActivityBillboard());
     }
 
     @Override

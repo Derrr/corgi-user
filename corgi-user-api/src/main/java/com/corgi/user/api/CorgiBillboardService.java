@@ -28,11 +28,11 @@ public interface CorgiBillboardService {
 
     List<Billboard> getBillboardByDate(String startDate, String endDate);
 
-    void addActivityBillboard(String activityId);
+    void addActivityBillboard(ActivityBillboard activityBillboard);
 
-    void deleteActivityBillboard(String activityId);
+    void deleteActivityBillboard(ActivityBillboard activityBillboard);
 
-    List<String> getActivityBillboard();
+    List<String> getActivityBillboard(String date);
 
     List<ActivityBillboard> getAllActivityBillboard();
 
