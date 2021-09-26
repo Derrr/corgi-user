@@ -41,8 +41,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> getUnviewFeed(String userId, Integer size) {
-        if (size == null) {
-            size = 8;
+        if (size == null || size > 7) {
+            size = 7;
         }
         String index = UserUtils.getIndex(userId);
 
@@ -51,7 +51,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         query.setUserId(userId);
         query.setType(CorgiVlogHot.TYPE.MANUAL);
         query.setStatus("asc");
-        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, 2, index);
+        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, 3, index);
         if (!CollectionUtils.isEmpty(corgiVlogs)) {
             for (CorgiVlog vlog : corgiVlogs) {
                 CorgiFeed feed = new CorgiFeed();
