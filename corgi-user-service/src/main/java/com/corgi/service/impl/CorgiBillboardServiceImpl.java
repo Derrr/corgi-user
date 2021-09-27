@@ -143,8 +143,8 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     }
 
     @Override
-    public List<ActivityBillboard> getAllActivityBillboard() {
-        return corgiBillboardMapper.getAllActivityBillboard(new ActivityBillboard());
+    public List<ActivityBillboard> getAllActivityBillboard(ActivityBillboard activityBillboard) {
+        return corgiBillboardMapper.getAllActivityBillboard(activityBillboard);
     }
 
     @Override

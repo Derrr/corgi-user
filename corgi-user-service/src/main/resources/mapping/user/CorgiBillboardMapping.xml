@@ -178,8 +178,8 @@
         update corgi_activity_billboard
         set status = '1'
         where activity_id = #{activity.activityId}
-        and `date` = #{activity.date}
-        and `order` = #{activity.order}
+          and `date` = #{activity.date}
+          and `order` = #{activity.order}
     </insert>
 
     <update id="updateActivityBillboardTime">
@@ -204,7 +204,11 @@
     </select>
 
     <select id="getAllActivityBillboard" resultType="com.corgi.user.entity.ActivityBillboard">
-        select b.activity_id activityId
+        select b.activity_id activityId,
+               b.user_id     userId,
+               (select count(1) from corgi_activity_billboard b1 where b1.activity_id = b.activity_id and b1.status = 1) count,
+               b.date,
+               b.order
         from corgi_activity_billboard b
         where status = 1 and `date` = #{activity.date}
     </select>

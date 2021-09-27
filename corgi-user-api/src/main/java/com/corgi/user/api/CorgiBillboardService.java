@@ -34,7 +34,7 @@ public interface CorgiBillboardService {
 
     List<String> getActivityBillboard(String date);
 
-    List<ActivityBillboard> getAllActivityBillboard();
+    List<ActivityBillboard> getAllActivityBillboard(ActivityBillboard activityBillboard);
 
     Integer countOnBoard(String userId);
 }
