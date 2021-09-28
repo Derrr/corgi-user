@@ -31,7 +31,7 @@ public interface CorgiBillboardMapper {
      * @param limit
      * @return
      */
-    List<CorgiActivity> getPopularActivity(@Param("query") ActivityQuery activityQuery, @Param("limit") Integer limit);
+    List<CorgiActivity> getPopularActivity(@Param("query") ActivityQuery activityQuery, @Param("size") Integer limit);
 
 
     /**
