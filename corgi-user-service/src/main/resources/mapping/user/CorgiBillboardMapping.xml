@@ -36,7 +36,7 @@
     </select>
 
     <select id="getPopularActivity" resultType="com.corgi.activity.entity.CorgiActivity">
-        select l.activity_id activityId, c.creator_id userId, count(1) likeCount
+        select l.activity_id id, c.creator_id userId, count(1) likeCount
         from corgi_activity_like l
             left join corgi_activity_creator c
         on l.activity_id = c.activity_id
