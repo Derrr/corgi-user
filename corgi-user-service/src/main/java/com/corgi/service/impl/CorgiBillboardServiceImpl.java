@@ -2,6 +2,8 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.activity.entity.CorgiActivity;
+import com.corgi.entity.ActivityQuery;
 import com.corgi.mapper.CorgiBillboardMapper;
 import com.corgi.user.api.CorgiBillboardService;
 import com.corgi.user.api.CorgiPicService;
@@ -79,6 +81,11 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         String date = sdf.format(calendar.getTime());
         List<UserProfile> userProfiles = corgiBillboardMapper.getPopularUsers(userDetail, date, limit);
         return userProfiles;
+    }
+
+    @Override
+    public List<CorgiActivity> getPopularActivity(ActivityQuery activityQuery, Integer limit) {
+        return corgiBillboardMapper.getPopularActivity(activityQuery, limit);
     }
 
     @Override

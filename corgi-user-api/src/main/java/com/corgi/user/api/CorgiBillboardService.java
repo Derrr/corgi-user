@@ -1,5 +1,7 @@
 package com.corgi.user.api;
 
+import com.corgi.activity.entity.CorgiActivity;
+import com.corgi.entity.ActivityQuery;
 import com.corgi.user.entity.ActivityBillboard;
 import com.corgi.user.entity.Billboard;
 import com.corgi.user.entity.UserDetail;
@@ -17,6 +19,8 @@ public interface CorgiBillboardService {
     void cleanBillboard(String date);
 
     List<UserProfile> getPopularUser(UserDetail userDetail, Integer limit);
+
+    List<CorgiActivity> getPopularActivity(ActivityQuery activityQuery, Integer limit);
 
     List<UserProfile> getPassionUser(UserDetail userDetail, Integer limit);
 

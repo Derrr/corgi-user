@@ -1,5 +1,7 @@
 package com.corgi.mapper;
 
+import com.corgi.activity.entity.CorgiActivity;
+import com.corgi.entity.ActivityQuery;
 import com.corgi.entity.CorgiArea;
 import com.corgi.user.entity.ActivityBillboard;
 import com.corgi.user.entity.Billboard;
@@ -21,6 +23,16 @@ public interface CorgiBillboardMapper {
      * @return
      */
     List<UserProfile> getPopularUsers(@Param("detail") UserDetail userDetail, @Param("date") String date, @Param("limit") Integer limit);
+
+    /**
+     * 获取被点赞数最多的动态
+     *
+     * @param activityQuery
+     * @param limit
+     * @return
+     */
+    List<CorgiActivity> getPopularActivity(@Param("query") ActivityQuery activityQuery, @Param("limit") Integer limit);
+
 
     /**
      * 获取点赞数最高的人

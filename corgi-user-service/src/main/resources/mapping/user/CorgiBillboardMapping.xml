@@ -35,6 +35,19 @@
         limit #{limit}
     </select>
 
+    <select id="getPopularActivity" resultType="com.corgi.activity.entity.CorgiActivity">
+        select l.activity_id activityId, c.creator_id userId, count(1) likeCount
+        from corgi_activity_like l
+            left join corgi_activity_creator c
+        on l.activity_id = c.activity_id
+        where l.type = 'real'
+          and l.ctime > #{query.startTime}
+          and c.check_status != 'fail'
+        group by l.activity_id
+        order by `likeCount` desc
+            limit #{size}
+    </select>
+
     <select id="getPassionUsers" resultType="com.corgi.user.entity.UserProfile">
         select f.user_id userId, count(distinct f.follow_user_id) `match`, count(distinct bf.user_id) `count`
         from corgi_user_follow f
@@ -205,12 +218,16 @@
 
     <select id="getAllActivityBillboard" resultType="com.corgi.user.entity.ActivityBillboard">
         select b.activity_id activityId,
-               b.user_id     userId,
-               (select count(1) from corgi_activity_billboard b1 where b1.activity_id = b.activity_id and b1.status = 1) count,
-               b.date,
-               b.order
+        b.user_id userId,
+        (select count(1) from corgi_activity_billboard b1 where b1.activity_id = b.activity_id and b1.status = 1) count,
+        b.date,
+        b.order
         from corgi_activity_billboard b
-        where status = 1 and `date` = #{activity.date}
+        where status = 1 and `date` >= #{activity.date}
+        <if test="activity.ctime != null and activity.ctime != ''">
+            and `date` &lt;= #{activity.ctime}
+        </if>
+        order by b.`date` desc,b.`order`
     </select>
 
     <select id="countOnBoard" resultType="java.lang.Integer">
