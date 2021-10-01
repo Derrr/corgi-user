@@ -78,7 +78,7 @@
                t.cuid,
                t.opuid,
                t.`content`,
-               t.`order`,
+               a.`weight` `order`,
                t.`pic_url` picUrl
         from corgi_activity_topic a
                  left join corgi_topics t on t.id = a.topic
