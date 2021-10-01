@@ -87,10 +87,12 @@
 
 
     <select id="getActivityIdsByTopic" resultType="java.lang.String">
-        select activity_id
-        from corgi_activity_topic
-        where topic = #{topic}
-        order by `weight` desc
+        select c.activity_id
+        from corgi_activity_creator c
+                 left join corgi_activity_topic t on c.activity_id = t.activity_id
+        where t.topic = #{topic} and c.check_status != 'fail'
+        and c.category in ('image','text','video')
+        order by t.`weight` desc, c.id desc
             limit #{start}, #{size}
     </select>
 
