@@ -678,7 +678,14 @@
                b.city
         from corgi_influencer_billboard b
                  left join corgi_user_detail d on b.user_id = d.user_id
+        left join corgi_user_login l on l.id = d.user_id
         where b.user_id != '8'
+        <if test="query.nickname != null and query.nickname != ''">
+            and d.nickname like concat('%',#{query.nickname},'%')
+        </if>
+        <if test="query.telNo != null and query.telNo != ''">
+            and l.tel_no = #{query.telNo}
+        </if>
         order by b.fan desc
             limit #{start}, #{size}
     </select>
