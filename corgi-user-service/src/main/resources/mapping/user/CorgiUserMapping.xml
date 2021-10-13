@@ -687,6 +687,9 @@
         <if test="query.telNo != null and query.telNo != ''">
             and l.tel_no = #{query.telNo}
         </if>
+        <if test="query.character != null and query.character != ''">
+            and d.character = #{query.character}
+        </if>
         order by b.fan desc
             limit #{start}, #{size}
     </select>
