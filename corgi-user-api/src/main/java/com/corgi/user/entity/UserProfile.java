@@ -37,6 +37,7 @@ public class UserProfile implements Serializable {
     private Double match;
     private int signUpStatus;
     private Integer isFollowed;
+    private String character;
     private String checkStatus;
     private String isRead;
     private String createTime;
