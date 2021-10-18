@@ -43,6 +43,7 @@
         where l.type = 'real'
           and l.ctime > #{query.startTime}
           and c.check_status != 'fail'
+        and not exists(select 1 from corgi_activity_billboard b where b.activity_id = l.activity_id)
         group by l.activity_id
         order by `likeCount` desc
             limit #{size}
