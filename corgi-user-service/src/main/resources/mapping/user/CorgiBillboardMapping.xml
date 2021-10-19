@@ -107,10 +107,11 @@
                d.weight,
                d.height,
                d.birthday
-        from corgi_billboard b
-                 left join corgi_user_detail d on d.user_id = b.user_id
-                 left join corgi_user_position p on p.user_id = b.user_id
-        where b.date = #{date}
+        from corgi_activity_billboard b
+                left join corgi_activity_creator c on c.activity_id = b.activity_id
+                 left join corgi_user_detail d on d.user_id = c.creator_id
+                 left join corgi_user_position p on p.user_id = c.creator_id
+        where b.date = #{date} and b.status = 1
         order by b.order
     </select>
 
