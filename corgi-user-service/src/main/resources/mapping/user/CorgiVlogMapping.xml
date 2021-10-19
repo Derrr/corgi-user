@@ -354,6 +354,9 @@
         <if test="vlog.activityId != null">
             and `activity_id` = #{vlog.activityId}
         </if>
+        <if test="vlog.ctime != null and vlog.ctime != ''">
+            and `ctime` > #{vlog.ctime}
+        </if>
         order by id desc
         limit #{start}, #{size}
     </select>

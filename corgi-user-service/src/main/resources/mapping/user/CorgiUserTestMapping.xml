@@ -281,6 +281,9 @@
         <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
             and d.check_status = #{userDetail.checkStatus}
         </if>
+        <if test="userDetail.ctime != null and userDetail.ctime != ''">
+            and d.ctime > #{userDetail.ctime}
+        </if>
         order by d.user_id
         limit #{start},#{size}
     </select>
