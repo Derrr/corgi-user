@@ -52,10 +52,14 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
         for (UserDetail detail : fakeUserDetails) {
             executorService.submit(() -> {
                 String prefix = PREFIX.get(random.nextInt(9));
-                if (random.nextInt(2) > 0) {
-                    detail.setNickname(detail.getNickname() + prefix);
+                if (detail.getNickname().startsWith("小可_")) {
+                    detail.setNickname(detail.getNickname() + new Random().nextInt(10));
                 } else {
-                    detail.setNickname(prefix + detail.getNickname());
+                    if (random.nextInt(2) > 0) {
+                        detail.setNickname(detail.getNickname() + prefix);
+                    } else {
+                        detail.setNickname(prefix + detail.getNickname());
+                    }
                 }
                 String avatarStatus = "fake" + detail.getUserId();
                 String fakeId = corgiFakeMapper.getFakeUserByStatus(avatarStatus);
