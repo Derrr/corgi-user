@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.api.CorgiActivityService;
 import com.corgi.activity.entity.CorgiActivity;
+import com.corgi.entity.CheckPic;
 import com.corgi.mapper.CorgiBarMapper;
 import com.corgi.mapper.CorgiFakeMapper;
 import com.corgi.user.api.*;
@@ -69,6 +70,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
                     return;
                 }
                 detail.setAvatarStatus(avatarStatus);
+                detail.setBackground(CheckPic.getDefaultBackground());
                 detail.setAvatarCheckStatus(UserDetail.NO_FACE);
                 UserLogin userLogin = new UserLogin();
                 userLogin.setTelNo("3" + detail.getTelNo());
