@@ -1,0 +1,20 @@
+package com.corgi.mapper;
+
+import com.corgi.user.entity.CorgiMerchandise;
+import com.corgi.user.entity.CorgiOrder;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
+ * @author tairanliu
+ */
+public interface CorgiOrderMapper {
+    List<CorgiMerchandise> searchMerchandise(@Param("merchandise") CorgiMerchandise merchandise);
+
+    void addOrder(@Param("order") CorgiOrder order);
+
+    void updateOrder(@Param("order") CorgiOrder order);
+
+    List<CorgiOrder> getOrderByPage(@Param("order") CorgiOrder order, @Param("start")Integer start, @Param("size")Integer size);
+}

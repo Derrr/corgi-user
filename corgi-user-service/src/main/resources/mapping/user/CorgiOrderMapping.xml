@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiOrderMapper">
+    <sql id="merchandise">
+        m
+        .
+        id
+        , m.title, m.content, m.price, m.type
+    </sql>
+    <sql id="order">
+        o
+        .
+        trade_no
+        tradeNo
+        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId, o.buyerId buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.result,o.pay_time payTime,o.status
+    </sql>
+
+    <select id="searchMerchandise" resultType="com.corgi.user.entity.CorgiMerchandise">
+        select
+        <include refid="merchandise"/>
+        from corgi_merchandise m
+        where m.status = 1
+        <if test="merchandise.type != null and merchandise.type != ''">
+            and m.type = #{merchandise.type}
+        </if>
+        order by m.order
+    </select>
+
+    <insert id="addOrder" parameterType="com.corgi.user.entity.CorgiOrder">
+        INSERT INTO `corgi_order` (`trade_no`, `merch_id`, `pay_type`, `user_id`, `market_id`, `seller_id`)
+        VALUES (#{order.tradeNo}, #{order.merchId}, #{order.payType}, #{order.userId}, #{order.marketId},
+                #{order.sellerId});
+    </insert>
+
+    <insert id="updateOrder" parameterType="com.corgi.user.entity.CorgiOrder">
+        update corgi_order
+        <set>
+            <if test="order.buyerId != null and order.buyerId != ''">
+                `buyer_id` = #{order.buyerId},
+            </if>
+            <if test="order.payAmount != null">
+                `pay_amount` = #{order.payAmount},
+            </if>
+            <if test="order.result != null and order.result != ''">
+                `result` = #{order.result},
+            </if>
+            <if test="order.payTime != null and order.payTime != ''">
+                `pay_time` = #{order.payTime},
+            </if>
+            <if test="order.status != null and order.status != ''">
+                `status` = #{order.status},
+            </if>
+        </set>
+        where trade_no = #{order.tradeNo}
+    </insert>
+
+    <select id="getOrderByPage" resultType="com.corgi.user.entity.CorgiOrder">
+        select
+        <include refid="order"/>
+        from corgi_order o
+        where o.user_id = #{order.userId} limit #{start}, #{size}
+    </select>
+
+</mapper>
