@@ -14,4 +14,6 @@ public interface CorgiOrderService {
     void updateOrder(CorgiOrder order);
 
     List<CorgiOrder> getOrderByPage(CorgiOrder order, Integer page, Integer pageSize);
+
+    CorgiMerchandise getMerchandiseById(String merchId);
 }

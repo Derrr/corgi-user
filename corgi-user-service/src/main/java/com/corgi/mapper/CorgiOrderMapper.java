@@ -12,6 +12,8 @@ import java.util.List;
 public interface CorgiOrderMapper {
     List<CorgiMerchandise> searchMerchandise(@Param("merchandise") CorgiMerchandise merchandise);
 
+    CorgiMerchandise getMerchandiseById(@Param("merchId") String merchId);
+
     void addOrder(@Param("order") CorgiOrder order);
 
     void updateOrder(@Param("order") CorgiOrder order);

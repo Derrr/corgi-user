@@ -5,7 +5,7 @@
         m
         .
         id
-        , m.title, m.content, m.price, m.type
+        , m.title, m.content, m.price, m.type, m.status
     </sql>
     <sql id="order">
         o
@@ -24,6 +24,13 @@
             and m.type = #{merchandise.type}
         </if>
         order by m.order
+    </select>
+
+    <select id="getMerchandiseById" resultType="com.corgi.user.entity.CorgiMerchandise">
+        select
+        <include refid="merchandise"/>
+        from corgi_merchandise m
+        where m.id = #{merchId}
     </select>
 
     <insert id="addOrder" parameterType="com.corgi.user.entity.CorgiOrder">

@@ -41,4 +41,9 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     public List<CorgiOrder> getOrderByPage(CorgiOrder order, Integer page, Integer pageSize) {
         return corgiOrderMapper.getOrderByPage(order, (page - 1) * pageSize, pageSize);
     }
+
+    @Override
+    public CorgiMerchandise getMerchandiseById(String merchId) {
+        return corgiOrderMapper.getMerchandiseById(merchId);
+    }
 }

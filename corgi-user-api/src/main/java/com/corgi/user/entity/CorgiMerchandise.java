@@ -11,4 +11,5 @@ public class CorgiMerchandise implements Serializable {
     private String content;
     private Double price;
     private String type;
+    private String status;
 }
