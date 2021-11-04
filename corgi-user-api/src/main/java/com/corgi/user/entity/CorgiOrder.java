@@ -1,14 +1,16 @@
 package com.corgi.user.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
+@Builder
 public class CorgiOrder implements Serializable {
     public interface PAY_TYPE {
-        String IOS = "ios";
-        String ANDROID = "android";
+        String WX = "wx";
+        String ALIPAY = "alipay";
         String APP_STORE = "appStore";
     }
 
