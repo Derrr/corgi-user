@@ -12,7 +12,7 @@
         .
         trade_no
         tradeNo
-        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId, o.buyerId buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.result,o.pay_time payTime,o.status
+        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId, o.buyerId buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.pay_time payTime,o.status
     </sql>
 
     <select id="searchMerchandise" resultType="com.corgi.user.entity.CorgiMerchandise">
@@ -65,7 +65,15 @@
         select
         <include refid="order"/>
         from corgi_order o
-        where o.user_id = #{order.userId} limit #{start}, #{size}
+        where 1=1
+        <if test="order.userId != null and order.userId != ''">
+            and o.user_id = #{order.userId}
+        </if>
+        <if test="order.tradeNo != null and order.tradeNo != ''">
+            and o.trade_no = #{order.tradeNo}
+        </if>
+        order by id desc
+        limit #{start}, #{size}
     </select>
 
 </mapper>
