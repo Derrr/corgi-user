@@ -187,7 +187,7 @@
         where f.user_id = #{userId}
         and is_deleted = '0'
         <if test="name != null and name != ''">
-            and d2.nickname like concat('%',#{name},'%')
+            and UPPER(d2.nickname) like concat('%',UPPER(#{name}),'%')
         </if>
         order by `time` desc
         limit #{start}, #{size}
