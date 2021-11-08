@@ -50,11 +50,13 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         query.setType(CorgiVlogHot.TYPE.MANUAL);
         query.setStatus("asc");
         List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, 5, index);
-        if (corgiVlogs.size() < size) {
-            size = 10 - corgiVlogs.size();
-        }
-        List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size);
+
         if (!CollectionUtils.isEmpty(corgiVlogs)) {
+            if (corgiVlogs.size() < size) {
+                size = 10 - corgiVlogs.size();
+            } else {
+                size = 0;
+            }
             for (CorgiVlog vlog : corgiVlogs) {
                 CorgiFeed feed = new CorgiFeed();
                 feed.setFeed(vlog.getActivityId());
@@ -62,6 +64,11 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 feed.setUserId(userId);
                 feed.setSource("manual");
                 corgiFeedMapper.addFeed(feed, index);
+            }
+        }
+        List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size);
+        if (!CollectionUtils.isEmpty(corgiVlogs)) {
+            for (CorgiVlog vlog : corgiVlogs) {
                 result.add(0, vlog.getActivityId());
             }
         }
