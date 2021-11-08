@@ -46,5 +46,5 @@ public interface CorgiVlogService {
 
     CorgiVlog countByTopic(String topic);
 
-    CorgiVlog countByHashtag(String hashtagId);
+    CorgiVlog countByHashtag(String hashtagId, String type);
 }

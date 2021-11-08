@@ -72,7 +72,7 @@ public interface CorgiVlogMapper {
 
     Integer countByHashtag(@Param("hashtagId") String hashtagId);
 
-    Integer countLikeByHashtag(@Param("hashtagId") String hashtagId);
+    Integer countLikeByHashtag(@Param("hashtagId") String hashtagId, @Param("type") String type);
 
     Integer countCommentByHashtag(@Param("hashtagId") String hashtagId);
 
