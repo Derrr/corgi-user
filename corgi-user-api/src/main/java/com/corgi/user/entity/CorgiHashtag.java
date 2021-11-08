@@ -10,8 +10,8 @@ public class CorgiHashtag implements Serializable {
     public static final String RELEASE = "release";
     public static final String OFF = "off";
     String picUrl;
-    String hastagId;
-    String hastagName;
+    String hashtagId;
+    String hashtagName;
     String status;
     String content;
     String ctime;
