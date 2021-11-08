@@ -70,11 +70,12 @@ public interface CorgiVlogMapper {
 
     CorgiVlog countByTopic(@Param("topic") String topic);
 
+    Integer countByHashtag(@Param("hashtagId") String hashtagId);
+
     Integer countLikeByHashtag(@Param("hashtagId") String hashtagId);
 
     Integer countCommentByHashtag(@Param("hashtagId") String hashtagId);
 
     Integer countViewByHashtag(@Param("hashtagId") String hashtagId, @Param("index") String index);
-
 
 }

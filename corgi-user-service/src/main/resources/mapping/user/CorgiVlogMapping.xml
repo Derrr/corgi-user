@@ -388,10 +388,16 @@
         where t.topic = #{topic}
     </select>
 
+    <select id="countByHashtag" resultType="java.lang.Integer">
+        select count(distinct t.activity_id)
+        from corgi_activity_hashtag t
+        where t.hashtag_id = #{hashtagId}
+    </select>
+
     <select id="countLikeByHashtag" resultType="java.lang.Integer">
-        select count(1)
-        from corgi_activity_like l
-                 left join corgi_activity_hashtag t on t.activity_id = v.activity_id
+        select count(l.id)
+        from corgi_activity_hashtag t
+                 left join corgi_activity_like l on t.activity_id = l.activity_id
         where l.type = 'real' and t.hashtag_id = #{hashtagId}
     </select>
 
@@ -404,8 +410,8 @@
 
     <select id="countViewByHashtag" resultType="java.lang.Integer">
         select sum(f.view_count)
-        from corgi_feed_${index} f
-                 left join corgi_activity_hashtag t on t.activity_id = f.feed
+        from corgi_activity_hashtag t
+                 left join corgi_feed_${index} f on t.activity_id = f.feed
         where t.hashtag_id = #{hashtagId}
     </select>
 

@@ -160,11 +160,15 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     @Override
     public CorgiVlog countByHashtag(String hashtagId) {
         CorgiVlog vlog = new CorgiVlog();
+        vlog.setId(corgiVlogMapper.countByHashtag(hashtagId));
         vlog.setLikeCount(corgiVlogMapper.countLikeByHashtag(hashtagId));
         vlog.setCommentCount(corgiVlogMapper.countCommentByHashtag(hashtagId));
         Integer view = 0;
         for (int i = 0; i < 8; i++) {
-            view += corgiVlogMapper.countViewByHashtag(hashtagId, i + "");
+            Integer viewIndex = corgiVlogMapper.countViewByHashtag(hashtagId, i + "");
+            if (viewIndex != null) {
+                view += viewIndex;
+            }
         }
         vlog.setViewCount(view);
         return vlog;
