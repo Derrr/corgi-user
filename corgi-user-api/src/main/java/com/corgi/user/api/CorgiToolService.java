@@ -24,7 +24,11 @@ public interface CorgiToolService {
 
     List<CorgiTopic> searchTopic(String text, String status);
 
+    List<CorgiHashtag> searchHashtag(String text, String status);
+
     CorgiTopic getTopic(String id);
+
+    CorgiHashtag getHashtag(String id);
 
     List<String> getActivityTypes();
 
@@ -35,6 +39,20 @@ public interface CorgiToolService {
     void addTopic(CorgiTopic topic);
 
     void updateTopic(CorgiTopic topic);
+
+    void addHashtag(CorgiHashtag hashtag);
+
+    void updateHashtag(CorgiHashtag hashtag);
+
+    List<String> getActivityHashtag(String activityId);
+
+    List<CorgiHashtag> getActivityHashTagDetails(String activityId);
+
+    List<String> getActivityIdsByHashtag(String hashtagName, Integer page, Integer size);
+
+    void updateActivityHashtagWeight(String activityId, Integer weight);
+
+    void updateActivityHashtag(String activityId, List<String> hastags);
 
     List<String> getActivityTopic(String activityId);
 

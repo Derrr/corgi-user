@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiToolMapper">
+
+    <sql id="hashtag">
+        id topicId, `hashtag_name` hashtagName, ctime, uptime, `status`, cuid, opuid, `content`, `pic_url` picUrl, `order`
+    </sql>
     <select id="searchTopic" resultType="com.corgi.entity.CorgiTopic">
         select id topicId, `topic`, ctime, uptime, `status`, cuid, opuid, `content`, `pic_url` picUrl, `order`
         from corgi_topics
@@ -12,6 +16,25 @@
             and `topic` like concat('%',#{text},'%')
         </if>
         order by `order`
+    </select>
+
+    <select id="searchHashtag" resultType="com.corgi.user.entity.CorgiHashtag">
+        select <include refid="hashtag"/>
+        from corgi_hastags
+        where `status` != 'deleted'
+        <if test="status != null and status != ''">
+            and `status` = #{status}
+        </if>
+        <if test="text != null and text != ''">
+            and `hastag_name` like concat('%',#{text},'%')
+        </if>
+        order by `order`
+    </select>
+
+    <select id="getHashtagById" resultType="com.corgi.user.entity.CorgiHashtag">
+        select <include refid="hashtag"/>
+        from corgi_topics
+        where id = #{id}
     </select>
 
     <select id="getTopicById" resultType="com.corgi.entity.CorgiTopic">
@@ -45,6 +68,12 @@
                 #{topic.order}, #{topic.url}, #{topic.urlType});
     </insert>
 
+    <insert id="addHashtag" parameterType="com.corgi.user.entity.CorgiHashtag">
+        insert into `corgi_hastags` (`hastag_name`, `status`, cuid, opuid, `content`, `pic_url`, `order`, `url`, `url_type`)
+        values (#{hashtag.hashtagName}, #{hashtag.status}, #{hashtag.cuid}, #{hashtag.opuid}, #{hashtag.content}, #{hashtag.picUrl},
+                #{hashtag.order}, #{hashtag.url}, #{hashtag.urlType});
+    </insert>
+
     <update id="updateTopic" parameterType="com.corgi.entity.CorgiTopic">
         update corgi_topics
         <set>
@@ -62,6 +91,23 @@
         where id = #{topic.topicId}
     </update>
 
+    <update id="updateHashtag" parameterType="com.corgi.user.entity.CorgiHashtag">
+        update corgi_hashtags
+        <set>
+            hashtag_name = #{hashtag.hashtagName},
+            content = #{hashtag.content},
+            opuid = #{hashtag.opuid},
+            `status` = #{hashtag.status},
+            `pic_url` = #{hashtag.picUrl},
+            `url` = #{hashtag.url},
+            `url_type` = #{hashtag.urlType},
+            <if test="hashtag.hashtag != null">
+                `order` = #{hashtag.order},
+            </if>
+        </set>
+        where id = #{hashtag.hashtagId}
+    </update>
+
     <select id="getActivityTopic" resultType="java.lang.String">
         select content
         from corgi_activity_topic a
@@ -69,9 +115,33 @@
         where activity_id = #{activityId}
     </select>
 
+    <select id="getActivityHashtag" resultType="java.lang.String">
+        select content
+        from corgi_activity_hashtag a
+                 left join corgi_hashtags t on t.id = a.hashtag_id
+        where activity_id = #{activityId}
+    </select>
+
+
     <select id="getActivityTopicDetails" resultType="com.corgi.entity.CorgiTopic">
         select t.id        topicId,
                t.`topic`,
+               t.ctime,
+               t.uptime,
+               t.`status`,
+               t.cuid,
+               t.opuid,
+               t.`content`,
+               a.`weight` `order`,
+               t.`pic_url` picUrl
+        from corgi_activity_topic a
+                 left join corgi_topics t on t.id = a.topic
+        where activity_id = #{activityId}
+    </select>
+
+    <select id="getActivityHashtagDetails" resultType="com.corgi.user.entity.CorgiHashtag">
+        select t.id        hashtagId,
+               t.`hashtag_name` hashtagName,
                t.ctime,
                t.uptime,
                t.`status`,

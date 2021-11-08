@@ -41,17 +41,19 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> getUnviewFeed(String userId, Integer size) {
-        if (size == null || size > 7) {
-            size = 7;
+        if (size == null || size > 10) {
+            size = 10;
         }
         String index = UserUtils.getIndex(userId);
-
-        List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size);
         CorgiVlog query = new CorgiVlog();
         query.setUserId(userId);
         query.setType(CorgiVlogHot.TYPE.MANUAL);
         query.setStatus("asc");
-        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, 3, index);
+        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, 5, index);
+        if (corgiVlogs.size() < size) {
+            size = 10 - corgiVlogs.size();
+        }
+        List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size);
         if (!CollectionUtils.isEmpty(corgiVlogs)) {
             for (CorgiVlog vlog : corgiVlogs) {
                 CorgiFeed feed = new CorgiFeed();

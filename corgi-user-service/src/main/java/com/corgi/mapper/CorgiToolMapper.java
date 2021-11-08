@@ -2,6 +2,7 @@ package com.corgi.mapper;
 
 import com.corgi.entity.CorgiTopic;
 import com.corgi.user.entity.ActivityMessage;
+import com.corgi.user.entity.CorgiHashtag;
 import com.corgi.user.entity.DateType;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,12 +24,29 @@ public interface CorgiToolMapper {
     List<CorgiTopic> searchTopic(@Param("text") String text, @Param("status") String status);
 
     /**
+     * 搜索hashtag
+     *
+     * @param text
+     * @param status
+     * @return
+     */
+    List<CorgiHashtag> searchHashtag(@Param("text") String text, @Param("status") String status);
+
+    /**
      * 获取话题
      *
      * @param id
      * @return
      */
     CorgiTopic getTopicById(@Param("id") String id);
+
+    /**
+     * 获取hashtag
+     *
+     * @param id
+     * @return
+     */
+    CorgiHashtag getHashtagById(@Param("id") String id);
 
     /**
      * 获取活动类型
@@ -53,11 +71,25 @@ public interface CorgiToolMapper {
     void addTopic(@Param("topic") CorgiTopic topic);
 
     /**
+     * 添加hashtag
+     *
+     * @param hashtag
+     */
+    void addHashtag(@Param("hashtag") CorgiHashtag hashtag);
+
+    /**
      * 修改话题
      *
      * @param topic
      */
     void updateTopic(@Param("topic") CorgiTopic topic);
+
+    /**
+     * 修改hashtag
+     *
+     * @param hashtag
+     */
+    void updateHashtag(@Param("hashtag") CorgiHashtag hashtag);
 
     /**
      * 获取活动话题
@@ -68,12 +100,28 @@ public interface CorgiToolMapper {
     List<String> getActivityTopic(@Param("activityId") String activityId);
 
     /**
+     * 获取活动hashtag
+     *
+     * @param activityId
+     * @return
+     */
+    List<String> getActivityHashtag(@Param("activityId") String activityId);
+
+    /**
      * 获取活动话题
      *
      * @param activityId
      * @return
      */
     List<CorgiTopic> getActivityTopicDetails(@Param("activityId") String activityId);
+
+    /**
+     * 获取活动话题
+     *
+     * @param activityId
+     * @return
+     */
+    List<CorgiHashtag> getActivityHashtagDetails(@Param("activityId") String activityId);
 
     /**
      * 根据话题获取活动

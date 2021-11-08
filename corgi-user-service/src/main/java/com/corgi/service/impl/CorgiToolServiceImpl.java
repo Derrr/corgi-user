@@ -81,8 +81,18 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public List<CorgiHashtag> searchHashtag(String text, String status) {
+        return null;
+    }
+
+    @Override
     public CorgiTopic getTopic(String id) {
         return corgiToolMapper.getTopicById(id);
+    }
+
+    @Override
+    public CorgiHashtag getHashtag(String id) {
+        return null;
     }
 
     @Override
@@ -108,6 +118,41 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     @Override
     public void updateTopic(CorgiTopic topic) {
         corgiToolMapper.updateTopic(topic);
+    }
+
+    @Override
+    public void addHashtag(CorgiHashtag hashtag) {
+
+    }
+
+    @Override
+    public void updateHashtag(CorgiHashtag hashtag) {
+
+    }
+
+    @Override
+    public List<String> getActivityHashtag(String activityId) {
+        return null;
+    }
+
+    @Override
+    public List<CorgiHashtag> getActivityHashTagDetails(String activityId) {
+        return null;
+    }
+
+    @Override
+    public List<String> getActivityIdsByHashtag(String hashtagName, Integer page, Integer size) {
+        return null;
+    }
+
+    @Override
+    public void updateActivityHashtagWeight(String activityId, Integer weight) {
+
+    }
+
+    @Override
+    public void updateActivityHashtag(String activityId, List<String> hastags) {
+
     }
 
     @Override
