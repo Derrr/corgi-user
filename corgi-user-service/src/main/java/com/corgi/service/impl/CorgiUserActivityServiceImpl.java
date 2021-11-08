@@ -128,7 +128,12 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
         if (!CollectionUtils.isEmpty(topics)) {
             topic = topics.get(0);
         }
-        return corgiUserActivityMapper.getHeadActivityPic(category, date, (page - 1) * pageSize, pageSize, topic);
+        List<String> hashtags = corgiActivity.getHashtags();
+        String hashtag = null;
+        if (!CollectionUtils.isEmpty(hashtags)) {
+            hashtag = hashtags.get(0);
+        }
+        return corgiUserActivityMapper.getHeadActivityPic(category, date, (page - 1) * pageSize, pageSize, topic, hashtag);
     }
 
     @Override

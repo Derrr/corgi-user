@@ -145,13 +145,16 @@ public interface CorgiUserActivityMapper {
      * @param size
      * @return
      */
-    List<String> getHeadActivityPic(@Param("category") String category, @Param("date") String date, @Param("start") Integer start, @Param("size") Integer size, @Param("topic")String topic);
+    List<String> getHeadActivityPic(@Param("category") String category,
+                                    @Param("date") String date,
+                                    @Param("start") Integer start,
+                                    @Param("size") Integer size,
+                                    @Param("topic")String topic,
+                                    @Param("hashtag")String hashtag);
 
     /**
      * 获取城市商户动态
      *
-     * @param category
-     * @param date
      * @param start
      * @param size
      * @return

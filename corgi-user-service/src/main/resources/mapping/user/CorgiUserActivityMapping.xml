@@ -148,6 +148,10 @@
         <if test="topic != null">
             join corgi_activity_topic t on t.activity_id = c.activity_id and t.topic = #{topic}
         </if>
+        <if test="hashtag != null">
+            join corgi_activity_hashtag t on t.activity_id = c.activity_id and t.hashtag_id = #{hashtag}
+        </if>
+
         where c.category in ('${category}')
         <if test="date != null">
             and c.ctime >= #{date}
