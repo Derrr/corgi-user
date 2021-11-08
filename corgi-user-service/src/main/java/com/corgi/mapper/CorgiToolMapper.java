@@ -134,12 +134,30 @@ public interface CorgiToolMapper {
     List<String> getActivityIdsByTopic(@Param("topic") String topic, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
+     * 根据话题获取活动
+     *
+     * @param hashtagId
+     * @param start
+     * @param size
+     * @return
+     */
+    List<String> getActivityIdsByHashtag(@Param("hashtagId") String hashtagId, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
      * 修改活动权重
      *
      * @param activityId
      * @param weight
      */
     void updateActivityWeight(@Param("activityId") String activityId, @Param("weight") Integer weight);
+
+    /**
+     * 修改活动权重
+     *
+     * @param activityId
+     * @param weight
+     */
+    void updateHashtagActivityWeight(@Param("activityId") String activityId, @Param("weight") Integer weight);
 
     /**
      * 添加活动话题
@@ -155,6 +173,21 @@ public interface CorgiToolMapper {
      * @param activityId
      */
     void deleteActivityTopic(@Param("activityId") String activityId);
+
+    /**
+     * 添加活动话题
+     *
+     * @param activityId
+     * @param hashtagId
+     */
+    void addActivityHashtag(@Param("activityId") String activityId, @Param("hashtagId") String hashtagId);
+
+    /**
+     * 删除活动话题
+     *
+     * @param activityId
+     */
+    void deleteActivityHashtag(@Param("activityId") String activityId);
 
     /**
      * 技数统计

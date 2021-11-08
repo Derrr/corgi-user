@@ -4,7 +4,6 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.api.CorgiActivityService;
 import com.corgi.activity.entity.CorgiActivity;
-import com.corgi.entity.CorgiStatistic;
 import com.corgi.entity.CorgiTopic;
 import com.corgi.mapper.CorgiToolMapper;
 import com.corgi.mapper.CorgiUserTagMapper;
@@ -82,7 +81,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Override
     public List<CorgiHashtag> searchHashtag(String text, String status) {
-        return null;
+        return corgiToolMapper.searchHashtag(text, status);
     }
 
     @Override
@@ -92,7 +91,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Override
     public CorgiHashtag getHashtag(String id) {
-        return null;
+        return corgiToolMapper.getHashtagById(id);
     }
 
     @Override
@@ -122,37 +121,42 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Override
     public void addHashtag(CorgiHashtag hashtag) {
-
+        corgiToolMapper.addHashtag(hashtag);
     }
 
     @Override
     public void updateHashtag(CorgiHashtag hashtag) {
-
+        corgiToolMapper.updateHashtag(hashtag);
     }
 
     @Override
     public List<String> getActivityHashtag(String activityId) {
-        return null;
+        return corgiToolMapper.getActivityHashtag(activityId);
     }
 
     @Override
     public List<CorgiHashtag> getActivityHashTagDetails(String activityId) {
-        return null;
+        return corgiToolMapper.getActivityHashtagDetails(activityId);
     }
 
     @Override
-    public List<String> getActivityIdsByHashtag(String hashtagName, Integer page, Integer size) {
-        return null;
+    public List<String> getActivityIdsByHashtag(String hashtagId, Integer page, Integer size) {
+        return corgiToolMapper.getActivityIdsByHashtag(hashtagId, (page - 1) * size, size);
     }
 
     @Override
     public void updateActivityHashtagWeight(String activityId, Integer weight) {
-
+        corgiToolMapper.updateHashtagActivityWeight(activityId, weight);
     }
 
     @Override
-    public void updateActivityHashtag(String activityId, List<String> hastags) {
-
+    public void updateActivityHashtag(String activityId, List<String> hashtags) {
+        corgiToolMapper.deleteActivityHashtag(activityId);
+        if (hashtags != null) {
+            for (String hashtag : hashtags) {
+                corgiToolMapper.addActivityHashtag(activityId, hashtag);
+            }
+        }
     }
 
     @Override

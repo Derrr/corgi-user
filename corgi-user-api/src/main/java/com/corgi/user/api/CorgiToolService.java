@@ -48,11 +48,11 @@ public interface CorgiToolService {
 
     List<CorgiHashtag> getActivityHashTagDetails(String activityId);
 
-    List<String> getActivityIdsByHashtag(String hashtagName, Integer page, Integer size);
+    List<String> getActivityIdsByHashtag(String hashtagId, Integer page, Integer size);
 
     void updateActivityHashtagWeight(String activityId, Integer weight);
 
-    void updateActivityHashtag(String activityId, List<String> hastags);
+    void updateActivityHashtag(String activityId, List<String> hashtags);
 
     List<String> getActivityTopic(String activityId);
 

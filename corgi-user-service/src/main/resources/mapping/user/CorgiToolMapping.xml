@@ -166,8 +166,24 @@
             limit #{start}, #{size}
     </select>
 
+    <select id="getActivityIdsByHashtag" resultType="java.lang.String">
+        select c.activity_id
+        from corgi_activity_creator c
+                 left join corgi_activity_hashtag t on c.activity_id = t.activity_id
+        where t.hashtag_id = #{hashtagId} and c.check_status != 'fail'
+        and c.category in ('image','text','video')
+        order by t.`weight` desc, c.id desc
+            limit #{start}, #{size}
+    </select>
+
     <update id="updateActivityWeight">
         update corgi_activity_topic
+        set `weight` = #{weight}
+        where activity_id = #{activityId}
+    </update>
+
+    <update id="updateHashtagActivityWeight">
+        update corgi_activity_hashtag
         set `weight` = #{weight}
         where activity_id = #{activityId}
     </update>
@@ -184,6 +200,21 @@
     <delete id="deleteActivityTopic">
         delete
         from corgi_activity_topic
+        where activity_id = #{activityId}
+    </delete>
+
+    <insert id="addActivityHashtag">
+        insert
+        ignore into corgi_activity_hashtag(`activity_id`, `hashtag_id`)
+        values (
+        #{activityId},
+        #{hashtagId}
+        );
+    </insert>
+
+    <delete id="deleteActivityHashtag">
+        delete
+        from corgi_activity_hashtag
         where activity_id = #{activityId}
     </delete>
 
