@@ -20,13 +20,13 @@
 
     <select id="searchHashtag" resultType="com.corgi.user.entity.CorgiHashtag">
         select <include refid="hashtag"/>
-        from corgi_hastags
+        from corgi_hashtags
         where `status` != 'deleted'
         <if test="status != null and status != ''">
             and `status` = #{status}
         </if>
         <if test="text != null and text != ''">
-            and `hastag_name` like concat('%',#{text},'%')
+            and `hashtag_name` like concat('%',#{text},'%')
         </if>
         order by `order`
     </select>
@@ -69,7 +69,7 @@
     </insert>
 
     <insert id="addHashtag" parameterType="com.corgi.user.entity.CorgiHashtag">
-        insert into `corgi_hastags` (`hastag_name`, `status`, cuid, opuid, `content`, `pic_url`, `order`, `url`, `url_type`)
+        insert into `corgi_hashtags` (`hashtag_name`, `status`, cuid, opuid, `content`, `pic_url`, `order`, `url`, `url_type`)
         values (#{hashtag.hashtagName}, #{hashtag.status}, #{hashtag.cuid}, #{hashtag.opuid}, #{hashtag.content}, #{hashtag.picUrl},
                 #{hashtag.order}, #{hashtag.url}, #{hashtag.urlType});
     </insert>
