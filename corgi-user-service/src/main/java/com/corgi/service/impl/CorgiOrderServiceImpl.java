@@ -35,6 +35,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     @Override
     public void updateOrder(CorgiOrder order) {
         corgiOrderMapper.updateOrder(order);
+        corgiOrderMapper.addLog(order);
     }
 
     @Override

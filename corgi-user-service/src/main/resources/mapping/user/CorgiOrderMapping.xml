@@ -39,6 +39,11 @@
                 #{order.sellerId});
     </insert>
 
+    <insert id="addLog" parameterType="com.corgi.user.entity.CorgiOrder">
+        insert into `corgi_order_log`(`trade_no`, `result`)
+        values (#{order.tradeNo}, #{order.result});
+    </insert>
+
     <insert id="updateOrder" parameterType="com.corgi.user.entity.CorgiOrder">
         update corgi_order
         <set>
@@ -47,9 +52,6 @@
             </if>
             <if test="order.payAmount != null">
                 `pay_amount` = #{order.payAmount},
-            </if>
-            <if test="order.result != null and order.result != ''">
-                `result` = #{order.result},
             </if>
             <if test="order.payTime != null and order.payTime != ''">
                 `pay_time` = #{order.payTime},
