@@ -151,7 +151,7 @@
                a.`weight` `order`,
                t.`pic_url` picUrl
         from corgi_activity_hashtag a
-                 left join corgi_hashtags t on t.id = a.hashtagId
+                 left join corgi_hashtags t on t.id = a.hashtag_id
         where activity_id = #{activityId}
     </select>
 
