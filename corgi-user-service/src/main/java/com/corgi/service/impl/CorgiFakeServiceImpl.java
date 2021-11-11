@@ -52,7 +52,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
         List<UserDetail> fakeUserDetails = corgiFakeMapper.getFakeUsers(size, calendar.getTimeInMillis());
         for (UserDetail detail : fakeUserDetails) {
             executorService.submit(() -> {
-                String prefix = PREFIX.get(random.nextInt(9));
+                String prefix = " ";//PREFIX.get(random.nextInt(9));
                 if (detail.getNickname().startsWith("小可_")) {
                     detail.setNickname(detail.getNickname() + new Random().nextInt(10));
                 } else {
