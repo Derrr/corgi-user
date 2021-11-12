@@ -12,7 +12,7 @@
         .
         trade_no
         tradeNo
-        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId, o.buyerId buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.pay_time payTime,o.status,o.ctime
+        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId, o.buyer_id buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.pay_time payTime,o.status,o.ctime
     </sql>
 
     <select id="searchMerchandise" resultType="com.corgi.user.entity.CorgiMerchandise">
