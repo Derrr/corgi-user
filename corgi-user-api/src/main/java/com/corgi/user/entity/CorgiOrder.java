@@ -14,6 +14,13 @@ public class CorgiOrder implements Serializable {
         String APP_STORE = "appStore";
     }
 
+    public interface STATUS {
+        String CREATED = "created";
+        String SUCCESS = "success";
+        String CLOSE = "close";
+        String FAIL = "fail";
+    }
+
     private String id;
     private String tradeNo;
     private String merchId;
