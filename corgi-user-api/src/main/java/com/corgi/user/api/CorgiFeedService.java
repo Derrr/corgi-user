@@ -15,7 +15,7 @@ public interface CorgiFeedService {
 
     Integer countUnviewFeed(String userId);
 
-    void viewFeed(String userId, String feed, String source);
+    void viewFeed(CorgiFeed feed);
 
     void addBarFeed(CorgiFeed corgiFeed);
 

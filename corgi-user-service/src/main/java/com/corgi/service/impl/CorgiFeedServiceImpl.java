@@ -159,28 +159,14 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     @Override
-    public void viewFeed(String userId, String feed, String source) {
-        ActivityQuery query = new ActivityQuery();
-        query.setActivityId(feed);
-        List<CorgiActivity> activities = corgiUserActivityMapper.queryActivity(query);
-        if (CollectionUtils.isEmpty(activities)) {
-            return;
-        }
-        CorgiFeed feed1 = new CorgiFeed();
-        feed1.setUserId(userId);
-        feed1.setFeed(feed);
-        feed1.setFeedUserId(activities.get(0).getId());
-        feed1.setSource(source);
-        corgiFeedMapper.addFeed(feed1, UserUtils.getIndex(userId));
-        corgiFeedMapper.viewFeed(userId, feed, UserUtils.getIndex(userId));
+    public void viewFeed(CorgiFeed feed) {
+        String userId = feed.getUserId();
+        corgiFeedMapper.addFeed(feed, UserUtils.getIndex(userId));
+        corgiFeedMapper.viewFeed(userId, feed.getFeed(), UserUtils.getIndex(userId));
         CorgiVlogHot hot = new CorgiVlogHot();
         hot.setViewCount(1);
-        hot.setActivityId(feed);
+        hot.setActivityId(feed.getFeed());
         corgiVlogMapper.updateVlogHot(hot);
-        CorgiVlog vlog = new CorgiVlog();
-        vlog.setViewCount(1);
-        vlog.setActivityId(feed);
-        corgiVlogMapper.addVlogCount(vlog);
     }
 
     @Override
