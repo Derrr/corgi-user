@@ -1,6 +1,8 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.activity.entity.CorgiActivity;
+import com.corgi.entity.ActivityQuery;
 import com.corgi.entity.CorgiArea;
 import com.corgi.mapper.*;
 import com.corgi.user.api.CorgiAreaService;
@@ -38,6 +40,9 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
+
+    @Autowired
+    private CorgiUserActivityMapper corgiUserActivityMapper;
 
     @Override
     public List<String> getUnviewFeed(String userId, Integer size) {
@@ -154,7 +159,19 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     @Override
-    public void viewFeed(String userId, String feed) {
+    public void viewFeed(String userId, String feed, String source) {
+        ActivityQuery query = new ActivityQuery();
+        query.setActivityId(feed);
+        List<CorgiActivity> activities = corgiUserActivityMapper.queryActivity(query);
+        if (CollectionUtils.isEmpty(activities)) {
+            return;
+        }
+        CorgiFeed feed1 = new CorgiFeed();
+        feed1.setUserId(userId);
+        feed1.setFeed(feed);
+        feed1.setFeedUserId(activities.get(0).getId());
+        feed1.setSource(source);
+        corgiFeedMapper.addFeed(feed1, UserUtils.getIndex(userId));
         corgiFeedMapper.viewFeed(userId, feed, UserUtils.getIndex(userId));
         CorgiVlogHot hot = new CorgiVlogHot();
         hot.setViewCount(1);
