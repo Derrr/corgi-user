@@ -4,6 +4,7 @@
     <sql id="merchandise">
         m
         .
+        merch_code
         id
         , m.title, m.content, m.price, m.type, m.status
     </sql>
@@ -30,7 +31,7 @@
         select
         <include refid="merchandise"/>
         from corgi_merchandise m
-        where m.id = #{merchId}
+        where m.merch_code = #{merchId}
     </select>
 
     <insert id="addOrder" parameterType="com.corgi.user.entity.CorgiOrder">
@@ -67,6 +68,9 @@
         select
         <include refid="order"/>
         from corgi_order o
+        <if test="order.merchType != null and order.merchType != ''">
+            left join corgi_merchandise m on m.merch_code = o.merch_id
+        </if>
         where 1=1
         <if test="order.userId != null and order.userId != ''">
             and o.user_id = #{order.userId}
@@ -76,6 +80,9 @@
         </if>
         <if test="order.status != null and order.status != ''">
             and o.status = #{order.status}
+        </if>
+        <if test="order.merchType != null and order.merchType != ''">
+            and m.type = #{order.merchType}
         </if>
         order by id desc
         limit #{start}, #{size}

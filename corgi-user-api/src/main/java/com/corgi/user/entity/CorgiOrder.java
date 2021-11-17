@@ -24,6 +24,7 @@ public class CorgiOrder implements Serializable {
     private String id;
     private String tradeNo;
     private String merchId;
+    private String merchType;
     private String payType;
     private String userId;
     private String marketId;
