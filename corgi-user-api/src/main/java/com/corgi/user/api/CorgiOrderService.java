@@ -20,4 +20,8 @@ public interface CorgiOrderService {
     CorgiMerchandise getMerchandiseById(String merchId);
 
     String buy(String tradeNo);
+
+    void updateReceipt(String tradeNo, String receipt);
+
+    String getReceipt(String tradeNo);
 }

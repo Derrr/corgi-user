@@ -26,4 +26,10 @@ public interface CorgiOrderMapper {
     CorgiOrder getOrderByTradeNo(@Param("tradeNo")String tradeNo);
 
     void addGoods(@Param("goods") CorgiUserGoods goods);
+
+    Integer countGoodsByTradeNo(@Param("tradeNo")String goods);
+
+    void updateReceipt(@Param("tradeNo")String tradeNo, @Param("receipt")String receipt);
+
+    String getReceipt(@Param("tradeNo")String tradeNo);
 }

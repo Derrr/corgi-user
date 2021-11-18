@@ -10,12 +10,14 @@ import com.corgi.user.entity.CorgiUserGoods;
 import com.corgi.user.enums.MerchandiseEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author tairanliu
@@ -29,6 +31,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     private CorgiOrderMapper corgiOrderMapper;
     @Autowired
     private CorgiUserMapper corgiUserMapper;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Override
     public List<CorgiMerchandise> getMerchandise(CorgiMerchandise merchandise) {
@@ -66,46 +70,84 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
 
     @Override
     public String buy(String tradeNo) {
-        CorgiOrder order = corgiOrderMapper.getOrderByTradeNo(tradeNo);
-        CorgiUserGoods goods = CorgiUserGoods.builder()
-                .userId(order.getUserId())
-                .currency(CorgiUserGoods.CURRENCY.CNY)
-                .price(order.getPayAmount())
-                .tradeNo(order.getTradeNo())
-                .build();
-        CorgiMerchandise merchandise = corgiOrderMapper.getMerchandiseById(order.getMerchId());
-        if (CorgiMerchandise.SUBSCRIBE.equals(merchandise.getType())) {
-            goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.SUBSCRIBE);
-            goods.setGoodsId(merchandise.getId());
-            goods.setTraderId("corgi");
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String vipExpireDate = corgiUserMapper.getVipExpire(order.getUserId());
-            Date expireDate;
-            try {
-                if ("-".equals(vipExpireDate) || (expireDate = sdf.parse(vipExpireDate)).compareTo(new Date()) <= 0) {
+        String key = "buying_goods_" + tradeNo;
+        this.lock(key);
+        try {
+            CorgiOrder order = corgiOrderMapper.getOrderByTradeNo(tradeNo);
+            if (corgiOrderMapper.countGoodsByTradeNo(tradeNo) > 0) {
+                return null;
+            }
+            CorgiUserGoods goods = CorgiUserGoods.builder()
+                    .userId(order.getUserId())
+                    .currency(CorgiUserGoods.CURRENCY.CNY)
+                    .price(order.getPayAmount())
+                    .tradeNo(order.getTradeNo())
+                    .build();
+            CorgiMerchandise merchandise = corgiOrderMapper.getMerchandiseById(order.getMerchId());
+            if (CorgiMerchandise.SUBSCRIBE.equals(merchandise.getType())) {
+                goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.SUBSCRIBE);
+                goods.setGoodsId(merchandise.getId());
+                goods.setTraderId("corgi");
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String vipExpireDate = corgiUserMapper.getVipExpire(order.getUserId());
+                Date expireDate;
+                try {
+                    if ("-".equals(vipExpireDate) || (expireDate = sdf.parse(vipExpireDate)).compareTo(new Date()) <= 0) {
+                        expireDate = new Date();
+                    }
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
                     expireDate = new Date();
+                    order.setResult(e.getMessage());
+                    corgiOrderMapper.addLog(order);
                 }
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                expireDate = new Date();
-                order.setResult(e.getMessage());
-                corgiOrderMapper.addLog(order);
-            }
-            MerchandiseEnum e = MerchandiseEnum.getByCode(merchandise.getId());
-            if (e != null) {
-                calendar.setTime(expireDate);
-                calendar.add(Calendar.MONTH, e.getMonths());
-                String finalDate = sdf.format(calendar.getTime());
-                corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
-                goods.setDesc("购买成功，日期截止至 " + finalDate);
-                corgiOrderMapper.addGoods(goods);
-            } else {
-                order.setResult("merchandise can not be found");
-                corgiOrderMapper.addLog(order);
-            }
+                MerchandiseEnum e = MerchandiseEnum.getByCode(merchandise.getId());
+                if (e != null) {
+                    calendar.setTime(expireDate);
+                    calendar.add(Calendar.MONTH, e.getMonths());
+                    String finalDate = sdf.format(calendar.getTime());
+                    corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
+                    goods.setDesc("购买成功，日期截止至 " + finalDate);
+                    corgiOrderMapper.addGoods(goods);
+                } else {
+                    order.setResult("merchandise can not be found");
+                    corgiOrderMapper.addLog(order);
+                }
 
+            }
+        } finally {
+            this.unlock(key);
         }
         return null;
     }
+
+    @Override
+    public void updateReceipt(String tradeNo, String receipt) {
+        corgiOrderMapper.updateReceipt(tradeNo, receipt);
+    }
+
+    @Override
+    public String getReceipt(String tradeNo) {
+        return corgiOrderMapper.getReceipt(tradeNo);
+    }
+
+    private void lock(String key) {
+        for (int i = 0; i < 100; i++) {
+            if (redisTemplate.opsForValue().setIfAbsent(key, System.currentTimeMillis() + "")) {
+                redisTemplate.expire(key, 10l, TimeUnit.SECONDS);
+                return;
+            }
+            try {
+                Thread.sleep(500L);
+            } catch (InterruptedException e) {
+                log.error(e.getMessage(), e);
+            }
+        }
+    }
+
+    private void unlock(String key) {
+        redisTemplate.delete(key);
+    }
+
 }

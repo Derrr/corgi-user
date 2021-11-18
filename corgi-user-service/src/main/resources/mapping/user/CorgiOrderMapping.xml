@@ -100,4 +100,23 @@
         values (#{goods.userId}, #{goods.goodsId}, #{goods.goodsType}, #{goods.price}, #{goods.currency},
                 #{goods.trader_id}, #{goods.tradeNo}, #{goods.desc})
     </insert>
+
+    <select id="countGoodsByTradeNo" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_user_goods
+        where trade_no = #{tradeNo}
+          and status = 1
+    </select>
+
+    <update id="updateReceipt">
+        update corgi_order
+        set receipt = #{receipt}
+        where trade_no = #{tradeNo}
+    </update>
+
+    <select id="getReceipt" resultType="java.lang.String">
+        select receipt
+        from corgi_order
+        where trade_no = #{tradeNo}
+    </select>
 </mapper>
