@@ -33,6 +33,7 @@ public class CorgiOrder implements Serializable {
     private Double payAmount;
     private String result;
     private String payTime;
+    private String desc;
     private String status;
     private String ctime;
 }

@@ -842,4 +842,13 @@
         values (#{detail.userId}, #{detail.telNo}, #{position.province}, #{position.city}, #{detail.ctime},
                 #{position.lat}, #{position.lng}, #{detail.nickname}, #{detail.birthday}, #{detail.avatar})
     </insert>
+
+    <select id="getVipExpire" resultType="java.lang.String">
+        select if(vip_status = 1,vip_expire,'-') from corgi_user_detail where user_id = #{userId}
+    </select>
+
+    <update id="updateVipExpire">
+        update corgi_user_detail set vip_status = #{vipStatus}, vip_expire = #{vipExpire}
+        where user_id = #{userId}
+    </update>
 </mapper>

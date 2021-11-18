@@ -392,4 +392,14 @@ public interface CorgiUserMapper {
      * 添加删除用户
      */
     void addUnregisterUser(@Param("detail") UserDetail detail, @Param("position") UserPosition position);
+
+    /**
+     * 获取用户vip过期时间
+     */
+    String getVipExpire(@Param("userId")String userId);
+
+    /**
+     * 更新用户vip状态
+     */
+    String updateVipExpire(@Param("userId")String userId, @Param("vipStatus")String vipStatus, @Param("vipExpire")String vipExpire);
 }

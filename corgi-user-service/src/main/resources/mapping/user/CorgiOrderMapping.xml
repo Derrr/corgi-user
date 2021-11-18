@@ -13,7 +13,7 @@
         .
         trade_no
         tradeNo
-        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId, o.buyer_id buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.pay_time payTime,o.status,o.ctime
+        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId, o.buyer_id buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.pay_time payTime,o.status,o.ctime,o.desc
     </sql>
 
     <select id="searchMerchandise" resultType="com.corgi.user.entity.CorgiMerchandise">
@@ -88,4 +88,16 @@
         limit #{start}, #{size}
     </select>
 
+    <select id="getOrderByTradeNo" resultType="com.corgi.user.entity.CorgiOrder">
+        select
+        <include refid="order"/>
+        from corgi_order o
+        where trade_no = #{tradeNo}
+    </select>
+
+    <insert id="addGoods" parameterType="com.corgi.user.entity.CorgiUserGoods">
+        insert into corgi_user_goods(user_id, goods_id, goods_type, price, currency, trader_id, trade_no, `desc`)
+        values (#{goods.userId}, #{goods.goodsId}, #{goods.goodsType}, #{goods.price}, #{goods.currency},
+                #{goods.trader_id}, #{goods.tradeNo}, #{goods.desc})
+    </insert>
 </mapper>
