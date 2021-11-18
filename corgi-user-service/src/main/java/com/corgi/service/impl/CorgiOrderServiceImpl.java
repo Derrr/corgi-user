@@ -55,6 +55,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
+    public CorgiOrder getOrderByTradeNo(String tradeNo) {
+        return corgiOrderMapper.getOrderByTradeNo(tradeNo);
+    }
+
+    @Override
     public CorgiMerchandise getMerchandiseById(String merchId) {
         return corgiOrderMapper.getMerchandiseById(merchId);
     }
