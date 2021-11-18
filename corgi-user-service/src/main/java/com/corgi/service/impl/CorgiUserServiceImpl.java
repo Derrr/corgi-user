@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -119,8 +120,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (userDetail == null) {
             return null;
         }
-        //List<UserPic> userPics = corgiPicMapper.getUserPic(userId);
-        //userDetail.setUserPics(userPics);
         if (!StringUtils.isEmpty(loginUserId)) {
             Integer countBeBlock = corgiBlacklistMapper.countBlack(userId, loginUserId);
             if (countBeBlock != null && countBeBlock > 0) {
@@ -138,9 +137,16 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setTags(corgiUserTagMapper.getUserTag(userId));
         userDetail.setInterests(corgiUserTagMapper.getUserInterests(userId));
         userDetail.setDate(corgiUserDateService.getDateByUserId(userId));
-//        if (!StringUtils.isEmpty(loginUserId)) {
-//            userDetail.setMatch(corgiUserMatchService.getUserMatch(userId, loginUserId));
-//        }
+        String expireDate = corgiUserMapper.getVipExpire(userId);
+        userDetail.setVip(false);
+        if (!"-".equals(expireDate)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                userDetail.setVip(sdf.parse(expireDate).compareTo(new Date()) > 0);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
+        }
         return userDetail;
     }
 
@@ -369,7 +375,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> searchInfluencer(UserDetail userDetail, String userId, Integer page, Integer pageSize) {
-        if(userDetail == null){
+        if (userDetail == null) {
             userDetail = new UserDetail();
         }
         return corgiUserMapper.queryInfluencerByHeat(userDetail, page < 1 ? 0 : (page - 1) * pageSize, pageSize);

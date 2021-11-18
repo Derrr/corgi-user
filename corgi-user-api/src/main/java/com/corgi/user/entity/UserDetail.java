@@ -47,6 +47,7 @@ public class UserDetail implements Serializable {
     private String background;
     private String bgCheckStatus;
     private String bgDataId;
+    private Boolean vip;
     private CorgiDate date;
 
     List<String> preferGroup;
