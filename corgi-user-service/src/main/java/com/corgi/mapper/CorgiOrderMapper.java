@@ -3,6 +3,7 @@ package com.corgi.mapper;
 import com.corgi.user.entity.CorgiMerchandise;
 import com.corgi.user.entity.CorgiOrder;
 import com.corgi.user.entity.CorgiUserGoods;
+import com.corgi.user.entity.CorgiUserMarket;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,15 +22,21 @@ public interface CorgiOrderMapper {
 
     void updateOrder(@Param("order") CorgiOrder order);
 
-    List<CorgiOrder> getOrderByPage(@Param("order") CorgiOrder order, @Param("start")Integer start, @Param("size")Integer size);
+    List<CorgiOrder> getOrderByPage(@Param("order") CorgiOrder order, @Param("start") Integer start, @Param("size") Integer size);
 
-    CorgiOrder getOrderByTradeNo(@Param("tradeNo")String tradeNo);
+    CorgiOrder getOrderByTradeNo(@Param("tradeNo") String tradeNo);
 
     void addGoods(@Param("goods") CorgiUserGoods goods);
 
-    Integer countGoodsByTradeNo(@Param("tradeNo")String goods);
+    Integer countGoodsByTradeNo(@Param("tradeNo") String goods);
 
-    void updateReceipt(@Param("tradeNo")String tradeNo, @Param("receipt")String receipt);
+    void updateReceipt(@Param("tradeNo") String tradeNo, @Param("receipt") String receipt);
 
-    String getReceipt(@Param("tradeNo")String tradeNo);
+    String getReceipt(@Param("tradeNo") String tradeNo);
+
+    void addMarket(@Param("market") CorgiUserMarket market);
+
+    List<CorgiUserGoods> getUserGoods(@Param("goods") CorgiUserGoods goods);
+
+    CorgiUserMarket getMarketById(@Param("marketId") String marketId);
 }

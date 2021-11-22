@@ -137,7 +137,7 @@
         c.activity_id)
         and l.type = 'real'
         and l.user_id != #{vlog.userId}
-        and c.category in ('image','text','video','business')
+        and c.category in ('image','text','video','business','paying')
         and c.check_status != 'fail'
         and h.like_count >= 3
         <if test="vlog.type == 'like'">
@@ -159,7 +159,7 @@
         c.activity_id)
         and c.creator_id in ('${targetId}')
         and c.check_status = 'normal'
-        and c.category in('image','video','text','business')
+        and c.category in('image','video','text','business','paying')
         and h.like_count >= 3
         <if test="vlog.type == 'id'">
             order by c.id desc
@@ -234,7 +234,7 @@
         and h.status = 'open'
         and h.type = #{vlog.type}
         and c.creator_id != #{vlog.userId}
-        and c.category in('image','video','text','business')
+        and c.category in('image','video','text','business','paying')
         and c.check_status != 'fail'
         <if test="vlog.activityId != '' and vlog.activityId != null ">
             and (d.group is null or d.group = '' or d.group in ('${vlog.activityId}'))

@@ -119,4 +119,36 @@
         from corgi_order
         where trade_no = #{tradeNo}
     </select>
+
+    <insert id="addMarket" parameterType="com.corgi.user.entity.CorgiUserMarket" useGeneratedKeys="true" keyProperty="market.id">
+        insert into corgi_market(`user_id`, `goods_type`, `merch_id`, `source_id`)
+        values (#{market.userId}, #{market.goodsType}, #{market.merchId}, #{market.sourceId})
+    </insert>
+
+    <select id="getUserGoods" resultType="com.corgi.user.entity.CorgiUserGoods">
+        select `user_id`    userId,
+               `goods_type` goodsType,
+               `merch_id`   merchId,
+               `goods_id`  goodsId,
+               price,
+               currency,
+               trader_id traderId,
+               trade_no traderNo,
+               `desc`
+               `status`,
+               ctime,
+               uptime
+        from corgi_user_goods
+        where user_id = #{goods.userId}
+          and goods_type = #{goods.goodsType}
+          and goods_id = #{goods.goodsId}
+          and trader_id = #{goods.traderId}
+          and status = '1'
+    </select>
+
+    <select id="getMarketById" resultType="com.corgi.user.entity.CorgiUserMarket">
+        select `user_id` userId, `goods_type` goodsType, `merch_id` merchId, `source_id` sourceId, `status`,ctime,uptime
+        from corgi_market
+        where id = #{marketId}
+    </select>
 </mapper>

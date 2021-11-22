@@ -3,6 +3,8 @@ package com.corgi.user.api;
 
 import com.corgi.user.entity.CorgiMerchandise;
 import com.corgi.user.entity.CorgiOrder;
+import com.corgi.user.entity.CorgiUserGoods;
+import com.corgi.user.entity.CorgiUserMarket;
 
 import java.util.List;
 
@@ -21,7 +23,13 @@ public interface CorgiOrderService {
 
     String buy(String tradeNo);
 
+    void subscribe(CorgiOrder order, CorgiUserGoods goods, String vipStatus, String finalDate);
+
     void updateReceipt(String tradeNo, String receipt);
 
     String getReceipt(String tradeNo);
+
+    String addUserMarket(CorgiUserMarket market);
+
+    List<CorgiUserGoods> getUserGoods(CorgiUserGoods goods);
 }

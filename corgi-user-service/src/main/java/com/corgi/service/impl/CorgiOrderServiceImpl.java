@@ -7,6 +7,7 @@ import com.corgi.user.api.CorgiOrderService;
 import com.corgi.user.entity.CorgiMerchandise;
 import com.corgi.user.entity.CorgiOrder;
 import com.corgi.user.entity.CorgiUserGoods;
+import com.corgi.user.entity.CorgiUserMarket;
 import com.corgi.user.enums.MerchandiseEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,12 +115,34 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     order.setResult("merchandise can not be found");
                     corgiOrderMapper.addLog(order);
                 }
-
+            } else if (CorgiMerchandise.ACTIVITY.equals(merchandise.getType())) {
+                CorgiUserMarket market = corgiOrderMapper.getMarketById(order.getMarketId());
+                if (market != null) {
+                    goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.ACTIVITY);
+                    goods.setGoodsId(market.getSourceId());
+                    goods.setDesc("购买成功");
+                    goods.setTraderId(market.getUserId());
+                    corgiOrderMapper.addGoods(goods);
+                } else {
+                    order.setResult("user market can not be found");
+                    corgiOrderMapper.addLog(order);
+                }
             }
         } finally {
             this.unlock(key);
         }
         return null;
+    }
+
+    @Override
+    public void subscribe(CorgiOrder order, CorgiUserGoods goods, String vipStatus, String finalDate) {
+        corgiOrderMapper.addOrder(order);
+        corgiOrderMapper.updateOrder(order);
+        corgiOrderMapper.addLog(order);
+        if(CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
+            corgiOrderMapper.addGoods(goods);
+            corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
+        }
     }
 
     @Override
@@ -130,6 +153,17 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     @Override
     public String getReceipt(String tradeNo) {
         return corgiOrderMapper.getReceipt(tradeNo);
+    }
+
+    @Override
+    public String addUserMarket(CorgiUserMarket market) {
+        corgiOrderMapper.addMarket(market);
+        return market.getId();
+    }
+
+    @Override
+    public List<CorgiUserGoods> getUserGoods(CorgiUserGoods goods) {
+        return corgiOrderMapper.getUserGoods(goods);
     }
 
     private void lock(String key) {
