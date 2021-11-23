@@ -37,6 +37,8 @@ public interface CorgiUserActivityService {
 
     List<CorgiActivity> queryActivity(ActivityQuery query);
 
+    List<String> queryHotActivity(ActivityQuery query);
+
     List<String> getHeatActivity(CorgiActivity corgiActivity, Integer page, Integer pageSize);
 
     List<String> getCityBarActivity(CorgiActivity corgiActivity,Integer page, Integer pageSize);

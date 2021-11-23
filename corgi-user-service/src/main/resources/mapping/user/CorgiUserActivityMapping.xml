@@ -137,8 +137,8 @@
         order by c.id desc limit #{query.pageSize}
     </select>
 
-    <select id="queryHotActivity" resultType="com.corgi.activity.entity.CorgiActivity">
-        select c.activity_id id, c.ctime createTime, c.creator_id userId
+    <select id="queryHotActivity" resultType="java.lang.String">
+        select c.activity_id id
         from corgi_activity_creator c
         left join corgi_activity_like l on l.activity_id = c.activity_id
         where c.check_status != 'fail' and c.category in ('image', 'video')
@@ -146,8 +146,7 @@
             and c.creator_id = #{query.userId}
         </if>
         <if test="query.endTime != null and query.endTime !=''">
-            and c.ctime
-            &lt; #{query.endTime}
+            and c.ctime > #{query.startTime}
         </if>
         group by c.activity_id
         order by count(1) desc limit #{query.pageSize}
@@ -234,7 +233,7 @@
     </select>
 
     <select id="countActivityDate" resultType="java.lang.Integer">
-        select count(distinct substring(c.ctime,1,10))
+        select count(distinct substring(c.ctime, 1, 10))
         from corgi_activity_creator c
         where c.creator_id = #{query.userId}
           and c.ctime > #{query.endTime}

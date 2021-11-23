@@ -108,7 +108,7 @@ public interface CorgiUserActivityMapper {
      * @param activityQuery
      * @return
      */
-    List<CorgiActivity> queryHotActivity(@Param("query")ActivityQuery activityQuery);
+    List<String> queryHotActivity(@Param("query")ActivityQuery activityQuery);
 
 
     /**

@@ -115,6 +115,11 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public List<String> queryHotActivity(ActivityQuery query) {
+        return corgiUserActivityMapper.queryHotActivity(query);
+    }
+
+    @Override
     public List<String> getHeatActivity(CorgiActivity corgiActivity, Integer page, Integer pageSize) {
         String category;
         if (corgiActivity.getBarId() != null) {
