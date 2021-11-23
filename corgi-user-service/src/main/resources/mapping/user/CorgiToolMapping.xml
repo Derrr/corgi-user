@@ -3,7 +3,7 @@
 <mapper namespace="com.corgi.mapper.CorgiToolMapper">
 
     <sql id="hashtag">
-        id hashtagId, `hashtag_name` hashtagName, ctime, uptime, `status`, cuid, opuid, `content`, `pic_url` picUrl, `order`
+        id hashtagId, `hashtag_name` hashtagName, ctime, uptime, `status`, cuid, opuid, `content`, `pic_url` picUrl, `order`,url,url_content urlContent
     </sql>
     <select id="searchTopic" resultType="com.corgi.entity.CorgiTopic">
         select id topicId, `topic`, ctime, uptime, `status`, cuid, opuid, `content`, `pic_url` picUrl, `order`
@@ -101,6 +101,7 @@
             `pic_url` = #{hashtag.picUrl},
             `url` = #{hashtag.url},
             `url_type` = #{hashtag.urlType},
+            `url_content` = #{hashtag.urlContent},
             <if test="hashtag.hashtag != null">
                 `order` = #{hashtag.order},
             </if>

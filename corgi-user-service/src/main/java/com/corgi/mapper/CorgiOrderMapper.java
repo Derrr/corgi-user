@@ -32,7 +32,7 @@ public interface CorgiOrderMapper {
 
     void updateReceipt(@Param("tradeNo") String tradeNo, @Param("receipt") String receipt);
 
-    String getReceipt(@Param("tradeNo") String tradeNo);
+    String getReceipt(@Param("receipt") String receipt);
 
     void addMarket(@Param("market") CorgiUserMarket market);
 

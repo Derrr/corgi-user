@@ -57,6 +57,9 @@
             <if test="order.payTime != null and order.payTime != ''">
                 `pay_time` = #{order.payTime},
             </if>
+            <if test="order.orderId != null and order.orderId != ''">
+                `order_id` = #{order.orderId},
+            </if>
             <if test="order.status != null and order.status != ''">
                 `status` = #{order.status},
             </if>
@@ -115,9 +118,9 @@
     </update>
 
     <select id="getReceipt" resultType="java.lang.String">
-        select receipt
+        select trade_no
         from corgi_order
-        where trade_no = #{tradeNo}
+        where receipt = #{receipt}
     </select>
 
     <insert id="addMarket" parameterType="com.corgi.user.entity.CorgiUserMarket" useGeneratedKeys="true" keyProperty="market.id">

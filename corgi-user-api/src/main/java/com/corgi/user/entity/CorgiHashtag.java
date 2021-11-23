@@ -21,4 +21,5 @@ public class CorgiHashtag implements Serializable {
     Integer order;
     String url;
     String urlType;
+    String urlContent;
 }
