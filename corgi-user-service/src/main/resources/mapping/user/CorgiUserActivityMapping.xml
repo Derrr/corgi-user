@@ -137,6 +137,22 @@
         order by c.id desc limit #{query.pageSize}
     </select>
 
+    <select id="queryHotActivity" resultType="com.corgi.activity.entity.CorgiActivity">
+        select c.activity_id id, c.ctime createTime, c.creator_id userId
+        from corgi_activity_creator c
+        left join corgi_activity_like l on l.activity_id = c.activity_id
+        where c.check_status != 'fail' and c.category in ('image', 'video')
+        <if test="query.userId != null and query.userId !=''">
+            and c.creator_id = #{query.userId}
+        </if>
+        <if test="query.endTime != null and query.endTime !=''">
+            and c.ctime
+            &lt; #{query.endTime}
+        </if>
+        group by c.activity_id
+        order by count(1) desc limit #{query.pageSize}
+    </select>
+
     <select id="getSignUpActivityId" resultType="java.lang.String">
         select activity_id
         from corgi_activity_attender
