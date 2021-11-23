@@ -67,6 +67,14 @@
         where trade_no = #{order.tradeNo}
     </insert>
 
+    <select id="getOrderByOrderId" resultType="com.corgi.user.entity.CorgiOrder">
+        select
+        <include refid="order"/>
+        from corgi_order o
+        where o.order_id = #{orderId}
+        order by o.id desc
+    </select>
+
     <select id="getOrderByPage" resultType="com.corgi.user.entity.CorgiOrder">
         select
         <include refid="order"/>
@@ -87,7 +95,7 @@
         <if test="order.merchType != null and order.merchType != ''">
             and m.type = #{order.merchType}
         </if>
-        order by id desc
+        order by o.id desc
         limit #{start}, #{size}
     </select>
 
@@ -123,7 +131,8 @@
         where receipt = #{receipt}
     </select>
 
-    <insert id="addMarket" parameterType="com.corgi.user.entity.CorgiUserMarket" useGeneratedKeys="true" keyProperty="market.id">
+    <insert id="addMarket" parameterType="com.corgi.user.entity.CorgiUserMarket" useGeneratedKeys="true"
+            keyProperty="market.id">
         insert into corgi_market(`user_id`, `goods_type`, `merch_id`, `source_id`)
         values (#{market.userId}, #{market.goodsType}, #{market.merchId}, #{market.sourceId})
     </insert>
@@ -132,13 +141,13 @@
         select `user_id`    userId,
                `goods_type` goodsType,
                `merch_id`   merchId,
-               `goods_id`  goodsId,
+               `goods_id`   goodsId,
                price,
                currency,
-               trader_id traderId,
-               trade_no traderNo,
+               trader_id    traderId,
+               trade_no     traderNo,
                `desc`
-               `status`,
+                            `status`,
                ctime,
                uptime
         from corgi_user_goods
@@ -150,7 +159,13 @@
     </select>
 
     <select id="getMarketById" resultType="com.corgi.user.entity.CorgiUserMarket">
-        select `user_id` userId, `goods_type` goodsType, `merch_id` merchId, `source_id` sourceId, `status`,ctime,uptime
+        select `user_id`    userId,
+               `goods_type` goodsType,
+               `merch_id`   merchId,
+               `source_id`  sourceId,
+               `status`,
+               ctime,
+               uptime
         from corgi_market
         where id = #{marketId}
     </select>

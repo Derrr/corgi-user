@@ -20,6 +20,8 @@ public interface CorgiOrderMapper {
 
     void addOrder(@Param("order") CorgiOrder order);
 
+    List<CorgiOrder> getOrderByOrderId(@Param("orderId")String orderId);
+
     void updateOrder(@Param("order") CorgiOrder order);
 
     List<CorgiOrder> getOrderByPage(@Param("order") CorgiOrder order, @Param("start") Integer start, @Param("size") Integer size);

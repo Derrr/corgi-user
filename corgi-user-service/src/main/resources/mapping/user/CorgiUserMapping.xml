@@ -314,7 +314,7 @@
 
     <update id="deleteUserAvatar">
         update corgi_user_detail
-        set avatar_status  = 'normal'
+        set avatar_status = 'normal'
         where avatar_data_id = #{dataId}
     </update>
 
@@ -671,14 +671,14 @@
     </select>
 
     <select id="queryInfluencerByHeat" resultType="com.corgi.user.entity.UserProfile">
-        select d.user_id             userId,
-               d.nickname            nickname,
-               d.avatar              avatar,
-               d.character           `character`,
-               d.avatar_check_status avatarCheckStatus,
-               b.city
+        select d.user_id userId,
+        d.nickname nickname,
+        d.avatar avatar,
+        d.character `character`,
+        d.avatar_check_status avatarCheckStatus,
+        b.city
         from corgi_influencer_billboard b
-                 left join corgi_user_detail d on b.user_id = d.user_id
+        left join corgi_user_detail d on b.user_id = d.user_id
         left join corgi_user_login l on l.id = d.user_id
         where b.user_id != '8'
         <if test="query.nickname != null and query.nickname != ''">
@@ -691,7 +691,7 @@
             and d.character = #{query.character}
         </if>
         order by b.fan desc
-            limit #{start}, #{size}
+        limit #{start}, #{size}
     </select>
 
     <select id="countUserProfile" resultType="java.lang.Long">
@@ -844,11 +844,21 @@
     </insert>
 
     <select id="getVipExpire" resultType="java.lang.String">
-        select if(vip_status = 1,vip_expire,'-') from corgi_user_detail where user_id = #{userId}
+        select if(vip_status = 1, vip_expire, '-')
+        from corgi_user_detail
+        where user_id = #{userId}
     </select>
 
     <update id="updateVipExpire">
-        update corgi_user_detail set vip_status = #{vipStatus}, vip_expire = #{vipExpire}
+        update corgi_user_detail
+        <set>
+            <if test="vipStatus != null and vipStatus != ''">
+                `vip_status` = #{vipStatus},
+            </if>
+            <if test="vipExpire != null and vipExpire != ''">
+                `vip_expire` = #{vipExpire},
+            </if>
+        </set>
         where user_id = #{userId}
     </update>
 </mapper>

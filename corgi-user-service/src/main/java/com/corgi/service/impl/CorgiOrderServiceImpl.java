@@ -1,5 +1,6 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiOrderMapper;
 import com.corgi.mapper.CorgiUserMapper;
@@ -136,12 +137,23 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
 
     @Override
     public void subscribe(CorgiOrder order, CorgiUserGoods goods, String vipStatus, String finalDate) {
-        corgiOrderMapper.addOrder(order);
-        corgiOrderMapper.updateOrder(order);
-        corgiOrderMapper.addLog(order);
-        if(CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
-            corgiOrderMapper.addGoods(goods);
-            corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
+        if ("1".equals(vipStatus)) {
+            corgiOrderMapper.addOrder(order);
+            corgiOrderMapper.updateOrder(order);
+            corgiOrderMapper.addLog(order);
+            if (CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
+                corgiOrderMapper.addGoods(goods);
+                corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
+            }
+        } else if ("0".equals(vipStatus)) {
+            List<CorgiOrder> orders = corgiOrderMapper.getOrderByOrderId(order.getOrderId());
+            for (CorgiOrder order1 : orders) {
+                if (CorgiOrder.STATUS.SUCCESS.equals(order1.getStatus())) {
+                    order.setTradeNo(order1.getTradeNo());
+                    corgiOrderMapper.addLog(order);
+                    corgiUserMapper.updateVipExpire(order1.getUserId(), "0", null);
+                }
+            }
         }
     }
 
