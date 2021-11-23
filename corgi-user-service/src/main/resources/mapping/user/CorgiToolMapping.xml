@@ -69,9 +69,9 @@
     </insert>
 
     <insert id="addHashtag" parameterType="com.corgi.user.entity.CorgiHashtag">
-        insert into `corgi_hashtags` (`hashtag_name`, `status`, cuid, opuid, `content`, `pic_url`, `order`, `url`, `url_type`)
+        insert into `corgi_hashtags` (`hashtag_name`, `status`, cuid, opuid, `content`, `pic_url`, `order`, `url`, `url_type`,`url_content`)
         values (#{hashtag.hashtagName}, #{hashtag.status}, #{hashtag.cuid}, #{hashtag.opuid}, #{hashtag.content}, #{hashtag.picUrl},
-                #{hashtag.order}, #{hashtag.url}, #{hashtag.urlType});
+                #{hashtag.order}, #{hashtag.url}, #{hashtag.urlType}, #{hashtag.urlContent});
     </insert>
 
     <update id="updateTopic" parameterType="com.corgi.entity.CorgiTopic">
