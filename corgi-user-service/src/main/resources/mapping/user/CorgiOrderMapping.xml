@@ -63,6 +63,10 @@
             <if test="order.status != null and order.status != ''">
                 `status` = #{order.status},
             </if>
+            <if test="order.desc != null and order.desc != ''">
+                `desc` = #{order.desc},
+            </if>
+
         </set>
         where trade_no = #{order.tradeNo}
     </insert>
