@@ -1,6 +1,5 @@
 package com.corgi.service.impl;
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiOrderMapper;
 import com.corgi.mapper.CorgiUserMapper;
@@ -58,6 +57,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     @Override
     public List<CorgiOrder> getOrderByPage(CorgiOrder order, Integer page, Integer pageSize) {
         return corgiOrderMapper.getOrderByPage(order, (page - 1) * pageSize, pageSize);
+    }
+
+    @Override
+    public Integer countOrder(CorgiOrder order) {
+        return null;
     }
 
     @Override

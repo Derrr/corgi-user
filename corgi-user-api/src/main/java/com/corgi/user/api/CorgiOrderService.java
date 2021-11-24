@@ -17,6 +17,8 @@ public interface CorgiOrderService {
 
     List<CorgiOrder> getOrderByPage(CorgiOrder order, Integer page, Integer pageSize);
 
+    Integer countOrder(CorgiOrder order);
+
     CorgiOrder getOrderByTradeNo(String tradeNo);
 
     CorgiMerchandise getMerchandiseById(String merchId);

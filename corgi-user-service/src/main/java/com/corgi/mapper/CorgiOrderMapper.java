@@ -26,6 +26,8 @@ public interface CorgiOrderMapper {
 
     List<CorgiOrder> getOrderByPage(@Param("order") CorgiOrder order, @Param("start") Integer start, @Param("size") Integer size);
 
+    Integer countOrder(@Param("order") CorgiOrder order);
+
     CorgiOrder getOrderByTradeNo(@Param("tradeNo") String tradeNo);
 
     void addGoods(@Param("goods") CorgiUserGoods goods);
