@@ -11,7 +11,9 @@ public class CorgiOrder implements Serializable {
     public interface PAY_TYPE {
         String WX = "wx";
         String ALIPAY = "alipay";
-        String APP_STORE = "appStore";
+        String IN_APP = "inApp";
+        String PAY = "pay";
+        String WITHDRAW = "withdraw";
     }
 
     public interface STATUS {
