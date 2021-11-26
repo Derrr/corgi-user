@@ -35,9 +35,9 @@
     </select>
 
     <insert id="addOrder" parameterType="com.corgi.user.entity.CorgiOrder">
-        INSERT INTO `corgi_order` (`trade_no`, `merch_id`, `pay_type`, `user_id`, `market_id`, `seller_id`,`pay_amount`,`order_id`)
+        INSERT INTO `corgi_order` (`trade_no`, `merch_id`, `pay_type`, `user_id`, `market_id`, `seller_id`,`pay_amount`,`order_id`,`desc`)
         VALUES (#{order.tradeNo}, #{order.merchId}, #{order.payType}, #{order.userId}, #{order.marketId},
-                #{order.sellerId},#{order.payAmount},#{order.orderId});
+                #{order.sellerId},#{order.payAmount},#{order.orderId},#{order.desc});
     </insert>
 
     <insert id="addLog" parameterType="com.corgi.user.entity.CorgiOrder">
