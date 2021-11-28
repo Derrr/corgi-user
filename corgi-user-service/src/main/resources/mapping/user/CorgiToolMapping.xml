@@ -102,7 +102,7 @@
             `url` = #{hashtag.url},
             `url_type` = #{hashtag.urlType},
             `url_content` = #{hashtag.urlContent},
-            <if test="hashtag.hashtag != null">
+            <if test="hashtag.order != null">
                 `order` = #{hashtag.order},
             </if>
         </set>
