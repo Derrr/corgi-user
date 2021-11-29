@@ -6,7 +6,7 @@
         .
         merch_code
         id
-        , m.title, m.content, m.price, m.type, m.status
+        , m.title, m.content, m.price, m.type, m.status,m.discount,m.dis_reason disReason,m.pre_price prePrice
     </sql>
     <sql id="order">
         o
