@@ -148,9 +148,9 @@
     </select>
 
     <insert id="addGoods" parameterType="com.corgi.user.entity.CorgiUserGoods">
-        insert into corgi_user_goods(user_id, goods_id, goods_type, price, currency, trader_id, trade_no, `desc`)
+        insert into corgi_user_goods(user_id, goods_id, goods_type, price, currency, trader_id, trade_no, `desc`,merch_id)
         values (#{goods.userId}, #{goods.goodsId}, #{goods.goodsType}, #{goods.price}, #{goods.currency},
-                #{goods.trader_id}, #{goods.tradeNo}, #{goods.desc})
+                #{goods.trader_id}, #{goods.tradeNo}, #{goods.desc},#{goods.merchId})
     </insert>
 
     <select id="countGoodsByTradeNo" resultType="java.lang.Integer">

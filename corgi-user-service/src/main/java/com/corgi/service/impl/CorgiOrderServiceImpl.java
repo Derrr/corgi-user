@@ -88,6 +88,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     .currency(CorgiUserGoods.CURRENCY.CNY)
                     .price(order.getPayAmount())
                     .tradeNo(order.getTradeNo())
+                    .merchId(order.getMerchId())
                     .build();
             CorgiMerchandise merchandise = corgiOrderMapper.getMerchandiseById(order.getMerchId());
             if (CorgiMerchandise.SUBSCRIBE.equals(merchandise.getType())) {
