@@ -134,6 +134,9 @@
             and c.ctime
             &lt; #{query.endTime}
         </if>
+        <if test="query.category == 'image'">
+            and c.category in ('image','video','text')
+        </if>
         order by c.id desc limit #{query.pageSize}
     </select>
 
