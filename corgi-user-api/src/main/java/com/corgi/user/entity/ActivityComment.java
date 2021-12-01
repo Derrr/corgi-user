@@ -8,6 +8,9 @@ import java.util.List;
 
 @Data
 public class ActivityComment implements Serializable {
+    public static final String NORMAL = "normal";
+    public static final String PAY = "pay";
+
     private Integer id;
     private String commentId;
 
@@ -39,6 +42,7 @@ public class ActivityComment implements Serializable {
 
     private int childCount = 0;
     private boolean hasAuthor;
+    private String status;
 
     List<ActivityComment> childComments;
 

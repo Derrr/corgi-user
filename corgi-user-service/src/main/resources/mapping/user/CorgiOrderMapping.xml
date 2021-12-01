@@ -35,9 +35,10 @@
     </select>
 
     <insert id="addOrder" parameterType="com.corgi.user.entity.CorgiOrder">
-        INSERT INTO `corgi_order` (`trade_no`, `merch_id`, `pay_type`, `user_id`, `market_id`, `seller_id`,`pay_amount`,`order_id`,`desc`)
+        INSERT INTO `corgi_order` (`trade_no`, `merch_id`, `pay_type`, `user_id`, `market_id`, `seller_id`,
+                                   `pay_amount`, `order_id`, `desc`)
         VALUES (#{order.tradeNo}, #{order.merchId}, #{order.payType}, #{order.userId}, #{order.marketId},
-                #{order.sellerId},#{order.payAmount},#{order.orderId},#{order.desc});
+                #{order.sellerId}, #{order.payAmount}, #{order.orderId}, #{order.desc});
     </insert>
 
     <insert id="addLog" parameterType="com.corgi.user.entity.CorgiOrder">
@@ -151,9 +152,10 @@
     </select>
 
     <insert id="addGoods" parameterType="com.corgi.user.entity.CorgiUserGoods">
-        insert into corgi_user_goods(user_id, goods_id, goods_type, price, currency, trader_id, trade_no, `desc`,merch_id)
+        insert into corgi_user_goods(user_id, goods_id, goods_type, price, currency, trader_id, trade_no, `desc`,
+                                     merch_id)
         values (#{goods.userId}, #{goods.goodsId}, #{goods.goodsType}, #{goods.price}, #{goods.currency},
-                #{goods.trader_id}, #{goods.tradeNo}, #{goods.desc},#{goods.merchId})
+                #{goods.trader_id}, #{goods.tradeNo}, #{goods.desc}, #{goods.merchId})
     </insert>
 
     <select id="countGoodsByTradeNo" resultType="java.lang.Integer">
@@ -182,24 +184,27 @@
     </insert>
 
     <select id="getUserGoods" resultType="com.corgi.user.entity.CorgiUserGoods">
-        select `user_id`    userId,
-               `goods_type` goodsType,
-               `merch_id`   merchId,
-               `goods_id`   goodsId,
-               price,
-               currency,
-               trader_id    traderId,
-               trade_no     traderNo,
-               `desc`
-                            `status`,
-               ctime,
-               uptime
+        select `user_id` userId,
+        `goods_type` goodsType,
+        `merch_id` merchId,
+        `goods_id` goodsId,
+        price,
+        currency,
+        trader_id traderId,
+        trade_no traderNo,
+        `desc`
+        `status`,
+        ctime,
+        uptime
         from corgi_user_goods
-        where user_id = #{goods.userId}
-          and goods_type = #{goods.goodsType}
-          and goods_id = #{goods.goodsId}
-          and trader_id = #{goods.traderId}
-          and status = '1'
+        where goods_type = #{goods.goodsType}
+        and goods_id = #{goods.goodsId}
+        and trader_id = #{goods.traderId}
+        and status = '1'
+        <if test="goods.userId != null and goods.userId != ''">
+            and user_id = #{goods.userId}
+        </if>
+        order by id desc limit 3
     </select>
 
     <select id="getMarketById" resultType="com.corgi.user.entity.CorgiUserMarket">
