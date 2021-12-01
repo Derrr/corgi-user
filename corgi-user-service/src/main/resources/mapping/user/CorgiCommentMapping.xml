@@ -22,6 +22,7 @@
         c.`content`,
         c.`user_id` userId,
         c.`ctime`,
+        c.`status`,
         count(l.user_id) likeCount
     </sql>
 
@@ -29,11 +30,11 @@
         INSERT INTO `corgi`.`corgi_activity_comment` (`comment_id`, `comment_user_id`, `comment_user_name`,
                                                       `comment_user_avatar`, `reply_user_id`, `reply_user_name`,
                                                       `reply_user_avatar`, `activity_id`, `parent_comment_id`,
-                                                      `content`, `user_id`)
+                                                      `content`, `user_id`,`status`)
         VALUES (#{comment.commentId}, #{comment.commentUserId}, #{comment.commentUserName},
                 #{comment.commentUserAvatar}, #{comment.replyUserId}, #{comment.replyUserName},
                 #{comment.replyUserAvatar}, #{comment.activityId}, #{comment.parentCommentId}, #{comment.content},
-                #{comment.userId});
+                #{comment.userId},#{comment.status});
     </insert>
 
     <delete id="deleteActivityComment">
