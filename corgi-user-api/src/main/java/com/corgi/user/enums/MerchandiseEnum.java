@@ -3,25 +3,25 @@ package com.corgi.user.enums;
 public enum MerchandiseEnum {
 
 
-    FIRST_YEAR("S01", "first", 12),
-    FIRST_HALF_YEAR("S02", "first", 6),
-    FIRST_SEASON("S03", "first", 3),
-    FIRST_MONTH("S04", "first", 1),
-    YEAR("S05", "normal", 12),
-    HALF_YEAR("S06", "normal", 6),
-    SEASON("S07", "normal", 3),
-    MONTH("S08", "normal", 1),
+    FIRST_YEAR("S01", "first", 365),
+    FIRST_HALF_YEAR("S02", "first", 181),
+    FIRST_SEASON("S03", "first", 90),
+    FIRST_MONTH("S04", "first", 30),
+    YEAR("S05", "normal", 365),
+    HALF_YEAR("S06", "normal", 181),
+    SEASON("S07", "normal", 90),
+    MONTH("S08", "normal", 30),
     ;
 
-    MerchandiseEnum(String code, String type, Integer months) {
+    MerchandiseEnum(String code, String type, Integer days) {
         this.code = code;
         this.type = type;
-        this.months = months;
+        this.days = days;
     }
 
     private final String code;
     private final String type;
-    private final int months;
+    private final int days;
 
     public String getCode() {
         return code;
@@ -31,8 +31,8 @@ public enum MerchandiseEnum {
         return type;
     }
 
-    public Integer getMonths() {
-        return months;
+    public Integer getDays() {
+        return days;
     }
 
     public static boolean isFirst(String code) {

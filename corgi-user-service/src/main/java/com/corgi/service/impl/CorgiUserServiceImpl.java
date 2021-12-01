@@ -563,6 +563,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         corgiUserMapper.addUnregisterUser(detail, position);
     }
 
+    @Override
+    public String getUserVipExpire(String userId) {
+        return corgiUserMapper.getVipExpire(userId);
+    }
+
 
     private void addGeo(String geoKey, UserPosition userPosition) {
         if (userPosition.getLng() == null || userPosition.getLng() > 180 || userPosition.getLng() < -180) {

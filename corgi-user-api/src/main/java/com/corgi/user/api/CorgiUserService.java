@@ -82,4 +82,6 @@ public interface CorgiUserService {
     List<String> getUserByBirthday(String date, Long time);
 
     void logUnregisterUser(UserDetail detail, UserPosition position);
+
+    String getUserVipExpire(String userId);
 }
