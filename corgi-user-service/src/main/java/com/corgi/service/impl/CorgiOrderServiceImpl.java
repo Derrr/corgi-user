@@ -61,7 +61,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
 
     @Override
     public Integer countOrder(CorgiOrder order) {
-        return null;
+        return corgiOrderMapper.countOrder(order);
     }
 
     @Override

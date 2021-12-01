@@ -90,6 +90,9 @@
         <if test="order.userId != null and order.userId != '' and order.payType != 'income'">
             and o.user_id = #{order.userId}
         </if>
+        <if test="order.marketId != null and order.marketId != ''">
+            and o.market_id = #{order.marketId}
+        </if>
         <if test="order.tradeNo != null and order.tradeNo != ''">
             and o.trade_no = #{order.tradeNo}
         </if>
