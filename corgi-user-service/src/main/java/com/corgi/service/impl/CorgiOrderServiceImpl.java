@@ -112,7 +112,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 MerchandiseEnum e = MerchandiseEnum.getByCode(merchandise.getId());
                 if (e != null) {
                     calendar.setTime(expireDate);
-                    calendar.add(Calendar.MONTH, e.getMonths());
+                    calendar.add(Calendar.DATE, e.getDays());
                     String finalDate = sdf.format(calendar.getTime());
                     corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
                     goods.setDesc("购买成功，日期截止至 " + finalDate);
