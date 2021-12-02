@@ -20,6 +20,7 @@ public class UserLogin implements Serializable{
     String newMessage;
     String newFollowActivity;
     String unregisterDate;
+    String hideVisit;
     String jwt;
     String ctime;
 }

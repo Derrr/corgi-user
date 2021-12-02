@@ -16,6 +16,7 @@
                new_message         newMessage,
                new_follow_activity newFollowActivity,
                unregister_date     unregisterDate,
+               hide_visit          hideVisit,
                ctime
         from corgi_user_login
         where id = #{userId}
@@ -44,6 +45,9 @@
             </if>
             <if test="userLogin.unregisterDate != null">
                 unregister_date = #{userLogin.unregisterDate},
+            </if>
+            <if test="userLogin.hideVisit != null">
+                hide_visit = #{userLogin.hideVisit},
             </if>
             <if test="userLogin.imId != null">
                 im_id = #{userLogin.imId},
