@@ -401,5 +401,5 @@ public interface CorgiUserMapper {
     /**
      * 更新用户vip状态
      */
-    String updateVipExpire(@Param("userId")String userId, @Param("vipStatus")String vipStatus, @Param("vipExpire")String vipExpire);
+    void updateVipExpire(@Param("userId")String userId, @Param("vipStatus")String vipStatus, @Param("vipExpire")String vipExpire);
 }
