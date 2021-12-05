@@ -177,8 +177,8 @@
         where receipt = #{receipt}
     </select>
 
-    <insert id="addMarket" parameterType="com.corgi.user.entity.CorgiUserMarket" useGeneratedKeys="true"
-            keyProperty="market.id">
+    <insert id="addMarket" useGeneratedKeys="true"
+            keyProperty="market.id" parameterType="com.corgi.user.entity.CorgiUserMarket">
         insert into corgi_market(`user_id`, `goods_type`, `merch_id`, `source_id`)
         values (#{market.userId}, #{market.goodsType}, #{market.merchId}, #{market.sourceId})
     </insert>
