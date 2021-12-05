@@ -11,12 +11,12 @@ public enum MerchandiseEnum {
     HALF_YEAR("S06", "normal", 181,"VIP/半年 ¥249"),
     SEASON("S07", "normal", 90,"VIP/季 ¥124"),
     MONTH("S08", "normal", 30,"VIP/月 ¥41"),
-    READ_1("A01", "normal", 0,"付费动态 ¥1"),
-    READ_3("A02", "normal", 0,"付费动态 ¥3"),
-    READ_6("A03", "normal", 0,"付费动态 ¥6"),
-    READ_12("A04", "normal", 0,"付费动态 ¥12"),
-    READ_18("A05", "normal", 0,"付费动态 ¥18"),
-    READ_30("A06", "normal", 0,"付费动态 ¥30"),
+    READ_1("A01", "normal", 0,"付费阅读 ¥1"),
+    READ_3("A02", "normal", 0,"付费阅读 ¥3"),
+    READ_6("A03", "normal", 0,"付费阅读 ¥6"),
+    READ_12("A04", "normal", 0,"付费阅读 ¥12"),
+    READ_18("A05", "normal", 0,"付费阅读 ¥18"),
+    READ_30("A06", "normal", 0,"付费阅读 ¥30"),
     ;
 
     MerchandiseEnum(String code, String type, Integer days, String desc) {
