@@ -93,13 +93,13 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     .currency(CorgiUserGoods.CURRENCY.CNY)
                     .price(order.getPayAmount())
                     .tradeNo(order.getTradeNo())
+                    .traderId(order.getSellerId())
                     .merchId(order.getMerchId())
                     .build();
             CorgiMerchandise merchandise = corgiOrderMapper.getMerchandiseById(order.getMerchId());
             if (CorgiMerchandise.SUBSCRIBE.equals(merchandise.getType())) {
                 goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.SUBSCRIBE);
                 goods.setGoodsId(merchandise.getId());
-                goods.setTraderId("corgi");
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String vipExpireDate = corgiUserMapper.getVipExpire(order.getUserId());
