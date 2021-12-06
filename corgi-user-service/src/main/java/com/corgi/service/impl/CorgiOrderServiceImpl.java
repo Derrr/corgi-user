@@ -100,6 +100,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.SUBSCRIBE);
                 goods.setGoodsId(merchandise.getId());
                 goods.setTraderId("corgi");
+                goods.setMarketId("-");
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String vipExpireDate = corgiUserMapper.getVipExpire(order.getUserId());
@@ -132,6 +133,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.ACTIVITY);
                     goods.setGoodsId(market.getSourceId());
                     goods.setDesc("购买成功");
+                    goods.setMarketId(market.getId());
                     goods.setTraderId(market.getUserId());
                     corgiOrderMapper.addGoods(goods);
                 } else {

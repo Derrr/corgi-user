@@ -28,6 +28,7 @@ public class CorgiUserGoods implements Serializable {
     private String traderId;
     private String currency;
     private String merchId;
+    private String marketId;
     private Double price;
     private String desc;
     private String status;

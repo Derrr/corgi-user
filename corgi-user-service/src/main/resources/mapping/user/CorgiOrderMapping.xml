@@ -153,9 +153,9 @@
 
     <insert id="addGoods" parameterType="com.corgi.user.entity.CorgiUserGoods">
         insert into corgi_user_goods(user_id, goods_id, goods_type, price, currency, trader_id, trade_no, `desc`,
-                                     merch_id)
+                                     merch_id,market_id)
         values (#{goods.userId}, #{goods.goodsId}, #{goods.goodsType}, #{goods.price}, #{goods.currency},
-                #{goods.traderId}, #{goods.tradeNo}, #{goods.desc}, #{goods.merchId})
+                #{goods.traderId}, #{goods.tradeNo}, #{goods.desc}, #{goods.merchId},#{goods.marketId})
     </insert>
 
     <select id="countGoodsByTradeNo" resultType="java.lang.Integer">
@@ -198,8 +198,19 @@
         uptime
         from corgi_user_goods
         where goods_type = #{goods.goodsType}
-        and goods_id = #{goods.goodsId}
+        <if test="goods.goodsId != null and goods.goodsId != ''">
+            and goods_id = #{goods.goodsId}
+        </if>
+        <if test="goods.tradeNo != null and goods.tradeNo != ''">
+            and trade_no = #{goods.tradeNo}
+        </if>
+
+        <if test="goods.goodsId != null and goods.goodsId != ''">
+            and goods_id = #{goods.goodsId}
+        </if>
+        <if test="goods.traderId != null and goods.traderId != ''">
         and trader_id = #{goods.traderId}
+        </if>
         and status = '1'
         <if test="goods.userId != null and goods.userId != ''">
             and user_id = #{goods.userId}
@@ -208,7 +219,8 @@
     </select>
 
     <select id="getMarketById" resultType="com.corgi.user.entity.CorgiUserMarket">
-        select `user_id`    userId,
+        select `id`,
+               `user_id`    userId,
                `goods_type` goodsType,
                `merch_id`   merchId,
                `source_id`  sourceId,
