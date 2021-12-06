@@ -79,6 +79,13 @@
           and l.type = 'real'
     </select>
 
+    <select id="countLikeByUser" resultType="java.lang.Long" parameterType="com.corgi.user.entity.UserDetail">
+        select count(1)
+        from corgi_activity_like l
+        where l.ctime > #{user.ctime}
+          and l.user_id = #{user.userId}
+    </select>
+
     <select id="countLikeUserByDate" resultType="java.lang.Long">
         select count(distinct l.like_user_id)
         from corgi_activity_like l

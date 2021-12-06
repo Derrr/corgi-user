@@ -1,6 +1,7 @@
 package com.corgi.mapper;
 
 import com.corgi.user.entity.ActivityLike;
+import com.corgi.user.entity.UserDetail;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -85,6 +86,14 @@ public interface CorgiLikeMapper {
      * @return
      */
     long countLikeByDate(@Param("date") String date, @Param("category") String category);
+
+    /**
+     * 统计个人点赞数
+     *
+     * @param userDetail
+     * @return
+     */
+    long countLikeByUser(@Param("user")UserDetail userDetail);
 
     /**
      * 统计点赞人数

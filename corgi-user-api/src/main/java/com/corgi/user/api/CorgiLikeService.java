@@ -2,6 +2,7 @@ package com.corgi.user.api;
 
 
 import com.corgi.user.entity.ActivityLike;
+import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserProfile;
 
 import java.util.List;
@@ -27,6 +28,8 @@ public interface CorgiLikeService {
     List<String> getLikedActivity(String userId, String activityId, String category, Integer page, Integer pageSize);
 
     long countLikeByDate(String date, String category);
+
+    long countLikeByUser(UserDetail userDetail);
 
     long countLikeUserByDate(String date, String category);
 
