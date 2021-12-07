@@ -115,6 +115,9 @@
         <if test="order.merchType != null and order.merchType != ''">
             and m.type = #{order.merchType}
         </if>
+        <if test="order.ctime != null and order.ctime != ''">
+            and m.ctime > #{order.ctime}
+        </if>
         order by o.id desc
         limit #{start}, #{size}
     </select>
