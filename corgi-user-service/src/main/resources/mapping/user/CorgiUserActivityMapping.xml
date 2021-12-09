@@ -260,4 +260,28 @@
         order by a.ctime desc
             limit #{start}, #{size}
     </select>
+
+    <select id="searchActivityFeed" resultType="java.lang.String">
+        select c.activity_id from corgi_activity_creator c
+        left join corgi_user_detail d on d.user_id = c.activity_id
+        left join corgi_user_position p on p.user_id = c.creator_id
+        where c.category in ('image','text','video','paying') and c.check_status != 'fail'
+        and c.activity_id &lt; #{query.activityId}
+        <if test="query.city != null and query.city != ''">
+            and p.city like concat(#{query.city},'%')
+        </if>
+        <if test="query.startTime != null and query.startTime != ''">
+            and d.birthday >= #{query.startTime}
+        </if>
+        <if test="query.endTime != null and query.endTime != ''">
+            and d.birthday &lt;= #{query.endTime}
+        </if>
+        <if test="query.type != null and query.type != ''">
+            and d.role int ('${query.type}')
+        </if>
+        <if test="query.version != null and query.version != ''">
+            and d.group in ('${query.version}')
+        </if>
+        order by c.activity_id desc limit #{query.pageSize}
+    </select>
 </mapper>

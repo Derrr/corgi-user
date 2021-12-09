@@ -11,6 +11,8 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiUserActivityService {
+    List<String> searchFeedActivity(ActivityQuery activityQuery);
+
     boolean signUp(UserSignUp userSignUp);
 
     boolean signOut(UserSignUp userSignUp);

@@ -11,11 +11,14 @@ import com.corgi.user.entity.CorgiFeed;
 import com.corgi.user.entity.CorgiVlogHot;
 import com.corgi.user.entity.UserProfile;
 import com.corgi.user.entity.UserSignUp;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -34,8 +37,29 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     private CorgiToolService corgiToolService;
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
-    @Autowired
-    private CorgiFeedService corgiFeedService;
+
+    @Override
+    public List<String> searchFeedActivity(ActivityQuery query) {
+        if (!CollectionUtils.isEmpty(query.getGroup())) {
+            query.setVersion(Strings.join(query.getGroup(), '|').replaceAll("'", "").replaceAll("\\|", "','"));
+        }
+        if (!CollectionUtils.isEmpty(query.getRole())) {
+            query.setType(Strings.join(query.getRole(), '|').replaceAll("'", "").replaceAll("\\|", "','"));
+        }
+        if (query.getStartAge() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, query.getStartAge() * -1);
+            query.setStartTime(sdf.format(calendar.getTime()));
+        }
+        if (query.getEndAge() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, query.getEndAge() * -1);
+            query.setEndTime(sdf.format(calendar.getTime()));
+        }
+        return corgiUserActivityMapper.searchActivityFeed(query);
+    }
 
     @Override
     public boolean signUp(UserSignUp userSignUp) {

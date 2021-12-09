@@ -219,4 +219,12 @@ public interface CorgiUserActivityMapper {
      * @return
      */
     List<String> getParticipateActivity(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
+     * 搜索活动
+     *
+     * @param query
+     * @return
+     */
+    List<String> searchActivityFeed(@Param("query")ActivityQuery query);
 }
