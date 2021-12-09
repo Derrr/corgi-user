@@ -15,6 +15,7 @@ import com.corgi.user.entity.CorgiVlogHot;
 import com.corgi.user.entity.UserProfile;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.stereotype.Component;
@@ -22,10 +23,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author tairanliu
@@ -108,6 +107,35 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             }
         }
         return result;
+    }
+
+    @Override
+    public List<String> searchFeed(ActivityQuery query) {
+        CorgiVlog vlogQuery = new CorgiVlog();
+        vlogQuery.setUserId(query.getUserId());
+        if (!CollectionUtils.isEmpty(query.getGroup())) {
+            vlogQuery.setActivityId(Strings.join(query.getGroup(), '|').replaceAll("'", "").replaceAll("\\|", "','"));
+        }
+        if (!CollectionUtils.isEmpty(query.getRole())) {
+            vlogQuery.setVideoId(Strings.join(query.getRole(), '|').replaceAll("'", "").replaceAll("\\|", "','"));
+        }
+        if (query.getStartAge() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, query.getStartAge() * -1);
+            vlogQuery.setCtime(sdf.format(calendar.getTime()));
+        }
+        if (query.getEndAge() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, query.getEndAge() * -1);
+            vlogQuery.setUptime(sdf.format(calendar.getTime()));
+        }
+        List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(vlogQuery, query.getPageSize(), UserUtils.getIndex(query.getUserId()));
+        if (CollectionUtils.isEmpty(vlogs)) {
+            return new ArrayList<>();
+        }
+        return vlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
     }
 
     private List<CorgiVlog> getPopularFeeds(String userId, Integer size, String userIndex) {

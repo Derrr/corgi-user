@@ -1,6 +1,7 @@
 package com.corgi.user.api;
 
 
+import com.corgi.entity.ActivityQuery;
 import com.corgi.user.entity.CorgiFeed;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
  */
 public interface CorgiFeedService {
     List<String> getUnviewFeed(String userId, Integer size);
+
+    List<String> searchFeed(ActivityQuery query);
 
     List<String> getFeedByActivityId(String activityId, String userId, Integer page, Integer size);
 

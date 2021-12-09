@@ -183,7 +183,7 @@
           and l1.activity_id = #{activityId}
           and c.check_status != 'fail'
         group by l2.activity_id
-        order by count(1) desc limit #{start}, #{size}
+        order by count (1) desc limit #{start}, #{size}
     </select>
 
     <select id="countActivityVlog" resultType="java.lang.Integer">
@@ -225,9 +225,7 @@
         <include refid="creator"/>
         from corgi_vlog_hot h
         join corgi_activity_creator c on h.activity_id = c.activity_id
-        <if test="vlog.activityId != '' and vlog.activityId != null ">
-            left join corgi_user_detail d on d.user_id = c.creator_id
-        </if>
+        left join corgi_user_detail d on d.user_id = c.creator_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id =
         f.feed)
         and h.expect_view > h.view_count
@@ -238,6 +236,15 @@
         and c.check_status != 'fail'
         <if test="vlog.activityId != '' and vlog.activityId != null ">
             and (d.group is null or d.group = '' or d.group in ('${vlog.activityId}'))
+        </if>
+        <if test="vlog.videoId != '' and vlog.videoId != null ">
+            and (d.role is null or d.role = '' or d.role in ('${vlog.videoId}'))
+        </if>
+        <if test="vlog.ctime != '' and vlog.ctime != null ">
+            and (d.birthday >= #{vlog.ctime})
+        </if>
+        <if test="vlog.uptime != '' and vlog.uptime != null ">
+            and (d.birthday &lt;= #{vlog.uptime})
         </if>
         <if test="vlog.status != 'desc'">
             order by h.id desc
