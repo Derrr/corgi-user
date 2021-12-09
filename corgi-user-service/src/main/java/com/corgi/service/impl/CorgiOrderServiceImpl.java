@@ -192,7 +192,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
 
     @Override
     public Double countIncome(CorgiOrder query) {
-        return null;
+        Double result = corgiOrderMapper.sumOrder(query);
+        return result == null ? 0.0 : result;
     }
 
     private void lock(String key) {

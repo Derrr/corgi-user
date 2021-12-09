@@ -44,5 +44,5 @@ public interface CorgiOrderMapper {
 
     CorgiUserMarket getMarketById(@Param("marketId") String marketId);
 
-    Double sumOrder(@Param("goods") CorgiUserGoods goods);
+    Double sumOrder(@Param("goods") CorgiOrder goods);
 }
