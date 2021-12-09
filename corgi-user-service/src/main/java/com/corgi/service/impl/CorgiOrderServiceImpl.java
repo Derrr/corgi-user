@@ -190,6 +190,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         return corgiOrderMapper.getUserGoods(goods);
     }
 
+    @Override
+    public Double countIncome(CorgiOrder query) {
+        return null;
+    }
+
     private void lock(String key) {
         for (int i = 0; i < 100; i++) {
             if (redisTemplate.opsForValue().setIfAbsent(key, System.currentTimeMillis() + "")) {

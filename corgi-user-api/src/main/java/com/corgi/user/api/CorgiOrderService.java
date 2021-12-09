@@ -34,4 +34,6 @@ public interface CorgiOrderService {
     String addUserMarket(CorgiUserMarket market);
 
     List<CorgiUserGoods> getUserGoods(CorgiUserGoods goods);
+
+    Double countIncome(CorgiOrder query);
 }

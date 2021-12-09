@@ -233,4 +233,18 @@
         from corgi_market
         where id = #{marketId}
     </select>
+
+    <select id="sumOrder" resultType="java.lang.Double">
+        select sum(pay_amount) from corgi_order
+        where status = #{order.status}
+        <if test="order.sellerId != null and order.sellerId != ''">
+            and seller_id = #{order.sellerId}
+        </if>
+        <if test="order.payType != null and order.payType != ''">
+            and pay_type = #{order.payType}
+        </if>
+        <if test="order.userId != null and order.userId != ''">
+            and user_id = #{order.userId}
+        </if>
+    </select>
 </mapper>

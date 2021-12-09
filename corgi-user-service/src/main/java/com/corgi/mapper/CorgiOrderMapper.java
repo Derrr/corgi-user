@@ -43,4 +43,6 @@ public interface CorgiOrderMapper {
     List<CorgiUserGoods> getUserGoods(@Param("goods") CorgiUserGoods goods);
 
     CorgiUserMarket getMarketById(@Param("marketId") String marketId);
+
+    Double sumOrder(@Param("goods") CorgiUserGoods goods);
 }
