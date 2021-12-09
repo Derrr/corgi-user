@@ -218,7 +218,7 @@
         <if test="goods.userId != null and goods.userId != ''">
             and user_id = #{goods.userId}
         </if>
-        order by id desc limit 3
+        order by id desc limit #{goods.start}, #{goods.size}
     </select>
 
     <select id="getMarketById" resultType="com.corgi.user.entity.CorgiUserMarket">

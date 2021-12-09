@@ -32,6 +32,8 @@ public class CorgiUserGoods implements Serializable {
     private Double price;
     private String desc;
     private String status;
+    private Integer start;
+    private Integer size;
     private String ctime;
     private String uptime;
 }
