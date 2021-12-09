@@ -207,10 +207,6 @@
         <if test="goods.tradeNo != null and goods.tradeNo != ''">
             and trade_no = #{goods.tradeNo}
         </if>
-
-        <if test="goods.goodsId != null and goods.goodsId != ''">
-            and goods_id = #{goods.goodsId}
-        </if>
         <if test="goods.traderId != null and goods.traderId != ''">
         and trader_id = #{goods.traderId}
         </if>

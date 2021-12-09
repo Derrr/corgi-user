@@ -187,6 +187,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
 
     @Override
     public List<CorgiUserGoods> getUserGoods(CorgiUserGoods goods) {
+        log.info("query:{}", goods);
         return corgiOrderMapper.getUserGoods(goods);
     }
 
