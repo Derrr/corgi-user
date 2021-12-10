@@ -112,6 +112,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     @Override
     public List<String> searchFeed(ActivityQuery query) {
         CorgiVlog vlogQuery = new CorgiVlog();
+        vlogQuery.setStatus("asc");
+        vlogQuery.setType(CorgiVlogHot.TYPE.AUTO);
         vlogQuery.setUserId(query.getUserId());
         if (!CollectionUtils.isEmpty(query.getGroup())) {
             vlogQuery.setActivityId(Strings.join(query.getGroup(), '|').replaceAll("'", "").replaceAll("\\|", "','"));
@@ -131,11 +133,27 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             calendar.add(Calendar.YEAR, query.getEndAge() * -1);
             vlogQuery.setUptime(sdf.format(calendar.getTime()));
         }
-        List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(vlogQuery, query.getPageSize(), UserUtils.getIndex(query.getUserId()));
+        String index = UserUtils.getIndex(query.getUserId());
+        List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(vlogQuery, query.getPageSize(), index);
+        vlogQuery.setType(CorgiVlogHot.TYPE.MANUAL);
+        List<CorgiVlog> mVlogs = corgiVlogMapper.recallHotVlog(vlogQuery, 5, index);
         if (CollectionUtils.isEmpty(vlogs)) {
-            return new ArrayList<>();
+            if (CollectionUtils.isEmpty(mVlogs)) {
+                return new ArrayList<>();
+            }
+            return mVlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
         }
-        return vlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(mVlogs)) {
+            return vlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
+        }
+        List<String> result = vlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
+        List<String> mResult = mVlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
+        for (String mId : mResult) {
+            if (!result.contains(mId)) {
+                result.add(0, mId);
+            }
+        }
+        return result;
     }
 
     private List<CorgiVlog> getPopularFeeds(String userId, Integer size, String userIndex) {
