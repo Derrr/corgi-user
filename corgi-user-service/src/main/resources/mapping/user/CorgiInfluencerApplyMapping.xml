@@ -37,6 +37,7 @@
         select
         <include refid="apply"/>
         from corgi_influencer_apply
+        where status = '1'
         order by id desc limit #{start}, #{size}
     </select>
 
