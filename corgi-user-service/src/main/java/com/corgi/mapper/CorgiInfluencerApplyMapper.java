@@ -1,6 +1,5 @@
 package com.corgi.mapper;
 
-import com.corgi.entity.CorgiArea;
 import com.corgi.user.entity.InfluencerApply;
 import org.apache.ibatis.annotations.Param;
 
