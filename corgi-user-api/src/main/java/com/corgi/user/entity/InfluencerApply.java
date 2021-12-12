@@ -26,5 +26,4 @@ public class InfluencerApply implements Serializable {
     private String source;
     private String detail;
     private String ctime;
-    private String content;
 }
