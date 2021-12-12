@@ -222,7 +222,7 @@
     <select id="getAllActivityBillboard" resultType="com.corgi.user.entity.ActivityBillboard">
         select b.activity_id activityId,
         b.user_id userId,
-        (select count(1) from corgi_activity_billboard b1 where b1.activity_id = b.activity_id and b1.status = 1) count,
+        (select count(1) from corgi_activity_billboard b1 where b1.user_id = b.user_id and b1.status = 1) count,
         b.date,
         b.order
         from corgi_activity_billboard b
