@@ -76,7 +76,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
 
     @Override
     public CorgiMerchandise getMerchandiseById(String merchId) {
-        return corgiOrderMapper.getMerchandiseById(merchId);
+        CorgiMerchandise merchandise = corgiOrderMapper.getMerchandiseById(merchId);
+        if (merchandise == null) {
+            merchandise = corgiOrderMapper.getMerchandiseByAppMerchId(merchId);
+        }
+        return merchandise;
     }
 
     @Override

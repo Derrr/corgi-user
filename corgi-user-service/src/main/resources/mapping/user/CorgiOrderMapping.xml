@@ -34,6 +34,13 @@
         where m.merch_code = #{merchId}
     </select>
 
+    <select id="getMerchandiseByAppMerchId" resultType="com.corgi.user.entity.CorgiMerchandise">
+        select
+        <include refid="merchandise"/>
+        from corgi_merchandise m
+        where m.app_merch_id = #{merchId}
+    </select>
+
     <insert id="addOrder" parameterType="com.corgi.user.entity.CorgiOrder">
         INSERT INTO `corgi_order` (`trade_no`, `merch_id`, `pay_type`, `user_id`, `market_id`, `seller_id`,
                                    `pay_amount`, `order_id`, `desc`)
