@@ -104,6 +104,9 @@
         <if test="order.tradeNo != null and order.tradeNo != ''">
             and o.trade_no = #{order.tradeNo}
         </if>
+        <if test="order.orderId != null and order.orderId != ''">
+            and o.order_id = #{order.orderId}
+        </if>
         <if test="order.payAmount != null and order.payAmount != ''">
             and o.pay_amount = #{order.payAmount}
         </if>
