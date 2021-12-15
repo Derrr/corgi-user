@@ -123,7 +123,7 @@
             and m.type = #{order.merchType}
         </if>
         <if test="order.ctime != null and order.ctime != ''">
-            and m.ctime > #{order.ctime}
+            and o.ctime > #{order.ctime}
         </if>
         order by o.id desc
         limit #{start}, #{size}
