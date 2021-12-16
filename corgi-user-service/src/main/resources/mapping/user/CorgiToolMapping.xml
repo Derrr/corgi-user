@@ -102,6 +102,7 @@
             `url` = #{hashtag.url},
             `url_type` = #{hashtag.urlType},
             `url_content` = #{hashtag.urlContent},
+            `view_count` = #{hashtag.viewCount},
             <if test="hashtag.order != null">
                 `order` = #{hashtag.order},
             </if>
