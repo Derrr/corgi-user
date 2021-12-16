@@ -171,15 +171,20 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
         if (corgiHashtag != null) {
             vlog.setViewCount(corgiHashtag.getViewCount());
         }
-//        Integer view = 0;
-//        for (int i = 0; i < 8; i++) {
-//            Integer viewIndex = corgiVlogMapper.countViewByHashtag(hashtagId, i + "");
-//            if (viewIndex != null) {
-//                view += viewIndex;
-//            }
-//        }
-//        vlog.setViewCount(view);
+
         return vlog;
+    }
+
+    @Override
+    public Long countHashtagView(String hashtagId) {
+        Long view = 0l;
+        for (int i = 0; i < 8; i++) {
+            Integer viewIndex = corgiVlogMapper.countViewByHashtag(hashtagId, i + "");
+            if (viewIndex != null) {
+                view += viewIndex;
+            }
+        }
+        return view;
     }
 
     private String getNowDate() {
