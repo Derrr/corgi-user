@@ -22,4 +22,5 @@ public class CorgiHashtag implements Serializable {
     String url;
     String urlType;
     String urlContent;
+    Long viewCount;
 }

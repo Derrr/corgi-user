@@ -2,8 +2,10 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.mapper.CorgiToolMapper;
 import com.corgi.mapper.CorgiVlogMapper;
 import com.corgi.user.api.*;
+import com.corgi.user.entity.CorgiHashtag;
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
 import com.corgi.utils.UserUtils;
@@ -29,6 +31,8 @@ import java.util.List;
 public class CorgiVlogServiceImpl implements CorgiVlogService {
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
+    @Autowired
+    private CorgiToolMapper corgiToolMapper;
     @Autowired
     private StringRedisTemplate redisTemplate;
 
@@ -163,14 +167,18 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
         vlog.setId(corgiVlogMapper.countByHashtag(hashtagId));
         vlog.setLikeCount(corgiVlogMapper.countLikeByHashtag(hashtagId, type));
         vlog.setCommentCount(corgiVlogMapper.countCommentByHashtag(hashtagId));
-        Integer view = 0;
-        for (int i = 0; i < 8; i++) {
-            Integer viewIndex = corgiVlogMapper.countViewByHashtag(hashtagId, i + "");
-            if (viewIndex != null) {
-                view += viewIndex;
-            }
+        CorgiHashtag corgiHashtag = corgiToolMapper.getHashtagById(hashtagId);
+        if (corgiHashtag != null) {
+            vlog.setViewCount(corgiHashtag.getViewCount());
         }
-        vlog.setViewCount(view);
+//        Integer view = 0;
+//        for (int i = 0; i < 8; i++) {
+//            Integer viewIndex = corgiVlogMapper.countViewByHashtag(hashtagId, i + "");
+//            if (viewIndex != null) {
+//                view += viewIndex;
+//            }
+//        }
+//        vlog.setViewCount(view);
         return vlog;
     }
 
