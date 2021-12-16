@@ -177,7 +177,9 @@
         <if test="record.ctime != null and record.ctime != ''">
             and `ctime` like concat(#{record.ctime},'%')
         </if>
-
+        <if test="record.messageId != null and record.messageId != ''">
+            and `message_id` = #{record.messageId}
+        </if>
         order by id desc
         limit #{start}, #{size}
     </select>

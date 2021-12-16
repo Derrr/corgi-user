@@ -107,6 +107,11 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
     }
 
     @Override
+    public List<MessageRecord> searchMessageRecordList(MessageRecord messageRecord) {
+        return corgiSystemMessageMapper.searchMessageRecord(messageRecord, 0, 1000);
+    }
+
+    @Override
     public String addMessageRecord(MessageRecord messageRecord) {
         corgiSystemMessageMapper.addMessageRecord(messageRecord);
         return messageRecord.getId();
