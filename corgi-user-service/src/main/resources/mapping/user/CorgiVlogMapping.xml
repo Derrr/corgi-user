@@ -241,10 +241,10 @@
             and (d.role is null or d.role = '' or d.role in ('${vlog.videoId}'))
         </if>
         <if test="vlog.ctime != '' and vlog.ctime != null ">
-            and (d.birthday >= #{vlog.ctime})
+            and (d.birthday &lt; #{vlog.ctime})
         </if>
         <if test="vlog.uptime != '' and vlog.uptime != null ">
-            and (d.birthday &lt;= #{vlog.uptime})
+            and (d.birthday >= #{vlog.uptime})
         </if>
         <if test="vlog.status != 'desc'">
             order by h.id desc
