@@ -145,7 +145,7 @@
         <if test="query.userId != null and query.userId !=''">
             and c.creator_id = #{query.userId}
         </if>
-        <if test="query.endTime != null and query.endTime !=''">
+        <if test="query.startTime != null and query.startTime !=''">
             and c.ctime > #{query.startTime}
         </if>
         group by c.activity_id
