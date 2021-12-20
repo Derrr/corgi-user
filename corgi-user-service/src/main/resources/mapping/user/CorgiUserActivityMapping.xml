@@ -282,6 +282,9 @@
         <if test="query.version != null and query.version != ''">
             and d.group in ('${query.version}')
         </if>
+        <if test="query.type != null and query.type != ''">
+            and d.avatar_check_status = 'verified'
+        </if>
         order by c.activity_id desc limit #{query.pageSize}
     </select>
 </mapper>

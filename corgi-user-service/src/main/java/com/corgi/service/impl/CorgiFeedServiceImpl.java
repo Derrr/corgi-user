@@ -112,7 +112,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     @Override
     public List<String> searchFeed(ActivityQuery query) {
         CorgiVlog vlogQuery = new CorgiVlog();
-        vlogQuery.setStatus("asc");
+        vlogQuery.setStatus(query.getType());
         vlogQuery.setType(CorgiVlogHot.TYPE.AUTO);
         vlogQuery.setUserId(query.getUserId());
         if (!CollectionUtils.isEmpty(query.getGroup())) {

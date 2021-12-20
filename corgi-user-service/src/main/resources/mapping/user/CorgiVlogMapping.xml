@@ -246,6 +246,9 @@
         <if test="vlog.uptime != '' and vlog.uptime != null ">
             and (d.birthday >= #{vlog.uptime})
         </if>
+        <if test="vlog.status != '' and vlog.status != null and vlog.status != 'desc'">
+            and d.avatar_check_status = 'verified'
+        </if>
         <if test="vlog.status != 'desc'">
             order by h.id desc
         </if>
