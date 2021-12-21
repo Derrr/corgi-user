@@ -21,7 +21,7 @@ public interface CorgiOrderService {
 
     CorgiOrder getOrderByTradeNo(String tradeNo);
 
-    CorgiMerchandise getMerchandiseById(String merchId);
+    CorgiMerchandise getMerchandiseById(String merchId, String userId);
 
     String buy(String tradeNo);
 

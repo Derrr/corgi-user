@@ -16,7 +16,7 @@ public interface CorgiOrderMapper {
 
     CorgiMerchandise getMerchandiseById(@Param("merchId") String merchId);
 
-    CorgiMerchandise getMerchandiseByAppMerchId(@Param("merchId") String merchId);
+    List<CorgiMerchandise> getMerchandiseByAppMerchId(@Param("merchId") String merchId);
 
     void addLog(@Param("order") CorgiOrder order);
 

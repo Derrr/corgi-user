@@ -32,6 +32,7 @@
         <include refid="merchandise"/>
         from corgi_merchandise m
         where m.merch_code = #{merchId}
+        and m.status = '1'
     </select>
 
     <select id="getMerchandiseByAppMerchId" resultType="com.corgi.user.entity.CorgiMerchandise">
@@ -39,6 +40,7 @@
         <include refid="merchandise"/>
         from corgi_merchandise m
         where m.app_merch_id = #{merchId}
+        and m.status = '1'
     </select>
 
     <insert id="addOrder" parameterType="com.corgi.user.entity.CorgiOrder">

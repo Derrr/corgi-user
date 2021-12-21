@@ -1,5 +1,6 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiOrderMapper;
 import com.corgi.mapper.CorgiUserMapper;
@@ -19,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author tairanliu
@@ -75,10 +77,34 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
-    public CorgiMerchandise getMerchandiseById(String merchId) {
+    public CorgiMerchandise getMerchandiseById(String merchId, String userId) {
         CorgiMerchandise merchandise = corgiOrderMapper.getMerchandiseById(merchId);
         if (merchandise == null) {
-            merchandise = corgiOrderMapper.getMerchandiseByAppMerchId(merchId);
+            List<CorgiMerchandise> merchandises = corgiOrderMapper.getMerchandiseByAppMerchId(merchId);
+            if (CollectionUtils.isEmpty(merchandises)) {
+                return null;
+            }
+            if (merchandises.size() == 1) {
+                return merchandises.get(0);
+            }
+            if (CorgiMerchandise.SUBSCRIBE.equals(merchandises.get(0).getType())) {
+                CorgiUserGoods orderQuery = CorgiUserGoods.builder()
+                        .userId(userId)
+                        .goodsType(CorgiUserGoods.GOODS_TYPE.SUBSCRIBE)
+                        .start(0)
+                        .size(1)
+                        .build();
+                List<CorgiUserGoods> orders = this.getUserGoods(orderQuery);
+                if (CollectionUtils.isNotEmpty(orders)) {
+                    merchandises = merchandises.stream().filter(m -> CorgiMerchandise.SUBSCRIBE.equals(m.getType()) && !MerchandiseEnum.isFirst(m.getId())).collect(Collectors.toList());
+                } else {
+                    merchandises = merchandises.stream().filter(m -> CorgiMerchandise.SUBSCRIBE.equals(m.getType()) && MerchandiseEnum.isFirst(m.getId())).collect(Collectors.toList());
+                }
+            }
+            if (CollectionUtils.isEmpty(merchandises)) {
+                return null;
+            }
+            return merchandises.get(0);
         }
         return merchandise;
     }
