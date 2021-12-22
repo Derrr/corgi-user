@@ -33,7 +33,7 @@
 
     <select id="getHashtagById" resultType="com.corgi.user.entity.CorgiHashtag">
         select <include refid="hashtag"/>
-        from corgi_topics
+        from corgi_hashtags
         where id = #{id}
     </select>
 
