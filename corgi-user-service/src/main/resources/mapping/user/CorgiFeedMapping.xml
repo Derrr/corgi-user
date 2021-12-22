@@ -33,6 +33,9 @@
 
     <select id="countUnviewFeed" resultType="java.lang.Integer">
         select count(1) from corgi_feed_${index} where user_id = #{userId} and view_count = '0'
+        <if test="source != null and source != ''">
+            and `source` = #{source}
+        </if>
     </select>
 
     <select id="countViewFeed" resultType="java.lang.Integer">

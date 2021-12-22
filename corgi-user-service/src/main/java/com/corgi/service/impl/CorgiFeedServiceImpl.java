@@ -70,7 +70,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 corgiFeedMapper.addFeed(feed, index);
             }
         }
-        List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size);
+        List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size, null);
         if (!CollectionUtils.isEmpty(corgiVlogs)) {
             for (CorgiVlog vlog : corgiVlogs) {
                 result.add(0, vlog.getActivityId());
@@ -111,6 +111,14 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> searchFeed(ActivityQuery query) {
+        List<String> oldResult = corgiFeedMapper.getUnviewFeed(query.getUserId(), UserUtils.getIndex(query.getUserId()), query.getPageSize(), "search");
+        if (oldResult.size() >= query.getPageSize()) {
+            return oldResult;
+        }
+        if (oldResult == null) {
+            oldResult = new ArrayList<>();
+        }
+        query.setPageSize(query.getPageSize() - oldResult.size());
         CorgiVlog vlogQuery = new CorgiVlog();
         vlogQuery.setStatus(query.getType());
         vlogQuery.setType(CorgiVlogHot.TYPE.AUTO);
@@ -134,25 +142,37 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             vlogQuery.setUptime(sdf.format(calendar.getTime()));
         }
         String index = UserUtils.getIndex(query.getUserId());
+        List<CorgiVlog> resultVlogs = new ArrayList<>();
         List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(vlogQuery, query.getPageSize(), index);
         vlogQuery.setType(CorgiVlogHot.TYPE.MANUAL);
         List<CorgiVlog> mVlogs = corgiVlogMapper.recallHotVlog(vlogQuery, 5, index);
         if (CollectionUtils.isEmpty(vlogs)) {
-            if (CollectionUtils.isEmpty(mVlogs)) {
-                return new ArrayList<>();
+            if (!CollectionUtils.isEmpty(mVlogs)) {
+                resultVlogs = mVlogs;
             }
-            return mVlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
-        }
-        if (CollectionUtils.isEmpty(mVlogs)) {
-            return vlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
-        }
-        List<String> result = vlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
-        List<String> mResult = mVlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
-        for (String mId : mResult) {
-            if (!result.contains(mId)) {
-                result.add(0, mId);
+        } else if (CollectionUtils.isEmpty(mVlogs)) {
+            resultVlogs = vlogs;
+        } else {
+            List<String> result = vlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
+            resultVlogs = vlogs;
+            for (CorgiVlog vlog : mVlogs) {
+                if (!result.contains(vlog.getActivityId())) {
+                    result.add(0, vlog.getActivityId());
+                    resultVlogs.add(0, vlog);
+                }
             }
         }
+
+        for (CorgiVlog vlog : resultVlogs) {
+            CorgiFeed feed = new CorgiFeed();
+            feed.setFeed(vlog.getActivityId());
+            feed.setFeedUserId(vlog.getUserId());
+            feed.setUserId(query.getUserId());
+            feed.setSource("search");
+            corgiFeedMapper.addFeed(feed, index);
+        }
+        List<String> result = resultVlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
+        result.addAll(oldResult);
         return result;
     }
 
@@ -207,7 +227,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     @Override
     public void viewFeed(CorgiFeed feed) {
         String userId = feed.getUserId();
-        corgiFeedMapper.addFeed(feed, UserUtils.getIndex(userId));
+        //corgiFeedMapper.addFeed(feed, UserUtils.getIndex(userId));
         corgiFeedMapper.viewFeed(userId, feed.getFeed(), UserUtils.getIndex(userId));
         CorgiVlogHot hot = new CorgiVlogHot();
         hot.setViewCount(1);
