@@ -213,6 +213,10 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         hot.setViewCount(1);
         hot.setActivityId(feed.getFeed());
         corgiVlogMapper.updateVlogHot(hot);
+        CorgiVlog vlog = new CorgiVlog();
+        vlog.setViewCount(1l);
+        vlog.setActivityId(feed.getFeed());
+        corgiVlogMapper.addVlogCount(vlog);
     }
 
     @Override
