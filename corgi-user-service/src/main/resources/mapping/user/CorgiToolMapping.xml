@@ -162,8 +162,27 @@
         select c.activity_id
         from corgi_activity_creator c
                  left join corgi_activity_topic t on c.activity_id = t.activity_id
-        where t.topic = #{topic} and c.check_status != 'fail'
-        and c.category in ('image','text','video')
+        left join corgi_user_detail d on d.user_id = c.creator_id
+        where t.topic = #{query.topic} and c.check_status != 'fail'
+        and c.category in ('image','text','video','paying')
+        <if test="group != '' and group != null ">
+            and (d.group is null or d.group = '' or d.group in ('${group}'))
+        </if>
+        <if test="role != '' and role != null ">
+            and (d.role is null or d.role = '' or d.role in ('${role}'))
+        </if>
+        <if test="query.startTime != '' and query.startTime != null ">
+            and (d.birthday &lt; #{vlog.ctime})
+        </if>
+        <if test="query.activityId != '' and query.activityId != null ">
+            and (c.activity_id &lt; #{query.activityId})
+        </if>
+        <if test="query.endTime != '' and query.endTime != null ">
+            and (d.birthday >= #{query.endTime})
+        </if>
+        <if test="query.type != '' and query.type != null">
+            and d.avatar_check_status = 'verified'
+        </if>
         order by t.`weight` desc, c.id desc
             limit #{start}, #{size}
     </select>

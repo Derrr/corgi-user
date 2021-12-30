@@ -4,21 +4,21 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.api.CorgiActivityService;
 import com.corgi.activity.entity.CorgiActivity;
+import com.corgi.entity.ActivityQuery;
 import com.corgi.entity.CorgiTopic;
 import com.corgi.mapper.CorgiToolMapper;
 import com.corgi.mapper.CorgiUserTagMapper;
 import com.corgi.user.api.CorgiToolService;
 import com.corgi.user.entity.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author tairanliu
@@ -170,8 +170,28 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public List<String> getActivityIdsByTopic(String topic, Integer page, Integer size) {
-        return corgiToolMapper.getActivityIdsByTopic(topic, (page - 1) * size, size);
+    public List<String> getActivityIdsByTopic(ActivityQuery query, Integer page, Integer size) {
+        String group = "";
+        String role = "";
+        if (!CollectionUtils.isEmpty(query.getGroup())) {
+            group = Strings.join(query.getGroup(), '|').replaceAll("'", "").replaceAll("\\|", "','");
+        }
+        if (!CollectionUtils.isEmpty(query.getRole())) {
+            role = Strings.join(query.getRole(), '|').replaceAll("'", "").replaceAll("\\|", "','");
+        }
+        if (query.getStartAge() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, query.getStartAge() * -1);
+            query.setStartTime(sdf.format(calendar.getTime()));
+        }
+        if (query.getEndAge() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, query.getEndAge() * -1);
+            query.setEndTime(sdf.format(calendar.getTime()));
+        }
+        return corgiToolMapper.getActivityIdsByTopic(query, role, group, (page - 1) * size, size);
     }
 
     @Override

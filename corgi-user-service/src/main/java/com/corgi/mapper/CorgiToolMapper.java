@@ -1,5 +1,6 @@
 package com.corgi.mapper;
 
+import com.corgi.entity.ActivityQuery;
 import com.corgi.entity.CorgiTopic;
 import com.corgi.user.entity.ActivityMessage;
 import com.corgi.user.entity.CorgiHashtag;
@@ -126,12 +127,12 @@ public interface CorgiToolMapper {
     /**
      * 根据话题获取活动
      *
-     * @param topic
+     * @param query
      * @param start
      * @param size
      * @return
      */
-    List<String> getActivityIdsByTopic(@Param("topic") String topic, @Param("start") Integer start, @Param("size") Integer size);
+    List<String> getActivityIdsByTopic(@Param("query") ActivityQuery query, @Param("role") String role, @Param("group") String group, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
      * 根据话题获取活动

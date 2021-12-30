@@ -1,5 +1,6 @@
 package com.corgi.user.api;
 
+import com.corgi.entity.ActivityQuery;
 import com.corgi.entity.CorgiTopic;
 import com.corgi.user.entity.*;
 
@@ -58,7 +59,7 @@ public interface CorgiToolService {
 
     List<CorgiTopic> getActivityTopicDetails(String activityId);
 
-    List<String> getActivityIdsByTopic(String topic, Integer page, Integer size);
+    List<String> getActivityIdsByTopic(ActivityQuery activityQuery, Integer page, Integer size);
 
     void updateActivityTopicWeight(String activityId, Integer weight);
 
