@@ -172,7 +172,7 @@
             and (d.role is null or d.role = '' or d.role in ('${role}'))
         </if>
         <if test="query.startTime != '' and query.startTime != null ">
-            and (d.birthday &lt; #{vlog.ctime})
+            and (d.birthday &lt; #{query.startTime})
         </if>
         <if test="query.activityId != '' and query.activityId != null ">
             and (c.activity_id &lt; #{query.activityId})
