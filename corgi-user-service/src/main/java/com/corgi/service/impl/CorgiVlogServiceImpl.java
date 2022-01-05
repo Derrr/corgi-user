@@ -177,14 +177,7 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
 
     @Override
     public Long countHashtagView(String hashtagId) {
-        Long view = 0l;
-        for (int i = 0; i < 8; i++) {
-            Integer viewIndex = corgiVlogMapper.countViewByHashtag(hashtagId, i + "");
-            if (viewIndex != null) {
-                view += viewIndex;
-            }
-        }
-        return view;
+        return corgiVlogMapper.countViewByHashtag(hashtagId);
     }
 
     private String getNowDate() {
