@@ -185,6 +185,10 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 corgiOrderMapper.addOrder(order);
                 corgiOrderMapper.updateOrder(order);
                 corgiOrderMapper.addLog(order);
+            } else {
+                order.setTradeNo(order.getUserId());
+                order.setResult(finalDate);
+                corgiOrderMapper.addLog(order);
             }
             if (CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
                 if (goods != null) {
