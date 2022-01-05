@@ -856,6 +856,7 @@
     <update id="updateVipExpire">
         update corgi_user_detail
         <set>
+            uptime = uptime,
             <if test="vipStatus != null and vipStatus != ''">
                 `vip_status` = #{vipStatus},
             </if>
