@@ -73,7 +73,9 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size, null);
         if (!CollectionUtils.isEmpty(corgiVlogs)) {
             for (CorgiVlog vlog : corgiVlogs) {
-                result.add(0, vlog.getActivityId());
+                if (!result.contains(vlog.getActivityId())) {
+                    result.add(0, vlog.getActivityId());
+                }
             }
         }
         if (result.size() >= size) {
@@ -171,8 +173,13 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             feed.setSource("search");
             corgiFeedMapper.addFeed(feed, index);
         }
-        List<String> result = resultVlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
-        result.addAll(oldResult);
+
+        List<String> result = oldResult;
+        for (CorgiVlog vlog : resultVlogs) {
+            if (vlog.getActivityId() != null && !result.contains(vlog.getActivityId())) {
+                result.add(vlog.getActivityId());
+            }
+        }
         return result;
     }
 
