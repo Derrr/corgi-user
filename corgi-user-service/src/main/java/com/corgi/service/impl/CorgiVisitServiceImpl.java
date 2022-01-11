@@ -45,7 +45,7 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
             corgiVisitMapper.readVisit(userId);
         } else {
             UserDetail detail = corgiUserService.getUserDetailBasic(userId);
-            if ("influencer".equals(detail.getAvatarStatus())) {
+            if (UserDetail.INFLUENCER.equals(detail.getAvatarStatus())) {
                 corgiVisitMapper.readVisit(userId);
             }
         }

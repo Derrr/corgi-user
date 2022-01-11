@@ -137,14 +137,18 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setTags(corgiUserTagMapper.getUserTag(userId));
         userDetail.setInterests(corgiUserTagMapper.getUserInterests(userId));
         userDetail.setDate(corgiUserDateService.getDateByUserId(userId));
-        String expireDate = corgiUserMapper.getVipExpire(userId);
-        userDetail.setVip(false);
-        if (!"-".equals(expireDate)) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            try {
-                userDetail.setVip(sdf.parse(expireDate).compareTo(new Date()) > 0);
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
+        if (UserDetail.INFLUENCER.equals(userDetail.getAvatarStatus())) {
+            userDetail.setVip(true);
+        } else {
+            String expireDate = corgiUserMapper.getVipExpire(userId);
+            userDetail.setVip(false);
+            if (!"-".equals(expireDate)) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+                    userDetail.setVip(sdf.parse(expireDate).compareTo(new Date()) > 0);
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
             }
         }
         return userDetail;

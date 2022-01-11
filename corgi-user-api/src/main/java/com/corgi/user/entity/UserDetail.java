@@ -12,6 +12,7 @@ import java.util.List;
 public class UserDetail implements Serializable {
     public static final String NO_FACE = "no_face";
     public static final String VERIFIED = "verified";
+    public static final String INFLUENCER = "influencer";
 
     private String userId;
     private String telNo;
