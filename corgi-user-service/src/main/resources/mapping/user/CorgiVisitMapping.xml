@@ -75,7 +75,7 @@
     </select>
 
     <select id="countVisitUnread" resultType="java.lang.Integer">
-        select sum(v.count)
+        select count(1)
         from corgi_visit v
         where v.user_id = #{userId}
           and `read` = 0
