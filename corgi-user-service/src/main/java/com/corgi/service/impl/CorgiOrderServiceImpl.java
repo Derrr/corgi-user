@@ -10,10 +10,7 @@ import com.corgi.common.messages.PushMessage;
 import com.corgi.mapper.CorgiOrderMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.user.api.CorgiOrderService;
-import com.corgi.user.entity.CorgiMerchandise;
-import com.corgi.user.entity.CorgiOrder;
-import com.corgi.user.entity.CorgiUserGoods;
-import com.corgi.user.entity.CorgiUserMarket;
+import com.corgi.user.entity.*;
 import com.corgi.user.enums.MerchandiseEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -161,8 +158,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     String finalDate = sdf.format(calendar.getTime());
                     corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
                     goods.setDesc("购买成功，日期截止至 " + finalDate);
-                    rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildMessage(goods, e.getDays(), finalDate.substring(0, 10)));
                     corgiOrderMapper.addGoods(goods);
+                    rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildSubscribeMessage(goods, e.getDays(), finalDate.substring(0, 10)));
                 } else {
                     order.setResult("merchandise can not be found");
                     corgiOrderMapper.addLog(order);
@@ -176,6 +173,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     goods.setMarketId(market.getId());
                     goods.setTraderId(market.getUserId());
                     corgiOrderMapper.addGoods(goods);
+                    rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildActivityMessage(goods));
                 } else {
                     order.setResult("user market can not be found");
                     corgiOrderMapper.addLog(order);
@@ -244,7 +242,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         return result == null ? 0.0 : result;
     }
 
-    private PushMessage buildMessage(CorgiUserGoods goods, int days, String finalDate) {
+    private PushMessage buildSubscribeMessage(CorgiUserGoods goods, int days, String finalDate) {
         PushMessage pushMessage = new PushMessage();
         pushMessage.setSourceUserId("corgihelper");
         pushMessage.setTargetUserId(goods.getUserId());
@@ -252,6 +250,22 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         JSONArray content = new JSONArray();
         content.add(new JSONObject().fluentPut("text", "Corgi会员服务开通成功通知\n恭喜您已开通 " + days + "天会员服务，目前有效期至" + finalDate + "\n更多会员权益可前往"));
         content.add(new JSONObject().fluentPut("text", "会员页面查看 >").fluentPut("urlType", "9"));
+        HashMap<String, Object> extra = new HashMap<>();
+        extra.put("type", "907");
+        extra.put("content", content);
+        pushMessage.setExtra(extra);
+        return pushMessage;
+    }
+
+    private PushMessage buildActivityMessage(CorgiUserGoods goods) {
+        PushMessage pushMessage = new PushMessage();
+        pushMessage.setSourceUserId("corgihelper");
+        pushMessage.setTargetUserId(goods.getTraderId());
+        pushMessage.setMessage("收益提醒");
+        JSONArray content = new JSONArray();
+        UserDetail detail = corgiUserMapper.getUserDetail(goods.getUserId());
+        content.add(new JSONObject().fluentPut("text", detail.getNickname() + " 刚刚支付解锁了 你的付费内容\n付费收益可在"));
+        content.add(new JSONObject().fluentPut("text", "我的收益中查看 >").fluentPut("urlType", "10"));
         HashMap<String, Object> extra = new HashMap<>();
         extra.put("type", "907");
         extra.put("content", content);
