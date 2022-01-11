@@ -3,6 +3,10 @@ package com.corgi.service.impl;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.corgi.common.CorgiQueueName;
+import com.corgi.common.messages.PushMessage;
 import com.corgi.mapper.CorgiOrderMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.user.api.CorgiOrderService;
@@ -12,6 +16,7 @@ import com.corgi.user.entity.CorgiUserGoods;
 import com.corgi.user.entity.CorgiUserMarket;
 import com.corgi.user.enums.MerchandiseEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -19,6 +24,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -37,6 +43,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     private CorgiUserMapper corgiUserMapper;
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Autowired
+    private AmqpTemplate rabbitTemplate;
 
     @Override
     public List<CorgiMerchandise> getMerchandise(CorgiMerchandise merchandise) {
@@ -153,6 +161,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     String finalDate = sdf.format(calendar.getTime());
                     corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
                     goods.setDesc("购买成功，日期截止至 " + finalDate);
+                    rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildMessage(goods, e.getDays(), finalDate.substring(0, 10)));
                     corgiOrderMapper.addGoods(goods);
                 } else {
                     order.setResult("merchandise can not be found");
@@ -233,6 +242,21 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     public Double countIncome(CorgiOrder query) {
         Double result = corgiOrderMapper.sumOrder(query);
         return result == null ? 0.0 : result;
+    }
+
+    private PushMessage buildMessage(CorgiUserGoods goods, int days, String finalDate) {
+        PushMessage pushMessage = new PushMessage();
+        pushMessage.setSourceUserId("corgihelper");
+        pushMessage.setTargetUserId(goods.getUserId());
+        pushMessage.setMessage("Corgi会员服务开通成功通知");
+        JSONArray content = new JSONArray();
+        content.add(new JSONObject().fluentPut("text", "Corgi会员服务开通成功通知\n恭喜您已开通 " + days + "天会员服务，目前有效期至" + finalDate + "\n更多"));
+        content.add(new JSONObject().fluentPut("text", "会员权益可前往会员页面查看 >").fluentPut("urlType", "9"));
+        HashMap<String, String> extra = new HashMap<>();
+        extra.put("type", "907");
+        extra.put("content", content.toJSONString());
+        pushMessage.setExtra(extra);
+        return pushMessage;
     }
 
     private void lock(String key) {
