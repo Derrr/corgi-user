@@ -52,8 +52,10 @@
           and not exists (select 1 from corgi_user_follow f where f.user_id = #{userId}
           and f.follow_user_id = r.rec_user_id)
           and r.rec_user_id != #{userId}
-          and r.`weight` > 0
-          and p.uptime > #{time}
+          and r.`weight`
+            > 0
+          and p.uptime
+            > #{time}
         order by r.`weight` desc
             limit #{size}
     </select>
@@ -65,7 +67,8 @@
           and r.`status` = '0'
           and exists(select 1 from corgi_vlog v where v.user_id = r.rec_user_id)
           and r.rec_user_id != #{userId}
-          and r.`weight` > 0
+          and r.`weight`
+            > 0
         order by r.`weight` desc
             limit #{size}
     </select>
@@ -205,19 +208,11 @@
     </insert>
 
     <select id="getCityImage" resultType="java.lang.String">
-        select max(c.activity_id)
-        from corgi_influencer_billboard b
+        select c.activity_id
+        from corgi_popular b
                  left join corgi_activity_creator c on c.creator_id = b.user_id
-        where b.city = #{city}
-          and not exists(select 1
-                         from corgi_user_recommend r
-                         where r.user_id = #{userId}
-                           and r.rec_user_id = b.user_id
-                           and r.status = '2')
-          and b.user_id != '8'
-        and c.category = 'image'
-        group by b.user_id
-        order by b.fan desc
+        where c.category in ('image', 'video', 'text', 'paying')
+        order by c.activity_id desc
             limit #{start}, #{size}
     </select>
 
