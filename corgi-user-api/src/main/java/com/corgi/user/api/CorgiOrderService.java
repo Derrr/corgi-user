@@ -29,7 +29,7 @@ public interface CorgiOrderService {
 
     void updateReceipt(String tradeNo, String receipt);
 
-    String getReceipt(String receipt);
+    String getReceipt(String userId, String receipt);
 
     String addUserMarket(CorgiUserMarket market);
 

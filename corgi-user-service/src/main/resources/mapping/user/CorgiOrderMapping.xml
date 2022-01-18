@@ -189,7 +189,7 @@
     <select id="getReceipt" resultType="java.lang.String">
         select trade_no
         from corgi_order
-        where receipt = #{receipt}
+        where receipt = #{receipt} and user_id = #{userId}
     </select>
 
     <insert id="addMarket" useGeneratedKeys="true"

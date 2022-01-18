@@ -221,8 +221,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
-    public String getReceipt(String receipt) {
-        return corgiOrderMapper.getReceipt(receipt);
+    public String getReceipt(String userId, String receipt) {
+        return corgiOrderMapper.getReceipt(userId, receipt);
     }
 
     @Override
