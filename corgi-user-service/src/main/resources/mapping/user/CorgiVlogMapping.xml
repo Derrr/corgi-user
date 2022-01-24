@@ -183,7 +183,7 @@
           and l1.activity_id = #{activityId}
           and c.check_status != 'fail'
         group by l2.activity_id
-        order by count(1) desc limit #{start}, #{size}
+        order by count (1) desc limit #{start}, #{size}
     </select>
 
     <select id="countActivityVlog" resultType="java.lang.Integer">
@@ -222,13 +222,16 @@
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
-        distinct <include refid="creator"/>
+        distinct
+        <include refid="creator"/>
         from corgi_vlog_hot h
         join corgi_activity_creator c on h.activity_id = c.activity_id
         left join corgi_user_detail d on d.user_id = c.creator_id
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id =
         f.feed)
-        and h.expect_view > h.view_count
+        <if test="vlog.status != 'new'">
+            and h.expect_view > h.view_count
+        </if>
         and h.status = 'open'
         and h.type = #{vlog.type}
         and c.creator_id != #{vlog.userId}
