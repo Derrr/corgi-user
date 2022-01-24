@@ -40,9 +40,6 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
 
-    @Autowired
-    private CorgiUserActivityMapper corgiUserActivityMapper;
-
     @Override
     public List<String> getUnviewFeed(String userId, Integer size) {
         if (size == null || size > 10) {
@@ -106,6 +103,25 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                     continue;
                 }
                 result.add(activityId);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<String> getPopularFeed(String userId, Integer size) {
+        String index = UserUtils.getIndex(userId);
+        List<String> result = new ArrayList<>();
+        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId,size,index);
+        if (popularFeeds != null) {
+            for (CorgiVlog vlog : popularFeeds) {
+                CorgiFeed feed = new CorgiFeed();
+                feed.setFeed(vlog.getActivityId());
+                feed.setFeedUserId(vlog.getUserId());
+                feed.setUserId(userId);
+                feed.setSource("init");
+                corgiFeedMapper.addFeed(feed, index);
+                result.add(vlog.getActivityId());
             }
         }
         return result;
