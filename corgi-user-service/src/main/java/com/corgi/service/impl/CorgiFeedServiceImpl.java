@@ -112,14 +112,18 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     public List<String> getPopularFeed(String userId, Integer size) {
         String index = UserUtils.getIndex(userId);
         List<String> result = new ArrayList<>();
-        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId,size,index);
-        if (popularFeeds != null) {
-            for (CorgiVlog vlog : popularFeeds) {
+        CorgiVlog query = new CorgiVlog();
+        query.setUserId(userId);
+        query.setType(CorgiVlogHot.TYPE.MANUAL);
+        query.setStatus("asc");
+        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, size, index);
+        if (corgiVlogs != null) {
+            for (CorgiVlog vlog : corgiVlogs) {
                 CorgiFeed feed = new CorgiFeed();
                 feed.setFeed(vlog.getActivityId());
                 feed.setFeedUserId(vlog.getUserId());
                 feed.setUserId(userId);
-                feed.setSource("init");
+                feed.setSource("manual");
                 corgiFeedMapper.addFeed(feed, index);
                 result.add(vlog.getActivityId());
             }
