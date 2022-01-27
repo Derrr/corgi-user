@@ -183,7 +183,7 @@
           and l1.activity_id = #{activityId}
           and c.check_status != 'fail'
         group by l2.activity_id
-        order by count (1) desc limit #{start}, #{size}
+        order by count(1) desc limit #{start}, #{size}
     </select>
 
     <select id="countActivityVlog" resultType="java.lang.Integer">
