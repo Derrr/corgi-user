@@ -56,8 +56,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     @Override
     public void updateOrder(CorgiOrder order) {
         try {
-            corgiOrderMapper.updateOrder(order);
             corgiOrderMapper.addLog(order);
+            if (!CorgiOrder.PAY_TYPE.WITHDRAW.equals(order.getPayType())) {
+                order.setResult(null);
+            }
+            corgiOrderMapper.updateOrder(order);
             if (CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
                 this.buy(order.getTradeNo());
             }

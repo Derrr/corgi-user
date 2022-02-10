@@ -13,7 +13,7 @@
         .
         trade_no
         tradeNo
-        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId,o.order_id orderId, o.buyer_id buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.pay_time payTime,o.status,o.ctime,o.desc
+        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId,o.order_id orderId, o.buyer_id buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.pay_time payTime,o.status,o.ctime,o.desc,o.result
     </sql>
 
     <select id="searchMerchandise" resultType="com.corgi.user.entity.CorgiMerchandise">
@@ -75,6 +75,9 @@
             </if>
             <if test="order.desc != null and order.desc != ''">
                 `desc` = #{order.desc},
+            </if>
+            <if test="order.result != null and order.result != ''">
+                `result` = #{order.result},
             </if>
 
         </set>
