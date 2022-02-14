@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 @Component
 public class CorgiOrderServiceImpl implements CorgiOrderService {
 
-    @Reference
+    @Autowired
     private CorgiPicService corgiPicService;
     @Autowired
     private CorgiOrderMapper corgiOrderMapper;
