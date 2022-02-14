@@ -99,6 +99,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     }
 
     @Override
+    public List<CorgiVlog> listHotVlog(CorgiVlog corgiVlog, Integer page, Integer limit) {
+        return corgiVlogMapper.listHotVlog(corgiVlog, (page - 1) * limit, limit);
+    }
+
+    @Override
     public List<CorgiVlog> recallHotVlog(CorgiVlog corgiVlog, Integer limit) {
         return corgiVlogMapper.recallHotVlog(corgiVlog, limit, UserUtils.getIndex(corgiVlog.getUserId()));
     }

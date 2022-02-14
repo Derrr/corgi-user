@@ -26,6 +26,8 @@ public interface CorgiVlogService {
 
     List<CorgiVlog> recallTargetVlog(String targetId, CorgiVlog corgiVlog, Integer limit);
 
+    List<CorgiVlog> listHotVlog(CorgiVlog corgiVlog,Integer page, Integer limit);
+
     List<CorgiVlog> recallHotVlog(CorgiVlog corgiVlog, Integer limit);
 
     List<CorgiVlog> getFollowVlog(String userId, Integer page, Integer size);

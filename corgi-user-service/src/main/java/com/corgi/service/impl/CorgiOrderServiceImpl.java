@@ -2,14 +2,17 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.corgi.activity.entity.ActivityPic;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.PushMessage;
 import com.corgi.mapper.CorgiOrderMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.user.api.CorgiOrderService;
+import com.corgi.user.api.CorgiPicService;
 import com.corgi.user.entity.*;
 import com.corgi.user.enums.MerchandiseEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,8 @@ import java.util.stream.Collectors;
 @Component
 public class CorgiOrderServiceImpl implements CorgiOrderService {
 
+    @Reference
+    private CorgiPicService corgiPicService;
     @Autowired
     private CorgiOrderMapper corgiOrderMapper;
     @Autowired
@@ -273,6 +278,10 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         HashMap<String, Object> extra = new HashMap<>();
         extra.put("type", "907");
         extra.put("content", content);
+        List<ActivityPic> pics = corgiPicService.getActivityPic(goods.getGoodsId());
+        if (CollectionUtils.isNotEmpty(pics)) {
+            extra.put("picUrl", pics.get(0).getPicUrl());
+        }
         pushMessage.setExtra(extra);
         return pushMessage;
     }

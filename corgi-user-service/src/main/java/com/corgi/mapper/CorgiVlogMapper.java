@@ -42,6 +42,8 @@ public interface CorgiVlogMapper {
 
     List<String> recallByActivityId(@Param("activityId") String activityId, @Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
 
+    List<CorgiVlog> listHotVlog(@Param("vlog") CorgiVlog corgiVlog, @Param("start") Integer start, @Param("size") Integer size);
+
     List<CorgiVlog> recallHotVlog(@Param("vlog") CorgiVlog corgiVlog, @Param("size") Integer size, @Param("index") String index);
 
     List<CorgiVlog> getFollowVlog(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size, @Param("ctime") String ctime);
