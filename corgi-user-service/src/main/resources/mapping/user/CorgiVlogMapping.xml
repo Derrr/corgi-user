@@ -241,7 +241,7 @@
 
     <select id="recallHotVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
-        distinct
+        distinct h.id,
         <include refid="creator"/>
         from corgi_vlog_hot h
         join corgi_activity_creator c on h.activity_id = c.activity_id
