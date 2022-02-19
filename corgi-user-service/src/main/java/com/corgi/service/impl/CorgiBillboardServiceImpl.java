@@ -1,5 +1,6 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.entity.CorgiActivity;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -151,7 +153,13 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
 
     @Override
     public List<ActivityBillboard> getAllActivityBillboard(ActivityBillboard activityBillboard) {
-        return corgiBillboardMapper.getAllActivityBillboard(activityBillboard);
+        List<ActivityBillboard> activityBillboards = corgiBillboardMapper.getAllActivityBillboard(activityBillboard);
+        if (CollectionUtils.isNotEmpty(activityBillboards)) {
+            for (ActivityBillboard activityBillboard1 : activityBillboards) {
+                activityBillboard1.setCtime(corgiBillboardMapper.getOnboardDate(activityBillboard1.getUserId(), activityBillboard1.getDate()));
+            }
+        }
+        return activityBillboards;
     }
 
     @Override

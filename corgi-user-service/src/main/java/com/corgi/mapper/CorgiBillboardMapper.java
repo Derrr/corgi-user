@@ -165,6 +165,13 @@ public interface CorgiBillboardMapper {
     List<ActivityBillboard> getAllActivityBillboard(@Param("activity") ActivityBillboard activity);
 
     /**
+     * 获取榜单活动
+     *
+     * @return
+     */
+    String getOnboardDate(@Param("userId") String userId, @Param("date")String date);
+
+    /**
      * 统计上榜次数
      *
      * @return
