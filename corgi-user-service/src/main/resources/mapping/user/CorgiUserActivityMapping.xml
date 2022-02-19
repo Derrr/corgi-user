@@ -100,7 +100,7 @@
             and c.activity_id &lt; #{query.activityId}
         </if>
         <if test="query.endTime != null and query.endTime != ''">
-            and c.ctime &lt; #{query.endTime}
+            and c.ctime > #{query.endTime}
         </if>
         <if test="query.category != null and query.category != ''">
             and c.category = #{query.category}
