@@ -6,7 +6,9 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.corgi.activity.api.CorgiActivityFeedService;
 import com.corgi.activity.entity.ActivityPic;
+import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.PushMessage;
 import com.corgi.mapper.CorgiOrderMapper;
@@ -36,6 +38,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class CorgiOrderServiceImpl implements CorgiOrderService {
+
+    @Reference
+    private CorgiActivityFeedService corgiActivityFeedService;
 
     @Autowired
     private CorgiPicService corgiPicService;
@@ -273,14 +278,24 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         JSONArray content = new JSONArray();
         UserDetail detail = corgiUserMapper.getUserDetail(goods.getUserId());
         content.add(new JSONObject().fluentPut("text", "@" + detail.getNickname()).fluentPut("url", detail.getUserId()).fluentPut("urlType", "4"));
-        content.add(new JSONObject().fluentPut("text", " 刚刚支付解锁了 你的付费内容\n付费收益可在"));
-        content.add(new JSONObject().fluentPut("text", "我的收益中查看 >").fluentPut("urlType", "10"));
+        content.add(new JSONObject().fluentPut("text", " 刚刚支付解锁了你的付费内容"));
         HashMap<String, Object> extra = new HashMap<>();
         extra.put("type", "907");
         extra.put("content", content);
+        extra.put("bottomText", "查看收益>");
+        extra.put("bottomUrlType", "10");
         List<ActivityPic> pics = corgiPicService.getActivityPic(goods.getGoodsId());
+        CorgiActivity activity = corgiActivityFeedService.getActivityById(goods.getGoodsId());
         if (CollectionUtils.isNotEmpty(pics)) {
             extra.put("picUrl", pics.get(0).getPicUrl());
+        } else if(StringUtils.isNotEmpty(activity.getCoverUrl())) {
+            extra.put("picUrl",activity.getCoverUrl());
+        }
+        if(StringUtils.isNotEmpty(activity.getTitle())){
+            extra.put("title",activity.getTitle());
+        }
+        if(StringUtils.isNotEmpty(activity.getContent())){
+            extra.put("desc",activity.getContent());
         }
         pushMessage.setExtra(extra);
         return pushMessage;
