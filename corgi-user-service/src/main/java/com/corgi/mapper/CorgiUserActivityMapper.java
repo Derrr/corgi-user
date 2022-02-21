@@ -43,6 +43,12 @@ public interface CorgiUserActivityMapper {
     void updateSignUp(@Param("userSignUp") UserSignUp userSignUp);
 
     /**
+     * 修改activity check_status
+     *
+     */
+    void updateCheckStatus(@Param("activityId") String activityId, @Param("status")String status);
+
+    /**
      * 获取用户报名状态
      *
      * @param userId

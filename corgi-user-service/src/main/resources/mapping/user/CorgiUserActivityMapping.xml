@@ -33,6 +33,12 @@
           and activity_id = #{userSignUp.activityId}
     </update>
 
+    <update id="updateCheckStatus">
+        update corgi_activity_creator
+        set `check_status` = #{status}
+        where activity_id = #{activityId}
+    </update>
+
     <select id="getStatus" resultType="java.lang.Integer">
         select `status`
         from corgi_activity_attender

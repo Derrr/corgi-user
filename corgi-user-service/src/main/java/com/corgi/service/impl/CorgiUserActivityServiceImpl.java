@@ -80,6 +80,11 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
+    public void updateActivityStatus(String activityId, String status) {
+
+    }
+
+    @Override
     public void deleteActivity(String activityId) {
         corgiUserActivityMapper.deleteSignUpByActivity(activityId);
         List<ActivityPic> pics = corgiPicService.getActivityPic(activityId);

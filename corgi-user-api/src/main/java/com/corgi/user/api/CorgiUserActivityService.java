@@ -19,6 +19,8 @@ public interface CorgiUserActivityService {
 
     boolean updateSignUp(UserSignUp userSignUp);
 
+    void updateActivityStatus(String activityId, String status);
+
     void deleteActivity(String activityId);
 
     void deleteSignUpByActivity(String activityId);
