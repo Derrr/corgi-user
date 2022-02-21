@@ -81,7 +81,7 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
 
     @Override
     public void updateActivityStatus(String activityId, String status) {
-
+        corgiUserActivityMapper.updateCheckStatus(activityId, status);
     }
 
     @Override
