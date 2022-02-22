@@ -288,15 +288,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         CorgiActivity activity = corgiActivityFeedService.getActivityById(goods.getGoodsId());
         if (CollectionUtils.isNotEmpty(pics)) {
             extra.put("picUrl", pics.get(0).getPicUrl());
-        } else if(StringUtils.isNotEmpty(activity.getCoverUrl())) {
-            extra.put("picUrl",activity.getCoverUrl());
+        } else if (StringUtils.isNotEmpty(activity.getCoverUrl())) {
+            extra.put("picUrl", activity.getCoverUrl());
         }
-        if(StringUtils.isNotEmpty(activity.getTitle())){
-            extra.put("title",activity.getTitle());
-        }
-        if(StringUtils.isNotEmpty(activity.getContent())){
-            extra.put("desc",activity.getContent());
-        }
+        extra.put("title", activity.getTitle() == null ? "" : activity.getTitle());
+        extra.put("desc", activity.getContent() == null ? "" : activity.getContent());
         pushMessage.setExtra(extra);
         return pushMessage;
     }
