@@ -228,6 +228,7 @@
         join corgi_activity_creator c on h.activity_id = c.activity_id
         left join corgi_user_detail d on d.user_id = c.creator_id
         where h.status = 'open'
+          and h.expect_view > h.view_count
         <if test="vlog.type != null and vlog.type != ''">
             and h.type = #{vlog.type}
         </if>
