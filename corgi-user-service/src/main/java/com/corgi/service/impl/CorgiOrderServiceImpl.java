@@ -285,6 +285,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         extra.put("content", content);
         extra.put("bottomText", "查看收益>");
         extra.put("bottomUrlType", "10");
+        extra.put("urlType", "2");
+        extra.put("url", goods.getGoodsId());
         List<ActivityPic> pics = corgiPicService.getActivityPic(goods.getGoodsId());
         CorgiActivity activity = corgiActivityFeedService.getActivityById(goods.getGoodsId());
         if (CollectionUtils.isNotEmpty(pics)) {
