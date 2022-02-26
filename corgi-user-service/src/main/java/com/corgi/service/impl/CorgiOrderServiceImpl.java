@@ -277,7 +277,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         pushMessage.setMessage("收益提醒");
         JSONArray content = new JSONArray();
         UserDetail detail = corgiUserMapper.getUserDetail(goods.getUserId());
-        content.add(new JSONObject().fluentPut("text", detail.getNickname()).fluentPut("url", detail.getUserId()).fluentPut("urlType", "4"));
+        content.add(new JSONObject().fluentPut("text", detail.getNickname()).fluentPut("url", detail.getUserId())
+                .fluentPut("urlType", "4").fluentPut("isBold", true));
         content.add(new JSONObject().fluentPut("text", " 刚刚支付解锁了你的付费内容"));
         HashMap<String, Object> extra = new HashMap<>();
         extra.put("type", "907");
