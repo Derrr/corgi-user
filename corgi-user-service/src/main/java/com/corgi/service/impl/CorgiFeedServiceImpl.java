@@ -25,6 +25,7 @@ import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -104,7 +105,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         query.setUserId(userId);
         query.setType(CorgiVlogHot.TYPE.MANUAL);
         query.setStatus("new");
-        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, size, index);
+        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, null, size, index);
         if (corgiVlogs != null) {
             for (CorgiVlog vlog : corgiVlogs) {
                 CorgiFeed feed = new CorgiFeed();
@@ -121,14 +122,14 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> searchFeed(ActivityQuery query) {
-        List<String> oldResult = corgiFeedMapper.getUnviewFeed(query.getUserId(), UserUtils.getIndex(query.getUserId()), query.getPageSize(), "search");
-        if (oldResult.size() >= query.getPageSize()) {
-            return oldResult;
-        }
-        if (oldResult == null) {
-            oldResult = new ArrayList<>();
-        }
-        query.setPageSize(query.getPageSize() - oldResult.size());
+//        List<String> oldResult = corgiFeedMapper.getUnviewFeed(query.getUserId(), UserUtils.getIndex(query.getUserId()), query.getPageSize(), "search");
+//        if (oldResult.size() >= query.getPageSize()) {
+//            return oldResult;
+//        }
+//        if (oldResult == null) {
+//            oldResult = new ArrayList<>();
+//        }
+//        query.setPageSize(query.getPageSize() - oldResult.size());
         CorgiVlog vlogQuery = new CorgiVlog();
         vlogQuery.setStatus(query.getType());
         vlogQuery.setType(CorgiVlogHot.TYPE.AUTO);
@@ -151,44 +152,12 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             calendar.add(Calendar.YEAR, query.getEndAge() * -1);
             vlogQuery.setUptime(sdf.format(calendar.getTime()));
         }
-        String index = UserUtils.getIndex(query.getUserId());
-        List<CorgiVlog> resultVlogs = new ArrayList<>();
-        List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(vlogQuery, query.getPageSize(), index);
-        vlogQuery.setType(CorgiVlogHot.TYPE.MANUAL);
-        List<CorgiVlog> mVlogs = corgiVlogMapper.recallHotVlog(vlogQuery, 5, index);
-        if (CollectionUtils.isEmpty(vlogs)) {
-            if (!CollectionUtils.isEmpty(mVlogs)) {
-                resultVlogs = mVlogs;
-            }
-        } else if (CollectionUtils.isEmpty(mVlogs)) {
-            resultVlogs = vlogs;
-        } else {
-            List<String> result = vlogs.stream().map(CorgiVlog::getActivityId).collect(Collectors.toList());
-            resultVlogs = vlogs;
-            for (CorgiVlog vlog : mVlogs) {
-                if (!result.contains(vlog.getActivityId())) {
-                    result.add(0, vlog.getActivityId());
-                    resultVlogs.add(0, vlog);
-                }
-            }
+        List<CorgiVlog> resultVlogs = corgiVlogMapper.recallHotVlog(vlogQuery, redisTemplate.opsForValue().get("search_feed_" + query.getUserId()), query.getPageSize(), null);
+        if (CollectionUtils.isEmpty(resultVlogs)) {
+            return new ArrayList<>();
         }
-
-        for (CorgiVlog vlog : resultVlogs) {
-            CorgiFeed feed = new CorgiFeed();
-            feed.setFeed(vlog.getActivityId());
-            feed.setFeedUserId(vlog.getUserId());
-            feed.setUserId(query.getUserId());
-            feed.setSource("search");
-            corgiFeedMapper.addFeed(feed, index);
-        }
-
-        List<String> result = oldResult;
-        for (CorgiVlog vlog : resultVlogs) {
-            if (vlog.getActivityId() != null && !result.contains(vlog.getActivityId())) {
-                result.add(vlog.getActivityId());
-            }
-        }
-        return result;
+        redisTemplate.opsForValue().set("search_feed_" + query.getUserId(), resultVlogs.get(resultVlogs.size() - 1).getId().toString(), 20L, TimeUnit.HOURS);
+        return resultVlogs.stream().map(v -> v.getActivityId()).collect(Collectors.toList());
     }
 
     private List<CorgiVlog> getPopularFeeds(String userId, Integer size, String userIndex) {
@@ -298,7 +267,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             query.setUserId(userId);
             query.setType(CorgiVlogHot.TYPE.MANUAL);
             query.setStatus("asc");
-            List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, size, index);
+            List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, null, size, index);
             if (!CollectionUtils.isEmpty(corgiVlogs)) {
                 for (CorgiVlog vlog : corgiVlogs) {
                     tmpIds.add(vlog.getActivityId() + "-" + vlog.getUserId());

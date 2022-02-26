@@ -183,7 +183,7 @@
           and l1.activity_id = #{activityId}
           and c.check_status != 'fail'
         group by l2.activity_id
-        order by count(1) desc limit #{start}, #{size}
+        order by count (1) desc limit #{start}, #{size}
     </select>
 
     <select id="countActivityVlog" resultType="java.lang.Integer">
@@ -228,7 +228,7 @@
         join corgi_activity_creator c on h.activity_id = c.activity_id
         left join corgi_user_detail d on d.user_id = c.creator_id
         where h.status = 'open'
-          -- and h.expect_view > h.view_count
+        -- and h.expect_view > h.view_count
         <if test="vlog.type != null and vlog.type != ''">
             and h.type = #{vlog.type}
         </if>
@@ -236,7 +236,7 @@
         <if test="vlog.videoId != '' and vlog.videoId != null ">
             and c.category in('${vlog.videoId}')
         </if>
-            order by h.id desc
+        order by h.id desc
         limit #{start}, #{size}
     </select>
 
@@ -247,16 +247,23 @@
         from corgi_vlog_hot h
         join corgi_activity_creator c on h.activity_id = c.activity_id
         left join corgi_user_detail d on d.user_id = c.creator_id
-        where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id =
-        f.feed)
+        where h.status = 'open'
         <if test="vlog.status != 'new'">
             and h.expect_view > h.view_count
         </if>
-        and h.status = 'open'
+        <if test="index != null and index != ''">
+            and not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and h.activity_id =
+            f.feed)
+        </if>
+        <if test="vlog.type != null and vlog.type != ''">
         and h.type = #{vlog.type}
+        </if>
         and c.creator_id != #{vlog.userId}
         and c.category in('image','video','text','business','paying')
         and c.check_status != 'fail'
+        <if test="id != null and id != ''">
+            and h.id &lt; #{id}
+        </if>
         <if test="vlog.activityId != '' and vlog.activityId != null ">
             and (d.group is null or d.group = '' or d.group in ('${vlog.activityId}'))
         </if>
