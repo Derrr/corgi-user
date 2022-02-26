@@ -311,13 +311,16 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 String[] activityParam = activity.split("-");
                 CorgiFeed feed = new CorgiFeed();
                 feed.setFeed(activityParam[0]);
-                manualIds.add(activityParam[0]);
+
                 if (activityParam.length > 1) {
                     feed.setFeedUserId(activityParam[1]);
                 }
                 feed.setUserId(userId);
                 feed.setSource("manual");
-                corgiFeedMapper.addFeed(feed, index);
+                int i = corgiFeedMapper.addFeed(feed, index);
+                if (i > 0) {
+                    manualIds.add(activityParam[0]);
+                }
             }
         }
         return manualIds;
