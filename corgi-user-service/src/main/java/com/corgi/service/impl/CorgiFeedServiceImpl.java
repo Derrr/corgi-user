@@ -17,6 +17,7 @@ import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -40,38 +41,25 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
 
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
     @Override
     public List<String> getUnviewFeed(String userId, Integer size) {
         if (size == null || size > 10) {
             size = 10;
         }
         String index = UserUtils.getIndex(userId);
-        CorgiVlog query = new CorgiVlog();
-        query.setUserId(userId);
-        query.setType(CorgiVlogHot.TYPE.MANUAL);
-        query.setStatus("asc");
-        List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, 5, index);
-
-        if (!CollectionUtils.isEmpty(corgiVlogs)) {
-            if (corgiVlogs.size() < size) {
-                size = 10 - corgiVlogs.size();
-            } else {
-                size = 0;
-            }
-            for (CorgiVlog vlog : corgiVlogs) {
-                CorgiFeed feed = new CorgiFeed();
-                feed.setFeed(vlog.getActivityId());
-                feed.setFeedUserId(vlog.getUserId());
-                feed.setUserId(userId);
-                feed.setSource("manual");
-                corgiFeedMapper.addFeed(feed, index);
-            }
+        List<String> manuallyIds = getManuallyRecommend(userId, index, 5);
+        if (!CollectionUtils.isEmpty(manuallyIds)) {
+            size = size - manuallyIds.size();
+            size = size < 0 ? 0 : size;
         }
         List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size, null);
-        if (!CollectionUtils.isEmpty(corgiVlogs)) {
-            for (CorgiVlog vlog : corgiVlogs) {
-                if (!result.contains(vlog.getActivityId())) {
-                    result.add(0, vlog.getActivityId());
+        if (!CollectionUtils.isEmpty(manuallyIds)) {
+            for (String activityId : manuallyIds) {
+                if (!result.contains(activityId)) {
+                    result.add(0, activityId);
                 }
             }
         }
@@ -300,6 +288,39 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         feed.setFeedUserId(vlog.getUserId());
         feed.setUserId(userId);
         return feed;
+    }
+
+    private List<String> getManuallyRecommend(String userId, String index, Integer size) {
+        List<String> tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
+        if (CollectionUtils.isEmpty(tmpIds)) {
+            tmpIds = new ArrayList<>();
+            CorgiVlog query = new CorgiVlog();
+            query.setUserId(userId);
+            query.setType(CorgiVlogHot.TYPE.MANUAL);
+            query.setStatus("asc");
+            List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, size, index);
+            if (!CollectionUtils.isEmpty(corgiVlogs)) {
+                for (CorgiVlog vlog : corgiVlogs) {
+                    tmpIds.add(vlog.getActivityId() + "-" + vlog.getUserId());
+                }
+            }
+        }
+        List<String> manualIds = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(tmpIds)) {
+            for (String activity : tmpIds) {
+                String[] activityParam = activity.split("-");
+                CorgiFeed feed = new CorgiFeed();
+                feed.setFeed(activityParam[0]);
+                manualIds.add(activityParam[0]);
+                if (activityParam.length > 1) {
+                    feed.setFeedUserId(activityParam[1]);
+                }
+                feed.setUserId(userId);
+                feed.setSource("manual");
+                corgiFeedMapper.addFeed(feed, index);
+            }
+        }
+        return manualIds;
     }
 
 }
