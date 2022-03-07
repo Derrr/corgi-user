@@ -14,11 +14,12 @@ public interface CorgiSystemMessageMapper {
     /**
      * 获取所有message
      *
+     * @param filterTitle
      * @param start
      * @param size
      * @return
      */
-    List<SystemMessage> getSystemMessageByPage(@Param("start") Integer start, @Param("size") Integer size);
+    List<SystemMessage> getSystemMessageByPage(@Param("filterTitle") String filterTitle, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
      * 获取message

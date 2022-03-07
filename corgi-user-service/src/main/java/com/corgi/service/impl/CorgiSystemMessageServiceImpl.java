@@ -31,8 +31,8 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
 
 
     @Override
-    public List<SystemMessage> getSystemMessageByPage(Integer page, Integer pageSize) {
-        List<SystemMessage> messages = corgiSystemMessageMapper.getSystemMessageByPage((page - 1) * pageSize, pageSize);
+    public List<SystemMessage> getSystemMessageByPage(String filterTitle, Integer page, Integer pageSize) {
+        List<SystemMessage> messages = corgiSystemMessageMapper.getSystemMessageByPage(filterTitle, (page - 1) * pageSize, pageSize);
         if (messages != null) {
             for (SystemMessage message : messages) {
                 message.setRules(corgiSystemMessageMapper.getMessageRuleById(message.getId()));

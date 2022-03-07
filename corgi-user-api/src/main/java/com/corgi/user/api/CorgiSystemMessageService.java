@@ -11,7 +11,7 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiSystemMessageService {
-    List<SystemMessage> getSystemMessageByPage(Integer page, Integer pageSize);
+    List<SystemMessage> getSystemMessageByPage(String filterTitle, Integer page, Integer pageSize);
 
     SystemMessage getMessageDetail(String messageId);
 
