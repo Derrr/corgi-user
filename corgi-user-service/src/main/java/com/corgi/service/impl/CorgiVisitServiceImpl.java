@@ -2,6 +2,7 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiVisitMapper;
+import com.corgi.user.api.CorgiUserFollowService;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.api.CorgiVisitService;
 import com.corgi.user.entity.UserDetail;
@@ -9,7 +10,9 @@ import com.corgi.user.entity.UserProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +26,8 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
     private CorgiVisitMapper corgiVisitMapper;
     @Autowired
     private CorgiUserService corgiUserService;
+    @Autowired
+    private CorgiUserFollowService corgiUserFollowService;
 
     @Override
     public void visit(String userId, String toId) {
@@ -49,7 +54,13 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
                 corgiVisitMapper.readVisit(userId);
             }
         }
-        return profiles;
+        return convert(profiles,userId);
+    }
+
+    @Override
+    public List<UserProfile> getVisitedByCount(String userId, Integer limit) {
+        List<UserProfile> profiles = corgiVisitMapper.getVisitedByCount(userId, limit);
+        return convert(profiles,userId);
     }
 
     @Override
@@ -68,5 +79,15 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
             result = 0;
         }
         return result;
+    }
+
+    List<UserProfile> convert(List<UserProfile> profiles, String userId) {
+        if (CollectionUtils.isEmpty(profiles)) {
+            return new ArrayList<>();
+        }
+        for (UserProfile profile : profiles) {
+            profile.setIsFollowed(corgiUserFollowService.isFollowed(userId, profile.getUserId()));
+        }
+        return profiles;
     }
 }
