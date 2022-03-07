@@ -68,7 +68,7 @@
         order by v.uptime desc, v.count desc
     </select>
 
-    <select id="getVisitedByCount" resultType="com.corgi.user.entity.UserProfile">
+    <select id="getVisitorByCount" resultType="com.corgi.user.entity.UserProfile">
         select d.user_id             userId,
                d.nickname            `nickname`,
                d.avatar              avatar,
@@ -86,10 +86,11 @@
                d.height,
                d.birthday,
                v.count               activityCount,
-               v.uptime              followTime
+               v.uptime              followTime,
+               v.read                isRead
         from corgi_visit v
-                 join corgi_user_detail d on d.user_id = v.user_id
-        where visitor_id = #{userId}
+                 join corgi_user_detail d on d.user_id = v.visitor_id
+        where v.user_id = #{userId}
         order by v.count desc, v.uptime desc
     </select>
 

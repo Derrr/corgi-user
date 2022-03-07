@@ -39,12 +39,7 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
 
     @Override
     public List<UserProfile> getVisitor(String userId, Integer limit) {
-        return corgiVisitMapper.getVisitor(userId, limit);
-    }
-
-    @Override
-    public List<UserProfile> getVisited(String userId, Integer limit) {
-        List<UserProfile> profiles = corgiVisitMapper.getVisited(userId, limit);
+        List<UserProfile> profiles = corgiVisitMapper.getVisitor(userId, limit);
         String expire = corgiUserService.getUserVipExpire(userId);
         if (!"-".equals(expire)) {
             corgiVisitMapper.readVisit(userId);
@@ -54,13 +49,19 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
                 corgiVisitMapper.readVisit(userId);
             }
         }
-        return convert(profiles,userId);
+        return convert(profiles, userId);
     }
 
     @Override
-    public List<UserProfile> getVisitedByCount(String userId, Integer limit) {
-        List<UserProfile> profiles = corgiVisitMapper.getVisitedByCount(userId, limit);
-        return convert(profiles,userId);
+    public List<UserProfile> getVisited(String userId, Integer limit) {
+        List<UserProfile> profiles = corgiVisitMapper.getVisited(userId, limit);
+        return profiles;
+    }
+
+    @Override
+    public List<UserProfile> getVisitorByCount(String userId, Integer limit) {
+        List<UserProfile> profiles = corgiVisitMapper.getVisitorByCount(userId, limit);
+        return convert(profiles, userId);
     }
 
     @Override
