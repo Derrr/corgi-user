@@ -260,6 +260,20 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     private List<String> getManuallyRecommend(String userId, String index, Integer size) {
+        String userFeeds = redisTemplate.opsForValue().get("vip_feed_" + userId);
+        if (!StringUtils.isEmpty(userFeeds)) {
+            CorgiFeed feed = new CorgiFeed();
+            feed.setFeed(userFeeds);
+            feed.setFeedUserId(userId);
+            feed.setUserId(userId);
+            feed.setSource("vip");
+            int i = corgiFeedMapper.addFeed(feed, index);
+            if (i > 0) {
+                size--;
+            } else {
+                userFeeds = "";
+            }
+        }
         List<String> tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
         if (CollectionUtils.isEmpty(tmpIds)) {
             tmpIds = new ArrayList<>();
@@ -291,6 +305,9 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                     manualIds.add(activityParam[0]);
                 }
             }
+        }
+        if (!StringUtils.isEmpty(userFeeds)) {
+            manualIds.add(userFeeds);
         }
         return manualIds;
     }
