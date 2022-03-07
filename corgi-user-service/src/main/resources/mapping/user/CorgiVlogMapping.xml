@@ -160,7 +160,12 @@
         and c.creator_id in ('${targetId}')
         and c.check_status = 'normal'
         and c.category in('image','video','text','business','paying')
-        and h.like_count >= 3
+        <if test="vlog.ctime == null or vlog.ctime == ''">
+            and h.like_count >= 3
+        </if>
+        <if test="vlog.ctime != null or vlog.ctime != ''">
+            and c.ctime > #{vlog.ctime}
+        </if>
         <if test="vlog.type == 'id'">
             order by c.id desc
         </if>
@@ -256,7 +261,7 @@
             f.feed)
         </if>
         <if test="vlog.type != null and vlog.type != ''">
-        and h.type = #{vlog.type}
+            and h.type = #{vlog.type}
         </if>
         and c.creator_id != #{vlog.userId}
         and c.category in('image','video','text','business','paying')
