@@ -179,6 +179,8 @@
             join corgi_activity_hashtag h on h.activity_id = c.activity_id and h.hashtag_id = #{hashtag}
         </if>
         where c.category in ('${category}')
+          and c.check_status != 'fail'
+          and c.check_status != 'not_good'
         <if test="date != null">
             and c.ctime >= #{date}
         </if>
