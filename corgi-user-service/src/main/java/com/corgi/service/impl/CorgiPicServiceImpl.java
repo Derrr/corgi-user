@@ -107,7 +107,7 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     @Override
     public String passCheckPic(CheckPic checkPic) {
         checkPic = corgiPicMapper.getCheckPicByDataId(checkPic.getDataId());
-        if (CheckPic.ACTIVITY.equals(checkPic.getType())) {
+        if (CheckPic.ACTIVITY.equals(checkPic.getType()) || "paying".equals(checkPic.getType())) {
             corgiPicMapper.updateActivityPicByDataId(checkPic.getDataId(), CorgiPic.NORMAL);
         } else if (CheckPic.USER.equals(checkPic.getType())) {
             corgiPicMapper.updateUserPicByDataId(checkPic.getDataId(), CorgiPic.NORMAL);
