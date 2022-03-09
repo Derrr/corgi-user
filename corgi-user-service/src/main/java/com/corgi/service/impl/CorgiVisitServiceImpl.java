@@ -59,6 +59,12 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
     }
 
     @Override
+    public List<UserProfile> getVisitedByCount(String userId, Integer limit) {
+        List<UserProfile> profiles = corgiVisitMapper.getVisited(userId, limit);
+        return convert(profiles, userId);
+    }
+
+    @Override
     public List<UserProfile> getVisitorByCount(String userId, Integer limit) {
         List<UserProfile> profiles = corgiVisitMapper.getVisitorByCount(userId, limit);
         return convert(profiles, userId);

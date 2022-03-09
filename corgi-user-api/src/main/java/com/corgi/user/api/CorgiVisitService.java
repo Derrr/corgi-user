@@ -15,6 +15,8 @@ public interface CorgiVisitService {
 
     List<UserProfile> getVisited(String userId, Integer limit);
 
+    List<UserProfile> getVisitedByCount(String userId, Integer limit);
+
     List<UserProfile> getVisitorByCount(String userId, Integer limit);
 
     Integer countVisit(String userId);
