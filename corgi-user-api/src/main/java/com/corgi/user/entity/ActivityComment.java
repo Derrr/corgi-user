@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public class ActivityComment implements Serializable {
     public static final String NORMAL = "normal";
+    public static final String SWIFT = "swift";
     public static final String PAY = "pay";
 
     private Integer id;
