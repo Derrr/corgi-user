@@ -85,6 +85,14 @@ public interface CorgiCommentMapper {
     Long countActivityComment(@Param("activityId") String activityId);
 
     /**
+     * 根据状态获取评论数
+     *
+     * @param activityId
+     * @return
+     */
+    Integer countActivityCommentByStatus(@Param("activityId") String activityId, @Param("status")String status);
+
+    /**
      * 获取最后一条评论
      *
      * @param activityId

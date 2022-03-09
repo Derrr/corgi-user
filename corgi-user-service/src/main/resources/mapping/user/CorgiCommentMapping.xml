@@ -144,6 +144,13 @@
         where activity_id = #{activityId}
     </select>
 
+    <select id="countActivityCommentByStatus" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_activity_comment
+        where activity_id = #{activityId}
+        and status = #{status}
+    </select>
+
     <select id="countCommentByDate" resultType="java.lang.Long">
         select count(1)
         from corgi_activity_comment c

@@ -133,6 +133,11 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     }
 
     @Override
+    public Integer countActivityCommentByStatus(String activityId, String status) {
+        return corgiCommentMapper.countActivityCommentByStatus(activityId, status);
+    }
+
+    @Override
     public ActivityComment getLastComment(String activityId, String userId) {
         return corgiCommentMapper.getLastActivityComment(activityId, userId);
     }
