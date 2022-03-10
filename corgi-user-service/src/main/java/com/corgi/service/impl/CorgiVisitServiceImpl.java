@@ -38,8 +38,11 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
     }
 
     @Override
-    public List<UserProfile> getVisitor(String userId, Integer limit) {
-        List<UserProfile> profiles = corgiVisitMapper.getVisitor(userId, limit);
+    public List<UserProfile> getVisitor(String userId, Integer page, Integer limit) {
+        if (page == null) {
+            page = 1;
+        }
+        List<UserProfile> profiles = corgiVisitMapper.getVisitor(userId, (page - 1) * limit, limit);
         String expire = corgiUserService.getUserVipExpire(userId);
         if (!"-".equals(expire)) {
             corgiVisitMapper.readVisit(userId);
@@ -53,20 +56,29 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
     }
 
     @Override
-    public List<UserProfile> getVisited(String userId, Integer limit) {
-        List<UserProfile> profiles = corgiVisitMapper.getVisited(userId, limit);
+    public List<UserProfile> getVisited(String userId, Integer page, Integer limit) {
+        if (page == null) {
+            page = 1;
+        }
+        List<UserProfile> profiles = corgiVisitMapper.getVisited(userId, (page - 1) * limit, limit);
         return convert(profiles, userId);
     }
 
     @Override
-    public List<UserProfile> getVisitedByCount(String userId, Integer limit) {
-        List<UserProfile> profiles = corgiVisitMapper.getVisitedByCount(userId, limit);
+    public List<UserProfile> getVisitedByCount(String userId, Integer page, Integer limit) {
+        if (page == null) {
+            page = 1;
+        }
+        List<UserProfile> profiles = corgiVisitMapper.getVisitedByCount(userId, (page - 1) * limit, limit);
         return convert(profiles, userId);
     }
 
     @Override
-    public List<UserProfile> getVisitorByCount(String userId, Integer limit) {
-        List<UserProfile> profiles = corgiVisitMapper.getVisitorByCount(userId, limit);
+    public List<UserProfile> getVisitorByCount(String userId, Integer page, Integer limit) {
+        if (page == null) {
+            page = 1;
+        }
+        List<UserProfile> profiles = corgiVisitMapper.getVisitorByCount(userId, (page - 1) * limit, limit);
         return convert(profiles, userId);
     }
 

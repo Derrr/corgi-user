@@ -14,17 +14,17 @@ public interface CorgiVisitMapper {
 
     void addVisitCount(@Param("userId") String userId, @Param("visitorId") String visitorId);
 
-    List<UserProfile> getVisitor(@Param("userId") String userId, @Param("limit") Integer limit);
+    List<UserProfile> getVisitor(@Param("userId") String userId, @Param("start") Integer start, @Param("limit") Integer limit);
 
-    List<UserProfile> getVisited(@Param("userId") String userId, @Param("limit") Integer limit);
+    List<UserProfile> getVisited(@Param("userId") String userId, @Param("start") Integer start, @Param("limit") Integer limit);
 
-    List<UserProfile> getVisitorByCount(@Param("userId") String userId, @Param("limit") Integer limit);
+    List<UserProfile> getVisitorByCount(@Param("userId") String userId, @Param("start") Integer start, @Param("limit") Integer limit);
 
-    List<UserProfile> getVisitedByCount(@Param("userId") String userId, @Param("limit") Integer limit);
+    List<UserProfile> getVisitedByCount(@Param("userId") String userId, @Param("start") Integer start, @Param("limit") Integer limit);
 
     Integer countVisit(@Param("userId") String userId);
 
     Integer countVisitUnread(@Param("userId") String userId);
 
-    void readVisit(@Param("userId")String userId);
+    void readVisit(@Param("userId") String userId);
 }

@@ -40,7 +40,7 @@
         from corgi_visit v
                  join corgi_user_detail d on d.user_id = v.visitor_id
         where v.user_id = #{userId}
-        order by v.uptime desc, v.count desc limit #{limit}
+        order by v.uptime desc, v.count desc limit #{start}, #{limit}
     </select>
 
     <select id="getVisited" resultType="com.corgi.user.entity.UserProfile">
@@ -65,7 +65,7 @@
         from corgi_visit v
                  join corgi_user_detail d on d.user_id = v.user_id
         where visitor_id = #{userId}
-        order by v.uptime desc, v.count desc limit #{limit}
+        order by v.uptime desc, v.count desc limit #{start}, #{limit}
     </select>
 
     <select id="getVisitorByCount" resultType="com.corgi.user.entity.UserProfile">
@@ -91,7 +91,7 @@
         from corgi_visit v
                  join corgi_user_detail d on d.user_id = v.visitor_id
         where v.user_id = #{userId}
-        order by v.count desc, v.uptime desc limit #{limit}
+        order by v.count desc, v.uptime desc limit #{start}, #{limit}
     </select>
 
     <select id="getVisitedByCount" resultType="com.corgi.user.entity.UserProfile">
@@ -116,7 +116,7 @@
         from corgi_visit v
                  join corgi_user_detail d on d.user_id = v.user_id
         where visitor_id = #{userId}
-        order by v.count desc, v.uptime desc limit #{limit}
+        order by v.count desc, v.uptime desc limit #{start}, #{limit}
     </select>
 
     <select id="countVisit" resultType="java.lang.Integer">
