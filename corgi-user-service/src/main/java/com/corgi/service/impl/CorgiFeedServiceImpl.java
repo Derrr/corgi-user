@@ -47,11 +47,15 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> getUnviewFeed(String userId, Integer size) {
+        Long start = System.currentTimeMillis();
         if (size == null || size > 10) {
             size = 10;
         }
         String index = UserUtils.getIndex(userId);
         List<String> manuallyIds = getManuallyRecommend(userId, index, 5);
+        Long manualTime = System.currentTimeMillis();
+        log.info("feed manual... {}ms ", (manualTime - start));
+
         if (!CollectionUtils.isEmpty(manuallyIds)) {
             size = size - manuallyIds.size();
             size = size < 0 ? 0 : size;
@@ -64,6 +68,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 }
             }
         }
+        Long unviewTime = System.currentTimeMillis();
+        log.info("feed unview... {}ms ", (unviewTime - manualTime));
         if (result.size() >= size) {
             return result;
         }
@@ -79,6 +85,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 result.add(vlog.getActivityId());
             }
         }
+        Long populateTime = System.currentTimeMillis();
+        log.info("feed populator... {}ms ", (populateTime - unviewTime));
         Integer max = size - result.size();
         if (max > 0) {
             CorgiVlogHot queryHot = new CorgiVlogHot();
@@ -94,6 +102,9 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 result.add(activityId);
             }
         }
+        Long randomTime = System.currentTimeMillis();
+        log.info("feed random... {}ms ", (randomTime - populateTime));
+
         return result;
     }
 
