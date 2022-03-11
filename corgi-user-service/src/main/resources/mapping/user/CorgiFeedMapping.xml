@@ -2,8 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiFeedMapper">
     <insert id="addFeed" parameterType="com.corgi.user.entity.CorgiFeed">
-        insert ignore into corgi_feed_${index} (`user_id`, `feed`, `feed_user_id`,`source`)
-        values (#{feed.userId}, #{feed.feed}, #{feed.feedUserId}, #{feed.source})
+        insert
+        ignore into corgi_feed_
+        ${index}
+        (
+        `user_id`,
+        `feed`,
+        `feed_user_id`,
+        `source`
+        )
+        values
+        (
+        #{feed.userId},
+        #{feed.feed},
+        #{feed.feedUserId},
+        #{feed.source}
+        )
     </insert>
 
     <insert id="addBarFeed" parameterType="com.corgi.user.entity.CorgiFeed">
@@ -23,10 +37,26 @@
     </delete>
 
     <delete id="clearFeed" parameterType="com.corgi.user.entity.CorgiFeed">
-        delete from corgi_feed_${index}
-        where ctime = #{feed.ctime} and view_count = '0'
+        delete
+        from corgi_feed_${index}
+        where ctime = #{feed.ctime}
+          and view_count = '0'
     </delete>
 
+
+    <select id="countUnviewFeed" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_feed_${index}
+        where user_id = #{userId}
+          and view_count = '0'
+    </select>
+
+    <select id="countViewFeed" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_feed_${index}
+        where ctime like concat(#{date}, '%')
+          and view_count > 1
+    </select>
     <select id="getUnviewFeed" resultType="java.lang.String">
         select `feed` from corgi_feed_${index} where user_id = #{userId} and view_count = '0'
         <if test="source != null and source != ''">
@@ -35,23 +65,22 @@
         limit #{size}
     </select>
 
-    <select id="countUnviewFeed" resultType="java.lang.Integer">
-        select count(1) from corgi_feed_${index} where user_id = #{userId} and view_count = '0'
-    </select>
-
-    <select id="countViewFeed" resultType="java.lang.Integer">
-        select count(1) from corgi_feed_${index} where ctime like concat(#{date},'%') and view_count > 1
-    </select>
 
     <update id="viewFeed">
-        update corgi_feed_${index} set view_count = view_count + 1 where user_id = #{userId} and `feed` = #{feed}
+        update corgi_feed_${index}
+        set view_count = view_count + 1
+        where user_id = #{userId}
+          and `feed` = #{feed}
     </update>
 
     <select id="countFeed" resultType="java.lang.Long">
-        select count(1) from corgi_feed_${index} where user_id = #{userId}
+        select count(1)
+        from corgi_feed_${index}
+        where user_id = #{userId}
     </select>
 
     <select id="getPopularUserIds" resultType="java.lang.String">
-        select user_id from corgi_popular
+        select user_id
+        from corgi_popular
     </select>
 </mapper>
