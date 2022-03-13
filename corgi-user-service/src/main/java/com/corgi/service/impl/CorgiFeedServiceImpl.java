@@ -276,19 +276,19 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             }
         }
         List<String> tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
-        if (CollectionUtils.isEmpty(tmpIds)) {
-            tmpIds = new ArrayList<>();
-            CorgiVlog query = new CorgiVlog();
-            query.setUserId(userId);
-            query.setType(CorgiVlogHot.TYPE.MANUAL);
-            query.setStatus("asc");
-            List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, null, size, index);
-            if (!CollectionUtils.isEmpty(corgiVlogs)) {
-                for (CorgiVlog vlog : corgiVlogs) {
-                    tmpIds.add(vlog.getActivityId() + "-" + vlog.getUserId());
-                }
-            }
-        }
+//        if (CollectionUtils.isEmpty(tmpIds)) {
+//            tmpIds = new ArrayList<>();
+//            CorgiVlog query = new CorgiVlog();
+//            query.setUserId(userId);
+//            query.setType(CorgiVlogHot.TYPE.MANUAL);
+//            query.setStatus("asc");
+//            List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, null, size, index);
+//            if (!CollectionUtils.isEmpty(corgiVlogs)) {
+//                for (CorgiVlog vlog : corgiVlogs) {
+//                    tmpIds.add(vlog.getActivityId() + "-" + vlog.getUserId());
+//                }
+//            }
+//        }
         List<String> manualIds = new ArrayList<>();
         if (!CollectionUtils.isEmpty(tmpIds)) {
             for (String activity : tmpIds) {
