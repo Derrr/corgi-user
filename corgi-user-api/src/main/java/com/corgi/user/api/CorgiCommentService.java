@@ -24,7 +24,7 @@ public interface CorgiCommentService {
 
     Long countActivityComment(String activityId);
 
-    Integer countActivityCommentByStatus(String activityId, String status);
+    Integer countActivityCommentByStatus(String activityId, String userId, String status);
 
     ActivityComment getLastComment(String activityId, String userId);
 

@@ -90,7 +90,7 @@ public interface CorgiCommentMapper {
      * @param activityId
      * @return
      */
-    Integer countActivityCommentByStatus(@Param("activityId") String activityId, @Param("status")String status);
+    Integer countActivityCommentByStatus(@Param("activityId") String activityId, @Param("userId") String userId, @Param("status") String status);
 
     /**
      * 获取最后一条评论

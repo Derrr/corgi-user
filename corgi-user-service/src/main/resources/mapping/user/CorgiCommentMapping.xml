@@ -149,6 +149,9 @@
         from corgi_activity_comment
         where activity_id = #{activityId}
         and status = #{status}
+        <if test="userId != null and userId != ''">
+            and comment_user_id = #{userId}
+        </if>
     </select>
 
     <select id="countCommentByDate" resultType="java.lang.Long">
