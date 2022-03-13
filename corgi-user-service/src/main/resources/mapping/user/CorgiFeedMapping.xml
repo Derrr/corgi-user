@@ -3,8 +3,7 @@
 <mapper namespace="com.corgi.mapper.CorgiFeedMapper">
     <insert id="addFeed" parameterType="com.corgi.user.entity.CorgiFeed">
         insert
-        ignore into corgi_feed_
-        ${index}
+        ignore into corgi_feed_${index}
         (
         `user_id`,
         `feed`,
