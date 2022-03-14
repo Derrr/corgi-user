@@ -78,12 +78,12 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
                 fakeId = userLogin.getUserId();
                 detail.setUserId(fakeId);
                 corgiUserService.addDetail(detail);
-                if (!StringUtils.isEmpty(detail.getAvatar())) {
-                    UserPic userPic = new UserPic();
-                    userPic.setUserId(fakeId);
-                    userPic.setPicUrl(detail.getAvatar());
-                    corgiPicService.addUserPic(userPic);
-                }
+//                if (!StringUtils.isEmpty(detail.getAvatar())) {
+//                    UserPic userPic = new UserPic();
+//                    userPic.setUserId(fakeId);
+//                    userPic.setPicUrl(detail.getAvatar());
+//                    corgiPicService.addUserPic(userPic);
+//                }
 
                 UserPosition position = new UserPosition();
                 position.setUserId(fakeId);
