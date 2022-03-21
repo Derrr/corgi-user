@@ -281,7 +281,7 @@
         <if test="vlog.uptime != '' and vlog.uptime != null ">
             and (d.birthday >= #{vlog.uptime})
         </if>
-        <if test="vlog.status != '' and vlog.status != null and vlog.status != 'desc' and vlog.status != 'asc'">
+        <if test="vlog.status == '1'">
             and d.avatar_check_status = 'verified'
         </if>
         <if test="vlog.status != 'desc'">
