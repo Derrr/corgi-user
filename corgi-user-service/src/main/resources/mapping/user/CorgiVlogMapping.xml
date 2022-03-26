@@ -175,6 +175,20 @@
         limit #{size}
     </select>
 
+    <select id="recallFollowedVlog" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="creator"/>
+        from corgi_activity_creator c
+        where c.check_status != 'fail'
+        and c.check_status != 'not_good'
+        and exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
+        #{userId} and f.is_deleted = '0')
+        and not exists(select 1 from corgi_feed_${index} f where f.user_id = #{userId} and f.feed =
+        c.activity_id)
+        order by c.id desc limit #{size}
+    </select>
+
+
     <select id="recallActivityVlog" resultType="java.lang.String">
         select distinct l2.activity_id
         from corgi_activity_like l1

@@ -46,6 +46,11 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     private StringRedisTemplate redisTemplate;
 
     @Override
+    public List<String> getFollowedFeed(String userId, Integer size) {
+        return null;
+    }
+
+    @Override
     public List<String> getUnviewFeed(String userId, Integer size) {
         if (size == null || size > 10) {
             size = 10;

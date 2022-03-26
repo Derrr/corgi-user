@@ -10,6 +10,8 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiFeedService {
+    List<String> getFollowedFeed(String userId, Integer size);
+
     List<String> getUnviewFeed(String userId, Integer size);
 
     List<String> getPopularFeed(String userId, Integer size);
