@@ -325,7 +325,7 @@
     <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">
         insert
         ignore into corgi_user_position (`user_id`, `lat`, `lng`, `pt`, `uptime`, `real_lat`, `real_lng`, `locate_type`,
-                                         `version`, `city`, `province`)
+                                         `version`, `city`, `province`,`channel`)
         values (
         #{position.userId},
         #{position.lat},
@@ -341,7 +341,8 @@
         #{position.locateType},
         #{position.version},
         #{position.city},
-        #{position.province}
+        #{position.province},
+        #{position.channel}
         );
     </insert>
 
@@ -355,6 +356,7 @@
                uptime      uptime,
                city,
                province,
+               channel,
                version
         from corgi_user_position
         where user_id = #{userId}
@@ -399,6 +401,9 @@
             `city` = #{position.city},
             `province` = #{position.province},
         </if>
+        <if test="position.channel != null and position.channel != ''">
+            `channel` = #{position.channel},
+        </if>
         `version` = #{position.version}
         where user_id = #{position.userId}
     </update>
@@ -414,6 +419,9 @@
         </if>
         <if test="position.version != null and position.version != ''">
             `version` = #{position.version},
+        </if>
+        <if test="position.channel != null and position.channel != ''">
+            `channel` = #{position.channel},
         </if>
         fuptime = 0
         where user_id = #{position.userId}
