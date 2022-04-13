@@ -99,7 +99,8 @@
         `city`,
         `check_status`,
         `background`,
-        `bg_check_status`)
+        `bg_check_status`,
+        `date_status`)
         values (
         #{userDetail.userId},
         #{userDetail.nickname},
@@ -123,7 +124,8 @@
         #{userDetail.city},
         #{userDetail.checkStatus},
         #{userDetail.background},
-        #{userDetail.bgCheckStatus}
+        #{userDetail.bgCheckStatus},
+        #{userDetail.dateStatus}
         )
     </insert>
 
@@ -152,7 +154,8 @@
                p.lat                                  lat,
                p.lng                                  lng,
                if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
-               `check_status`                         checkStatus
+               `check_status`                         checkStatus,
+               `date_status`                          dateStatus
         from corgi_user_detail d
                  left join corgi_user_position p on p.user_id = d.user_id
         where d.user_id = #{userId}
@@ -255,6 +258,9 @@
             </if>
             <if test="userDetail.bgDataId != null">
                 `bg_data_id` = #{userDetail.bgDataId},
+            </if>
+            <if test="userDetail.dateStatus != null and userDetail.dateStatus != ''">
+                `date_status` = #{userDetail.dateStatus},
             </if>
         </set>
         where user_id = #{userDetail.userId}
