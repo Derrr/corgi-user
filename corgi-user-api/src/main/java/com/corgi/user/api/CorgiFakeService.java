@@ -31,4 +31,6 @@ public interface CorgiFakeService {
     void updateFakeTime(String userId);
 
     String getLastFakeFollowTime(String userId);
+
+    String getFakeComment();
 }

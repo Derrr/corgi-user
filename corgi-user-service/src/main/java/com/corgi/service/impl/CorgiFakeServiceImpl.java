@@ -164,4 +164,9 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     public String getLastFakeFollowTime(String userId) {
         return corgiFakeMapper.getLastFakeFollowTime(userId);
     }
+
+    @Override
+    public String getFakeComment() {
+        return corgiFakeMapper.getFakeComment(new Random().nextInt(1033) + 1);
+    }
 }

@@ -43,4 +43,6 @@ public interface CorgiFakeMapper {
     String getLastFakeFollowTime(@Param("userId") String userId);
 
     void updateNickname(@Param("userId")String userId, @Param("nickname")String nickname);
+
+    String getFakeComment(@Param("id")Integer id);
 }
