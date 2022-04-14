@@ -137,7 +137,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 //        }
 //        query.setPageSize(query.getPageSize() - oldResult.size());
         CorgiVlog vlogQuery = new CorgiVlog();
-        vlogQuery.setStatus(query.getType());
+        vlogQuery.setStatus("1".equals(query.getType()) ? "verify" : query.getType());
         vlogQuery.setType(CorgiVlogHot.TYPE.AUTO);
         vlogQuery.setUserId(query.getUserId());
         if (!CollectionUtils.isEmpty(query.getGroup())) {
