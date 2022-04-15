@@ -1,29 +1,21 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.ActivityQuery;
-import com.corgi.entity.CorgiArea;
 import com.corgi.mapper.*;
-import com.corgi.user.api.CorgiAreaService;
 import com.corgi.user.api.CorgiFeedService;
-import com.corgi.user.api.CorgiUserService;
-import com.corgi.user.api.CorgiVlogService;
 import com.corgi.user.entity.CorgiFeed;
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
-import com.corgi.user.entity.UserProfile;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import sun.misc.BASE64Encoder;
-import sun.security.provider.MD5;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -176,6 +168,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         }
         List<CorgiVlog> resultVlogs = corgiVlogMapper.recallHotVlog(vlogQuery, redisTemplate.opsForValue().get(key), query.getPageSize(), null);
         if (CollectionUtils.isEmpty(resultVlogs)) {
+            redisTemplate.delete(key);
             return new ArrayList<>();
         }
         redisTemplate.opsForValue().set(key, resultVlogs.get(resultVlogs.size() - 1).getId().toString(), 20L, TimeUnit.HOURS);
