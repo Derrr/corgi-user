@@ -22,7 +22,12 @@ import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import sun.misc.BASE64Encoder;
+import sun.security.provider.MD5;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -158,11 +163,22 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             calendar.add(Calendar.YEAR, query.getEndAge() * -1);
             vlogQuery.setUptime(sdf.format(calendar.getTime()));
         }
-        List<CorgiVlog> resultVlogs = corgiVlogMapper.recallHotVlog(vlogQuery, redisTemplate.opsForValue().get("search_feed_" + query.getUserId()), query.getPageSize(), null);
+        String key = "search_feed_" + query.getUserId();
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            BASE64Encoder base64en = new BASE64Encoder();
+            String newstr = base64en.encode(md5.digest(query.toString().getBytes("utf-8")));
+            key = "search_feed_" + newstr;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        List<CorgiVlog> resultVlogs = corgiVlogMapper.recallHotVlog(vlogQuery, redisTemplate.opsForValue().get(key), query.getPageSize(), null);
         if (CollectionUtils.isEmpty(resultVlogs)) {
             return new ArrayList<>();
         }
-        redisTemplate.opsForValue().set("search_feed_" + query.getUserId(), resultVlogs.get(resultVlogs.size() - 1).getId().toString(), 20L, TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(key, resultVlogs.get(resultVlogs.size() - 1).getId().toString(), 20L, TimeUnit.HOURS);
         return resultVlogs.stream().map(v -> v.getActivityId()).collect(Collectors.toList());
     }
 
