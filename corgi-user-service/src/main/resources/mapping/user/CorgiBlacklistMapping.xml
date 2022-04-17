@@ -51,7 +51,7 @@
 
     <update id="updateReportStatus">
         update corgi_report
-        set report_status = #{status}
+        set report_status = #{status},`result` = #{result}
         where id = #{reportId}
     </update>
 

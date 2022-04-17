@@ -65,7 +65,7 @@ public interface CorgiBlacklistMapper {
      * @param reportId
      * @param status
      */
-    void updateReportStatus(@Param("reportId") String reportId, @Param("status") String status);
+    void updateReportStatus(@Param("reportId") String reportId, @Param("status") String status, @Param("result")String result);
 
     /**
      * 获取举报列表

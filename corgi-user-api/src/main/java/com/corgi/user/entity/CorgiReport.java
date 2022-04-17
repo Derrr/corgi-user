@@ -23,6 +23,7 @@ public class CorgiReport implements Serializable{
     private String uptime;
     private Integer accuseTime;
     private String accuseUserId;
+    private String result;
 
     List<String> pics;
 }

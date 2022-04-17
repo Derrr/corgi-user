@@ -15,7 +15,7 @@ public interface CorgiBlacklistService {
 
     void report(CorgiReport report);
 
-    void updateStatus(String reportId, String status);
+    void updateStatus(String reportId, String status,String result);
 
     List<CorgiReport> getReport(CorgiReport report, Integer page, Integer size);
 

@@ -106,8 +106,8 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
     }
 
     @Override
-    public void updateStatus(String reportId, String status) {
-        corgiBlacklistMapper.updateReportStatus(reportId, status);
+    public void updateStatus(String reportId, String status, String result) {
+        corgiBlacklistMapper.updateReportStatus(reportId, status, result);
     }
 
     @Override
