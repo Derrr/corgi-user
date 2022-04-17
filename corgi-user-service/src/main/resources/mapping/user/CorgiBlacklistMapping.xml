@@ -3,130 +3,148 @@
 <mapper namespace="com.corgi.mapper.CorgiBlacklistMapper">
 
     <insert id="addBlacklist">
-        insert ignore into `corgi`.`corgi_blacklist` (`user_id`, `black_id`)
-        values (#{userId}, #{blackId});
+        insert
+        ignore into `corgi`.`corgi_blacklist` (`user_id`, `black_id`)
+        values (
+        #{userId},
+        #{blackId}
+        );
     </insert>
 
     <delete id="deleteBlacklist">
-        delete from `corgi`.`corgi_blacklist`
-        where user_id = #{userId} and black_id = #{blackId}
+        delete
+        from `corgi`.`corgi_blacklist`
+        where user_id = #{userId}
+          and black_id = #{blackId}
     </delete>
 
     <select id="getBlacklist" resultType="com.corgi.user.entity.UserBasic">
         select d.`user_id` userId,
-        `nickname`,
-        `avatar`,
-        b.ctime `ctime`
+               `nickname`,
+               `avatar`,
+               b.ctime     `ctime`
         from corgi_user_detail d
-        join corgi_blacklist b on b.black_id = d.user_id
+                 join corgi_blacklist b on b.black_id = d.user_id
         where b.user_id = #{userId}
     </select>
 
     <select id="getBeBlacklist" resultType="java.lang.String">
-        select user_id from corgi_blacklist
+        select user_id
+        from corgi_blacklist
         where black_id = #{userId}
     </select>
 
     <delete id="deleteAll">
-        delete from `corgi`.`corgi_blacklist`
-        where user_id = #{userId} or black_id = #{userId}
+        delete
+        from `corgi`.`corgi_blacklist`
+        where user_id = #{userId}
+           or black_id = #{userId}
     </delete>
 
     <insert id="addReport" useGeneratedKeys="true" keyProperty="report.id"
             parameterType="com.corgi.user.entity.CorgiReport">
-        INSERT INTO `corgi_report` (`report_user_id`, `report_user_name`, `accuse_id`, `accuse_type`, `accuse_name`, `desc`, `reason`) VALUES (#{report.reportUserId}, #{report.reportUserName}, #{report.accuseId}, #{report.accuseType}, #{report.accuseName}, #{report.desc}, #{report.reason});
+        INSERT INTO `corgi_report` (`report_user_id`, `report_user_name`, `accuse_id`, `accuse_type`, `accuse_name`,
+                                    `desc`, `reason`)
+        VALUES (#{report.reportUserId}, #{report.reportUserName}, #{report.accuseId}, #{report.accuseType},
+                #{report.accuseName}, #{report.desc}, #{report.reason});
     </insert>
 
     <update id="updateReportStatus">
-        update corgi_report set report_status = #{status}
+        update corgi_report
+        set report_status = #{status}
         where id = #{reportId}
     </update>
 
     <select id="getReport" resultType="com.corgi.user.entity.CorgiReport">
-        select id,
-        report_user_id reportUserId,
-        report_user_name reportUserName,
-        accuse_id accuseId,
-        accuse_type accuseType,
-        accuse_name accuseName,
-        report_status reportStatus,
-        `desc`,
-        reason,
-        ctime,
-        uptime
-        from corgi_report
+        select r.id,
+        r.report_user_id reportUserId,
+        r.report_user_name reportUserName,
+        r.accuse_id accuseId,
+        r.accuse_type accuseType,
+        r.accuse_name accuseName,
+        r.report_status reportStatus,
+        r.`desc`,
+        r.reason,
+        r.ctime,
+        r.uptime,
+        if(c.creator_id is null,r.accuse_id,c.creator_id) accuseUserId
+        from corgi_report r
+        left join corgi_activity_creator c on r.accuse_id = c.activity_id
         where 1=1
         <if test="report.reportStatus != null and report.reportStatus != ''">
-            and report_status = #{report.reportStatus}
+            and r.report_status = #{report.reportStatus}
         </if>
         <if test="report.reportUserName != null and report.reportUserName != ''">
-            and report_user_name = #{report.reportUserName}
+            and r.report_user_name = #{report.reportUserName}
         </if>
         <if test="report.reportUserId != null and report.reportUserId != ''">
-            and report_user_id = #{report.reportUserId}
+            and r.report_user_id = #{report.reportUserId}
         </if>
         <if test="report.accuseType != null and report.accuseType != ''">
-            and accuse_type = #{report.accuseType}
+            and r.accuse_type = #{report.accuseType}
         </if>
         <if test="report.accuseName != null and report.accuseName != ''">
-            and accuse_name = #{report.accuseName}
+            and r.accuse_name = #{report.accuseName}
         </if>
         <if test="report.desc != null and report.desc != ''">
-            and `desc` = #{report.desc}
+            and r.`desc` = #{report.desc}
         </if>
         <if test="report.reason != null and report.reason != ''">
-            and `reason` = #{report.reason}
+            and r.`reason` = #{report.reason}
         </if>
         <if test="report.accuseId != null and report.accuseId != ''">
-            and `accuse_id` = #{report.accuseId}
+            and r.`accuse_id` = #{report.accuseId}
         </if>
-        order by id desc
+        order by r.id desc
         limit #{start}, #{size}
     </select>
 
     <select id="countReport" resultType="java.lang.Integer">
         select count(1)
-        from corgi_report
+        from corgi_report r
+        left join corgi_activity_creator c on r.accuse_id = c.activity_id
         where 1=1
         <if test="report.reportStatus != null and report.reportStatus != ''">
-            and report_status = #{report.reportStatus}
+            and r.report_status = #{report.reportStatus}
         </if>
         <if test="report.reportUserName != null and report.reportUserName != ''">
-            and report_user_name = #{report.reportUserName}
+            and r.report_user_name = #{report.reportUserName}
         </if>
         <if test="report.reportUserId != null and report.reportUserId != ''">
-            and report_user_id = #{report.reportUserId}
+            and r.report_user_id = #{report.reportUserId}
         </if>
         <if test="report.accuseType != null and report.accuseType != ''">
-            and accuse_type = #{report.accuseType}
+            and r.accuse_type = #{report.accuseType}
         </if>
         <if test="report.accuseName != null and report.accuseName != ''">
-            and accuse_name = #{report.accuseName}
+            and r.accuse_name = #{report.accuseName}
         </if>
         <if test="report.desc != null and report.desc != ''">
-            and `desc` = #{report.desc}
+            and r.`desc` = #{report.desc}
         </if>
         <if test="report.reason != null and report.reason != ''">
-            and `reason` = #{report.reason}
+            and r.`reason` = #{report.reason}
         </if>
         <if test="report.accuseId != null and report.accuseId != ''">
-            and `accuse_id` = #{report.accuseId}
+            and (r.`accuse_id` = #{report.accuseId} or c.creator_id = #{report.accuseId})
         </if>
     </select>
 
     <insert id="addReportPic">
         insert into corgi_report_pic(report_id, pic_url)
-        values(#{reportId},#{url});
+        values (#{reportId}, #{url});
     </insert>
 
     <select id="getReportPic" resultType="java.lang.String">
-        select pic_url from corgi_report_pic
+        select pic_url
+        from corgi_report_pic
         where report_id = #{reportId}
     </select>
 
     <select id="countBlack" resultType="java.lang.Integer">
-        select count(1) from corgi_blacklist
+        select count(1)
+        from corgi_blacklist
         where user_id = #{userId}
-        and black_id = #{blockId}
+          and black_id = #{blockId}
     </select>
 </mapper>
