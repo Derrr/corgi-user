@@ -51,7 +51,8 @@
 
     <update id="updateReportStatus">
         update corgi_report
-        set report_status = #{status},`result` = #{result}
+        set report_status = #{status},
+            `result`      = #{result}
         where id = #{reportId}
     </update>
 
@@ -67,6 +68,7 @@
         r.reason,
         r.ctime,
         r.uptime,
+        r.`result`,
         if(c.creator_id is null,r.accuse_id,c.creator_id) accuseUserId
         from corgi_report r
         left join corgi_activity_creator c on r.accuse_id = c.activity_id
