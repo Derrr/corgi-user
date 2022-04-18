@@ -118,7 +118,8 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
                 report1.setPics(corgiBlacklistMapper.getReportPic(report1.getId()));
                 CorgiReport query = new CorgiReport();
                 query.setAccuseId(report1.getAccuseUserId());
-                report1.setAccuseTime(corgiBlacklistMapper.countReport(query));
+                report1.setAccuseTimes(corgiBlacklistMapper.countReport(query));
+                report1.setReporterCount(corgiBlacklistMapper.countReportUser(query));
             }
         }
         return reports;
