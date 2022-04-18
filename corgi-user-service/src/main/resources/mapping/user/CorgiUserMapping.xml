@@ -639,8 +639,11 @@
         <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
             and d.check_status = #{userDetail.checkStatus}
         </if>
-        <if test="userDetail.avatarStatus != null and userDetail.avatarStatus != ''">
+        <if test="userDetail.avatarStatus != null and userDetail.avatarStatus == 'influencer'">
             and d.avatar_status = #{userDetail.avatarStatus}
+        </if>
+        <if test="userDetail.avatarStatus != null and userDetail.avatarStatus == 'vip'">
+            and (d.avatar_status = 'influencer' or (d.vip_status = '1' and d.vip_expire &lt; date_format(NOW(),'%Y-%m-%d %H:%i:%s')))
         </if>
         order by d.user_id
         limit #{start},#{size}
