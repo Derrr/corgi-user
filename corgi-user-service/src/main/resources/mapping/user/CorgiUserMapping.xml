@@ -645,6 +645,10 @@
         <if test="userDetail.avatarStatus != null and userDetail.avatarStatus == 'vip'">
             and (d.avatar_status = 'influencer' or (d.vip_status = '1' and d.vip_expire &lt; date_format(NOW(),'%Y-%m-%d %H:%i:%s')))
         </if>
+        <if test="userDetail.avatarStatus != null and userDetail.avatarStatus == 'pay'">
+            and exists (select 1 from corgi_user_goods g where g.user_id = d.user_id)
+        </if>
+
         order by d.user_id
         limit #{start},#{size}
     </select>
