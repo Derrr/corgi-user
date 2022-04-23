@@ -222,7 +222,16 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             recall.setUserId(userId);
             recall.setType(CorgiVlogHot.TYPE.AUTO);
             recall.setStatus("asc");
-            corgiVlogMapper.recallHotVlog(recall, null, size, null);
+            List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(recall, null, size * 2, null);
+            for (CorgiVlog vlog : vlogs) {
+                if (!activityIds.contains(vlog.getActivityId())) {
+                    activityIds.add(vlog.getActivityId());
+                    size--;
+                    if (size <= 0) {
+                        break;
+                    }
+                }
+            }
         }
         return activityIds;
     }
