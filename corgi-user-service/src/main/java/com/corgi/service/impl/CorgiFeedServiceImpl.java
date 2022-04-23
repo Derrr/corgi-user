@@ -208,15 +208,21 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         if (!CollectionUtils.isEmpty(activityIds) && activityIds.size() < size) {
             size = size - activityIds.size();
         }
-        if (CollectionUtils.isEmpty(activityIds)) {
-            activityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, (page - 1) * size, size);
-        } else {
+        if (size > 0) {
             List<String> tmpActivityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, (page - 1) * size, size);
             for (String activityIdTmp : tmpActivityIds) {
                 if (!activityIds.contains(activityIdTmp)) {
                     activityIds.add(activityIdTmp);
+                    size--;
                 }
             }
+        }
+        if (size > 0) {
+            CorgiVlog recall = new CorgiVlog();
+            recall.setUserId(userId);
+            recall.setType(CorgiVlogHot.TYPE.AUTO);
+            recall.setStatus("asc");
+            corgiVlogMapper.recallHotVlog(recall, null, size, null);
         }
         return activityIds;
     }
