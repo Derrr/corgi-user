@@ -167,6 +167,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
 
     @Override
     public String getFakeComment() {
-        return corgiFakeMapper.getFakeComment(new Random().nextInt(1033) + 1);
+        Integer size = corgiFakeMapper.countFakeComment();
+        return corgiFakeMapper.getFakeComment(new Random().nextInt(size));
     }
 }

@@ -44,5 +44,7 @@ public interface CorgiFakeMapper {
 
     void updateNickname(@Param("userId")String userId, @Param("nickname")String nickname);
 
-    String getFakeComment(@Param("id")Integer id);
+    String getFakeComment(@Param("limit")Integer limit);
+
+    Integer countFakeComment();
 }

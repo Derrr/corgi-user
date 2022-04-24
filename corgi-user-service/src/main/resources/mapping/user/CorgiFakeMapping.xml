@@ -147,6 +147,11 @@
     <select id="getFakeComment" resultType="java.lang.String">
         select comment
         from corgi_fake_comment
-        where id = #{id}
+        limit #{limit},1
+    </select>
+
+    <select id="countFakeComment" resultType="java.lang.String">
+        select count(1)
+        from corgi_fake_comment
     </select>
 </mapper>
