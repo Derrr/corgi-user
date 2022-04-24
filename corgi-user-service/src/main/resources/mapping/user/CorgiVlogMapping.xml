@@ -127,6 +127,18 @@
         order by c.id desc limit #{size}
     </select>
 
+    <select id="getUserActivity" resultType="java.lang.String">
+        select distinct c.activity_id
+        from corgi_activity_creator c
+        left join corgi_vlog_hot h on h.activity_id = c.activity_id and h.type = 'auto'
+        where c.creator_id = (select creator_id from corgi_activity_creator where activity_id = #{activityId})
+        and c.activity_id != #{activityId}
+        and c.check_status != 'fail'
+        and c.check_status != 'not_good'
+        order by h.like_count desc
+        limit #{size}
+    </select>
+
     <select id="recallLikeVlog" resultType="com.corgi.user.entity.CorgiVlog">
         select
         distinct c.creator_id userId, c.activity_id activityId
@@ -158,7 +170,8 @@
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
         and c.creator_id in ('${targetId}')
-        and c.check_status = 'normal'
+        and c.check_status != 'fail'
+        and c.check_status != 'not_good'
         and c.category in('image','video','text','business','paying')
         <if test="vlog.ctime == null or vlog.ctime == ''">
             and h.like_count >= 3
@@ -174,6 +187,20 @@
         </if>
         limit #{size}
     </select>
+
+    <select id="recallFollowedVlog" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        <include refid="creator"/>
+        from corgi_activity_creator c
+        where c.check_status != 'fail'
+        and c.check_status != 'not_good'
+        and exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
+        #{userId} and f.is_deleted = '0')
+        and not exists(select 1 from corgi_feed_${index} f where f.user_id = #{userId} and f.feed =
+        c.activity_id)
+        order by c.id desc limit #{size}
+    </select>
+
 
     <select id="recallActivityVlog" resultType="java.lang.String">
         select distinct l2.activity_id
@@ -219,6 +246,7 @@
           and c.category = (select category from corgi_activity_creator where activity_id = #{activityId})
           and c.creator_id != #{userId}
           and c.check_status != 'fail'
+          and c.check_status != 'not_good'
           and h.status = 'open'
           and h.type = 'auto'
         order by h.id desc
@@ -281,7 +309,7 @@
         <if test="vlog.uptime != '' and vlog.uptime != null ">
             and (d.birthday >= #{vlog.uptime})
         </if>
-        <if test='vlog.status == "1"'>
+        <if test="vlog.status == 'verify'">
             and d.avatar_check_status = 'verified'
         </if>
         <if test="vlog.status != 'desc'">

@@ -109,6 +109,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     }
 
     @Override
+    public List<CorgiVlog> recallFollowedVlog(CorgiVlog corgiVlog, Integer limit) {
+        return corgiVlogMapper.recallFollowedVlog(corgiVlog.getUserId(), limit, UserUtils.getIndex(corgiVlog.getUserId()));
+    }
+
+    @Override
     public List<CorgiVlog> getFollowVlog(String userId, Integer page, Integer size) {
         return corgiVlogMapper.getFollowVlog(userId, (page - 1) * size, size, getNowDate());
     }

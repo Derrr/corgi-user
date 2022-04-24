@@ -65,7 +65,7 @@ public interface CorgiBlacklistMapper {
      * @param reportId
      * @param status
      */
-    void updateReportStatus(@Param("reportId") String reportId, @Param("status") String status);
+    void updateReportStatus(@Param("reportId") String reportId, @Param("status") String status, @Param("result")String result);
 
     /**
      * 获取举报列表
@@ -83,6 +83,13 @@ public interface CorgiBlacklistMapper {
      * @return
      */
     Integer countReport(@Param("report") CorgiReport corgiReport);
+
+    /**
+     * 用户记述
+     * @param corgiReport
+     * @return
+     */
+    Integer countReportUser(@Param("report") CorgiReport corgiReport);
 
     /**
      * 添加举报图片

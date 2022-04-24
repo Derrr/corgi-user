@@ -1,28 +1,25 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.ActivityQuery;
-import com.corgi.entity.CorgiArea;
 import com.corgi.mapper.*;
-import com.corgi.user.api.CorgiAreaService;
 import com.corgi.user.api.CorgiFeedService;
-import com.corgi.user.api.CorgiUserService;
-import com.corgi.user.api.CorgiVlogService;
 import com.corgi.user.entity.CorgiFeed;
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
-import com.corgi.user.entity.UserProfile;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import sun.misc.BASE64Encoder;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -44,6 +41,11 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Override
+    public List<String> getFollowedFeed(String userId, Integer size) {
+        return null;
+    }
 
     @Override
     public List<String> getUnviewFeed(String userId, Integer size) {
@@ -132,7 +134,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 //        }
 //        query.setPageSize(query.getPageSize() - oldResult.size());
         CorgiVlog vlogQuery = new CorgiVlog();
-        vlogQuery.setStatus(query.getType());
+        vlogQuery.setStatus("1".equals(query.getType()) ? "verify" : query.getType());
         vlogQuery.setType(CorgiVlogHot.TYPE.AUTO);
         vlogQuery.setUserId(query.getUserId());
         if (!CollectionUtils.isEmpty(query.getGroup())) {
@@ -153,11 +155,23 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             calendar.add(Calendar.YEAR, query.getEndAge() * -1);
             vlogQuery.setUptime(sdf.format(calendar.getTime()));
         }
-        List<CorgiVlog> resultVlogs = corgiVlogMapper.recallHotVlog(vlogQuery, redisTemplate.opsForValue().get("search_feed_" + query.getUserId()), query.getPageSize(), null);
+        String key = "search_feed_" + query.getUserId();
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            BASE64Encoder base64en = new BASE64Encoder();
+            String newstr = base64en.encode(md5.digest(query.toString().getBytes("utf-8")));
+            key = "search_feed_" + newstr;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        List<CorgiVlog> resultVlogs = corgiVlogMapper.recallHotVlog(vlogQuery, redisTemplate.opsForValue().get(key), query.getPageSize(), null);
         if (CollectionUtils.isEmpty(resultVlogs)) {
+            redisTemplate.delete(key);
             return new ArrayList<>();
         }
-        redisTemplate.opsForValue().set("search_feed_" + query.getUserId(), resultVlogs.get(resultVlogs.size() - 1).getId().toString(), 20L, TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(key, resultVlogs.get(resultVlogs.size() - 1).getId().toString(), 20L, TimeUnit.HOURS);
         return resultVlogs.stream().map(v -> v.getActivityId()).collect(Collectors.toList());
     }
 
@@ -190,15 +204,33 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> getFeedByActivityId(String activityId, String userId, Integer page, Integer size) {
-        List<String> activityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, (page - 1) * size, size);
-        if (activityIds.size() < size) {
-            Integer total = corgiVlogMapper.countActivityVlog(activityId, userId);
-            if (total == null) {
-                total = 0;
+        List<String> activityIds = corgiVlogMapper.getUserActivity(activityId, size);
+        if (!CollectionUtils.isEmpty(activityIds) && activityIds.size() < size) {
+            size = size - activityIds.size();
+        }
+        if (size > 0) {
+            List<String> tmpActivityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, (page - 1) * size, size);
+            for (String activityIdTmp : tmpActivityIds) {
+                if (!activityIds.contains(activityIdTmp)) {
+                    activityIds.add(activityIdTmp);
+                    size--;
+                }
             }
-            Integer start = page * size - total;
-            if (start > 0) {
-                activityIds.addAll(corgiVlogMapper.recallByActivityId(activityId, userId, start, size - activityIds.size()));
+        }
+        if (size > 0) {
+            CorgiVlog recall = new CorgiVlog();
+            recall.setUserId(userId);
+            recall.setType(CorgiVlogHot.TYPE.AUTO);
+            recall.setStatus("asc");
+            List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(recall, null, size * 2, null);
+            for (CorgiVlog vlog : vlogs) {
+                if (!activityIds.contains(vlog.getActivityId())) {
+                    activityIds.add(vlog.getActivityId());
+                    size--;
+                    if (size <= 0) {
+                        break;
+                    }
+                }
             }
         }
         return activityIds;

@@ -114,16 +114,16 @@ public class CorgiUserTestServiceImpl implements CorgiUserTestService {
 
     @Override
     public String updateUserNickname(String userId, String nickname, String checkNickname) {
-        UserDetail detail = corgiUserTestMapper.getUserDetail(userId);
-        if ("fail".equals(detail.getCheckStatus())) {
-            corgiUserTestMapper.updateNickname(userId, nickname, detail.getCheckNickname());
-        } else {
-            int count = corgiUserTestMapper.countNickname(nickname, checkNickname, userId);
-            if (count > 0) {
-                return "nickname exists";
-            }
+//        UserDetail detail = corgiUserTestMapper.getUserDetail(userId);
+//        if ("fail".equals(detail.getCheckStatus())) {
+//            corgiUserTestMapper.updateNickname(userId, nickname, detail.getCheckNickname());
+//        } else {
+//            int count = corgiUserTestMapper.countNickname(nickname, checkNickname, userId);
+//            if (count > 0) {
+//                return "nickname exists";
+//            }
             corgiUserTestMapper.updateNickname(userId, nickname, checkNickname);
-        }
+//        }
         return CorgiConstants.SUCCESS;
     }
 

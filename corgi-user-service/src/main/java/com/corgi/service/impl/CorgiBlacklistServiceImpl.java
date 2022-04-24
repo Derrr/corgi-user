@@ -106,8 +106,8 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
     }
 
     @Override
-    public void updateStatus(String reportId, String status) {
-        corgiBlacklistMapper.updateReportStatus(reportId, status);
+    public void updateStatus(String reportId, String status, String result) {
+        corgiBlacklistMapper.updateReportStatus(reportId, status, result);
     }
 
     @Override
@@ -116,6 +116,10 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
         if (!CollectionUtils.isEmpty(reports)) {
             for (CorgiReport report1 : reports) {
                 report1.setPics(corgiBlacklistMapper.getReportPic(report1.getId()));
+                CorgiReport query = new CorgiReport();
+                query.setAccuseId(report1.getAccuseUserId());
+                report1.setAccuseTimes(corgiBlacklistMapper.countReport(query));
+                report1.setReporterCount(corgiBlacklistMapper.countReportUser(query));
             }
         }
         return reports;

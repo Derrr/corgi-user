@@ -56,6 +56,7 @@
         where ctime like concat(#{date}, '%')
           and view_count > 1
     </select>
+
     <select id="getUnviewFeed" resultType="java.lang.String">
         select `feed` from corgi_feed_${index} where user_id = #{userId} and view_count = '0'
         <if test="source != null and source != ''">
@@ -63,7 +64,6 @@
         </if>
         limit #{size}
     </select>
-
 
     <update id="viewFeed">
         update corgi_feed_${index}

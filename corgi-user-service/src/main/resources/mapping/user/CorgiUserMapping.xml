@@ -99,7 +99,8 @@
         `city`,
         `check_status`,
         `background`,
-        `bg_check_status`)
+        `bg_check_status`,
+        `date_status`)
         values (
         #{userDetail.userId},
         #{userDetail.nickname},
@@ -123,7 +124,8 @@
         #{userDetail.city},
         #{userDetail.checkStatus},
         #{userDetail.background},
-        #{userDetail.bgCheckStatus}
+        #{userDetail.bgCheckStatus},
+        #{userDetail.dateStatus}
         )
     </insert>
 
@@ -152,7 +154,8 @@
                p.lat                                  lat,
                p.lng                                  lng,
                if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
-               `check_status`                         checkStatus
+               `check_status`                         checkStatus,
+               `date_status`                          dateStatus
         from corgi_user_detail d
                  left join corgi_user_position p on p.user_id = d.user_id
         where d.user_id = #{userId}
@@ -256,6 +259,9 @@
             <if test="userDetail.bgDataId != null">
                 `bg_data_id` = #{userDetail.bgDataId},
             </if>
+            <if test="userDetail.dateStatus != null and userDetail.dateStatus != ''">
+                `date_status` = #{userDetail.dateStatus},
+            </if>
         </set>
         where user_id = #{userDetail.userId}
     </update>
@@ -325,7 +331,7 @@
     <insert id="addUserPosition" parameterType="com.corgi.user.entity.UserPosition">
         insert
         ignore into corgi_user_position (`user_id`, `lat`, `lng`, `pt`, `uptime`, `real_lat`, `real_lng`, `locate_type`,
-                                         `version`, `city`, `province`)
+                                         `version`, `city`, `province`,`channel`)
         values (
         #{position.userId},
         #{position.lat},
@@ -341,7 +347,8 @@
         #{position.locateType},
         #{position.version},
         #{position.city},
-        #{position.province}
+        #{position.province},
+        #{position.channel}
         );
     </insert>
 
@@ -355,6 +362,7 @@
                uptime      uptime,
                city,
                province,
+               channel,
                version
         from corgi_user_position
         where user_id = #{userId}
@@ -399,6 +407,9 @@
             `city` = #{position.city},
             `province` = #{position.province},
         </if>
+        <if test="position.channel != null and position.channel != ''">
+            `channel` = #{position.channel},
+        </if>
         `version` = #{position.version}
         where user_id = #{position.userId}
     </update>
@@ -414,6 +425,9 @@
         </if>
         <if test="position.version != null and position.version != ''">
             `version` = #{position.version},
+        </if>
+        <if test="position.channel != null and position.channel != ''">
+            `channel` = #{position.channel},
         </if>
         fuptime = 0
         where user_id = #{position.userId}
@@ -625,9 +639,16 @@
         <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
             and d.check_status = #{userDetail.checkStatus}
         </if>
-        <if test="userDetail.avatarStatus != null and userDetail.avatarStatus != ''">
+        <if test="userDetail.avatarStatus != null and userDetail.avatarStatus == 'influencer'">
             and d.avatar_status = #{userDetail.avatarStatus}
         </if>
+        <if test="userDetail.avatarStatus != null and userDetail.avatarStatus == 'vip'">
+            and (d.avatar_status = 'influencer' or (d.vip_status = '1' and d.vip_expire &lt; date_format(NOW(),'%Y-%m-%d %H:%i:%s')))
+        </if>
+        <if test="userDetail.avatarStatus != null and userDetail.avatarStatus == 'pay'">
+            and exists (select 1 from corgi_user_goods g where g.user_id = d.user_id)
+        </if>
+
         order by d.user_id
         limit #{start},#{size}
     </select>
