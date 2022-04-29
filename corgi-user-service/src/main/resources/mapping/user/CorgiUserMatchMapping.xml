@@ -15,6 +15,9 @@
         <if test="timestamp > 0">
             and p.uptime &lt; #{timestamp}
         </if>
+        <if test="user.result != ''">
+            ${user.result}
+        </if>
         and not exists (select 1
         from corgi_user_match m
         where m.user_id = #{user.userId}

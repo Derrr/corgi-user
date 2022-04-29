@@ -49,6 +49,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         String nowDate = sdf.format(calendar.getTime());
         calendar.add(Calendar.MINUTE, -5);
         List<String> userIds = new ArrayList<>();
+        this.buildQueryString(userQuery);
         List<UserMatchItem> users = userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6);
         users = this.buildUsers(users, userIds, nowTime, nowDate);
         calendar.add(Calendar.DATE, -7);
@@ -256,6 +257,34 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
         }
         return null;
+    }
+
+    private void buildQueryString(UserQuery query) {
+        StringBuilder sb = new StringBuilder();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        if (!CollectionUtils.isEmpty(query.getDateStatus())) {
+            sb.append(" and d.date_status in('").append(String.join("','", query.getDateStatus())).append("') ");
+        }
+        if (!CollectionUtils.isEmpty(query.getGroup())) {
+            sb.append(" and d.group in('").append(String.join("','", query.getGroup())).append("') ");
+        }
+        if (!CollectionUtils.isEmpty(query.getRole())) {
+            sb.append(" and d.role in('").append(String.join("','", query.getRole())).append("') ");
+        }
+        if (!StringUtils.isEmpty(query.getStartAge())) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, query.getStartAge());
+            sb.append(" and d.birthday &lt; ").append(sdf.format(calendar.getTime()));
+        }
+        if (!StringUtils.isEmpty(query.getEndAge())) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, query.getEndAge());
+            sb.append(" and d.birthday &gt; ").append(sdf.format(calendar.getTime()));
+        }
+        if ("verify".equals(query.getType())) {
+            sb.append(" and d.avatar_check_status = 'verified' ");
+        }
+        query.setResult(sb.toString());
     }
 
     private List<UserMatchItem> buildUsers(List<UserMatchItem> items, List<String> userIds, Long nowTime, String nowTimeDate) {
