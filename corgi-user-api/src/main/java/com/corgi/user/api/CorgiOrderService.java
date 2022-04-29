@@ -35,5 +35,7 @@ public interface CorgiOrderService {
 
     List<CorgiUserGoods> getUserGoods(CorgiUserGoods goods);
 
+    void updateUserGoods(CorgiUserGoods goods);
+
     Double countIncome(CorgiOrder query);
 }
