@@ -51,9 +51,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         List<String> userIds = new ArrayList<>();
         this.buildQueryString(userQuery);
         List<UserMatchItem> users = userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6);
-        users = this.buildUsers(users, userIds, nowTime, nowDate);
-        calendar.add(Calendar.DATE, -7);
-        users.addAll(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6));
+        users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
+        if (users.size() < 6) {
+            calendar.add(Calendar.DATE, -7);
+            users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
+                    userIds, nowTime, nowDate, 6 - users.size()));
+        }
         for (String userId : userIds) {
             userMatchMapper.addMatchView(userQuery.getUserId(), userId);
         }
@@ -287,12 +290,15 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         query.setResult(sb.toString());
     }
 
-    private List<UserMatchItem> buildUsers(List<UserMatchItem> items, List<String> userIds, Long nowTime, String nowTimeDate) {
+    private List<UserMatchItem> buildUsers(List<UserMatchItem> items, List<String> userIds, Long nowTime, String nowTimeDate, int size) {
         List<UserMatchItem> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(items)) {
             return result;
         }
         for (UserMatchItem item : items) {
+            if (size <= 0) {
+                return result;
+            }
             if (userIds.contains(item.getUserId())) {
                 continue;
             }
@@ -330,6 +336,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                 item.setTimeShow("本周活跃");
             }
             result.add(item);
+            size--;
         }
         return result;
     }
