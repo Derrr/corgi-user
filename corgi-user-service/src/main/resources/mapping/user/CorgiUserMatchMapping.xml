@@ -5,6 +5,7 @@
     <select id="getMatchByTime" resultType="com.corgi.user.entity.UserMatchItem">
         select p.user_id userId,
         d.avatar,
+        d.nickname,
         st_distance(p.pt, point(#{user.lng},#{user.lat}))*111.195 distance,
         d.date_status dateStatus,
         p.uptime timeShow,
@@ -55,12 +56,13 @@
     </update>
 
     <select id="countMatchByRange" resultType="java.lang.Integer">
-        select count(1) from corgi_user_position p
+        select count(1)
+        from corgi_user_position p
         where p.uptime > #{timestamp}
-        and p.lat > #{query.beginLat}
-        and p.lat &lt; #{query.endLat}
-        and p.lng > #{query.beginLng}
-        and p.lng &lt; #{query.endLng}
+          and p.lat > #{query.beginLat}
+          and p.lat &lt; #{query.endLat}
+          and p.lng > #{query.beginLng}
+          and p.lng &lt; #{query.endLng}
     </select>
 
     <select id="countMatch" resultType="java.lang.Integer">
