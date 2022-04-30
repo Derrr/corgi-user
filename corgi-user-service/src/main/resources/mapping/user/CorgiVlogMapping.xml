@@ -437,15 +437,20 @@
 
     <select id="countVlogHot" resultType="java.lang.Integer">
         select count(1)
-        from corgi_vlog_hot where 1=1
+        from corgi_vlog_hot h
+        left join corgi_activity_creator c on c.activity_id = h.activity_id
+        where 1=1
         <if test="vlog.type != null">
-            and `type` = #{vlog.type}
+            and h.type = #{vlog.type}
         </if>
         <if test="vlog.status != null">
-            and `status` = #{vlog.status}
+            and h.status = #{vlog.status}
         </if>
         <if test="vlog.activityId != null">
-            and `activity_id` = #{activityId}
+            and h.activity_id = #{vlog.activityId}
+        </if>
+        <if test="vlog.id != null">
+            and c.creator_id = #{vlog.id}
         </if>
     </select>
 
