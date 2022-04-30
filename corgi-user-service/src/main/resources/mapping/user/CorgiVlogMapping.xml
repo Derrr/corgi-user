@@ -295,6 +295,8 @@
         and c.creator_id != #{vlog.userId}
         and c.category in('image','video','text','business','paying')
         and c.check_status != 'fail'
+        and c.check_status != 'check'
+        and c.check_status != 'not_good'
         <if test="id != null and id != ''">
             and h.id &lt; #{id}
         </if>
@@ -437,15 +439,16 @@
 
     <select id="countVlogHot" resultType="java.lang.Integer">
         select count(1)
-        from corgi_vlog_hot where 1=1
+        from corgi_vlog_hot h
+        where 1=1
         <if test="vlog.type != null">
-            and `type` = #{vlog.type}
+            and h.type = #{vlog.type}
         </if>
         <if test="vlog.status != null">
-            and `status` = #{vlog.status}
+            and h.status = #{vlog.status}
         </if>
         <if test="vlog.activityId != null">
-            and `activity_id` = #{activityId}
+            and h.activity_id = #{vlog.activityId}
         </if>
     </select>
 
