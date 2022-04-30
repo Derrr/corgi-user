@@ -449,8 +449,8 @@
         <if test="vlog.activityId != null">
             and h.activity_id = #{vlog.activityId}
         </if>
-        <if test="vlog.id != null">
-            and c.creator_id = #{vlog.id}
+        <if test="vlog.userId != null">
+            and c.creator_id = #{vlog.userId}
         </if>
     </select>
 
