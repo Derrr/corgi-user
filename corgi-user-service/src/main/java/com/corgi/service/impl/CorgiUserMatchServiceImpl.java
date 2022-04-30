@@ -292,12 +292,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (!StringUtils.isEmpty(query.getStartAge())) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, -1*query.getStartAge());
-            sb.append(" and d.birthday &lt; '").append(sdf.format(calendar.getTime())).append("' ");
+            sb.append(" and d.birthday < '").append(sdf.format(calendar.getTime())).append("' ");
         }
         if (!StringUtils.isEmpty(query.getEndAge())) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, -1*query.getEndAge());
-            sb.append(" and d.birthday &gt; '").append(sdf.format(calendar.getTime())).append("' ");
+            sb.append(" and d.birthday > '").append(sdf.format(calendar.getTime())).append("' ");
         }
         if ("verify".equals(query.getType())) {
             sb.append(" and d.avatar_check_status = 'verified' ");
