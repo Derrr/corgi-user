@@ -1,5 +1,6 @@
 package com.corgi.mapper;
 
+import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.entity.UserMatch;
 import com.corgi.user.entity.UserMatchItem;
 import com.corgi.user.entity.UserQuery;
@@ -22,6 +23,8 @@ public interface CorgiUserMatchMapper {
     void updateMatchViewByDate(@Param("date") String date);
 
     void updateMatchByDate(@Param("date") String date);
+
+    Integer countMatchByRange(@Param("query")UserQuerySupporter supporter, @Param("timestamp")Long timestamp);
 
     Integer countMatch(@Param("userId") String userId, @Param("tradeNo") String tradeNo, @Param("date") String date);
 

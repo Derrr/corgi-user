@@ -12,6 +12,8 @@ public interface CorgiUserMatchService {
 
     List<UserMatchItem> getUserMatchItem(UserQuery userQuery);
 
+    Integer countAllMatcher(UserQuery userQuery);
+
     void clearMatchByDate(String date);
 
     void clearMatchViewByDate(String date);

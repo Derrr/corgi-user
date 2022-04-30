@@ -6,6 +6,7 @@ import com.corgi.common.CorgiConstants;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.mapper.CorgiUserMatchMapper;
 import com.corgi.support.MatchSupporter;
+import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiOrderService;
 import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.*;
@@ -61,6 +62,14 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             userMatchMapper.addMatchView(userQuery.getUserId(), userId);
         }
         return users;
+    }
+
+    @Override
+    public Integer countAllMatcher(UserQuery userQuery) {
+        UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -30);
+        return userMatchMapper.countMatchByRange(supporter, calendar.getTimeInMillis());
     }
 
     @Override

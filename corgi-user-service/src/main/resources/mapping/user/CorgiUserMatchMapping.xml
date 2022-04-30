@@ -54,6 +54,14 @@
         where ctime &lt; #{date}
     </update>
 
+    <select id="countMatchByRange" resultType="java.lang.Integer">
+        select count(1) from corgi_user_position p
+        where p.uptime > #{timestamp}
+        and p.lat > #{query.beginLat}
+        and p.lat &lt; #{query.endLat}
+        and p.lng > #{query.beginLng}
+        and p.lng &lt; #{query.endLng}
+    </select>
 
     <select id="countMatch" resultType="java.lang.Integer">
         select count(1) from corgi_user_match
