@@ -438,7 +438,6 @@
     <select id="countVlogHot" resultType="java.lang.Integer">
         select count(1)
         from corgi_vlog_hot h
-        left join corgi_activity_creator c on c.activity_id = h.activity_id
         where 1=1
         <if test="vlog.type != null">
             and h.type = #{vlog.type}
@@ -448,9 +447,6 @@
         </if>
         <if test="vlog.activityId != null">
             and h.activity_id = #{vlog.activityId}
-        </if>
-        <if test="vlog.userId != null">
-            and c.creator_id = #{vlog.userId}
         </if>
     </select>
 

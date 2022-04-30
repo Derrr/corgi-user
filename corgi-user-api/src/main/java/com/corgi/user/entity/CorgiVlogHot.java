@@ -30,6 +30,5 @@ public class CorgiVlogHot implements Serializable {
     private Integer expectView;
     private String type;
     private String status;
-    private String userId;
 
 }
