@@ -106,6 +106,11 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     }
 
     @Override
+    public void addUserMatch(String userId, String matchId, String tradeNo) {
+        userMatchMapper.addMatch(userId, matchId, tradeNo);
+    }
+
+    @Override
     public Double calculateUserMatch(String userId1, String userId2) {
         UserDetail userDetail1 = userMapper.getUserDetail(userId1);
         UserDetail userDetail2 = userMapper.getUserDetail(userId2);

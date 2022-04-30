@@ -18,6 +18,7 @@ public interface CorgiUserMatchService {
 
     List<UserMatchRemain> countUserRemain(String userId);
 
+    void addUserMatch(String userId, String matchId, String tradeNo);
 
     /* -- History Deprecated -- */
 
