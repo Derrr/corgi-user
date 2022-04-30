@@ -242,6 +242,10 @@
         <if test="goods.desc != null and goods.desc != ''">
             and `desc` != #{goods.desc}
         </if>
+        <if test="goods.ctime != null and goods.ctime != ''">
+            and `ctime` > #{goods.ctime}
+        </if>
+
         and status = '1'
         <if test="goods.userId != null and goods.userId != ''">
             and user_id = #{goods.userId}

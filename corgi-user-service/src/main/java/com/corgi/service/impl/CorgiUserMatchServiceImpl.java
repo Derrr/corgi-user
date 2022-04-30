@@ -76,16 +76,19 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     @Override
     public List<UserMatchRemain> countUserRemain(String userId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
         List<UserMatchRemain> remains = new ArrayList<>();
         UserMatchRemain remain0 = new UserMatchRemain();
         remain0.setUserId(userId);
         remain0.setTradeNo("0");
-        remain0.setRemain(30 - userMatchMapper.countMatch(userId, "0", sdf.format(new Date())));
+        remain0.setRemain(30 - userMatchMapper.countMatch(userId, "0", sdf.format(calendar.getTime())));
         remains.add(remain0);
+
+        calendar.add(Calendar.DATE, -1);
         CorgiUserGoods query = new CorgiUserGoods();
         query.setUserId(userId);
         query.setGoodsType(CorgiUserGoods.GOODS_TYPE.MATCH);
-        query.setDesc(String.format(REMAIN, 0));
+        query.setCtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime()));
         query.setStart(0);
         query.setSize(100);
         List<CorgiUserGoods> goods = corgiOrderService.getUserGoods(query);
@@ -97,8 +100,6 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                 Integer total = MerchandiseEnum.getByCode(goods1.getMerchId()).getDays();
                 remain.setRemain(total - userMatchMapper.countMatch(userId, goods1.getTradeNo(), null));
                 remains.add(1, remain);
-                goods1.setDesc(String.format(REMAIN, remain.getRemain() > 0 ? remain.getRemain() : 0));
-                corgiOrderService.updateUserGoods(goods1);
             }
         }
         return remains;
