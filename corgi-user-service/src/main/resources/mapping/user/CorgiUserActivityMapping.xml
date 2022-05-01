@@ -182,7 +182,8 @@
           and c.check_status != 'fail'
           and c.check_status != 'not_good'
         <if test="date != null">
-            and c.ctime >= #{date}
+            and l.ctime >= #{date}
+            and l.type = 'real'
         </if>
         group by c.activity_id
         order by count(l.id) desc
