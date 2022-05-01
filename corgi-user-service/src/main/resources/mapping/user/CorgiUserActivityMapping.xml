@@ -182,7 +182,7 @@
           and c.check_status != 'fail'
           and c.check_status != 'not_good'
         <if test="date != null">
-            and l.ctime >= #{date}
+            and c.ctime >= #{date}
             and l.type = 'real'
         </if>
         group by c.activity_id
