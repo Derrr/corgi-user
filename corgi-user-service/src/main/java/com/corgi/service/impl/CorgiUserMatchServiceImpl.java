@@ -281,7 +281,11 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         StringBuilder sb = new StringBuilder();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         if (!CollectionUtils.isEmpty(query.getDateStatus())) {
-            sb.append(" and d.date_status in('").append(String.join("','", query.getDateStatus())).append("') ");
+            sb.append(" and d.date_status in('").append(String.join("','", query.getDateStatus()));
+            if (query.getDateStatus().contains("想聊天")) {
+                sb.append("','");
+            }
+            sb.append("') ");
         }
         if (!CollectionUtils.isEmpty(query.getGroup())) {
             sb.append(" and d.group in('").append(String.join("','", query.getGroup())).append("') ");
@@ -291,12 +295,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         if (!StringUtils.isEmpty(query.getStartAge())) {
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.YEAR, -1*query.getStartAge());
+            calendar.add(Calendar.YEAR, -1 * query.getStartAge());
             sb.append(" and d.birthday < '").append(sdf.format(calendar.getTime())).append("' ");
         }
         if (!StringUtils.isEmpty(query.getEndAge())) {
             Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.YEAR, -1*query.getEndAge());
+            calendar.add(Calendar.YEAR, -1 * query.getEndAge());
             sb.append(" and d.birthday > '").append(sdf.format(calendar.getTime())).append("' ");
         }
         if ("verify".equals(query.getType())) {
@@ -322,6 +326,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                 item.setDistance("");
             } else {
                 item.setDistance(item.getDistance().split("\\.")[0]);
+            }
+            if (StringUtils.isEmpty(item.getDateStatus())) {
+                item.setDateStatus("想聊天");
             }
             if (StringUtils.isEmpty(item.getAvatarStatus()) || "-".equals(item.getAvatarStatus())) {
                 item.setAvatarStatus("");
