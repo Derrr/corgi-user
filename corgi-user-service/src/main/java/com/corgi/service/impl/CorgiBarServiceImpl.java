@@ -107,8 +107,12 @@ public class CorgiBarServiceImpl implements CorgiBarService {
 
     @Override
     public void addBarProfile(BarProfile barProfile) {
-        String maxBarId = corgiBarMapper.getMaxBarId();
-        barProfile.setBarId(createBarId(maxBarId));
+        String prefix = "B";
+        if (!StringUtils.isEmpty(barProfile.getCuid())) {
+            prefix = "C";
+        }
+        String maxBarId = corgiBarMapper.getMaxBarId(prefix);
+        barProfile.setBarId(createBarId(maxBarId, prefix));
         corgiBarMapper.addBar(barProfile);
     }
 
@@ -142,9 +146,9 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         return barProfile;
     }
 
-    private String createBarId(String maxBarId) {
+    private String createBarId(String maxBarId, String prefix) {
         if (StringUtils.isEmpty(maxBarId)) {
-            return "B0001";
+            return prefix + "0001";
         }
         String index = (Integer.valueOf(maxBarId.substring(1)) + 1) + "";
         if (index.length() < 4) {
@@ -153,7 +157,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
                 index = "0" + index;
             }
         }
-        return "B" + index;
+        return prefix + index;
     }
 
     private Long countBarHeat(BarProfile barProfile) {

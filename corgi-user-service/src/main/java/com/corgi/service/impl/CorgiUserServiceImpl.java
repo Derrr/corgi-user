@@ -1,6 +1,7 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.common.CorgiConstants;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
@@ -40,15 +41,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Autowired
     private CorgiUserMapper corgiUserMapper;
     @Autowired
-    private CorgiUserMatchService corgiUserMatchService;
+    private CorgiBillboardMapper corgiBillboardMapper;
     @Autowired
     private CorgiUserFollowService corgiUserFollowService;
     @Autowired
-    private CorgiPicMapper corgiPicMapper;
-    @Autowired
     private CorgiUserTagMapper corgiUserTagMapper;
-    @Autowired
-    private CorgiUserFollowMapper corgiUserFollowMapper;
     @Autowired
     private CorgiBlacklistMapper corgiBlacklistMapper;
     @Autowired
@@ -495,22 +492,39 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public String updateUserNickname(String userId, String nickname, String checkNickname) {
-//        UserDetail detail = corgiUserMapper.getUserDetail(userId);
-//        if ("fail".equals(detail.getCheckStatus())) {
-//            corgiUserMapper.updateNickname(userId, nickname, detail.getCheckNickname());
-//        } else {
-//            int count = corgiUserMapper.countNickname(nickname, checkNickname, userId);
-//            if (count > 0) {
-//                return "nickname exists";
-//            }
-            corgiUserMapper.updateNickname(userId, nickname, checkNickname);
-//        }
+        corgiUserMapper.updateNickname(userId, nickname, checkNickname);
         return CorgiConstants.SUCCESS;
     }
 
     @Override
     public int countUserNickname(String nickname) {
         return corgiUserMapper.countNickname(nickname, "", "");
+    }
+
+    @Override
+    public void initRecommendUserByUserId(String userId) {
+        List<UserProfile> result = corgiUserMapper.getRecommendUserByUserId(userId);
+        List<String> userIds = new ArrayList<>();
+        for (UserProfile userProfile : result) {
+            userIds.add(userProfile.getUserId());
+        }
+        if (userIds.isEmpty() || userIds.size() < 8) {
+            ActivityBillboard activity = new ActivityBillboard();
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            activity.setDate(date);
+            activity.setCtime(date);
+            List<ActivityBillboard> activityBillboards = corgiBillboardMapper.getAllActivityBillboard(activity);
+            for (ActivityBillboard billboard : activityBillboards) {
+                if (StringUtils.isEmpty(billboard.getUserId()) || userIds.contains(billboard.getUserId())) {
+                    continue;
+                }
+                userIds.add(billboard.getUserId());
+                if (userIds.size() >= 8) {
+                    break;
+                }
+            }
+        }
+        redisTemplate.opsForList().rightPushAll("recommend_user-" + userId, userIds);
     }
 
     @Override

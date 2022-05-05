@@ -33,6 +33,8 @@ public class BarProfile implements Serializable {
     private String city;
     private String ctime;
     private Long relActivityCount;
+    private String cuid;
+    private String quCode;
 
     Integer activityCount;
     List<BarPic> barPics;

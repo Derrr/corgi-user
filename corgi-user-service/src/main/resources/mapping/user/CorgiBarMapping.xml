@@ -5,10 +5,10 @@
     <insert id="addBar" parameterType="com.corgi.user.entity.BarProfile">
         INSERT INTO `corgi_bar_detail`
         (`bar_id`, `bar_name`, `address`, `lat`, `lng`, `tel`, `range`, `logo`, `status`, `city`, `start_time`,
-         `end_time`, `detail`, `spending`)
+         `end_time`, `detail`, `spending`, `cuid`, `qr_code`)
         VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range},
                 #{bar.logo}, #{bar.status}, #{bar.city}, #{bar.startTime}, #{bar.endTime}, #{bar.detail},
-                #{bar.spending})
+                #{bar.spending}, #{bar.cuid}, #{bar.qrCode})
     </insert>
     <update id="updateBar" parameterType="com.corgi.user.entity.BarProfile">
         update corgi_bar_detail
@@ -60,6 +60,7 @@
     <select id="getMaxBarId" resultType="java.lang.String">
         select max(bar_id)
         from corgi_bar_detail
+        where bar_id like concat(#{prefix}, '%')
     </select>
 
     <select id="getBarList" resultType="com.corgi.user.entity.BarProfile">

@@ -29,7 +29,7 @@ public interface CorgiBarMapper {
      *
      * @return
      */
-    String getMaxBarId();
+    String getMaxBarId(@Param("prefix")String prefix);
 
     /**
      * 获取所有商户列表
