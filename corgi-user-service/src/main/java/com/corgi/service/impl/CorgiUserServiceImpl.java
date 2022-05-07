@@ -504,7 +504,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public void initRecommendUserByUserId(String userId) {
-        redisTemplate.opsForValue().set("recommend_user-lock" + userId, userId, 24L, TimeUnit.HOURS);
+        String lockKey = "recommend_user-lock" + userId;
+        if (!redisTemplate.opsForValue().setIfAbsent(lockKey, userId)) {
+            return;
+        }
+        redisTemplate.expire(lockKey, 24l, TimeUnit.HOURS);
         List<UserProfile> result = corgiUserMapper.getRecommendUserByUserId(userId);
         List<String> userIds = new ArrayList<>();
         for (UserProfile userProfile : result) {
