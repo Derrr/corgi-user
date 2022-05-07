@@ -28,6 +28,7 @@ import org.springframework.util.StringUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -503,6 +504,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public void initRecommendUserByUserId(String userId) {
+        redisTemplate.opsForValue().set("recommend_user-lock" + userId, userId, 24L, TimeUnit.HOURS);
         List<UserProfile> result = corgiUserMapper.getRecommendUserByUserId(userId);
         List<String> userIds = new ArrayList<>();
         for (UserProfile userProfile : result) {
@@ -525,6 +527,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             }
         }
         redisTemplate.opsForList().rightPushAll("recommend_user-" + userId, userIds);
+        redisTemplate.expire("recommend_user-" + userId, 24l, TimeUnit.HOURS);
     }
 
     @Override
