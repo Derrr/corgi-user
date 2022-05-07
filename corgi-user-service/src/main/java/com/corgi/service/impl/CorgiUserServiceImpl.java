@@ -530,8 +530,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 }
             }
         }
-        redisTemplate.opsForList().rightPushAll("recommend_user-" + userId, userIds);
-        redisTemplate.expire("recommend_user-" + userId, 24l, TimeUnit.HOURS);
+        String key = "recommend_user-" + userId;
+        redisTemplate.opsForList().rightPushAll(key, userIds);
+        redisTemplate.expire(key, 24l, TimeUnit.HOURS);
     }
 
     @Override
