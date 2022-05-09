@@ -325,7 +325,18 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             if (StringUtils.isEmpty(item.getDistance())) {
                 item.setDistance("");
             } else {
-                item.setDistance(item.getDistance().split("\\.")[0]);
+                String distance = "0km";
+                try {
+                    Integer dis = Integer.valueOf(item.getDistance().split("\\.")[0]);
+                    if (dis > 100) {
+                        distance = ">100km";
+                    } else {
+                        distance = dis + "km";
+                    }
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+                item.setDistance(distance);
             }
             if (StringUtils.isEmpty(item.getDateStatus())) {
                 item.setDateStatus("想聊天");
