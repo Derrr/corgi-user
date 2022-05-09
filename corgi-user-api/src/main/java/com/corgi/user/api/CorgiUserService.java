@@ -47,6 +47,8 @@ public interface CorgiUserService {
 
     List<UserProfile> getAllNearByUserProfile(UserQuery userQuery);
 
+    List<UserProfile> getAllUsers(String userId, Integer pageSize);
+
     List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize);
 
     List<UserProfile> searchInfluencer(UserDetail userDetail, String userId, Integer page, Integer pageSize);

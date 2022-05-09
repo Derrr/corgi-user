@@ -277,6 +277,11 @@ public interface CorgiUserMapper {
     UserProfile getUserProfile(@Param("userId") String userId);
 
     /**
+     * 分页查询用户
+     */
+    List<UserProfile> getUserProfileByPage( @Param("userId") String userId, @Param("size") int size);
+
+    /**
      * 查询用户
      *
      * @param userDetail

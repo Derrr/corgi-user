@@ -1,7 +1,6 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.common.CorgiConstants;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
@@ -11,7 +10,6 @@ import com.corgi.mapper.*;
 import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiUserDateService;
 import com.corgi.user.api.CorgiUserFollowService;
-import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.*;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.utils.UserUtils;
@@ -345,6 +343,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
         userProfiles = this.populateUserProfileAll(userProfiles, null, true);
         return userProfiles;
+    }
+
+    @Override
+    public List<UserProfile> getAllUsers(String userId, Integer pageSize) {
+        return corgiUserMapper.getUserProfileByPage(userId, pageSize);
     }
 
     @Override
