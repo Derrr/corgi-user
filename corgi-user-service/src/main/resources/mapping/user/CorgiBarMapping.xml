@@ -52,6 +52,9 @@
             <if test="bar.spending != null and bar.spending != ''">
                 `spending` = #{bar.spending},
             </if>
+            <if test="bar.qrCode != null and bar.qrCode != ''">
+                `qr_code` = #{bar.qrCode},
+            </if>
 
         </set>
         where bar_id = #{bar.barId}
@@ -78,6 +81,7 @@
         `start_time` startTime,
         `end_time` endTime,
         `spending`,
+        `qr_code` qrCode,
         `ctime`
         from corgi_bar_detail
         <if test="status != null and status != ''">
@@ -102,6 +106,7 @@
         `start_time` startTime,
         `end_time` endTime,
         `spending`,
+        `qr_code` qrCode,
         `ctime`
         from corgi_bar_detail
         <if test="status != null and status != ''">
@@ -125,6 +130,7 @@
         b.`start_time` startTime,
         b.`end_time` endTime,
         b.`spending`,
+        b.`qr_code` qrCode,
         b.city
         from corgi_bar_detail b
         <if test="lat == null or lng == null">
@@ -169,6 +175,7 @@
                `start_time` startTime,
                `end_time`   endTime,
                `spending`,
+               `qr_code` qrCode,
                `detail`,
                `ctime`
         from corgi_bar_detail
@@ -199,6 +206,7 @@
         `start_time` startTime,
         `end_time` endTime,
         `spending`,
+        `qr_code` qrCode,
         `ctime`
         from corgi_bar_detail
         where 1=1
@@ -237,6 +245,7 @@
                `end_time`   endTime,
                `detail`,
                `spending`,
+               `qr_code` qrCode,
                `ctime`
         from corgi_bar_detail
         where `account` = #{account}
