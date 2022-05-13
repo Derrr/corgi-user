@@ -159,6 +159,14 @@
             limit #{size}
     </select>
 
+    <select id="getBarActivityByRange" resultType="java.lang.String">
+        select c.activity_id
+        from corgi_bar_detail b
+                 left join corgi_activity_creator c on c.creator_id = b.bar_id
+        where d.status = '1'
+        order by st_distance_sphere(point(#{lng}, #{lat}), point(b.lng, b.lat)), c.ctime desc
+            limit #{start}, #{size}
+    </select>
 
     <select id="getBar" resultType="com.corgi.user.entity.BarProfile">
         select bar_id       barId,
@@ -175,7 +183,7 @@
                `start_time` startTime,
                `end_time`   endTime,
                `spending`,
-               `qr_code` qrCode,
+               `qr_code`    qrCode,
                `detail`,
                `ctime`
         from corgi_bar_detail
@@ -245,7 +253,7 @@
                `end_time`   endTime,
                `detail`,
                `spending`,
-               `qr_code` qrCode,
+               `qr_code`    qrCode,
                `ctime`
         from corgi_bar_detail
         where `account` = #{account}

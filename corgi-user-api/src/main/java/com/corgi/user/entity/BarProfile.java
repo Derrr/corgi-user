@@ -40,4 +40,17 @@ public class BarProfile implements Serializable {
     List<BarPic> barPics;
 
     private String video;
+
+    public String getType() {
+        if (barId == null) {
+            return "";
+        }
+        if (this.barId.startsWith("B")) {
+            return "platform";
+        }
+        if (this.barId.startsWith("C")) {
+            return "user";
+        }
+        return "";
+    }
 }

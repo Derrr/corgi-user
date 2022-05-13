@@ -113,6 +113,9 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         }
         String maxBarId = corgiBarMapper.getMaxBarId(prefix);
         barProfile.setBarId(createBarId(maxBarId, prefix));
+        if (StringUtils.isEmpty(barProfile.getStatus())) {
+            barProfile.setStatus(BarProfile.STATUS_ENABLE);
+        }
         corgiBarMapper.addBar(barProfile);
     }
 
@@ -144,6 +147,12 @@ public class CorgiBarServiceImpl implements CorgiBarService {
             barProfile.setVideo(userVideos.get(0).getVideoUrl());
         }
         return barProfile;
+    }
+
+    @Override
+    public List<String> getBarActivityByPage(String barId, Integer page, Integer pageSize) {
+        BarProfile profile = corgiBarMapper.getBar(barId);
+        return corgiBarMapper.getBarActivityByRange(profile.getLat(), profile.getLng(), (page - 1) * pageSize, pageSize);
     }
 
     private String createBarId(String maxBarId, String prefix) {

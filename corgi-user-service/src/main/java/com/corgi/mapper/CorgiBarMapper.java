@@ -101,4 +101,10 @@ public interface CorgiBarMapper {
      */
     BarProfile getBarByAccount(@Param("account")String account, @Param("password")String password);
 
+    /**
+     * 获取相关动态
+     * @return
+     */
+    List<String> getBarActivityByRange(@Param("lat")Double lat, @Param("lng")Double lng, @Param("start")Integer start, @Param("size")Integer size);
+
 }
