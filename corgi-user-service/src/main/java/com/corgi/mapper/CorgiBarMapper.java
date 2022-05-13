@@ -105,6 +105,6 @@ public interface CorgiBarMapper {
      * 获取相关动态
      * @return
      */
-    List<String> getBarActivityByRange(@Param("lat")Double lat, @Param("lng")Double lng, @Param("start")Integer start, @Param("size")Integer size);
+    List<String> getBarActivityByRange(@Param("barId")String barId, @Param("lat")Double lat, @Param("lng")Double lng, @Param("start")Integer start, @Param("size")Integer size);
 
 }

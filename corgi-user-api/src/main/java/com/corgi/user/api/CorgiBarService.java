@@ -28,5 +28,5 @@ public interface CorgiBarService {
 
     BarProfile getBarByAccount(String account, String password);
 
-    List<String> getBarActivityByPage(String barId, Integer page,Integer pageSize);
+    List<String> getBarAroundActivity(String barId, Integer page,Integer pageSize);
 }

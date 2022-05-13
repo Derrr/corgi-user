@@ -150,9 +150,9 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     }
 
     @Override
-    public List<String> getBarActivityByPage(String barId, Integer page, Integer pageSize) {
+    public List<String> getBarAroundActivity(String barId, Integer page, Integer pageSize) {
         BarProfile profile = corgiBarMapper.getBar(barId);
-        return corgiBarMapper.getBarActivityByRange(profile.getLat(), profile.getLng(), (page - 1) * pageSize, pageSize);
+        return corgiBarMapper.getBarActivityByRange(barId, profile.getLat(), profile.getLng(), (page - 1) * pageSize, pageSize);
     }
 
     private String createBarId(String maxBarId, String prefix) {
