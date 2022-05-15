@@ -191,6 +191,13 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     order.setResult("user market can not be found");
                     corgiOrderMapper.addLog(order);
                 }
+            } else {
+                goods.setGoodsType(merchandise.getType());
+                goods.setGoodsId(merchandise.getId());
+                goods.setTraderId("corgi");
+                goods.setMarketId("-");
+                goods.setDesc("购买成功");
+                corgiOrderMapper.addGoods(goods);
             }
         } finally {
             this.unlock(key);
