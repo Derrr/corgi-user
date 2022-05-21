@@ -131,8 +131,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     @Override
     public String buy(String tradeNo) {
         String key = "buying_goods_" + tradeNo;
-        this.lock(key);
         try {
+            this.lock(key);
             CorgiOrder order = corgiOrderMapper.getOrderByTradeNo(tradeNo);
             if (corgiOrderMapper.countGoodsByTradeNo(tradeNo) > 0) {
                 return null;
