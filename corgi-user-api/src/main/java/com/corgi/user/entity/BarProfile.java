@@ -35,6 +35,7 @@ public class BarProfile implements Serializable {
     private Long relActivityCount;
     private String cuid;
     private String qrCode;
+    private String picUrl;
 
     Integer activityCount;
     List<BarPic> barPics;

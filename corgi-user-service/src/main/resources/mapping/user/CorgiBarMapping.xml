@@ -5,10 +5,10 @@
     <insert id="addBar" parameterType="com.corgi.user.entity.BarProfile">
         INSERT INTO `corgi_bar_detail`
         (`bar_id`, `bar_name`, `address`, `lat`, `lng`, `tel`, `range`, `logo`, `status`, `city`, `start_time`,
-         `end_time`, `detail`, `spending`, `cuid`, `qr_code`)
+         `end_time`, `detail`, `spending`, `cuid`, `qr_code`,`pic_url`)
         VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range},
                 #{bar.logo}, #{bar.status}, #{bar.city}, #{bar.startTime}, #{bar.endTime}, #{bar.detail},
-                #{bar.spending}, #{bar.cuid}, #{bar.qrCode})
+                #{bar.spending}, #{bar.cuid}, #{bar.qrCode}, #{picUrl})
     </insert>
     <update id="updateBar" parameterType="com.corgi.user.entity.BarProfile">
         update corgi_bar_detail
@@ -55,6 +55,9 @@
             <if test="bar.qrCode != null and bar.qrCode != ''">
                 `qr_code` = #{bar.qrCode},
             </if>
+            <if test="bar.picUrl != null and bar.picUrl != ''">
+                `pic_url` = #{bar.picUrl},
+            </if>
 
         </set>
         where bar_id = #{bar.barId}
@@ -82,6 +85,7 @@
         `end_time` endTime,
         `spending`,
         `qr_code` qrCode,
+        `pic_url` picUrl,
         `ctime`
         from corgi_bar_detail
         <if test="status != null and status != ''">
@@ -107,6 +111,7 @@
         `end_time` endTime,
         `spending`,
         `qr_code` qrCode,
+        `pic_url` picUrl,
         `ctime`
         from corgi_bar_detail
         <if test="status != null and status != ''">
@@ -131,6 +136,7 @@
         b.`end_time` endTime,
         b.`spending`,
         b.`qr_code` qrCode,
+        b.`pic_url` picUrl,
         b.city
         from corgi_bar_detail b
         <if test="lat == null or lng == null">
@@ -184,6 +190,7 @@
                `end_time`   endTime,
                `spending`,
                `qr_code`    qrCode,
+               `pic_url` picUrl,
                `detail`,
                `ctime`
         from corgi_bar_detail
@@ -215,6 +222,7 @@
         `end_time` endTime,
         `spending`,
         `qr_code` qrCode,
+        `pic_url` picUrl,
         `ctime`
         from corgi_bar_detail
         where 1=1
@@ -257,6 +265,7 @@
                `detail`,
                `spending`,
                `qr_code`    qrCode,
+               `pic_url` picUrl,
                `ctime`
         from corgi_bar_detail
         where `account` = #{account}
