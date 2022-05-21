@@ -41,10 +41,13 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     private CorgiUserFollowService corgiUserFollowService;
     @Autowired
     private CorgiUserService corgiUserService;
-    @Reference
-    private CorgiActivityService corgiActivityService;
+    @Autowired
+    private CorgiPicService corgiPicService;
     @Autowired
     private CorgiVideoService corgiVideoService;
+
+    @Reference
+    private CorgiActivityService corgiActivityService;
 
 
     @Override
@@ -110,6 +113,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         String prefix = "B";
         if (!StringUtils.isEmpty(barProfile.getCuid())) {
             prefix = "C";
+            //barProfile.setStatus(BarProfile.STATUS_DISABLE);
         }
         String maxBarId = corgiBarMapper.getMaxBarId(prefix);
         barProfile.setBarId(createBarId(maxBarId, prefix));
@@ -117,6 +121,16 @@ public class CorgiBarServiceImpl implements CorgiBarService {
             barProfile.setStatus(BarProfile.STATUS_ENABLE);
         }
         corgiBarMapper.addBar(barProfile);
+        if (!CollectionUtils.isEmpty(barProfile.getBarPics())) {
+            for (BarPic pic : barProfile.getBarPics()) {
+                UserPic userPic = new UserPic();
+                userPic.setUserId(barProfile.getBarId());
+                userPic.setPicUrl(pic.getPicUrl());
+                corgiPicService.addUserPic(userPic);
+            }
+        }
+
+
     }
 
     @Override
