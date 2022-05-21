@@ -185,11 +185,14 @@ public class CorgiBarServiceImpl implements CorgiBarService {
 
     private Long countBarHeat(BarProfile barProfile) {
         int interest = corgiUserFollowService.countFollowed(barProfile.getBarId());
-        UserQuery userQuery = new UserQuery();
-        userQuery.setLat(barProfile.getLat());
-        userQuery.setLng(barProfile.getLng());
-        userQuery.setRange(barProfile.getRange() / 1000.0);
-        List<String> userIds = corgiUserService.getAllNearByUser(userQuery);
+        List<String> userIds = new ArrayList<>();
+        if (barProfile.getRange() != null && barProfile.getRange() > 0) {
+            UserQuery userQuery = new UserQuery();
+            userQuery.setLat(barProfile.getLat());
+            userQuery.setLng(barProfile.getLng());
+            userQuery.setRange(barProfile.getRange() / 1000.0);
+            userIds = corgiUserService.getAllNearByUser(userQuery);
+        }
         Long duplicate = corgiBarMapper.countBarFollow(barProfile.getBarId(), String.join("','", userIds));
         return interest + userIds.size() - duplicate;
     }
