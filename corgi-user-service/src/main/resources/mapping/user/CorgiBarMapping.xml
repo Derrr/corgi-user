@@ -8,7 +8,7 @@
          `end_time`, `detail`, `spending`, `cuid`, `qr_code`,`pic_url`)
         VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range},
                 #{bar.logo}, #{bar.status}, #{bar.city}, #{bar.startTime}, #{bar.endTime}, #{bar.detail},
-                #{bar.spending}, #{bar.cuid}, #{bar.qrCode}, #{picUrl})
+                #{bar.spending}, #{bar.cuid}, #{bar.qrCode}, #{bar.picUrl})
     </insert>
     <update id="updateBar" parameterType="com.corgi.user.entity.BarProfile">
         update corgi_bar_detail
