@@ -220,7 +220,7 @@
         price,
         currency,
         trader_id traderId,
-        trade_no traderNo,
+        trade_no tradeNo,
         `desc`
         `status`,
         ctime,
