@@ -357,16 +357,14 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                     item.setTimeShow("在线");
                 } else if (diff < 2 * 3600 * 1000) {
                     item.setTimeShow("刚刚");
-                } else if (diff < 24 * 3600 * 1000) {
-                    item.setTimeShow("今日活跃");
                 } else if (diff < 3 * 24 * 3600 * 1000) {
-                    item.setTimeShow("3日内活跃");
+                    item.setTimeShow("今日");
                 } else {
-                    item.setTimeShow("本周活跃");
+                    item.setTimeShow("本周");
                 }
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
-                item.setTimeShow("本周活跃");
+                item.setTimeShow("本周");
             }
             result.add(item);
             size--;
