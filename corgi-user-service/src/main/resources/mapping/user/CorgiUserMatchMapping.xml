@@ -12,7 +12,7 @@
         if(d.avatar_status = 'influencer','influencer',if(d.vip_status = '1',d.vip_expire,'-')) avatarStatus
         from corgi_user_position p
         left join corgi_user_detail d on d.user_id = p.user_id
-        where p.user_id in('6','2','8','7','593','179432')
+        where p.user_id in('6','2','8','7','593','173649')
           <!-- p.user_id != #{user.userId}
         <if test="timestamp > 0">
             and p.uptime > #{timestamp}
