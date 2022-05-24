@@ -113,7 +113,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         String prefix = "B";
         if (!StringUtils.isEmpty(barProfile.getCuid())) {
             prefix = "C";
-            //barProfile.setStatus(BarProfile.STATUS_DISABLE);
+            barProfile.setStatus(BarProfile.STATUS_CHECKING);
         }
         String maxBarId = corgiBarMapper.getMaxBarId(prefix);
         barProfile.setBarId(createBarId(maxBarId, prefix));
