@@ -12,6 +12,8 @@ import java.util.List;
 public class BarProfile implements Serializable {
     public static String STATUS_ENABLE = "1";
     public static String STATUS_DISABLE = "0";
+    public static String STATUS_CHECKING = "2";
+    public static String STATUS_REFUSE = "3";
 
     private String barId;
     private String barName;
