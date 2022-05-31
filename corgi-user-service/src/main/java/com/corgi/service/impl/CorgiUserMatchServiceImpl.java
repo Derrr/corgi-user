@@ -59,8 +59,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                     userIds, nowTime, nowDate, 6 - users.size()));
         }
         if (userIds.size() < 6) {
-            String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            userMatchMapper.updateMatchViewByDate(date, userQuery.getUserId());
+            userMatchMapper.updateMatchViewByDate(null, userQuery.getUserId());
             users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
                     userIds, nowTime, nowDate, 6 - users.size()));
         }

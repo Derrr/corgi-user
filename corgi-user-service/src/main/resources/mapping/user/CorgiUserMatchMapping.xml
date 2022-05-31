@@ -47,7 +47,10 @@
     <update id="updateMatchViewByDate">
         update corgi_user_match_view
         set status = '0'
-        where ctime &lt; #{date}
+        where status = '1'
+        <if test="date != null and date != ''">
+            and ctime &lt; #{date}
+        </if>
         <if test="userId != null and userId != ''">
             and user_id = #{userId}
         </if>
@@ -56,7 +59,8 @@
     <update id="updateMatchByDate">
         update corgi_user_match
         set status = '0'
-        where ctime &lt; #{date}
+        where status = '1'
+          and ctime &lt; #{date}
     </update>
 
     <select id="countMatchByRange" resultType="java.lang.Integer">
