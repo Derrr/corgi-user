@@ -58,12 +58,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
                     userIds, nowTime, nowDate, 6 - users.size()));
         }
-        if (userIds.size() < 6) {
+        if (users.size() < 6) {
             userMatchMapper.updateMatchViewByDate(null, userQuery.getUserId());
             users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
                     userIds, nowTime, nowDate, 6 - users.size()));
         }
-        if (userIds.size() < 6) {
+        if (users.size() < 6) {
             return new ArrayList<>();
         }
         for (String userId : userIds) {
