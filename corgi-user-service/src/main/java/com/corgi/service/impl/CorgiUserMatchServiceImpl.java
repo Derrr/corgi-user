@@ -1,13 +1,16 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.common.CorgiConstants;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.mapper.CorgiUserMatchMapper;
 import com.corgi.support.MatchSupporter;
+import com.corgi.support.UserQuerySupporter;
+import com.corgi.user.api.CorgiOrderService;
 import com.corgi.user.api.CorgiUserMatchService;
-import com.corgi.user.entity.UserDetail;
-import com.corgi.user.entity.UserMatch;
+import com.corgi.user.entity.*;
+import com.corgi.user.enums.MerchandiseEnum;
 import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -28,12 +32,92 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     private static final String UNKNOWN = "未知";
+    private static final String REMAIN = "剩余:%d次";
     @Autowired
     private CorgiUserMatchMapper userMatchMapper;
     @Autowired
     private CorgiUserMapper userMapper;
+    @Reference
+    private CorgiOrderService corgiOrderService;
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Override
+    public List<UserMatchItem> getUserMatchItem(UserQuery userQuery) {
+        Calendar calendar = Calendar.getInstance();
+        Long nowTime = calendar.getTimeInMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String nowDate = sdf.format(calendar.getTime());
+        calendar.add(Calendar.MINUTE, -5);
+        List<String> userIds = new ArrayList<>();
+        this.buildQueryString(userQuery);
+        List<UserMatchItem> users = userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6);
+        users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
+        if (users.size() < 6) {
+            calendar.add(Calendar.DATE, -7);
+            users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
+                    userIds, nowTime, nowDate, 6 - users.size()));
+        }
+        for (String userId : userIds) {
+            userMatchMapper.addMatchView(userQuery.getUserId(), userId);
+        }
+        return users;
+    }
+
+    @Override
+    public Integer countAllMatcher(UserQuery userQuery) {
+        UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -30);
+        return userMatchMapper.countMatchByRange(supporter, calendar.getTimeInMillis());
+    }
+
+    @Override
+    public void clearMatchByDate(String date) {
+        userMatchMapper.updateMatchByDate(date);
+    }
+
+    @Override
+    public void clearMatchViewByDate(String date) {
+        userMatchMapper.updateMatchViewByDate(date);
+    }
+
+    @Override
+    public List<UserMatchRemain> countUserRemain(String userId) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        List<UserMatchRemain> remains = new ArrayList<>();
+        UserMatchRemain remain0 = new UserMatchRemain();
+        remain0.setUserId(userId);
+        remain0.setTradeNo("0");
+        remain0.setRemain(30 - userMatchMapper.countMatch(userId, "0", sdf.format(calendar.getTime())));
+        remains.add(remain0);
+
+        calendar.add(Calendar.DATE, -1);
+        CorgiUserGoods query = new CorgiUserGoods();
+        query.setUserId(userId);
+        query.setGoodsType(CorgiUserGoods.GOODS_TYPE.MATCH);
+        query.setCtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime()));
+        query.setStart(0);
+        query.setSize(100);
+        List<CorgiUserGoods> goods = corgiOrderService.getUserGoods(query);
+        if (!CollectionUtils.isEmpty(goods)) {
+            for (CorgiUserGoods goods1 : goods) {
+                UserMatchRemain remain = new UserMatchRemain();
+                remain.setUserId(userId);
+                remain.setTradeNo(goods1.getTradeNo());
+                Integer total = MerchandiseEnum.getByCode(goods1.getMerchId()).getDays();
+                remain.setRemain(total - userMatchMapper.countMatch(userId, goods1.getTradeNo(), null));
+                remains.add(1, remain);
+            }
+        }
+        return remains;
+    }
+
+    @Override
+    public void addUserMatch(String userId, String matchId, String tradeNo) {
+        userMatchMapper.addMatch(userId, matchId, tradeNo);
+    }
 
     @Override
     public Double calculateUserMatch(String userId1, String userId2) {
@@ -153,31 +237,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public Double getUserMatch(String userId1, String userId2) {
-//        String matchKey = CorgiConstants.getUserMatchKey(userId1, userId2);
-//        String matchStr = redisTemplate.opsForValue().get(matchKey);
-//        log.info("match key:{}, value:{}", matchKey, matchStr + "");
-//        if (StringUtils.isEmpty(matchStr)) {
-            Double match = userMatchMapper.getMatchCache(userId1, userId2);
-            if (match == null) {
-                match = this.calculateUserMatch(userId1, userId2);
-                userMatchMapper.addMatchCache(userId1, userId2, match);
-            }
-//            redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
-            return match;
-//        }
-//        Double match = null;
-//        try {
-//            match = Double.valueOf(matchStr);
-//        } catch (Exception e) {
-//            log.error(e.getMessage());
-//        }
-//        if (match == null) {
-//            match = this.calculateUserMatch(userId1, userId2);
-//            if (match != null) {
-//                redisTemplate.opsForValue().set(matchKey, match.toString(), 7L, TimeUnit.DAYS);
-//            }
-//        }
-//        return match;
+        Double match = userMatchMapper.getMatchCache(userId1, userId2);
+        if (match == null) {
+            match = this.calculateUserMatch(userId1, userId2);
+            userMatchMapper.addMatchCache(userId1, userId2, match);
+        }
+        return match;
     }
 
     @Override
@@ -210,6 +275,101 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
         }
         return null;
+    }
+
+    private void buildQueryString(UserQuery query) {
+        StringBuilder sb = new StringBuilder();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        if (!CollectionUtils.isEmpty(query.getDateStatus())) {
+            sb.append(" and d.date_status in('").append(String.join("','", query.getDateStatus()));
+            if (query.getDateStatus().contains("想聊天")) {
+                sb.append("','");
+            }
+            sb.append("') ");
+        }
+        if (!CollectionUtils.isEmpty(query.getGroup())) {
+            sb.append(" and d.group in('").append(String.join("','", query.getGroup())).append("') ");
+        }
+        if (!CollectionUtils.isEmpty(query.getRole())) {
+            sb.append(" and d.role in('").append(String.join("','", query.getRole())).append("') ");
+        }
+        if (!StringUtils.isEmpty(query.getStartAge())) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, -1 * query.getStartAge());
+            sb.append(" and d.birthday < '").append(sdf.format(calendar.getTime())).append("' ");
+        }
+        if (!StringUtils.isEmpty(query.getEndAge())) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, -1 * query.getEndAge());
+            sb.append(" and d.birthday > '").append(sdf.format(calendar.getTime())).append("' ");
+        }
+        if ("verify".equals(query.getType())) {
+            sb.append(" and d.avatar_check_status = 'verified' ");
+        }
+        query.setResult(sb.toString());
+    }
+
+    private List<UserMatchItem> buildUsers(List<UserMatchItem> items, List<String> userIds, Long nowTime, String nowTimeDate, int size) {
+        List<UserMatchItem> result = new ArrayList<>();
+        if (CollectionUtils.isEmpty(items)) {
+            return result;
+        }
+        for (UserMatchItem item : items) {
+            if (size <= 0) {
+                return result;
+            }
+            if (userIds.contains(item.getUserId())) {
+                continue;
+            }
+            userIds.add(item.getUserId());
+            if (StringUtils.isEmpty(item.getDistance())) {
+                item.setDistance("");
+            } else {
+                String distance = "0km";
+                try {
+                    Integer dis = Integer.valueOf(item.getDistance().split("\\.")[0]);
+                    if (dis > 100) {
+                        distance = ">100km";
+                    } else {
+                        distance = dis + "km";
+                    }
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+                item.setDistance(distance);
+            }
+            if (StringUtils.isEmpty(item.getDateStatus())) {
+                item.setDateStatus("想聊天");
+            }
+            if (StringUtils.isEmpty(item.getAvatarStatus()) || "-".equals(item.getAvatarStatus())) {
+                item.setAvatarStatus("");
+            } else if ("influencer".equals(item.getAvatarStatus())) {
+                item.setAvatarStatus("influencer");
+            } else if (nowTimeDate.compareTo(item.getAvatarStatus()) < 0) {
+                item.setAvatarStatus("vip");
+            } else {
+                item.setAvatarStatus("");
+            }
+            try {
+                Long timestamp = Long.valueOf(item.getTimeShow());
+                Long diff = nowTime - timestamp;
+                if (diff < 5 * 60 * 1000) {
+                    item.setTimeShow("在线");
+                } else if (diff < 2 * 3600 * 1000) {
+                    item.setTimeShow("刚刚");
+                } else if (diff < 3 * 24 * 3600 * 1000) {
+                    item.setTimeShow("今日");
+                } else {
+                    item.setTimeShow("本周");
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                item.setTimeShow("本周");
+            }
+            result.add(item);
+            size--;
+        }
+        return result;
     }
 
 }

@@ -1,7 +1,6 @@
 package com.corgi.user.api;
 
-import com.corgi.user.entity.UserDetail;
-import com.corgi.user.entity.UserMatch;
+import com.corgi.user.entity.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +9,20 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiUserMatchService {
+
+    List<UserMatchItem> getUserMatchItem(UserQuery userQuery);
+
+    Integer countAllMatcher(UserQuery userQuery);
+
+    void clearMatchByDate(String date);
+
+    void clearMatchViewByDate(String date);
+
+    List<UserMatchRemain> countUserRemain(String userId);
+
+    void addUserMatch(String userId, String matchId, String tradeNo);
+
+    /* -- History Deprecated -- */
 
     Double calculateUserMatch(String userId1, String userId2);
 

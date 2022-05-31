@@ -277,6 +277,24 @@
         and user_id != #{userId}
     </select>
 
+    <select id="getRecommendUserByUserId" resultType="com.corgi.user.entity.UserProfile">
+        select d.user_id userId,
+               d.nickname,
+               d.avatar,
+               count(1) count
+        from corgi_user_follow f1 left join corgi_user_follow f2
+        on f2.user_id = f1.user_id
+            and f2.is_deleted = '0' and f2.follow_user_id != #{userId}
+            join corgi_user_detail d on d.user_id = f2.follow_user_id
+        where f1.follow_user_id = #{userId}
+          and f1.is_deleted = '0'
+          and f1.type = 'real'
+          and d.user_id != #{userId}
+        group by d.user_id
+        order by count desc
+            limit 8
+    </select>
+
     <select id="getRecommendUser" resultType="com.corgi.user.entity.UserProfile">
         select d.user_id userId,
                d.nickname,
@@ -568,6 +586,28 @@
         where p.user_id in ${inValue}
     </select>
 
+    <select id="getUserProfileByPage" resultType="com.corgi.user.entity.UserProfile">
+        select d.user_id             userId,
+               d.nickname            nickname,
+               d.check_nickname      checkNickname,
+               d.avatar              avatar,
+               d.avatar_status       avatarStatus,
+               d.avatar_check_status avatarCheckStatus,
+               d.role                role,
+               d.hide_role           hideRole,
+               d.group               `group`,
+               d.hide_group          `hideGroup`,
+               d.hide_prefer_group   `hidePreferGroup`,
+               d.con                 con,
+               d.relation,
+               d.desc,
+               d.check_desc          checkDesc,
+               d.cime                createTime,
+               d.check_status        checkStatus
+        from corgi_user_detail d
+        where d.user_id > #{userId} limit #{size}
+    </select>
+
     <select id="queryUserProfile" resultType="com.corgi.user.entity.UserProfile">
         select
         d.user_id userId,
@@ -594,9 +634,6 @@
         left join corgi_user_position p on p.user_id = d.user_id
         left join corgi_user_login l on l.id = d.user_id
         where 1=1
-        <if test="userDetail.version != null and userDetail.version != ''">
-            and right(p.version,5) >= #{userDetail.version}
-        </if>
         <if test="userDetail.nickname != null and userDetail.nickname != ''">
             and UPPER(`nickName`) like UPPER(concat('%',#{userDetail.nickname},'%'))
         </if>
@@ -643,7 +680,8 @@
             and d.avatar_status = #{userDetail.avatarStatus}
         </if>
         <if test="userDetail.avatarStatus != null and userDetail.avatarStatus == 'vip'">
-            and (d.avatar_status = 'influencer' or (d.vip_status = '1' and d.vip_expire &lt; date_format(NOW(),'%Y-%m-%d %H:%i:%s')))
+            and (d.avatar_status = 'influencer' or (d.vip_status = '1' and d.vip_expire &lt; date_format(NOW(),'%Y-%m-%d
+            %H:%i:%s')))
         </if>
         <if test="userDetail.avatarStatus != null and userDetail.avatarStatus == 'pay'">
             and exists (select 1 from corgi_user_goods g where g.user_id = d.user_id)

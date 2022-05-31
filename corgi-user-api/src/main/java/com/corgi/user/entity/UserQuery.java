@@ -15,17 +15,19 @@ public class UserQuery implements Serializable {
     private Double lng;
     private Double range;
     private List<String> relation;
+    private List<String> dateStatus;
     private String nickname;
     private List<String> role;
     private List<String> group;
     private Integer startHeight;
     private Integer endHeight;
+    private Integer startAge;
+    private Integer endAge;
     private Integer startWeight;
     private Integer endWeight;
-    private Integer startMatch;
-    private Integer endMatch;
     private String follow;
     private String type;
     private Integer limit;
     private String city;
+    private String result;
 }

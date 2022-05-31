@@ -1,41 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiUserMatchMapper">
+
+    <select id="getMatchByTime" resultType="com.corgi.user.entity.UserMatchItem">
+        select p.user_id userId,
+        d.avatar,
+        d.nickname,
+        st_distance(p.pt, point(#{user.lng},#{user.lat}))*111.195 distance,
+        d.date_status dateStatus,
+        p.uptime timeShow,
+        if(d.avatar_status = 'influencer','influencer',if(d.vip_status = '1',d.vip_expire,'-')) avatarStatus
+        from corgi_user_position p
+        left join corgi_user_detail d on d.user_id = p.user_id
+        where
+        p.user_id != #{user.userId}
+        <if test="timestamp > 0">
+            and p.uptime > #{timestamp}
+        </if>
+        <if test="user.result != ''">
+            ${user.result}
+        </if>
+        and not exists (select 1
+        from corgi_user_match m
+        where m.user_id = #{user.userId}
+        and m.match_id = p.user_id
+        and status = '1')
+        and not exists (select 1
+        from corgi_user_match_view v
+        where v.user_id = #{user.userId}
+        and v.match_id = p.user_id
+        and status = '1')
+        order by distance
+        limit #{size};
+    </select>
+
+    <insert id="addMatch">
+        insert into corgi_user_match(`user_id`, `match_id`, `trade_no`)
+        values (#{userId}, #{matchId}, #{tradeNo})
+    </insert>
+
+    <insert id="addMatchView">
+        insert into corgi_user_match_view(`user_id`, `match_id`)
+        values (#{userId}, #{matchId})
+    </insert>
+
+    <update id="updateMatchViewByDate">
+        update corgi_user_match_view
+        set status = '0'
+        where ctime &lt; #{date}
+    </update>
+
+    <update id="updateMatchByDate">
+        update corgi_user_match
+        set status = '0'
+        where ctime &lt; #{date}
+    </update>
+
+    <select id="countMatchByRange" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_user_position p
+        where p.uptime > #{timestamp}
+          and p.lat > #{query.beginLat}
+          and p.lat &lt; #{query.endLat}
+          and p.lng > #{query.beginLng}
+          and p.lng &lt; #{query.endLng}
+    </select>
+
+    <select id="countMatch" resultType="java.lang.Integer">
+        select count(1) from corgi_user_match
+        where trade_no = #{tradeNo} and user_id = #{userId}
+        <if test="date != null and date != ''">
+            and ctime > #{date}
+        </if>
+    </select>
+
+
     <select id="getGroupMatch" resultType="java.lang.Integer">
-        select max(`match`) from corgi_match_group
-        where group1 in (${group1}) and group2 = #{group2}
+        select max(`match`)
+        from corgi_match_group
+        where group1 in (${group1})
+          and group2 = #{group2}
     </select>
 
     <select id="getCharacterMatch" resultType="java.lang.Integer">
-        select sum(`match`) from corgi_match_character
-        where ctr1 = #{ctr1} and ctr2 = #{ctr2}
+        select sum(`match`)
+        from corgi_match_character
+        where ctr1 = #{ctr1}
+          and ctr2 = #{ctr2}
     </select>
 
     <select id="getRoleMatch" resultType="java.lang.Integer">
-        select sum(`match`) from corgi_match_role
-        where role1 = #{role1} and role2 = #{role2}
+        select sum(`match`)
+        from corgi_match_role
+        where role1 = #{role1}
+          and role2 = #{role2}
     </select>
 
-
     <insert id="addMatchCache">
-        insert ignore into corgi_match_cache (`user_id1`, `user_id2`, `match`)
-        values (#{userId1}, #{userId2}, #{match});
+        insert
+        ignore into corgi_match_cache (`user_id1`, `user_id2`, `match`)
+        values (
+        #{userId1},
+        #{userId2},
+        #{match}
+        );
     </insert>
 
     <update id="updateMatchCache">
-        update corgi_match_cache set `match` = #{match}
-        where user_id1 = #{userId1} and user_id2 = #{userId2}
+        update corgi_match_cache
+        set `match` = #{match}
+        where user_id1 = #{userId1}
+          and user_id2 = #{userId2}
     </update>
 
     <delete id="deleteMatchCache">
-        delete from corgi_match_cache
-        where user_id1 = #{userId1} and user_id2 = #{userId2}
+        delete
+        from corgi_match_cache
+        where user_id1 = #{userId1}
+          and user_id2 = #{userId2}
     </delete>
 
     <select id="getMatchCache" resultType="java.lang.Double">
-        select max(`match`) from corgi_match_cache
+        select max(`match`)
+        from corgi_match_cache
         where (user_id1 = #{userId1} and user_id2 = #{userId2})
-        or (user_id2 = #{userId1} and user_id1 = #{userId2})
+           or (user_id2 = #{userId1} and user_id1 = #{userId2})
     </select>
 
     <select id="getMatchByPage" resultType="com.corgi.user.entity.UserMatch">
@@ -48,12 +137,14 @@
     </select>
 
     <select id="getMatchFactor" resultType="java.util.HashMap">
-        select * from corgi_match_${table}
+        select *
+        from corgi_match_${table}
     </select>
 
     <update id="updateMatchFactor">
         update corgi_match_${table}
         set `match` = #{match}
-        where ${cn1} = #{cv1} and ${cn2} = #{cv2}
+        where ${cn1} = #{cv1}
+          and ${cn2} = #{cv2}
     </update>
 </mapper>

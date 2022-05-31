@@ -5,10 +5,10 @@
     <insert id="addBar" parameterType="com.corgi.user.entity.BarProfile">
         INSERT INTO `corgi_bar_detail`
         (`bar_id`, `bar_name`, `address`, `lat`, `lng`, `tel`, `range`, `logo`, `status`, `city`, `start_time`,
-         `end_time`, `detail`, `spending`)
+         `end_time`, `detail`, `spending`, `cuid`, `qr_code`,`pic_url`)
         VALUES (#{bar.barId}, #{bar.barName}, #{bar.address}, #{bar.lat}, #{bar.lng}, #{bar.tel}, #{bar.range},
                 #{bar.logo}, #{bar.status}, #{bar.city}, #{bar.startTime}, #{bar.endTime}, #{bar.detail},
-                #{bar.spending})
+                #{bar.spending}, #{bar.cuid}, #{bar.qrCode}, #{bar.picUrl})
     </insert>
     <update id="updateBar" parameterType="com.corgi.user.entity.BarProfile">
         update corgi_bar_detail
@@ -52,6 +52,12 @@
             <if test="bar.spending != null and bar.spending != ''">
                 `spending` = #{bar.spending},
             </if>
+            <if test="bar.qrCode != null and bar.qrCode != ''">
+                `qr_code` = #{bar.qrCode},
+            </if>
+            <if test="bar.picUrl != null and bar.picUrl != ''">
+                `pic_url` = #{bar.picUrl},
+            </if>
 
         </set>
         where bar_id = #{bar.barId}
@@ -60,6 +66,7 @@
     <select id="getMaxBarId" resultType="java.lang.String">
         select max(bar_id)
         from corgi_bar_detail
+        where bar_id like concat(#{prefix}, '%')
     </select>
 
     <select id="getBarList" resultType="com.corgi.user.entity.BarProfile">
@@ -77,6 +84,8 @@
         `start_time` startTime,
         `end_time` endTime,
         `spending`,
+        `qr_code` qrCode,
+        `pic_url` picUrl,
         `ctime`
         from corgi_bar_detail
         <if test="status != null and status != ''">
@@ -101,6 +110,8 @@
         `start_time` startTime,
         `end_time` endTime,
         `spending`,
+        `qr_code` qrCode,
+        `pic_url` picUrl,
         `ctime`
         from corgi_bar_detail
         <if test="status != null and status != ''">
@@ -124,6 +135,8 @@
         b.`start_time` startTime,
         b.`end_time` endTime,
         b.`spending`,
+        b.`qr_code` qrCode,
+        b.`pic_url` picUrl,
         b.city
         from corgi_bar_detail b
         <if test="lat == null or lng == null">
@@ -152,6 +165,14 @@
             limit #{size}
     </select>
 
+    <select id="getBarActivityByRange" resultType="java.lang.String">
+        select c.activity_id
+        from corgi_bar_detail b
+                 left join corgi_activity_creator c on c.creator_id = b.bar_id
+        where b.status = '1' and b.bar_id != #{barId} and c.activity_id is not null
+        order by st_distance_sphere(point(#{lng}, #{lat}), point(b.lng, b.lat)), c.ctime desc
+            limit #{start}, #{size}
+    </select>
 
     <select id="getBar" resultType="com.corgi.user.entity.BarProfile">
         select bar_id       barId,
@@ -168,6 +189,8 @@
                `start_time` startTime,
                `end_time`   endTime,
                `spending`,
+               `qr_code`    qrCode,
+               `pic_url` picUrl,
                `detail`,
                `ctime`
         from corgi_bar_detail
@@ -198,11 +221,16 @@
         `start_time` startTime,
         `end_time` endTime,
         `spending`,
+        `qr_code` qrCode,
+        `pic_url` picUrl,
         `ctime`
         from corgi_bar_detail
         where 1=1
         <if test="bar.barName != null and bar.barName != ''">
             and (bar_name like concat('%',#{bar.barName},'%') or address like concat('%',#{bar.address},'%'))
+        </if>
+        <if test="bar.barId != null and bar.barId != ''">
+            and bar_id = #{bar.barId}
         </if>
         <if test="bar.status != null and bar.status != ''">
             and `status` = #{bar.status}
@@ -236,6 +264,8 @@
                `end_time`   endTime,
                `detail`,
                `spending`,
+               `qr_code`    qrCode,
+               `pic_url` picUrl,
                `ctime`
         from corgi_bar_detail
         where `account` = #{account}

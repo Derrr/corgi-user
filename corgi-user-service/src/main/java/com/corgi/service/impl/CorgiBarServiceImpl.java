@@ -41,10 +41,13 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     private CorgiUserFollowService corgiUserFollowService;
     @Autowired
     private CorgiUserService corgiUserService;
-    @Reference
-    private CorgiActivityService corgiActivityService;
+    @Autowired
+    private CorgiPicService corgiPicService;
     @Autowired
     private CorgiVideoService corgiVideoService;
+
+    @Reference
+    private CorgiActivityService corgiActivityService;
 
 
     @Override
@@ -107,9 +110,27 @@ public class CorgiBarServiceImpl implements CorgiBarService {
 
     @Override
     public void addBarProfile(BarProfile barProfile) {
-        String maxBarId = corgiBarMapper.getMaxBarId();
-        barProfile.setBarId(createBarId(maxBarId));
+        String prefix = "B";
+        if (!StringUtils.isEmpty(barProfile.getCuid())) {
+            prefix = "C";
+            barProfile.setStatus(BarProfile.STATUS_CHECKING);
+        }
+        String maxBarId = corgiBarMapper.getMaxBarId(prefix);
+        barProfile.setBarId(createBarId(maxBarId, prefix));
+        if (StringUtils.isEmpty(barProfile.getStatus())) {
+            barProfile.setStatus(BarProfile.STATUS_ENABLE);
+        }
         corgiBarMapper.addBar(barProfile);
+        if (!CollectionUtils.isEmpty(barProfile.getBarPics())) {
+            for (BarPic pic : barProfile.getBarPics()) {
+                UserPic userPic = new UserPic();
+                userPic.setUserId(barProfile.getBarId());
+                userPic.setPicUrl(pic.getPicUrl());
+                corgiPicService.addUserPic(userPic);
+            }
+        }
+
+
     }
 
     @Override
@@ -142,9 +163,15 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         return barProfile;
     }
 
-    private String createBarId(String maxBarId) {
+    @Override
+    public List<String> getBarAroundActivity(String barId, Integer page, Integer pageSize) {
+        BarProfile profile = corgiBarMapper.getBar(barId);
+        return corgiBarMapper.getBarActivityByRange(barId, profile.getLat(), profile.getLng(), (page - 1) * pageSize, pageSize);
+    }
+
+    private String createBarId(String maxBarId, String prefix) {
         if (StringUtils.isEmpty(maxBarId)) {
-            return "B0001";
+            return prefix + "0001";
         }
         String index = (Integer.valueOf(maxBarId.substring(1)) + 1) + "";
         if (index.length() < 4) {
@@ -153,17 +180,22 @@ public class CorgiBarServiceImpl implements CorgiBarService {
                 index = "0" + index;
             }
         }
-        return "B" + index;
+        return prefix + index;
     }
 
     private Long countBarHeat(BarProfile barProfile) {
         int interest = corgiUserFollowService.countFollowed(barProfile.getBarId());
-        UserQuery userQuery = new UserQuery();
-        userQuery.setLat(barProfile.getLat());
-        userQuery.setLng(barProfile.getLng());
-        userQuery.setRange(barProfile.getRange() / 1000.0);
-        List<String> userIds = corgiUserService.getAllNearByUser(userQuery);
-        Long duplicate = corgiBarMapper.countBarFollow(barProfile.getBarId(), String.join("','", userIds));
+        List<String> userIds = new ArrayList<>();
+        Long duplicate = 0l;
+        if (barProfile.getRange() != null && barProfile.getRange() > 0) {
+            UserQuery userQuery = new UserQuery();
+            userQuery.setLat(barProfile.getLat());
+            userQuery.setLng(barProfile.getLng());
+            userQuery.setRange(barProfile.getRange() / 1000.0);
+            userIds = corgiUserService.getAllNearByUser(userQuery);
+            duplicate = corgiBarMapper.countBarFollow(barProfile.getBarId(), String.join("','", userIds));
+        }
+
         return interest + userIds.size() - duplicate;
     }
 }

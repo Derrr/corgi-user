@@ -84,6 +84,16 @@
         where trade_no = #{order.tradeNo}
     </insert>
 
+    <insert id="updateUserGoods" parameterType="com.corgi.user.entity.CorgiOrder">
+        update corgi_user_goods
+        <set>
+            <if test="goods.desc != null and goods.desc != ''">
+                `desc` = #{goods.desc},
+            </if>
+        </set>
+        where trade_no = #{goods.tradeNo}
+    </insert>
+
     <select id="getOrderByOrderId" resultType="com.corgi.user.entity.CorgiOrder">
         select
         <include refid="order"/>
@@ -171,9 +181,9 @@
 
     <insert id="addGoods" parameterType="com.corgi.user.entity.CorgiUserGoods">
         insert into corgi_user_goods(user_id, goods_id, goods_type, price, currency, trader_id, trade_no, `desc`,
-                                     merch_id,market_id)
+                                     merch_id, market_id)
         values (#{goods.userId}, #{goods.goodsId}, #{goods.goodsType}, #{goods.price}, #{goods.currency},
-                #{goods.traderId}, #{goods.tradeNo}, #{goods.desc}, #{goods.merchId},#{goods.marketId})
+                #{goods.traderId}, #{goods.tradeNo}, #{goods.desc}, #{goods.merchId}, #{goods.marketId})
     </insert>
 
     <select id="countGoodsByTradeNo" resultType="java.lang.Integer">
@@ -192,7 +202,8 @@
     <select id="getReceipt" resultType="java.lang.String">
         select trade_no
         from corgi_order
-        where receipt = #{receipt} and user_id = #{userId}
+        where receipt = #{receipt}
+          and user_id = #{userId}
     </select>
 
     <insert id="addMarket" useGeneratedKeys="true"
@@ -209,7 +220,7 @@
         price,
         currency,
         trader_id traderId,
-        trade_no traderNo,
+        trade_no tradeNo,
         `desc`
         `status`,
         ctime,
@@ -223,8 +234,18 @@
             and trade_no = #{goods.tradeNo}
         </if>
         <if test="goods.traderId != null and goods.traderId != ''">
-        and trader_id = #{goods.traderId}
+            and trader_id = #{goods.traderId}
         </if>
+        <if test="goods.goodsType != null and goods.goodsType != ''">
+            and goods_type = #{goods.goodsType}
+        </if>
+        <if test="goods.desc != null and goods.desc != ''">
+            and `desc` != #{goods.desc}
+        </if>
+        <if test="goods.ctime != null and goods.ctime != ''">
+            and `ctime` > #{goods.ctime}
+        </if>
+
         and status = '1'
         <if test="goods.userId != null and goods.userId != ''">
             and user_id = #{goods.userId}

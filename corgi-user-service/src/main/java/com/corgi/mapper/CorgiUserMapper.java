@@ -95,6 +95,15 @@ public interface CorgiUserMapper {
      */
     int countNickname(@Param("nickname") String nickname, @Param("checkNickname") String checkNickname, @Param("userId") String userId);
 
+
+    /**
+     * 获取推荐用户
+     *
+     * @param userId
+     * @return
+     */
+    List<UserProfile> getRecommendUserByUserId(@Param("userId") String userId);
+
     /**
      * 获取推荐用户
      *
@@ -266,6 +275,11 @@ public interface CorgiUserMapper {
      * @return
      */
     UserProfile getUserProfile(@Param("userId") String userId);
+
+    /**
+     * 分页查询用户
+     */
+    List<UserProfile> getUserProfileByPage( @Param("userId") String userId, @Param("size") int size);
 
     /**
      * 查询用户

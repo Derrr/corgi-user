@@ -47,6 +47,8 @@ public interface CorgiUserService {
 
     List<UserProfile> getAllNearByUserProfile(UserQuery userQuery);
 
+    List<UserProfile> getAllUsers(String userId, Integer pageSize);
+
     List<UserProfile> searchUsers(UserDetail userDetail, String userId, Integer page, Integer pageSize);
 
     List<UserProfile> searchInfluencer(UserDetail userDetail, String userId, Integer page, Integer pageSize);
@@ -70,6 +72,8 @@ public interface CorgiUserService {
     String updateUserNickname(String userId, String nickname, String checkNickname);
 
     int countUserNickname(String nickname);
+
+    void initRecommendUserByUserId(String userId);
 
     List<UserProfile> recommendUser(String city, String userId);
 

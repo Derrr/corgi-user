@@ -1,6 +1,9 @@
 package com.corgi.mapper;
 
+import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.entity.UserMatch;
+import com.corgi.user.entity.UserMatchItem;
+import com.corgi.user.entity.UserQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
@@ -10,6 +13,22 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiUserMatchMapper {
+
+    List<UserMatchItem> getMatchByTime(@Param("user")UserQuery userQuery, @Param("timestamp") Long timestamp, @Param("size") Integer size);
+
+    void addMatch(@Param("userId") String userId, @Param("matchId") String matchId, @Param("tradeNo") String tradeNo);
+
+    void addMatchView(@Param("userId") String userId, @Param("matchId") String matchId);
+
+    void updateMatchViewByDate(@Param("date") String date);
+
+    void updateMatchByDate(@Param("date") String date);
+
+    Integer countMatchByRange(@Param("query")UserQuerySupporter supporter, @Param("timestamp")Long timestamp);
+
+    Integer countMatch(@Param("userId") String userId, @Param("tradeNo") String tradeNo, @Param("date") String date);
+
+
     /**
      * 获取族类匹配
      *
@@ -93,6 +112,7 @@ public interface CorgiUserMatchMapper {
 
     /**
      * 更新匹配参数
+     *
      * @param table
      * @param cn1
      * @param cv1

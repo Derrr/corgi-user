@@ -29,7 +29,7 @@ public interface CorgiBarMapper {
      *
      * @return
      */
-    String getMaxBarId();
+    String getMaxBarId(@Param("prefix")String prefix);
 
     /**
      * 获取所有商户列表
@@ -100,5 +100,11 @@ public interface CorgiBarMapper {
      * @return
      */
     BarProfile getBarByAccount(@Param("account")String account, @Param("password")String password);
+
+    /**
+     * 获取相关动态
+     * @return
+     */
+    List<String> getBarActivityByRange(@Param("barId")String barId, @Param("lat")Double lat, @Param("lng")Double lng, @Param("start")Integer start, @Param("size")Integer size);
 
 }

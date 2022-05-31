@@ -131,8 +131,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     @Override
     public String buy(String tradeNo) {
         String key = "buying_goods_" + tradeNo;
-        this.lock(key);
         try {
+            this.lock(key);
             CorgiOrder order = corgiOrderMapper.getOrderByTradeNo(tradeNo);
             if (corgiOrderMapper.countGoodsByTradeNo(tradeNo) > 0) {
                 return null;
@@ -191,6 +191,13 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     order.setResult("user market can not be found");
                     corgiOrderMapper.addLog(order);
                 }
+            } else {
+                goods.setGoodsType(merchandise.getType());
+                goods.setGoodsId(merchandise.getId());
+                goods.setTraderId("corgi");
+                goods.setMarketId("-");
+                goods.setDesc("购买成功");
+                corgiOrderMapper.addGoods(goods);
             }
         } finally {
             this.unlock(key);
@@ -247,6 +254,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     @Override
     public List<CorgiUserGoods> getUserGoods(CorgiUserGoods goods) {
         return corgiOrderMapper.getUserGoods(goods);
+    }
+
+    @Override
+    public void updateUserGoods(CorgiUserGoods goods) {
+        corgiOrderMapper.updateUserGoods(goods);
     }
 
     @Override

@@ -10,7 +10,6 @@ import com.corgi.mapper.*;
 import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiUserDateService;
 import com.corgi.user.api.CorgiUserFollowService;
-import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.*;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.utils.UserUtils;
@@ -27,6 +26,7 @@ import org.springframework.util.StringUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -40,15 +40,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Autowired
     private CorgiUserMapper corgiUserMapper;
     @Autowired
-    private CorgiUserMatchService corgiUserMatchService;
+    private CorgiBillboardMapper corgiBillboardMapper;
     @Autowired
     private CorgiUserFollowService corgiUserFollowService;
     @Autowired
-    private CorgiPicMapper corgiPicMapper;
-    @Autowired
     private CorgiUserTagMapper corgiUserTagMapper;
-    @Autowired
-    private CorgiUserFollowMapper corgiUserFollowMapper;
     @Autowired
     private CorgiBlacklistMapper corgiBlacklistMapper;
     @Autowired
@@ -236,7 +232,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     public List<UserProfile> getNearByUser(UserQuery userQuery) {
         List<String> userIds = getAllNearByUser(userQuery);
         List<UserProfile> userProfiles = new ArrayList<>();
-        String inValue = getUserSql(userIds, userQuery.getUserId(), userQuery.getStartMatch(), userQuery.getEndMatch(), userProfiles);
+        String inValue = getUserSql(userIds, userQuery.getUserId(), 0, 0, userProfiles);
         if (StringUtils.isEmpty(inValue) && userProfiles.size() == 0) {
             return new ArrayList<>();
         }
@@ -347,6 +343,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         List<UserProfile> userProfiles = corgiUserMapper.getUserProfileList(inValue);
         userProfiles = this.populateUserProfileAll(userProfiles, null, true);
         return userProfiles;
+    }
+
+    @Override
+    public List<UserProfile> getAllUsers(String userId, Integer pageSize) {
+        return corgiUserMapper.getUserProfileByPage(userId, pageSize);
     }
 
     @Override
@@ -495,22 +496,46 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public String updateUserNickname(String userId, String nickname, String checkNickname) {
-//        UserDetail detail = corgiUserMapper.getUserDetail(userId);
-//        if ("fail".equals(detail.getCheckStatus())) {
-//            corgiUserMapper.updateNickname(userId, nickname, detail.getCheckNickname());
-//        } else {
-//            int count = corgiUserMapper.countNickname(nickname, checkNickname, userId);
-//            if (count > 0) {
-//                return "nickname exists";
-//            }
-            corgiUserMapper.updateNickname(userId, nickname, checkNickname);
-//        }
+        corgiUserMapper.updateNickname(userId, nickname, checkNickname);
         return CorgiConstants.SUCCESS;
     }
 
     @Override
     public int countUserNickname(String nickname) {
         return corgiUserMapper.countNickname(nickname, "", "");
+    }
+
+    @Override
+    public void initRecommendUserByUserId(String userId) {
+        String lockKey = "recommend_user-lock" + userId;
+        if (!redisTemplate.opsForValue().setIfAbsent(lockKey, userId)) {
+            return;
+        }
+        redisTemplate.expire(lockKey, 24l, TimeUnit.HOURS);
+        List<UserProfile> result = corgiUserMapper.getRecommendUserByUserId(userId);
+        List<String> userIds = new ArrayList<>();
+        for (UserProfile userProfile : result) {
+            userIds.add(userProfile.getUserId());
+        }
+        if (userIds.isEmpty() || userIds.size() < 8) {
+            ActivityBillboard activity = new ActivityBillboard();
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            activity.setDate(date);
+            activity.setCtime(date);
+            List<ActivityBillboard> activityBillboards = corgiBillboardMapper.getAllActivityBillboard(activity);
+            for (ActivityBillboard billboard : activityBillboards) {
+                if (StringUtils.isEmpty(billboard.getUserId()) || userIds.contains(billboard.getUserId())) {
+                    continue;
+                }
+                userIds.add(billboard.getUserId());
+                if (userIds.size() >= 8) {
+                    break;
+                }
+            }
+        }
+        String key = "recommend_user-" + userId;
+        redisTemplate.opsForList().rightPushAll(key, userIds);
+        redisTemplate.expire(key, 24l, TimeUnit.HOURS);
     }
 
     @Override
