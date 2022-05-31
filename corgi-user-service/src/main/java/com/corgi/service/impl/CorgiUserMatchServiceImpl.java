@@ -58,6 +58,15 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
                     userIds, nowTime, nowDate, 6 - users.size()));
         }
+        if (userIds.size() < 6) {
+            String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            userMatchMapper.updateMatchViewByDate(date, userQuery.getUserId());
+            users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
+                    userIds, nowTime, nowDate, 6 - users.size()));
+        }
+        if (userIds.size() < 6) {
+            return new ArrayList<>();
+        }
         for (String userId : userIds) {
             userMatchMapper.addMatchView(userQuery.getUserId(), userId);
         }
@@ -79,7 +88,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public void clearMatchViewByDate(String date) {
-        userMatchMapper.updateMatchViewByDate(date);
+        userMatchMapper.updateMatchViewByDate(date, null);
     }
 
     @Override

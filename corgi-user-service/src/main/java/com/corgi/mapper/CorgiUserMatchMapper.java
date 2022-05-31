@@ -20,7 +20,7 @@ public interface CorgiUserMatchMapper {
 
     void addMatchView(@Param("userId") String userId, @Param("matchId") String matchId);
 
-    void updateMatchViewByDate(@Param("date") String date);
+    void updateMatchViewByDate(@Param("date") String date, @Param("userId")String userId);
 
     void updateMatchByDate(@Param("date") String date);
 

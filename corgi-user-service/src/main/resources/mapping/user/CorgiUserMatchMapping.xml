@@ -48,6 +48,9 @@
         update corgi_user_match_view
         set status = '0'
         where ctime &lt; #{date}
+        <if test="userId != null and userId != ''">
+            and user_id = #{userId}
+        </if>
     </update>
 
     <update id="updateMatchByDate">
