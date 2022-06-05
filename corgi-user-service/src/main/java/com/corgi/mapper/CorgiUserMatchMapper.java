@@ -16,6 +16,8 @@ public interface CorgiUserMatchMapper {
 
     List<UserMatchItem> getMatchByTime(@Param("user")UserQuery userQuery, @Param("timestamp") Long timestamp, @Param("size") Integer size);
 
+    List<UserMatchItem> getMatchByQuery(@Param("user")UserQuery userQuery, @Param("size") Integer size);
+
     void addMatch(@Param("userId") String userId, @Param("matchId") String matchId, @Param("tradeNo") String tradeNo);
 
     void addMatchView(@Param("userId") String userId, @Param("matchId") String matchId);
