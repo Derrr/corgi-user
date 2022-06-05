@@ -17,6 +17,35 @@
         <if test="timestamp > 0">
             and p.uptime > #{timestamp}
         </if>
+        <!--        <if test="user.result != ''">-->
+        <!--            ${user.result}-->
+        <!--        </if>-->
+        and not exists (select 1
+        from corgi_user_match m
+        where m.user_id = #{user.userId}
+        and m.match_id = p.user_id
+        and status = '1')
+        and not exists (select 1
+        from corgi_user_match_view v
+        where v.user_id = #{user.userId}
+        and v.match_id = p.user_id
+        and status = '1')
+        order by distance
+        limit #{size};
+    </select>
+
+    <select id="getMatchByQuery" resultType="com.corgi.user.entity.UserMatchItem">
+        select p.user_id userId,
+        d.avatar,
+        d.nickname,
+        st_distance(p.pt, point(#{user.lng},#{user.lat}))*111.195 distance,
+        d.date_status dateStatus,
+        p.uptime timeShow,
+        if(d.avatar_status = 'influencer','influencer',if(d.vip_status = '1',d.vip_expire,'-')) avatarStatus
+        from corgi_user_position p
+        left join corgi_user_detail d on d.user_id = p.user_id
+        where
+        p.user_id != #{user.userId}
         <if test="user.result != ''">
             ${user.result}
         </if>
@@ -30,7 +59,7 @@
         where v.user_id = #{user.userId}
         and v.match_id = p.user_id
         and status = '1')
-        order by distance
+        order by p.uptime desc
         limit #{size};
     </select>
 
@@ -47,13 +76,20 @@
     <update id="updateMatchViewByDate">
         update corgi_user_match_view
         set status = '0'
-        where ctime &lt; #{date}
+        where status = '1'
+        <if test="date != null and date != ''">
+            and ctime &lt; #{date}
+        </if>
+        <if test="userId != null and userId != ''">
+            and user_id = #{userId}
+        </if>
     </update>
 
     <update id="updateMatchByDate">
         update corgi_user_match
         set status = '0'
-        where ctime &lt; #{date}
+        where status = '1'
+          and ctime &lt; #{date}
     </update>
 
     <select id="countMatchByRange" resultType="java.lang.Integer">
