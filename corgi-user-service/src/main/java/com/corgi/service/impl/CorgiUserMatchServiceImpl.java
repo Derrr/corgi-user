@@ -49,15 +49,15 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         List<String> userIds = new ArrayList<>();
         this.buildQueryString(userQuery);
         List<UserMatchItem> users;
-//        if (StringUtils.isEmpty(userQuery.getResult()) || (userQuery.getLat() != 0 && userQuery.getLng() != 0)) {
-//            users = this.getUsers(userQuery, calendar, userIds);
-//        } else {
+        if (StringUtils.isEmpty(userQuery.getResult()) || (userQuery.getLat() != 0 && userQuery.getLng() != 0)) {
+            users = this.getUsers(userQuery, calendar, userIds);
+        } else {
             Long nowTime = calendar.getTimeInMillis();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String nowDate = sdf.format(calendar.getTime());
             users = userMatchMapper.getMatchByQuery(userQuery, 6);
             users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
-//        }
+        }
 
         if (users.size() < 6) {
             return new ArrayList<>();
