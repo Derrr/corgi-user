@@ -50,13 +50,23 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         this.buildQueryString(userQuery);
         List<UserMatchItem> users;
         if (StringUtils.isEmpty(userQuery.getResult()) || (userQuery.getLat() != 0 && userQuery.getLng() != 0)) {
-            users = this.getUsers(userQuery, calendar, userIds);
+            try {
+                users = this.getUsers(userQuery, calendar, userIds);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                return new ArrayList<>();
+            }
         } else {
             Long nowTime = calendar.getTimeInMillis();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String nowDate = sdf.format(calendar.getTime());
-            users = userMatchMapper.getMatchByQuery(userQuery, 6);
-            users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
+            try {
+                users = userMatchMapper.getMatchByQuery(userQuery, 6);
+                users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                return new ArrayList<>();
+            }
         }
 
         if (users.size() < 6) {
