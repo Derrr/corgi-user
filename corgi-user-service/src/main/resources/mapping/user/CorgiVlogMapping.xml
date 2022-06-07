@@ -212,7 +212,7 @@
             left join corgi_activity_creator c1 on c1.activity_id = l1.activity_id
         where c.category = c1.category
           and l1.type = 'real'
-          and l1.like_user_id != #{userId}
+          and l2.activity_id != #{activityId}
           and l1.activity_id = #{activityId}
           and c.check_status != 'fail'
         group by l2.activity_id
