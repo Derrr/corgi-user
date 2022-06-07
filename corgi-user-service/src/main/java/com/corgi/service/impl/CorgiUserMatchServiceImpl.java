@@ -79,6 +79,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     }
 
     private List<UserMatchItem> getUsers(UserQuery userQuery, Calendar calendar, List<String> userIds) {
+        if (StringUtils.isEmpty(userQuery.getUserId())) {
+            return new ArrayList<>();
+        }
         Long nowTime = calendar.getTimeInMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String nowDate = sdf.format(calendar.getTime());
