@@ -49,6 +49,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         List<String> userIds = new ArrayList<>();
         this.buildQueryString(userQuery);
         List<UserMatchItem> users;
+        log.info("result:{} ", userQuery.getResult());
         if (StringUtils.isEmpty(userQuery.getResult()) || (userQuery.getLat() != 0 && userQuery.getLng() != 0)) {
             try {
                 users = this.getUsers(userQuery, calendar, userIds);
