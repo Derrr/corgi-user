@@ -68,9 +68,9 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     @Override
     public List<ActivityPic> getActivityPic(String activityId) {
         List<ActivityPic> activityPics = corgiPicMapper.getActivityPic(activityId);
-        if (activityPics != null) {
-            activityPics.stream().forEach(pic -> addSuffix(pic));
-        }
+//        if (activityPics != null) {
+//            activityPics.stream().forEach(pic -> addSuffix(pic));
+//        }
         return activityPics;
     }
 
