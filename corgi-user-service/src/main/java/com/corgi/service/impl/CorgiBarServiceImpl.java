@@ -95,6 +95,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
             corgiActivity.setCategory(CorgiActivity.CAT_BUSINESS);
             List<UserVideo> userVideos = corgiVideoService.getVideo(barId);
             barProfile.setHeat(countBarHeat(barProfile));
+
             String key = "bar_count_" + barId;
             String barCountStr = redisTemplate.opsForValue().get(key);
             Long barCount = 0l;
@@ -109,7 +110,22 @@ public class CorgiBarServiceImpl implements CorgiBarService {
                 }
             }
             barProfile.setRelActivityCount(barCount);
-            barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
+
+            key = "bar_total_count_" + barId;
+            int totalCount = 0;
+            String totalCountStr = redisTemplate.opsForValue().get(key);
+            if (StringUtils.isEmpty(totalCountStr)) {
+                totalCount = (int) corgiActivityService.countCorgiActivity(corgiActivity);
+                redisTemplate.opsForValue().set(key, totalCount + "", 1l, TimeUnit.HOURS);
+            } else {
+                try {
+                    totalCount = Integer.valueOf(totalCount);
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+            barProfile.setActivityCount(totalCount);
+
             if (!CollectionUtils.isEmpty(userVideos)) {
                 barProfile.setVideo(userVideos.get(0).getVideoUrl());
             }
@@ -172,7 +188,20 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         CorgiActivity corgiActivity = new CorgiActivity();
         corgiActivity.setUserId(barProfile.getBarId());
         corgiActivity.setStatus(CorgiActivity.NOT_DELETED);
-        barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
+        String key = "bar_total_count_" + barProfile.getBarId();
+        int totalCount = 0;
+        String totalCountStr = redisTemplate.opsForValue().get(key);
+        if (StringUtils.isEmpty(totalCountStr)) {
+            totalCount = (int) corgiActivityService.countCorgiActivity(corgiActivity);
+            redisTemplate.opsForValue().set(key, totalCount + "", 1l, TimeUnit.HOURS);
+        } else {
+            try {
+                totalCount = Integer.valueOf(totalCount);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+            }
+        }
+        barProfile.setActivityCount(totalCount);
         List<UserVideo> userVideos = corgiVideoService.getVideo(barProfile.getBarId());
         if (!CollectionUtils.isEmpty(userVideos)) {
             barProfile.setVideo(userVideos.get(0).getVideoUrl());
