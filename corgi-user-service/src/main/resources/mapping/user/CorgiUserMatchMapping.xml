@@ -34,7 +34,7 @@
         limit #{size};
     </select>
 
-    <select id="getMatchByQuery" timeout="10" resultType="com.corgi.user.entity.UserMatchItem">
+    <select id="getMatchByQuery" timeout="5" resultType="com.corgi.user.entity.UserMatchItem">
         select p.user_id userId,
         d.avatar,
         d.nickname,
