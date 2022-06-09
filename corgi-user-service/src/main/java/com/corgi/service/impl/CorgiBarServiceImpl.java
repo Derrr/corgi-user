@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.*;
 import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -26,6 +27,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -45,6 +47,8 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     private CorgiPicService corgiPicService;
     @Autowired
     private CorgiVideoService corgiVideoService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Reference
     private CorgiActivityService corgiActivityService;
@@ -91,7 +95,16 @@ public class CorgiBarServiceImpl implements CorgiBarService {
             corgiActivity.setCategory(CorgiActivity.CAT_BUSINESS);
             List<UserVideo> userVideos = corgiVideoService.getVideo(barId);
             barProfile.setHeat(countBarHeat(barProfile));
-            barProfile.setRelActivityCount(corgiActivityService.countBarAppraisedActivity(barId));
+            String key = "bar_count_" + barId;
+            String barCountStr = redisTemplate.opsForValue().get(key);
+            Long barCount;
+            if (StringUtils.isEmpty(barCountStr)) {
+                barCount = Long.valueOf(barCountStr);
+            } else {
+                barCount = corgiActivityService.countBarAppraisedActivity(barId);
+                redisTemplate.opsForValue().set(key, barCount + "", 1l, TimeUnit.HOURS);
+            }
+            barProfile.setRelActivityCount(barCount);
             barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
             if (!CollectionUtils.isEmpty(userVideos)) {
                 barProfile.setVideo(userVideos.get(0).getVideoUrl());
