@@ -97,12 +97,16 @@ public class CorgiBarServiceImpl implements CorgiBarService {
             barProfile.setHeat(countBarHeat(barProfile));
             String key = "bar_count_" + barId;
             String barCountStr = redisTemplate.opsForValue().get(key);
-            Long barCount;
+            Long barCount = 0l;
             if (StringUtils.isEmpty(barCountStr)) {
                 barCount = corgiActivityService.countBarAppraisedActivity(barId);
                 redisTemplate.opsForValue().set(key, barCount + "", 1l, TimeUnit.HOURS);
             } else {
-                barCount = Long.valueOf(barCountStr);
+                try {
+                    barCount = Long.valueOf(barCountStr);
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
             }
             barProfile.setRelActivityCount(barCount);
             barProfile.setActivityCount((int) corgiActivityService.countCorgiActivity(corgiActivity));
