@@ -330,12 +330,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (!CollectionUtils.isEmpty(query.getRole())) {
             sb.append(" and d.role in('").append(String.join("','", query.getRole())).append("') ");
         }
-        if (!StringUtils.isEmpty(query.getStartAge())) {
+        if (query.getStartAge() != null && query.getStartAge() > 18) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, -1 * query.getStartAge());
             sb.append(" and d.birthday < '").append(sdf.format(calendar.getTime())).append("' ");
         }
-        if (!StringUtils.isEmpty(query.getEndAge())) {
+        if (query.getEndAge() != null && query.getEndAge() < 70) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, -1 * query.getEndAge());
             sb.append(" and d.birthday > '").append(sdf.format(calendar.getTime())).append("' ");
