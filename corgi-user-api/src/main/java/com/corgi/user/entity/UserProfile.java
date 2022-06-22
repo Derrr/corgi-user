@@ -48,7 +48,6 @@ public class UserProfile implements Serializable {
     private Integer height;
     private String birthday;
     private String city;
-    private Boolean vip;
     List<UserPic> pics;
     CorgiSound sounds;
 
