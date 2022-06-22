@@ -23,7 +23,7 @@ public interface CorgiOrderService {
 
     CorgiMerchandise getMerchandiseById(String merchId, String userId);
 
-    String buy(String tradeNo);
+    String buy(String tradeNo, String expiresDate);
 
     void subscribe(CorgiOrder order, CorgiUserGoods goods, String vipStatus, String finalDate);
 

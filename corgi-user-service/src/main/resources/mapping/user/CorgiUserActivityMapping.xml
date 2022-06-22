@@ -99,6 +99,7 @@
         select c.activity_id
         from corgi_activity_creator c
         where c.check_status != 'fail'
+        and c.check_status != 'check'
         and (c.creator_id = #{query.userId}
         or exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
         #{query.userId} and f.is_deleted = '0'))
