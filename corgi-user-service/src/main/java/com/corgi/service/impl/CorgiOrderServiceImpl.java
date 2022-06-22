@@ -70,9 +70,14 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             if (!CorgiOrder.PAY_TYPE.WITHDRAW.equals(order.getPayType())) {
                 order.setResult(null);
             }
+            String expiresDate = null;
+            if (CorgiOrder.PAY_TYPE.IN_APP.equals(order.getPayType())) {
+                expiresDate = order.getBuyerId();
+                order.setBuyerId(null);
+            }
             corgiOrderMapper.updateOrder(order);
             if (CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
-                this.buy(order.getTradeNo());
+                this.buy(order.getTradeNo(), expiresDate);
             }
         } catch (Exception e) {
             order.setResult(e.getMessage());
@@ -129,7 +134,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
-    public String buy(String tradeNo) {
+    public String buy(String tradeNo, String expiresDate) {
         String key = "buying_goods_" + tradeNo;
         try {
             this.lock(key);
@@ -166,9 +171,21 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 }
                 MerchandiseEnum e = MerchandiseEnum.getByCode(merchandise.getId());
                 if (e != null) {
-                    calendar.setTime(expireDate);
-                    calendar.add(Calendar.DATE, e.getDays());
-                    String finalDate = sdf.format(calendar.getTime());
+                    String finalDate = "";
+                    if (StringUtils.isNotEmpty(expiresDate)) {
+                        if (expiresDate.equals(expireDate.getTime() + "")) {
+                            CorgiOrder update = new CorgiOrder();
+                            update.setTradeNo(tradeNo);
+                            update.setStatus(CorgiOrder.STATUS.CLOSE);
+                            corgiOrderMapper.updateOrder(update);
+                            return null;
+                        }
+                        calendar.setTime(new Date(Long.valueOf(expiresDate)));
+                    } else {
+                        calendar.setTime(expireDate);
+                        calendar.add(Calendar.DATE, e.getDays());
+                    }
+                    finalDate = sdf.format(calendar.getTime());
                     corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
                     goods.setDesc("购买成功，日期截止至 " + finalDate);
                     corgiOrderMapper.addGoods(goods);
