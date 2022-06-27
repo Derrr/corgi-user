@@ -130,13 +130,14 @@
     <select id="getUserActivity" resultType="java.lang.String">
         select distinct c.activity_id
         from corgi_activity_creator c
-        left join corgi_vlog_hot h on h.activity_id = c.activity_id and h.type = 'auto'
+                 left join corgi_vlog_hot h on h.activity_id = c.activity_id and h.type = 'auto'
         where c.creator_id = (select creator_id from corgi_activity_creator where activity_id = #{activityId})
-        and c.activity_id != #{activityId}
-        and c.check_status != 'fail'
-        and c.check_status != 'not_good'
+          and c.category != 'video'
+          and c.activity_id != #{activityId}
+          and c.check_status != 'fail'
+          and c.check_status != 'not_good'
         order by h.like_count desc
-        limit #{size}
+            limit #{size}
     </select>
 
     <select id="recallLikeVlog" resultType="com.corgi.user.entity.CorgiVlog">
@@ -209,8 +210,7 @@
                  left join corgi_activity_like l2 on l1.like_user_id = l2.like_user_id and l2.activity_id != l1.activity_id and l2.type = 'real'
                  left join corgi_activity_creator c
         on c.activity_id = l2.activity_id
-            left join corgi_activity_creator c1 on c1.activity_id = l1.activity_id
-        where c.category = c1.category
+        where c.category != 'video'
           and l1.type = 'real'
           and l2.activity_id != #{activityId}
           and l1.activity_id = #{activityId}
@@ -321,6 +321,28 @@
         <if test="vlog.status == 'desc'">
             order by h.like_count desc
         </if>
+        limit #{size}
+    </select>
+
+    <select id="recallHotVlogByCategory" resultType="com.corgi.user.entity.CorgiVlog">
+        select
+        distinct h.id,
+        <include refid="creator"/>
+        from corgi_vlog_hot h
+        join corgi_activity_creator c on h.activity_id = c.activity_id
+        where h.status = 'open'
+        and c.category = #{category}
+        and c.check_status != 'fail'
+        and c.check_status != 'check'
+        and c.check_status != 'not_good'
+        <if test="lastId != null and lastId != ''">
+            and h.id &lt; #{lastId}
+        </if>
+        <if test="activityId != null and activityId != ''">
+            and h.activityId &lt; #{activityId}
+        </if>
+
+        order by h.id desc
         limit #{size}
     </select>
 

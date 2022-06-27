@@ -131,7 +131,7 @@
     </select>
 
     <select id="queryActivity" resultType="com.corgi.activity.entity.CorgiActivity">
-        select c.activity_id id, c.ctime createTime, c.creator_id userId
+        select c.activity_id id, c.ctime createTime, c.creator_id userId, c.category
         from corgi_activity_creator c
         where c.check_status != 'fail'
         <if test="query.userId != null and query.userId !=''">
