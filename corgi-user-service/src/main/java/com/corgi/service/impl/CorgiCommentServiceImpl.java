@@ -82,6 +82,11 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     }
 
     @Override
+    public ActivityComment getCommentByCommentId(String commentId) {
+        return corgiCommentMapper.getActivityCommentByCommentId(commentId);
+    }
+
+    @Override
     public void deleteActivityComment(String commentId) {
         ActivityComment activityComment = corgiCommentMapper.getActivityCommentByCommentId(commentId);
         if (activityComment != null) {

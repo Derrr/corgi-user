@@ -12,6 +12,8 @@ import java.util.List;
 public interface CorgiCommentService {
     ActivityComment addActivityComment(ActivityComment activityComment);
 
+    ActivityComment getCommentByCommentId(String commentId);
+
     void deleteActivityComment(String commentId);
 
     List<ActivityComment> getActivityComment(String activityId, Integer commentId, Integer size, String userId);
