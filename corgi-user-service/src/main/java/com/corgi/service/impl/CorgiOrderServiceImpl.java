@@ -15,6 +15,7 @@ import com.corgi.mapper.CorgiOrderMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.user.api.CorgiOrderService;
 import com.corgi.user.api.CorgiPicService;
+import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.*;
 import com.corgi.user.enums.MerchandiseEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -151,75 +152,96 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     .build();
             CorgiMerchandise merchandise = corgiOrderMapper.getMerchandiseById(order.getMerchId());
             if (CorgiMerchandise.SUBSCRIBE.equals(merchandise.getType())) {
-                goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.SUBSCRIBE);
-                goods.setGoodsId(merchandise.getId());
-                goods.setTraderId("corgi");
-                goods.setMarketId("-");
-                Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String vipExpireDate = corgiUserMapper.getVipExpire(order.getUserId());
-                Date expireDate;
-                try {
-                    if ("-".equals(vipExpireDate) || (expireDate = sdf.parse(vipExpireDate)).compareTo(new Date()) <= 0) {
-                        expireDate = new Date();
-                    }
-                } catch (Exception e) {
-                    log.error(e.getMessage(), e);
-                    expireDate = new Date();
-                    order.setResult(e.getMessage());
-                    corgiOrderMapper.addLog(order);
-                }
-                MerchandiseEnum e = MerchandiseEnum.getByCode(merchandise.getId());
-                if (e != null) {
-                    String finalDate = "";
-                    if (StringUtils.isNotEmpty(expiresDate)) {
-                        if (expiresDate.equals(expireDate.getTime() + "")) {
-                            CorgiOrder update = new CorgiOrder();
-                            update.setTradeNo(tradeNo);
-                            update.setStatus(CorgiOrder.STATUS.CLOSE);
-                            corgiOrderMapper.updateOrder(update);
-                            return null;
-                        }
-                        calendar.setTime(new Date(Long.valueOf(expiresDate)));
-                    } else {
-                        calendar.setTime(expireDate);
-                        calendar.add(Calendar.DATE, e.getDays());
-                    }
-                    finalDate = sdf.format(calendar.getTime());
-                    corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
-                    goods.setDesc("购买成功，日期截止至 " + finalDate);
-                    corgiOrderMapper.addGoods(goods);
-                    rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildSubscribeMessage(goods, e.getDays(), finalDate.substring(0, 10)));
-                } else {
-                    order.setResult("merchandise can not be found");
-                    corgiOrderMapper.addLog(order);
+                if (!this.buySubscribe(goods, merchandise, order, expiresDate)) {
+                    return null;
                 }
             } else if (CorgiMerchandise.ACTIVITY.equals(merchandise.getType())) {
-                CorgiUserMarket market = corgiOrderMapper.getMarketById(order.getMarketId());
-                if (market != null) {
-                    goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.ACTIVITY);
-                    goods.setGoodsId(market.getSourceId());
-                    goods.setDesc("购买成功");
-                    goods.setMarketId(market.getId());
-                    goods.setTraderId(market.getUserId());
-                    corgiOrderMapper.addGoods(goods);
-                    rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildActivityMessage(goods));
-                } else {
-                    order.setResult("user market can not be found");
-                    corgiOrderMapper.addLog(order);
-                }
+                this.buyActivity(goods, order);
+            } else if (CorgiMerchandise.BILLBOARD.equals(merchandise.getType())) {
+                this.buyBillboard(goods, order);
             } else {
-                goods.setGoodsType(merchandise.getType());
-                goods.setGoodsId(merchandise.getId());
-                goods.setTraderId("corgi");
-                goods.setMarketId("-");
-                goods.setDesc("购买成功");
-                corgiOrderMapper.addGoods(goods);
+                this.buyGoods(goods, merchandise);
             }
         } finally {
             this.unlock(key);
         }
         return null;
+    }
+
+    private void buyBillboard(CorgiUserGoods goods, CorgiOrder order) {
+
+    }
+
+    private void buyGoods(CorgiUserGoods goods, CorgiMerchandise merchandise) {
+        goods.setGoodsType(merchandise.getType());
+        goods.setGoodsId(merchandise.getId());
+        goods.setTraderId("corgi");
+        goods.setMarketId("-");
+        goods.setDesc("购买成功");
+        corgiOrderMapper.addGoods(goods);
+    }
+
+    private void buyActivity(CorgiUserGoods goods, CorgiOrder order) {
+        CorgiUserMarket market = corgiOrderMapper.getMarketById(order.getMarketId());
+        if (market != null) {
+            goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.ACTIVITY);
+            goods.setGoodsId(market.getSourceId());
+            goods.setDesc("购买成功");
+            goods.setMarketId(market.getId());
+            goods.setTraderId(market.getUserId());
+            corgiOrderMapper.addGoods(goods);
+            rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildActivityMessage(goods));
+        } else {
+            order.setResult("user market can not be found");
+            corgiOrderMapper.addLog(order);
+        }
+    }
+
+    private boolean buySubscribe(CorgiUserGoods goods, CorgiMerchandise merchandise, CorgiOrder order, String expiresDate) {
+        goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.SUBSCRIBE);
+        goods.setGoodsId(merchandise.getId());
+        goods.setTraderId("corgi");
+        goods.setMarketId("-");
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String vipExpireDate = corgiUserMapper.getVipExpire(order.getUserId());
+        Date expireDate;
+        try {
+            if ("-".equals(vipExpireDate) || (expireDate = sdf.parse(vipExpireDate)).compareTo(new Date()) <= 0) {
+                expireDate = new Date();
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            expireDate = new Date();
+            order.setResult(e.getMessage());
+            corgiOrderMapper.addLog(order);
+        }
+        MerchandiseEnum e = MerchandiseEnum.getByCode(merchandise.getId());
+        if (e != null) {
+            String finalDate = "";
+            if (StringUtils.isNotEmpty(expiresDate)) {
+                if (expiresDate.equals(expireDate.getTime() + "")) {
+                    CorgiOrder update = new CorgiOrder();
+                    update.setTradeNo(order.getTradeNo());
+                    update.setStatus(CorgiOrder.STATUS.CLOSE);
+                    corgiOrderMapper.updateOrder(update);
+                    return false;
+                }
+                calendar.setTime(new Date(Long.valueOf(expiresDate)));
+            } else {
+                calendar.setTime(expireDate);
+                calendar.add(Calendar.DATE, e.getDays());
+            }
+            finalDate = sdf.format(calendar.getTime());
+            corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
+            goods.setDesc("购买成功，日期截止至 " + finalDate);
+            corgiOrderMapper.addGoods(goods);
+            rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildSubscribeMessage(goods, e.getDays(), finalDate.substring(0, 10)));
+        } else {
+            order.setResult("merchandise can not be found");
+            corgiOrderMapper.addLog(order);
+        }
+        return true;
     }
 
     @Override

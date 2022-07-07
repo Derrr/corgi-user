@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class CorgiMerchandise implements Serializable {
     public static final String SUBSCRIBE = "subscribe";
     public static final String ACTIVITY = "activity";
+    public static final String BILLBOARD = "billboard";
     public static final String MATCH = "match";
 
     private String id;
