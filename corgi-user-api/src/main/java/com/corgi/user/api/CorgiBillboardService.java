@@ -45,5 +45,5 @@ public interface CorgiBillboardService {
 
     Integer countPaiBillboard(PaidBillboard paidBillboard);
 
-    List<PaidBillboard> queryPaidBillboard(PaidBillboard paidBillboard);
+    List<PaidBillboard> queryPaidBillboard(PaidBillboard paidBillboard, Integer page, Integer size);
 }

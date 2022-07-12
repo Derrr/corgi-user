@@ -184,8 +184,8 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     }
 
     @Override
-    public List<PaidBillboard> queryPaidBillboard(PaidBillboard paidBillboard) {
-        return corgiBillboardMapper.getPaidBillboard(paidBillboard);
+    public List<PaidBillboard> queryPaidBillboard(PaidBillboard paidBillboard, Integer page, Integer size) {
+        return corgiBillboardMapper.getPaidBillboard(paidBillboard, (page - 1) * size, size);
     }
 
 }

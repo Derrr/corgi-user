@@ -108,7 +108,7 @@ public interface CorgiBillboardMapper {
      * @param order
      * @param date
      */
-    void updateBillboardOrder(@Param("userId") String userId, @Param("date") String date, @Param("order")Integer order);
+    void updateBillboardOrder(@Param("userId") String userId, @Param("date") String date, @Param("order") Integer order);
 
     /**
      * 根据昵称获取ID
@@ -166,7 +166,7 @@ public interface CorgiBillboardMapper {
      *
      * @return
      */
-    String getOnboardDate(@Param("userId") String userId, @Param("date")String date);
+    String getOnboardDate(@Param("userId") String userId, @Param("date") String date);
 
     /**
      * 统计上榜次数
@@ -187,22 +187,22 @@ public interface CorgiBillboardMapper {
      *
      * @return
      */
-    void addPaidBillboard(@Param("paid")PaidBillboard paidBillboard);
+    void addPaidBillboard(@Param("paid") PaidBillboard paidBillboard);
 
     /**
      * 修改付费上榜动态
      *
      * @return
      */
-    void updatePaidBillboard(@Param("paid")PaidBillboard paidBillboard);
+    void updatePaidBillboard(@Param("paid") PaidBillboard paidBillboard);
 
     /**
      * 统计付费
      */
-    Integer countPaidBillboard(@Param("paid")PaidBillboard paidBillboard);
+    Integer countPaidBillboard(@Param("paid") PaidBillboard paidBillboard);
 
     /**
      * 查询付费榜单
      */
-    List<PaidBillboard> getPaidBillboard(@Param("paid")PaidBillboard paidBillboard);
+    List<PaidBillboard> getPaidBillboard(@Param("paid") PaidBillboard paidBillboard, @Param("start") Integer start, @Param("size") Integer size);
 }

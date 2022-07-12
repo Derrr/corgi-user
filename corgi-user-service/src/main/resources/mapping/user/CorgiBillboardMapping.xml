@@ -298,5 +298,6 @@
             and p.`status` = #{paid.status}
         </if>
         order by p.id desc
+        limit #{start}, #{size}
     </select>
 </mapper>
