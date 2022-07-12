@@ -13,6 +13,7 @@ import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.PushMessage;
 import com.corgi.mapper.CorgiOrderMapper;
 import com.corgi.mapper.CorgiUserMapper;
+import com.corgi.user.api.CorgiBillboardService;
 import com.corgi.user.api.CorgiOrderService;
 import com.corgi.user.api.CorgiPicService;
 import com.corgi.user.api.CorgiUserService;
@@ -45,6 +46,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
 
     @Autowired
     private CorgiPicService corgiPicService;
+    @Autowired
+    private CorgiBillboardService corgiBillboardService;
     @Autowired
     private CorgiOrderMapper corgiOrderMapper;
     @Autowired
@@ -158,7 +161,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             } else if (CorgiMerchandise.ACTIVITY.equals(merchandise.getType())) {
                 this.buyActivity(goods, order);
             } else if (CorgiMerchandise.BILLBOARD.equals(merchandise.getType())) {
-                this.buyBillboard(goods, order);
+                this.buyBillboard(goods, order, merchandise);
             } else {
                 this.buyGoods(goods, merchandise);
             }
@@ -168,8 +171,17 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         return null;
     }
 
-    private void buyBillboard(CorgiUserGoods goods, CorgiOrder order) {
-
+    private void buyBillboard(CorgiUserGoods goods, CorgiOrder order, CorgiMerchandise merchandise) {
+        goods.setGoodsType(merchandise.getType());
+        goods.setGoodsId(order.getMarketId());
+        goods.setTraderId("corgi");
+        goods.setMarketId(order.getMarketId());
+        goods.setDesc("购买成功");
+        corgiOrderMapper.addGoods(goods);
+        PaidBillboard query = new PaidBillboard();
+        query.setId(order.getMarketId());
+        query.setStatus(PaidBillboard.PAID);
+        corgiBillboardService.updatePaiBillboard(query);
     }
 
     private void buyGoods(CorgiUserGoods goods, CorgiMerchandise merchandise) {

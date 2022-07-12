@@ -234,7 +234,7 @@
         select b.activity_id activityId,
         c.creator_id userId,
         (select count(1) from corgi_activity_billboard b1
-            left join corgi_activity_creator c1 on c1.activity_id = b1.activity_id
+        left join corgi_activity_creator c1 on c1.activity_id = b1.activity_id
         where (c1.creator_id = c.creator_id or b1.user_id = c.creator_id) and b1.status = 1) count,
         b.date,
         b.order
@@ -251,5 +251,52 @@
         select count(1)
         from corgi_billboard
         where user_id = #{userId}
+    </select>
+
+    <insert id="addPaidBillboard" useGeneratedKeys="true" keyProperty="paid.id"
+            parameterType="com.corgi.user.entity.PaidBillboard">
+        INSERT INTO `corgi_paid_billboard` (`user_id`, `activity_id`, `date`)
+        VALUES (#{paid.userId}, #{paid.activityId}, #{paid.date});
+    </insert>
+
+    <update id="updatePaidBillboard" parameterType="com.corgi.user.entity.PaidBillboard">
+        update corgi_paid_billboard
+        <set>
+            <if test="paid.status != null and paid.status != ''">
+                `status` = #{paid.status},
+            </if>
+            <if test="paid.tradeNo != null and paid.tradeNo != ''">
+                `trade_no` = #{paid.tradeNo},
+            </if>
+        </set>
+        where id = #{paid.id}
+    </update>
+
+    <select id="countPaidBillboard" resultType="java.lang.Integer" parameterType="com.corgi.user.entity.PaidBillboard">
+        select count(1) from corgi_paid_billboard
+        where 1 = 1
+        <if test="paid.date != null and paid.date != ''">
+            and `date` = #{paid.date}
+        </if>
+        <if test="paid.status != null and paid.status != ''">
+            and `status` = #{paid.status}
+        </if>
+        <if test="paid.activityId != null and paid.activityId != ''">
+            and activity_id = #{paid.activityId}
+        </if>
+    </select>
+
+    <select id="getPaidBillboard" resultType="com.corgi.user.entity.PaidBillboard">
+        select p.id, p.activity_id activityId, p.date, p.status,o.user_id userId
+        from corgi_paid_billboard p
+        left join corgi_order o on o.trade_no = p.trade_no
+        where 1=1
+        <if test="paid.date != null and paid.date != ''">
+            and p.`date` = #{paid.date}
+        </if>
+        <if test="paid.status != null and paid.status != ''">
+            and p.`status` = #{paid.status}
+        </if>
+        order by p.id desc
     </select>
 </mapper>

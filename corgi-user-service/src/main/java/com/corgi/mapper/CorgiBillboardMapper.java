@@ -3,10 +3,7 @@ package com.corgi.mapper;
 import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.ActivityQuery;
 import com.corgi.entity.CorgiArea;
-import com.corgi.user.entity.ActivityBillboard;
-import com.corgi.user.entity.Billboard;
-import com.corgi.user.entity.UserDetail;
-import com.corgi.user.entity.UserProfile;
+import com.corgi.user.entity.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -184,4 +181,28 @@ public interface CorgiBillboardMapper {
      * @return
      */
     List<String> getBillboardTimeById(@Param("userId") String userId);
+
+    /**
+     * 添加付费上榜动态
+     *
+     * @return
+     */
+    void addPaidBillboard(@Param("paid")PaidBillboard paidBillboard);
+
+    /**
+     * 修改付费上榜动态
+     *
+     * @return
+     */
+    void updatePaidBillboard(@Param("paid")PaidBillboard paidBillboard);
+
+    /**
+     * 统计付费
+     */
+    Integer countPaidBillboard(@Param("paid")PaidBillboard paidBillboard);
+
+    /**
+     * 查询付费榜单
+     */
+    List<PaidBillboard> getPaidBillboard(@Param("paid")PaidBillboard paidBillboard);
 }

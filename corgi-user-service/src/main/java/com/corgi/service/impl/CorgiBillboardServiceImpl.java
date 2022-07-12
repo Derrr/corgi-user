@@ -167,4 +167,25 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         return corgiBillboardMapper.countOnBoard(userId);
     }
 
+    @Override
+    public PaidBillboard createPaidBillboard(PaidBillboard paidBillboard) {
+        corgiBillboardMapper.addPaidBillboard(paidBillboard);
+        return paidBillboard;
+    }
+
+    @Override
+    public void updatePaiBillboard(PaidBillboard paidBillboard) {
+        corgiBillboardMapper.updatePaidBillboard(paidBillboard);
+    }
+
+    @Override
+    public Integer countPaiBillboard(PaidBillboard paidBillboard) {
+        return corgiBillboardMapper.countPaidBillboard(paidBillboard);
+    }
+
+    @Override
+    public List<PaidBillboard> queryPaidBillboard(PaidBillboard paidBillboard) {
+        return corgiBillboardMapper.getPaidBillboard(paidBillboard);
+    }
+
 }

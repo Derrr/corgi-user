@@ -2,10 +2,7 @@ package com.corgi.user.api;
 
 import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.ActivityQuery;
-import com.corgi.user.entity.ActivityBillboard;
-import com.corgi.user.entity.Billboard;
-import com.corgi.user.entity.UserDetail;
-import com.corgi.user.entity.UserProfile;
+import com.corgi.user.entity.*;
 
 import java.util.List;
 
@@ -41,4 +38,12 @@ public interface CorgiBillboardService {
     List<ActivityBillboard> getAllActivityBillboard(ActivityBillboard activityBillboard);
 
     Integer countOnBoard(String userId);
+
+    PaidBillboard createPaidBillboard(PaidBillboard paidBillboard);
+
+    void updatePaiBillboard(PaidBillboard paidBillboard);
+
+    Integer countPaiBillboard(PaidBillboard paidBillboard);
+
+    List<PaidBillboard> queryPaidBillboard(PaidBillboard paidBillboard);
 }
