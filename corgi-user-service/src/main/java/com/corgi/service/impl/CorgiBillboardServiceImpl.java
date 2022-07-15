@@ -117,8 +117,8 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     }
 
     @Override
-    public void updateBillboardOrder(String userId, String date, Integer order) {
-        corgiBillboardMapper.updateBillboardOrder(userId, date, order);
+    public void updateBillboardOrder(String activityId, String date, Integer order) {
+        corgiBillboardMapper.updateBillboardOrder(activityId, date, order);
     }
 
     @Override

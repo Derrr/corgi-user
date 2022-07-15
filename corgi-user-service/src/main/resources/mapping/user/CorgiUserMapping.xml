@@ -299,18 +299,16 @@
         select d.user_id userId,
                d.nickname,
                d.avatar,
-               count(1) count
         from corgi_user_detail d
-            left join corgi_user_position p
-        on d.user_id = p.user_id
-            left join corgi_user_follow f on f.follow_user_id = d.user_id
-        where d.avatar_check_status = 'normal'
+                 left join corgi_user_position p
+                           on d.user_id = p.user_id
+        where d.avatar_check_status = 'verified'
           and p.city = #{city}
-          and f.is_deleted = '0'
           and d.user_id != #{userId}
-        group by d.user_id
-        order by count desc
-            limit 6
+          and d.cime
+            > #{date}
+        order by d.cime desc
+            limit 20
     </select>
 
     <update id="updateNickname">
@@ -495,23 +493,15 @@
 
     </select>
 
-    <select id="getNearbyDate" resultType="java.lang.String">
-        select distinct p.user_id from corgi_date d
-        left join corgi_user_position p on p.user_id = d.user_id
-        where d.status = 'open'
-        and p.lat >= #{range.beginLat} and p.lat &lt;= #{range.endLat}
-        and p.lng >= #{range.beginLng} and p.lng &lt;= #{range.endLng}
-        <if test="range.type != null and range.type != '' and range.type != '不限'">
-            and (d.type = #{range.type} or d.type = '不限')
-        </if>
-        <if test="range.city != null and range.city != ''">
-            and p.city = #{range.city}
-        </if>
-        order by p.uptime desc
-        <if test="range.limit > 0">
-            limit #{range.limit}
-        </if>
-
+    <select id="getNearbyUserId" resultType="java.lang.String">
+        select distinct p.user_id
+        from corgi_user_position p
+                 left join corgi_user_detail p on p.user_id = d.user_id
+        where (d.avatar_status = 'influencer' or (
+            d.vip_status = 1 and d.vip_expire > now()
+            ) or p.uptime > #{position.uptime})
+        order by st_distance_sphere(point(#{position.lng},#{position.lat}),p.pt)
+        limit 50
     </select>
 
     <select id="getNearbyNoDate" resultType="java.lang.String">

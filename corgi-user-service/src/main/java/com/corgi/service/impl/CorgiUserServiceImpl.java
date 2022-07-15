@@ -252,25 +252,12 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             mapUserProfile.setUserIds(new ArrayList<>());
             return mapUserProfile;
         }
-        if (userQuery.getLimit() == null) {
-            userQuery.setLimit(500);
-        }
-        userQuery.setRange(100.0 / 1.4);
-        userQuery.setCity(null);
-        UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
-//        if (supporter.getCity() != null) {
-//            UserPosition position = corgiUserMapper.getUserPosition(userQuery.getUserId());
-//            if (position != null && supporter.getCity().equals(position.getCity())) {
-//                supporter.setCity(null);
-//            }
-//        }
         UserPosition userPosition = new UserPosition();
-        userPosition.setUserId(supporter.getUserId());
+        userPosition.setUserId(userQuery.getUserId());
         userPosition.setRealLng(userQuery.getLng());
         userPosition.setRealLat(userQuery.getLat());
-        userPosition.setUptime(System.currentTimeMillis());
-        corgiUserMapper.updateUserPositionUptime(userPosition);
-        List<String> userIds = corgiUserMapper.getNearbyDate(supporter);
+        userPosition.setUptime(System.currentTimeMillis() - 30 * 24 * 3600 * 1000L);
+        List<String> userIds = corgiUserMapper.getNearbyUserId(userPosition);
         List<String> beBlockUserIds = corgiBlacklistMapper.getBeBlacklist(userQuery.getUserId());
         List<String> blockUserIds = corgiBlacklistMapper.getBlacklist(userQuery.getUserId()).stream().map(basic -> basic.getUserId()).collect(Collectors.toList());
         List<String> result = new ArrayList<>();
@@ -279,16 +266,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 result.add(userId);
             }
         }
-
-//        if (result.size() < 500 && ("不限".equals(supporter.getType()) || StringUtils.isEmpty(supporter.getType()))) {
-//            supporter.setLimit(500);
-//            List<String> noDateUserIds = corgiUserMapper.getNearbyNoDate(supporter);
-//            for (String userId : noDateUserIds) {
-//                if (!beBlockUserIds.contains(userId) && !blockUserIds.contains(userId) && !result.contains(userId)) {
-//                    result.add(userId);
-//                }
-//            }
-//        }
         mapUserProfile.setUserIds(result);
         return mapUserProfile;
     }
@@ -540,7 +517,10 @@ public class CorgiUserServiceImpl implements CorgiUserService {
 
     @Override
     public List<UserProfile> recommendUser(String city, String userId) {
-        return corgiUserMapper.getRecommendUser(city, userId);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -7);
+        return corgiUserMapper.getRecommendUser(city, userId, format.format(calendar.getTime()));
     }
 
     @Override

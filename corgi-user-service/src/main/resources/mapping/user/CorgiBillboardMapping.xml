@@ -147,10 +147,10 @@
     </update>
 
     <update id="updateBillboardOrder">
-        update corgi.corgi_billboard
+        update corgi.corgi_activity_billboard
         set `order` = #{order}
         where `date` = #{date}
-          and user_id = #{userId}
+          and activity_id = #{activityId}
     </update>
 
     <select id="getUserIdByNickname" resultType="java.lang.String">

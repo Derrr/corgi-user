@@ -110,7 +110,7 @@ public interface CorgiUserMapper {
      * @param city
      * @return
      */
-    List<UserProfile> getRecommendUser(@Param("city") String city, @Param("userId") String userId);
+    List<UserProfile> getRecommendUser(@Param("city") String city, @Param("userId") String userId, @Param("date") String date);
 
     /**
      * 修改头像状态
@@ -242,7 +242,7 @@ public interface CorgiUserMapper {
      * @param supporter
      * @return
      */
-    List<String> getNearbyDate(@Param("range") UserQuerySupporter supporter);
+    List<String> getNearbyUserId(@Param("position") UserPosition position);
 
     /**
      * 获取周围人信息
@@ -279,7 +279,7 @@ public interface CorgiUserMapper {
     /**
      * 分页查询用户
      */
-    List<UserProfile> getUserProfileByPage( @Param("userId") String userId, @Param("size") int size);
+    List<UserProfile> getUserProfileByPage(@Param("userId") String userId, @Param("size") int size);
 
     /**
      * 查询用户
@@ -316,7 +316,7 @@ public interface CorgiUserMapper {
      * @param size
      * @return
      */
-    List<UserProfile> queryInfluencerByHeat(@Param("query")UserDetail detail, @Param("start") int start, @Param("size") int size);
+    List<UserProfile> queryInfluencerByHeat(@Param("query") UserDetail detail, @Param("start") int start, @Param("size") int size);
 
 
     /**
@@ -410,10 +410,10 @@ public interface CorgiUserMapper {
     /**
      * 获取用户vip过期时间
      */
-    String getVipExpire(@Param("userId")String userId);
+    String getVipExpire(@Param("userId") String userId);
 
     /**
      * 更新用户vip状态
      */
-    void updateVipExpire(@Param("userId")String userId, @Param("vipStatus")String vipStatus, @Param("vipExpire")String vipExpire);
+    void updateVipExpire(@Param("userId") String userId, @Param("vipStatus") String vipStatus, @Param("vipExpire") String vipExpire);
 }

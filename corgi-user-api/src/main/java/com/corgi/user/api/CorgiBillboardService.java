@@ -25,7 +25,7 @@ public interface CorgiBillboardService {
 
     void updateBillboardByNickname(String from, String to, String date);
 
-    void updateBillboardOrder(String userId, String date, Integer order);
+    void updateBillboardOrder(String activityId, String date, Integer order);
 
     List<Billboard> getBillboardByDate(String startDate, String endDate);
 

@@ -104,11 +104,11 @@ public interface CorgiBillboardMapper {
     /**
      * 根据ID更新榜单顺序
      *
-     * @param userId
+     * @param activityId
      * @param order
      * @param date
      */
-    void updateBillboardOrder(@Param("userId") String userId, @Param("date") String date, @Param("order") Integer order);
+    void updateBillboardOrder(@Param("activityId") String activityId, @Param("date") String date, @Param("order") Integer order);
 
     /**
      * 根据昵称获取ID
