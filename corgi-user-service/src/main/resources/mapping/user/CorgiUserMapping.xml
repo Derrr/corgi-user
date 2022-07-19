@@ -298,7 +298,7 @@
     <select id="getRecommendUser" resultType="com.corgi.user.entity.UserProfile">
         select d.user_id userId,
                d.nickname,
-               d.avatar,
+               d.avatar
         from corgi_user_detail d
                  left join corgi_user_position p
                            on d.user_id = p.user_id

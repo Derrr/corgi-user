@@ -22,6 +22,7 @@ public class CorgiOrder implements Serializable {
 
     public interface STATUS {
         String CREATED = "created";
+        String PROCESSING = "processing";
         String SUCCESS = "success";
         String CLOSE = "close";
         String FAIL = "fail";
