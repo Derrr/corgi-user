@@ -48,6 +48,7 @@ public class UserDetail implements Serializable {
     private String background;
     private String bgCheckStatus;
     private String bgDataId;
+    private Integer onlineStatus;
     private Boolean vip;
     private String dateStatus;
     private CorgiDate date;
