@@ -496,7 +496,7 @@
     <select id="getNearbyUserId" resultType="java.lang.String">
         select distinct p.user_id
         from corgi_user_position p
-                 left join corgi_user_detail p on p.user_id = d.user_id
+                 left join corgi_user_detail d on p.user_id = d.user_id
         where (d.avatar_status = 'influencer' or (
             d.vip_status = 1 and d.vip_expire > now()
             ) or p.uptime > #{position.uptime})
