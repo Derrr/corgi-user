@@ -61,9 +61,6 @@
             <if test="order.buyerId != null and order.buyerId != ''">
                 `buyer_id` = #{order.buyerId},
             </if>
-            <if test="order.orderId != null and order.orderId != ''">
-                `order_id` = #{order.orderId},
-            </if>
             <if test="order.payAmount != null">
                 `pay_amount` = #{order.payAmount},
             </if>
