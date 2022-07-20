@@ -75,7 +75,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 expiresDate = order.getBuyerId();
                 order.setBuyerId(null);
             }
-            if (StringUtils.isNotEmpty(order.getOrderId())) {
+            if (StringUtils.isNotEmpty(order.getOrderId()) && CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
                 List<CorgiOrder> oldOrders = corgiOrderMapper.getOrderByOrderId(order.getOrderId());
                 if (CollectionUtils.isNotEmpty(oldOrders)) {
                     for (CorgiOrder oldOrder : oldOrders) {
