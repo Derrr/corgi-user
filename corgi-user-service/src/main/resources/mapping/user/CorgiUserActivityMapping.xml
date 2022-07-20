@@ -133,7 +133,7 @@
     <select id="queryActivity" resultType="com.corgi.activity.entity.CorgiActivity">
         select c.activity_id id, c.ctime createTime, c.creator_id userId, c.category
         from corgi_activity_creator c
-        where c.check_status != 'fail'
+        where c.check_status != 'fail' and c.check_status != 'check'
         <if test="query.userId != null and query.userId !=''">
             and c.creator_id = #{query.userId}
         </if>

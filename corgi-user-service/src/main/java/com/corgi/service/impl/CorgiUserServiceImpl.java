@@ -531,9 +531,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         corgiUserMapper.deleteUserLogin(userId);
         corgiUserMapper.deleteUserDetail(userId);
         corgiUserMapper.deleteUserPosition(userId);
-        //corgiUserMapper.deletePreferGroup(userId);
-        //corgiUserFollowMapper.deleteAllUserFollow(userId);
-        //corgiBlacklistMapper.deleteAll(userId);
         if (!StringUtils.isEmpty(userId)) {
             redisTemplate.opsForGeo().remove("user", userId);
             redisTemplate.opsForGeo().remove("user-date", userId);
@@ -647,23 +644,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (CollectionUtils.isEmpty(userIds)) {
             return "";
         }
-        //滤除匹配度
-//        if ((startMatch != null && startMatch > 20) || (endMatch != null && endMatch < 100)) {
-//            List<String> result = new ArrayList();
-//            if (startMatch == null) {
-//                startMatch = 20;
-//            }
-//            if (endMatch == null) {
-//                endMatch = 100;
-//            }
-//            for (String userId : userIds) {
-//                Double match = corgiUserMatchService.getUserMatch(loginUserId, userId);
-//                if (match > startMatch && match < endMatch) {
-//                    result.add(userId);
-//                }
-//            }
-//            userIds = result;
-//        }
         Long lastTime = System.currentTimeMillis() - 14 * 24 * 3600 * 1000L;
         int size = userIds.size();
         List<UserProfile> noFaceProfile = new ArrayList<>();
