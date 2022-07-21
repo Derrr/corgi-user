@@ -83,7 +83,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 List<CorgiOrder> oldOrders = corgiOrderMapper.getOrderByOrderId(order.getOrderId());
                 if (CollectionUtils.isNotEmpty(oldOrders)) {
                     for (CorgiOrder oldOrder : oldOrders) {
-                        if (CorgiOrder.STATUS.SUCCESS.equals(oldOrder.getStatus())) {
+                        if (CorgiOrder.STATUS.SUCCESS.equals(oldOrder.getStatus())
+                         && !oldOrder.getTradeNo().equals(order.getTradeNo())) {
                             order.setStatus("duplicated");
                         }
                     }
