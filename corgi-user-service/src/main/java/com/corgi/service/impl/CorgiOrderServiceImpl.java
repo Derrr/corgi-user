@@ -84,7 +84,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 if (CollectionUtils.isNotEmpty(oldOrders)) {
                     for (CorgiOrder oldOrder : oldOrders) {
                         if (CorgiOrder.STATUS.SUCCESS.equals(oldOrder.getStatus())
-                         && !oldOrder.getTradeNo().equals(order.getTradeNo())) {
+                                && !oldOrder.getTradeNo().equals(order.getTradeNo())) {
                             order.setStatus("duplicated");
                         }
                     }
