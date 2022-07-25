@@ -13,7 +13,7 @@
         from corgi_user_position p
         left join corgi_user_detail d on d.user_id = p.user_id
         where
-        p.user_id in (593,173649,2,7,1,8)
+        p.user_id in ('593','173649','2','7','1','8')
 --         p.user_id != #{user.userId}
 <!--        <if test="timestamp > 0">-->
 <!--            and p.uptime > #{timestamp}-->
