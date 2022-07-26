@@ -254,8 +254,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
         UserPosition userPosition = new UserPosition();
         userPosition.setUserId(userQuery.getUserId());
-        userPosition.setRealLng(userQuery.getLng());
-        userPosition.setRealLat(userQuery.getLat());
+        userPosition.setLng(userQuery.getLng());
+        userPosition.setLat(userQuery.getLat());
         userPosition.setUptime(System.currentTimeMillis() - 30 * 24 * 3600 * 1000L);
         UserUtils.buildQueryString(userQuery);
         List<String> userIds = corgiUserMapper.getNearbyUserId(userPosition, userQuery.getResult());
