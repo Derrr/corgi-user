@@ -11,6 +11,7 @@ import com.corgi.user.api.CorgiOrderService;
 import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.*;
 import com.corgi.user.enums.MerchandiseEnum;
+import com.corgi.utils.UserUtils;
 import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, -5);
         List<String> userIds = new ArrayList<>();
-        this.buildQueryString(userQuery);
+        UserUtils.buildQueryString(userQuery);
         List<UserMatchItem> users;
         if (StringUtils.isEmpty(userQuery.getResult()) && userQuery.getLat() != 0 && userQuery.getLng() != 0) {
             try {
@@ -312,38 +313,6 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
         }
         return null;
-    }
-
-    private void buildQueryString(UserQuery query) {
-        StringBuilder sb = new StringBuilder();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        if (!CollectionUtils.isEmpty(query.getDateStatus())) {
-            sb.append(" and d.date_status in('").append(String.join("','", query.getDateStatus()));
-            if (query.getDateStatus().contains("想聊天")) {
-                sb.append("','");
-            }
-            sb.append("') ");
-        }
-        if (!CollectionUtils.isEmpty(query.getGroup())) {
-            sb.append(" and d.group in('").append(String.join("','", query.getGroup())).append("') ");
-        }
-        if (!CollectionUtils.isEmpty(query.getRole())) {
-            sb.append(" and d.role in('").append(String.join("','", query.getRole())).append("') ");
-        }
-        if (query.getStartAge() != null && query.getStartAge() > 18) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.YEAR, -1 * query.getStartAge());
-            sb.append(" and d.birthday < '").append(sdf.format(calendar.getTime())).append("' ");
-        }
-        if (query.getEndAge() != null && query.getEndAge() < 70) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.YEAR, -1 * query.getEndAge());
-            sb.append(" and d.birthday > '").append(sdf.format(calendar.getTime())).append("' ");
-        }
-        if ("verify".equals(query.getType())) {
-            sb.append(" and d.avatar_check_status = 'verified' ");
-        }
-        query.setResult(sb.toString());
     }
 
     private List<UserMatchItem> buildUsers(List<UserMatchItem> items, List<String> userIds, Long nowTime, String nowTimeDate, int size) {

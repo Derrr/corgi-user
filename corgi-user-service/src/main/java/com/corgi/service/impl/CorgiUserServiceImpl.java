@@ -257,7 +257,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userPosition.setRealLng(userQuery.getLng());
         userPosition.setRealLat(userQuery.getLat());
         userPosition.setUptime(System.currentTimeMillis() - 30 * 24 * 3600 * 1000L);
-        List<String> userIds = corgiUserMapper.getNearbyUserId(userPosition);
+        UserUtils.buildQueryString(userQuery);
+        List<String> userIds = corgiUserMapper.getNearbyUserId(userPosition, userQuery.getResult());
         List<String> beBlockUserIds = corgiBlacklistMapper.getBeBlacklist(userQuery.getUserId());
         List<String> blockUserIds = corgiBlacklistMapper.getBlacklist(userQuery.getUserId()).stream().map(basic -> basic.getUserId()).collect(Collectors.toList());
         List<String> result = new ArrayList<>();

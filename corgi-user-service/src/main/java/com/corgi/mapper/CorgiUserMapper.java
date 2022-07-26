@@ -242,7 +242,7 @@ public interface CorgiUserMapper {
      * @param position
      * @return
      */
-    List<String> getNearbyUserId(@Param("position") UserPosition position);
+    List<String> getNearbyUserId(@Param("position") UserPosition position, @Param("result") String result);
 
     /**
      * 获取周围人信息

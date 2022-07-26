@@ -500,6 +500,9 @@
         where (d.avatar_status = 'influencer' or (
             d.vip_status = 1 and d.vip_expire > now()
             ) or p.uptime > #{position.uptime})
+        <if test="result != ''">
+            ${result}
+        </if>
         order by st_distance_sphere(point(#{position.lng},#{position.lat}),p.pt)
         limit 50
     </select>

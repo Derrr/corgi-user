@@ -1,6 +1,11 @@
 package com.corgi.utils;
 
+import com.corgi.user.entity.UserQuery;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * @author tairanliu
@@ -53,6 +58,38 @@ public class UserUtils {
             return "双鱼座";
         }
         return "";
+    }
+
+    public static void buildQueryString(UserQuery query) {
+        StringBuilder sb = new StringBuilder();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        if (!CollectionUtils.isEmpty(query.getDateStatus())) {
+            sb.append(" and d.date_status in('").append(String.join("','", query.getDateStatus()));
+            if (query.getDateStatus().contains("想聊天")) {
+                sb.append("','");
+            }
+            sb.append("') ");
+        }
+        if (!CollectionUtils.isEmpty(query.getGroup())) {
+            sb.append(" and d.group in('").append(String.join("','", query.getGroup())).append("') ");
+        }
+        if (!CollectionUtils.isEmpty(query.getRole())) {
+            sb.append(" and d.role in('").append(String.join("','", query.getRole())).append("') ");
+        }
+        if (query.getStartAge() != null && query.getStartAge() > 18) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, -1 * query.getStartAge());
+            sb.append(" and d.birthday < '").append(sdf.format(calendar.getTime())).append("' ");
+        }
+        if (query.getEndAge() != null && query.getEndAge() < 70) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, -1 * query.getEndAge());
+            sb.append(" and d.birthday > '").append(sdf.format(calendar.getTime())).append("' ");
+        }
+        if ("verify".equals(query.getType())) {
+            sb.append(" and d.avatar_check_status = 'verified' ");
+        }
+        query.setResult(sb.toString());
     }
 
     public static String getIndex(String userId) {
