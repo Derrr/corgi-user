@@ -500,6 +500,7 @@
         where (d.avatar_status = 'influencer' or (
             d.vip_status = 1 and d.vip_expire > now()
             ) or p.uptime > #{position.uptime})
+            and p.lng &lt; 1000 and p.lat &lt; 1000
         <if test="result != ''">
             ${result}
         </if>
