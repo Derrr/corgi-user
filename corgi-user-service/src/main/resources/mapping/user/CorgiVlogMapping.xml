@@ -339,7 +339,7 @@
             and h.id &lt; #{lastId}
         </if>
         <if test="activityId != null and activityId != ''">
-            and h.activityId &lt; #{activityId}
+            and h.activity_id &lt; #{activityId}
         </if>
 
         order by h.id desc
