@@ -93,6 +93,13 @@ public interface CorgiUserActivityMapper {
     List<String> getFollowedActivityIds(@Param("query")ActivityQuery activityQuery);
 
     /**
+     * 返回范围内本人动态
+     *
+     * @return
+     */
+    List<String> getUserRangeActivityIds(@Param("query")ActivityQuery activityQuery, @Param("startId")String startId, @Param("endId")String endId);
+
+    /**
      * 统计
      *
      * @param activityQuery
