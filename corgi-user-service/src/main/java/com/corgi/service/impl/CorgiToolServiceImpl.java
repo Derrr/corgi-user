@@ -191,7 +191,14 @@ public class CorgiToolServiceImpl implements CorgiToolService {
             calendar.add(Calendar.YEAR, query.getEndAge() * -1);
             query.setEndTime(sdf.format(calendar.getTime()));
         }
-        return corgiToolMapper.getActivityIdsByTopic(query, role, group, (page - 1) * size, size);
+        String weight = "and t.weight = 0";
+        List<String> ids = corgiToolMapper.getActivityIdsByTopic(query, weight, role, group, (page - 1) * size, size);
+        if (page == 1) {
+            weight = "and t.weight != 0";
+            List<String> onTop = corgiToolMapper.getActivityIdsByTopic(query, weight, role, group, (page - 1) * size, size);
+            ids.addAll(0, onTop);
+        }
+        return ids;
     }
 
     @Override
