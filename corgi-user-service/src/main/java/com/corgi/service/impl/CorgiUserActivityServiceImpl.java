@@ -125,7 +125,24 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
 
     @Override
     public List<String> getFollowUserActivity(ActivityQuery query) {
-        return corgiUserActivityMapper.getFollowedActivityIds(query);
+        query.setPageSize(query.getPageSize() + 1);
+        List<String> followActivityIds = corgiUserActivityMapper.getFollowedActivityIds(query);
+        String startId = "";
+        String endId = "";
+        if (query.getPage() > 0) {
+            if (followActivityIds.size() > 0) {
+                startId = followActivityIds.get(0);
+            } else {
+                return new ArrayList<>();
+            }
+        }
+        if (followActivityIds.size() >= query.getPageSize()) {
+            endId = followActivityIds.get(followActivityIds.size() - 1);
+            followActivityIds.remove(followActivityIds.size() - 1);
+        }
+        List<String> userActivityIds = corgiUserActivityMapper.getUserRangeActivityIds(query, startId, endId);
+        followActivityIds = this.mergeActivityIds(followActivityIds, userActivityIds);
+        return followActivityIds;
     }
 
     @Override
@@ -225,5 +242,19 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     @Override
     public int countUserActivity(String userId) {
         return corgiUserActivityMapper.countUserActivity(userId);
+    }
+
+    private List<String> mergeActivityIds(List<String> activityIds, List<String> mergeIds) {
+        for (String mergeId : mergeIds) {
+            int i = 0;
+            for (; i < activityIds.size(); i++) {
+                String activityId = activityIds.get(i);
+                if (mergeId.compareTo(activityId) > 0) {
+                    break;
+                }
+            }
+            activityIds.add(i, mergeId);
+        }
+        return activityIds;
     }
 }

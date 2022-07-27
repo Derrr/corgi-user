@@ -95,14 +95,36 @@
         </if>
     </select>
 
+    <select id="getUserRangeActivityIds" resultType="java.lang.String">
+        select c.activity_id
+        from corgi_activity_creator c
+        where c.check_status != 'fail'
+        and c.creator_id = #{query.userId}
+        <if test="startId != null and startId != ''">
+            and c.activity_id &lt; #{startId}
+        </if>
+        <if test="endId != null and endId != ''">
+            and c.activity_id > #{endId}
+        </if>
+        <if test="query.category != null and query.category != ''">
+            and c.category = #{query.category}
+        </if>
+        <if test="query.endTime != null and query.endTime != ''">
+            and c.ctime > #{query.endTime}
+        </if>
+        <if test="query.activityId != null and query.activityId != ''">
+            and c.activity_id &lt; #{query.activityId}
+        </if>
+        order by c.activity_id desc
+    </select>
+
     <select id="getFollowedActivityIds" resultType="java.lang.String">
         select c.activity_id
         from corgi_activity_creator c
         where c.check_status != 'fail'
         and c.check_status != 'check'
-        and (c.creator_id = #{query.userId}
-        or exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
-        #{query.userId} and f.is_deleted = '0'))
+        and exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
+        #{query.userId} and f.is_deleted = '0')
         <if test="query.activityId != null and query.activityId != ''">
             and c.activity_id &lt; #{query.activityId}
         </if>
@@ -112,16 +134,15 @@
         <if test="query.category != null and query.category != ''">
             and c.category = #{query.category}
         </if>
-        order by c.id desc limit #{query.page}, #{query.pageSize}
+        order by c.activity_id desc limit #{query.page}, #{query.pageSize}
     </select>
 
     <select id="countFollowedActivityIds" resultType="java.lang.Integer">
         select count(1)
         from corgi_activity_creator c
         where c.check_status != 'fail'
-        and (c.creator_id = #{query.userId}
-        or exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
-        #{query.userId} and f.is_deleted = '0'))
+        and exists(select 1 from corgi_user_follow f where c.creator_id = f.follow_user_id and f.user_id =
+        #{query.userId} and f.is_deleted = '0')
         <if test="query.activityId != null and query.activityId != ''">
             and c.activity_id > #{query.activityId}
         </if>
@@ -180,8 +201,8 @@
             join corgi_activity_hashtag h on h.activity_id = c.activity_id and h.hashtag_id = #{hashtag}
         </if>
         where c.category in ('${category}')
-          and c.check_status != 'fail'
-          and c.check_status != 'not_good'
+        and c.check_status != 'fail'
+        and c.check_status != 'not_good'
         <if test="date != null">
             and c.ctime >= #{date}
         </if>
