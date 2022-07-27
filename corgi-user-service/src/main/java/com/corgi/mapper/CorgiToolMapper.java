@@ -132,7 +132,7 @@ public interface CorgiToolMapper {
      * @param size
      * @return
      */
-    List<String> getActivityIdsByTopic(@Param("query") ActivityQuery query, @Param("role") String role, @Param("group") String group, @Param("start") Integer start, @Param("size") Integer size);
+    List<String> getActivityIdsByTopic(@Param("query") ActivityQuery query,@Param("weight")String weight, @Param("role") String role, @Param("group") String group, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
      * 根据话题获取活动
