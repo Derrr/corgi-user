@@ -86,11 +86,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userDetail.setCon(UserUtils.getConByBirthDay(userDetail.getBirthday()));
         corgiUserMapper.addUserDetail(userDetail);
         this.updatePreferGroup(userDetail.getUserId(), userDetail.getPreferGroup());
-//        if (userDetail.getUserPics() != null) {
-//            for (UserPic userPic : userDetail.getUserPics()) {
-//                corgiPicMapper.addUserPic(userPic);
-//            }
-//        }
         return CorgiConstants.SUCCESS;
     }
 
@@ -101,12 +96,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
         userDetail.setCon(UserUtils.getConByBirthDay(userDetail.getBirthday()));
         corgiUserMapper.updateUserDetail(userDetail);
-
-//        if (shouldRefresh(userDetail)) {
-//            MatchRefresher matchRefresher = new MatchRefresher();
-//            matchRefresher.setUserId(userDetail.getUserId());
-//            rabbitTemplate.convertAndSend(CorgiQueueName.REFRESH_MATCH_QUEUE, matchRefresher);
-//        }
         return CorgiConstants.SUCCESS;
     }
 
@@ -205,7 +194,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 || oldUserPosition.getLng() - userPosition.getLng() < -0.00001) {
             corgiUserMapper.updateUserPosition(userPosition);
             redisTemplate.opsForGeo().remove(geoKey, userPosition.getUserId());
-            redisTemplate.opsForGeo().remove(geoKey + "-date", userPosition.getUserId());
             this.addGeo(geoKey, userPosition);
         } else {
             corgiUserMapper.updateUserPositionUptime(userPosition);
@@ -413,46 +401,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     public List<UserProfile> populateUserProfileAll(List<UserProfile> userProfiles, String userId, boolean hasMatch) {
-        //UserDetail loginUserDetail = null;
         if (!CollectionUtils.isEmpty(userProfiles)) {
             for (UserProfile userProfile : userProfiles) {
                 try {
-                    //List<UserPic> userPics = corgiPicMapper.getUserPic(userProfile.getUserId());
-
-//                    if (CollectionUtils.isEmpty(userPics) && userProfile.getAvatar() != null) {
-//                        UserPic userPic = new UserPic();
-//                        userPic.setPicUrl(userProfile.getAvatar());
-//                        userPic.setStatus(userProfile.getAvatarStatus());
-//                        userProfile.setPics(Arrays.asList(userPic));
-//                    } else {
-                    //userProfile.setPics(userPics);
-                    //}
                     if (StringUtils.isEmpty(userId)) {
                         continue;
                     }
                     String userId2 = userProfile.getUserId();
                     int count = corgiUserFollowService.isFollowed(userId, userId2);
                     userProfile.setIsFollowed(count);
-//                    if (hasMatch) {
-//                        Double match = corgiUserMatchService.getUserMatch(userId, userId2);
-//                        if (match == null) {
-//                            if (loginUserDetail == null) {
-//                                loginUserDetail = corgiUserMapper.getUserDetail(userId);
-//                                if (loginUserDetail == null) {
-//                                    continue;
-//                                }
-//                                loginUserDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userId));
-//                            }
-//                            UserDetail userDetail = corgiUserMapper.getUserDetail(userProfile.getUserId());
-//                            userDetail.setPreferGroup(corgiUserMapper.getPreferGroup(userDetail.getUserId()));
-//                            try {
-//                                match = corgiUserMatchService.calculateUserMatchByDetail(loginUserDetail, userDetail);
-//                            } catch (Exception e) {
-//                                log.error(e.getMessage(), e);
-//                            }
-//                        }
-//                        userProfile.setMatch(match);
-//                    }
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }
@@ -534,7 +491,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         corgiUserMapper.deleteUserPosition(userId);
         if (!StringUtils.isEmpty(userId)) {
             redisTemplate.opsForGeo().remove("user", userId);
-            redisTemplate.opsForGeo().remove("user-date", userId);
         }
         if (detail == null) {
             detail = new UserDetail();
@@ -587,11 +543,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return;
         }
         redisTemplate.opsForGeo().add(geoKey, new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
-        CorgiDate corgiDate = corgiUserDateService.getDateByUserId(userPosition.getUserId());
-        if (!CorgiDate.EMPTY.equals(corgiDate.getStatus())) {
-            redisTemplate.opsForGeo().add(geoKey.concat("-date"), new Point(userPosition.getLng(), userPosition.getLat()), userPosition.getUserId());
-        }
-
     }
 
     private List<UserProfile> getMapUserProfile(List<String> userIds, String loginUserId) {
