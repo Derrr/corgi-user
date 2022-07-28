@@ -101,6 +101,14 @@ public interface CorgiPicMapper {
      */
     void updateActivityPicByDataId(@Param("dataId") String dataId, @Param("status") String status);
 
+    /**
+     * 更新活动图片状态
+     *
+     * @param dataId
+     * @param status
+     */
+    void updateActivityPicByActivityId(@Param("activityId") String activityId, @Param("status") String status);
+
 
     /**
      * 获取活动图片

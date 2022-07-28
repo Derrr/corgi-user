@@ -4,6 +4,8 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.entity.ActivityPic;
 import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.ActivityQuery;
+import com.corgi.entity.CorgiPic;
+import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserActivityMapper;
 import com.corgi.mapper.CorgiVlogMapper;
 import com.corgi.user.api.*;
@@ -37,6 +39,8 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     private CorgiToolService corgiToolService;
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
+    @Autowired
+    private CorgiPicMapper corgiPicMapper;
 
     @Override
     public List<String> searchFeedActivity(ActivityQuery query) {
@@ -200,6 +204,9 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     @Override
     public void changeActivityCreator(String activityId, String status) {
         corgiUserActivityMapper.changeActivityCreator(activityId, status);
+        if (CorgiPic.NORMAL.equals(status)) {
+            corgiPicMapper.updateActivityPicByActivityId(activityId, CorgiPic.NORMAL);
+        }
     }
 
     @Override

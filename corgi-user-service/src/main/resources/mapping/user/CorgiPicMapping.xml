@@ -83,6 +83,13 @@
         where data_id = #{dataId}
     </update>
 
+    <update id="updateActivityPicByActivityId">
+        update corgi_activity_pic
+        set `status` = #{status}
+        where activity_id = #{activityId}
+    </update>
+
+
     <select id="getActivityPic" resultType="com.corgi.activity.entity.ActivityPic">
         select id picId, activity_id activityId, pic_url picUrl, data_id dataId, `status`, `result`
         from corgi_activity_pic
