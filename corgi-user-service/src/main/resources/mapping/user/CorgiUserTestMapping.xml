@@ -281,6 +281,9 @@
         <if test="userDetail.checkStatus != null and userDetail.checkStatus != ''">
             and d.check_status = #{userDetail.checkStatus}
         </if>
+        <if test="userDetail.avatarCheckStatus != null and userDetail.avatarCheckStatus != ''">
+            and d.avatar_check_status = #{userDetail.avatarCheckStatus}
+        </if>
         <if test="userDetail.ctime != null and userDetail.ctime != ''">
             and d.ctime > #{userDetail.ctime}
         </if>

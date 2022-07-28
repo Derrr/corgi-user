@@ -680,6 +680,9 @@
         <if test="userDetail.avatarStatus != null and userDetail.avatarStatus == 'pay'">
             and exists (select 1 from corgi_user_goods g where g.user_id = d.user_id)
         </if>
+        <if test="userDetail.avatarCheckStatus != null and userDetail.avatarCheckStatus != ''">
+            and d.avatar_check_status = #{userDetail.avatarCheckStatus}
+        </if>
 
         order by d.user_id
         limit #{start},#{size}
