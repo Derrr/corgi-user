@@ -14,6 +14,7 @@ public class PaidBillboard implements Serializable {
     private String id;
     private String activityId;
     private String userId;
+    private String payId;
     private String date;
     private String status;
     private String tradeNo;

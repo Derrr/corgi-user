@@ -287,7 +287,7 @@
     </select>
 
     <select id="getPaidBillboard" resultType="com.corgi.user.entity.PaidBillboard">
-        select p.id, p.activity_id activityId, p.date, p.status,o.user_id userId
+        select p.id, p.activity_id activityId, p.date, p.status,o.user_id payId,p.user_id userId
         from corgi_paid_billboard p
         left join corgi_order o on o.trade_no = p.trade_no
         where 1=1
