@@ -192,6 +192,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         corgiOrderMapper.addGoods(goods);
         PaidBillboard query = new PaidBillboard();
         query.setId(order.getMarketId());
+        query.setTradeNo(order.getTradeNo());
         query.setStatus(PaidBillboard.PAID);
         corgiBillboardService.updatePaiBillboard(query);
     }
