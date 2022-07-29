@@ -83,20 +83,26 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (StringUtils.isEmpty(userQuery.getUserId())) {
             return new ArrayList<>();
         }
-        Long nowTime = calendar.getTimeInMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String nowDate = sdf.format(calendar.getTime());
-        List<UserMatchItem> users = userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6);
-        users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
-        if (users.size() < 6) {
-            calendar.add(Calendar.DATE, -7);
-            users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
-                    userIds, nowTime, nowDate, 6 - users.size()));
-        }
-        if (users.size() < 6) {
-            userMatchMapper.updateMatchViewByDate(null, userQuery.getUserId());
-            users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
-                    userIds, nowTime, nowDate, 6 - users.size()));
+        List<UserMatchItem> users = new ArrayList<>();
+        try {
+            Long nowTime = calendar.getTimeInMillis();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String nowDate = sdf.format(calendar.getTime());
+            users = userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6);
+            users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
+            if (users.size() < 6) {
+                calendar.add(Calendar.DATE, -7);
+                users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
+                        userIds, nowTime, nowDate, 6 - users.size()));
+            }
+            if (users.size() < 6) {
+                userMatchMapper.updateMatchViewByDate(null, userQuery.getUserId());
+                users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
+                        userIds, nowTime, nowDate, 6 - users.size()));
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return new ArrayList<>();
         }
         return users;
     }
