@@ -18,6 +18,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -178,6 +181,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     public List<String> getActivityIdsByTopic(ActivityQuery query, Integer page, Integer size) {
         String group = "";
         String role = "";
+        String keyPrefix = "";
         String key = "activityTopic-" + query.getTopic() + "_" + page + "_" + size;
         boolean hasFilter = hasTopicFilter(query);
         if (!hasFilter) {
@@ -188,21 +192,38 @@ public class CorgiToolServiceImpl implements CorgiToolService {
         }
         if (!CollectionUtils.isEmpty(query.getGroup())) {
             group = Strings.join(query.getGroup(), '|').replaceAll("'", "").replaceAll("\\|", "','");
+            keyPrefix = keyPrefix.concat(group);
         }
         if (!CollectionUtils.isEmpty(query.getRole())) {
             role = Strings.join(query.getRole(), '|').replaceAll("'", "").replaceAll("\\|", "','");
+            keyPrefix = keyPrefix.concat(role);
         }
         if (query.getStartAge() > 0) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, query.getStartAge() * -1);
             query.setStartTime(sdf.format(calendar.getTime()));
+            keyPrefix = keyPrefix.concat(sdf.format(calendar.getTime()));
         }
         if (query.getEndAge() > 0) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, query.getEndAge() * -1);
             query.setEndTime(sdf.format(calendar.getTime()));
+            keyPrefix = keyPrefix.concat(sdf.format(calendar.getTime()));
+        }
+        try {
+            if (!StringUtils.isEmpty(keyPrefix)) {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update(keyPrefix.getBytes(StandardCharsets.UTF_8));
+                key = key.concat(new BigInteger(1, md.digest()).toString(16));
+                List<String> ids = redisTemplate.opsForList().range(key, 0, -1);
+                if (!CollectionUtils.isEmpty(ids)) {
+                    return ids;
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
         String weight = "and t.weight = 0";
         List<String> ids = corgiToolMapper.getActivityIdsByTopic(query, weight, role, group, (page - 1) * size, size);
@@ -211,10 +232,8 @@ public class CorgiToolServiceImpl implements CorgiToolService {
             List<String> onTop = corgiToolMapper.getActivityIdsByTopic(query, weight, role, group, (page - 1) * size, size);
             ids.addAll(0, onTop);
         }
-        if (!hasFilter) {
-            redisTemplate.opsForList().rightPushAll(key, ids);
-            redisTemplate.expire(key, 10l, TimeUnit.SECONDS);
-        }
+        redisTemplate.opsForList().rightPushAll(key, ids);
+        redisTemplate.expire(key, 10l, TimeUnit.SECONDS);
         return ids;
     }
 
