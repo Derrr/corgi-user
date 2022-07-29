@@ -13,12 +13,14 @@ import com.corgi.user.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author tairanliu
@@ -32,6 +34,9 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Autowired
     private CorgiToolMapper corgiToolMapper;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Reference
     private CorgiActivityService activityService;
@@ -173,6 +178,14 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     public List<String> getActivityIdsByTopic(ActivityQuery query, Integer page, Integer size) {
         String group = "";
         String role = "";
+        String key = "activityTopic-" + query.getTopic() + "_" + page + "_" + size;
+        boolean hasFilter = hasTopicFilter(query);
+        if (!hasFilter) {
+            List<String> ids = redisTemplate.opsForList().range(key, 0, -1);
+            if (!CollectionUtils.isEmpty(ids)) {
+                return ids;
+            }
+        }
         if (!CollectionUtils.isEmpty(query.getGroup())) {
             group = Strings.join(query.getGroup(), '|').replaceAll("'", "").replaceAll("\\|", "','");
         }
@@ -197,6 +210,10 @@ public class CorgiToolServiceImpl implements CorgiToolService {
             weight = "and t.weight != 0";
             List<String> onTop = corgiToolMapper.getActivityIdsByTopic(query, weight, role, group, (page - 1) * size, size);
             ids.addAll(0, onTop);
+        }
+        if (!hasFilter) {
+            redisTemplate.opsForList().rightPushAll(key, ids);
+            redisTemplate.expire(key, 10l, TimeUnit.SECONDS);
         }
         return ids;
     }
@@ -324,6 +341,13 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     @Override
     public String getIdByWechatId(String wechatId) {
         return corgiToolMapper.getIdByWechat(wechatId);
+    }
+
+    private boolean hasTopicFilter(ActivityQuery query) {
+        return !CollectionUtils.isEmpty(query.getGroup()) ||
+                !CollectionUtils.isEmpty(query.getRole()) ||
+                query.getStartAge() > 0 ||
+                query.getEndAge() > 0;
     }
 
     public List<ActivityMessage> buildActivityMessage(List<ActivityMessage> activityMessages) {
