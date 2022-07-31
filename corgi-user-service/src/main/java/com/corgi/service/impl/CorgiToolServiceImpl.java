@@ -182,7 +182,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
         String group = "";
         String role = "";
         String keyPrefix = "";
-        String key = "activityTopic-" + query.getTopic() + "_" + page + "_" + size;
+        String key = "activityTopic-" + query.getTopic() + "_" + page + "_" + size + "-" + query.getActivityId();
         boolean hasFilter = hasTopicFilter(query);
         if (!hasFilter) {
             List<String> ids = redisTemplate.opsForList().range(key, 0, -1);
@@ -227,7 +227,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
         }
         String weight = "and t.weight = 0";
         List<String> ids = corgiToolMapper.getActivityIdsByTopic(query, weight, role, group, (page - 1) * size, size);
-        if (page == 1) {
+        if (page == 1 && StringUtils.isEmpty(query.getActivityId())) {
             weight = "and t.weight != 0";
             List<String> onTop = corgiToolMapper.getActivityIdsByTopic(query, weight, role, group, (page - 1) * size, size);
             ids.addAll(0, onTop);
