@@ -246,7 +246,14 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userPosition.setLat(userQuery.getLat());
         userPosition.setUptime(System.currentTimeMillis() - 30 * 24 * 3600 * 1000L);
         UserUtils.buildQueryString(userQuery);
-        List<String> userIds = corgiUserMapper.getNearbyUserId(userPosition, userQuery.getResult());
+        List<String> userIds = new ArrayList<>();
+        if(StringUtils.isEmpty(userQuery.getResult())){
+            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(userQuery.getLimit()).sortAscending());
+            List<String> finalUserIds = userIds;
+            geoResults.forEach(result -> finalUserIds.add(result.getContent().getName()));
+        }else {
+            userIds = corgiUserMapper.getNearbyUserId(userPosition, userQuery.getResult());
+        }
         List<String> beBlockUserIds = corgiBlacklistMapper.getBeBlacklist(userQuery.getUserId());
         List<String> blockUserIds = corgiBlacklistMapper.getBlacklist(userQuery.getUserId()).stream().map(basic -> basic.getUserId()).collect(Collectors.toList());
         List<String> result = new ArrayList<>();
