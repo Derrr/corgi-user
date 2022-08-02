@@ -248,7 +248,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         UserUtils.buildQueryString(userQuery);
         List<String> userIds = new ArrayList<>();
         if(StringUtils.isEmpty(userQuery.getResult())){
-            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(1000, Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(userQuery.getLimit()).sortAscending());
+            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(1000, Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(200).sortAscending());
             List<String> finalUserIds = userIds;
             geoResults.forEach(result -> finalUserIds.add(result.getContent().getName()));
         }else {

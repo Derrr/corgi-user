@@ -506,7 +506,7 @@
             ${result}
         </if>
         order by st_distance_sphere(point(#{position.lng},#{position.lat}),p.pt)
-        limit 50
+        limit 200
     </select>
 
     <select id="getNearbyNoDate" resultType="java.lang.String">
