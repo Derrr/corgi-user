@@ -240,6 +240,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             mapUserProfile.setUserIds(new ArrayList<>());
             return mapUserProfile;
         }
+        List<Point> points = redisTemplate.opsForGeo().position("user", "42746");
+        log.info("point:{}", points);
+        redisTemplate.opsForGeo().remove("user", "42746");
+        points = redisTemplate.opsForGeo().position("user", "42746");
+        log.info("point:{}", points);
         UserPosition userPosition = new UserPosition();
         userPosition.setUserId(userQuery.getUserId());
         userPosition.setLng(userQuery.getLng());
