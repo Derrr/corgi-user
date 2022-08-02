@@ -240,11 +240,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             mapUserProfile.setUserIds(new ArrayList<>());
             return mapUserProfile;
         }
-        List<Point> points = redisTemplate.opsForGeo().position("user", "42746");
-        log.info("point:{}", points);
-        redisTemplate.opsForGeo().remove("user", "42746");
-        points = redisTemplate.opsForGeo().position("user", "42746");
-        log.info("point:{}", points);
         UserPosition userPosition = new UserPosition();
         userPosition.setUserId(userQuery.getUserId());
         userPosition.setLng(userQuery.getLng());
@@ -253,7 +248,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         UserUtils.buildQueryString(userQuery);
         List<String> userIds = new ArrayList<>();
         if (StringUtils.isEmpty(userQuery.getResult())) {
-            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(116.410145, 39.966783), new Distance(10, Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(2).sortAscending());
+            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(1000, Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(200).sortAscending());
             for (GeoResult<RedisGeoCommands.GeoLocation<String>> result : geoResults.getContent()) {
                 userIds.add(result.getContent().getName());
             }
