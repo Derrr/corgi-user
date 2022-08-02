@@ -258,7 +258,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         List<String> blockUserIds = corgiBlacklistMapper.getBlacklist(userQuery.getUserId()).stream().map(basic -> basic.getUserId()).collect(Collectors.toList());
         List<String> result = new ArrayList<>();
         for (String userId : userIds) {
-            if (!beBlockUserIds.contains(userId) && !blockUserIds.contains(userId)) {
+            if (!userPosition.getUserId().equals(userId) && !beBlockUserIds.contains(userId) && !blockUserIds.contains(userId)) {
                 result.add(userId);
             }
         }
