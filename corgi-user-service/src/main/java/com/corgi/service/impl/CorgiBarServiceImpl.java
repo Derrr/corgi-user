@@ -22,6 +22,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
     @Autowired
     private CorgiVideoService corgiVideoService;
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Reference
     private CorgiActivityService corgiActivityService;
@@ -97,14 +98,14 @@ public class CorgiBarServiceImpl implements CorgiBarService {
             barProfile.setHeat(countBarHeat(barProfile));
 
             String key = "bar_count_" + barId;
-            String barCountStr = redisTemplate.opsForValue().get(key);
+            Object barCountObj = redisTemplate.opsForValue().get(key);
             Long barCount = 0l;
-            if (StringUtils.isEmpty(barCountStr)) {
+            if (ObjectUtils.isEmpty(barCountObj)) {
                 barCount = corgiActivityService.countBarAppraisedActivity(barId);
                 redisTemplate.opsForValue().set(key, barCount + "", 1l, TimeUnit.HOURS);
             } else {
                 try {
-                    barCount = Long.valueOf(barCountStr);
+                    barCount = Long.valueOf(barCountObj.toString());
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }
@@ -113,13 +114,13 @@ public class CorgiBarServiceImpl implements CorgiBarService {
 
             key = "bar_total_count_" + barId;
             int totalCount = 0;
-            String totalCountStr = redisTemplate.opsForValue().get(key);
-            if (StringUtils.isEmpty(totalCountStr)) {
+            Object totalCountObj = redisTemplate.opsForValue().get(key);
+            if (totalCountObj == null) {
                 totalCount = (int) corgiActivityService.countCorgiActivity(corgiActivity);
-                redisTemplate.opsForValue().set(key, totalCount + "", 1l, TimeUnit.HOURS);
+                redisTemplate.opsForValue().set(key, totalCount, 1l, TimeUnit.HOURS);
             } else {
                 try {
-                    totalCount = Integer.valueOf(totalCount);
+                    totalCount = Integer.valueOf(totalCountObj.toString());
                 } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }
@@ -190,13 +191,13 @@ public class CorgiBarServiceImpl implements CorgiBarService {
         corgiActivity.setStatus(CorgiActivity.NOT_DELETED);
         String key = "bar_total_count_" + barProfile.getBarId();
         int totalCount = 0;
-        String totalCountStr = redisTemplate.opsForValue().get(key);
-        if (StringUtils.isEmpty(totalCountStr)) {
+        Object totalCountObj = redisTemplate.opsForValue().get(key);
+        if (ObjectUtils.isEmpty(totalCountObj)) {
             totalCount = (int) corgiActivityService.countCorgiActivity(corgiActivity);
             redisTemplate.opsForValue().set(key, totalCount + "", 1l, TimeUnit.HOURS);
         } else {
             try {
-                totalCount = Integer.valueOf(totalCount);
+                totalCount = Integer.valueOf(totalCountObj.toString());
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
