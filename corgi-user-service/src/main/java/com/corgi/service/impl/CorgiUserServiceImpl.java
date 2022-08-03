@@ -250,33 +250,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userPosition.setUptime(System.currentTimeMillis() - 30 * 24 * 3600 * 1000L);
         UserUtils.buildQueryString(userQuery);
         List<String> userIds = new ArrayList<>();
-        redisTemplate.opsForValue().set("user-try","1",1l,TimeUnit.MINUTES);
-        log.info("keys:{}", redisTemplate.execute((RedisCallback<Set<String>>) connection -> {
-            ScanOptions scanOptions = ScanOptions.scanOptions().match("*user-try").count(1000).build();
-            Cursor<byte[]> scan = connection.scan(scanOptions);
-            Set<String> keys = new HashSet<>();
-            while (scan.hasNext()) {
-                byte[] next = scan.next();
-                keys.add(new String(next));
-            }
-            return keys;
-        }).toString());
-        redisTemplate.delete("user-try");
-        log.info("keys:{}", redisTemplate.execute((RedisCallback<Set<String>>) connection -> {
-            ScanOptions scanOptions = ScanOptions.scanOptions().match("*user-try").count(1000).build();
-            Cursor<byte[]> scan = connection.scan(scanOptions);
-            Set<String> keys = new HashSet<>();
-            while (scan.hasNext()) {
-                byte[] next = scan.next();
-                keys.add(new String(next));
-            }
-            return keys;
-        }).toString());
         if (StringUtils.isEmpty(userQuery.getResult())) {
             GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(1000, Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(200).sortAscending());
-
             for (GeoResult<RedisGeoCommands.GeoLocation<String>> result : geoResults.getContent()) {
                 userIds.add(result.getContent().getName());
+                log.info("geo:{}", result.getContent().getName());
             }
         } else {
             userIds = corgiUserMapper.getNearbyUserId(userPosition, userQuery.getResult());
