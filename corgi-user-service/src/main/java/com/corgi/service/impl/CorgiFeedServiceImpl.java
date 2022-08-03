@@ -344,7 +344,12 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 userFeeds = "";
             }
         }
-        List<String> tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
+        List<String> tmpIds = new ArrayList<>();
+        try {
+            tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
 //        if (CollectionUtils.isEmpty(tmpIds)) {
 //            tmpIds = new ArrayList<>();
 //            CorgiVlog query = new CorgiVlog();
