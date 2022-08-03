@@ -18,7 +18,10 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.*;
 import org.springframework.data.redis.connection.RedisGeoCommands;
+import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -247,7 +250,16 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userPosition.setUptime(System.currentTimeMillis() - 30 * 24 * 3600 * 1000L);
         UserUtils.buildQueryString(userQuery);
         List<String> userIds = new ArrayList<>();
-        log.info("keys:{}",redisTemplate.keys("*user").toString());
+        log.info("keys:{}", redisTemplate.execute((RedisCallback<Set<String>>) connection -> {
+            ScanOptions scanOptions = ScanOptions.scanOptions().match("*user*").count(1000).build();
+            Cursor<byte[]> scan = connection.scan(scanOptions);
+            Set<String> keys = new HashSet<>();
+            while (scan.hasNext()) {
+                byte[] next = scan.next();
+                keys.add(new String(next));
+            }
+            return keys;
+        }).toString());
         if (StringUtils.isEmpty(userQuery.getResult())) {
             GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(1000, Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(200).sortAscending());
 
