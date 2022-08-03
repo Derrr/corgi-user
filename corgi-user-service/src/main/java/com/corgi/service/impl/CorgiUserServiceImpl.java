@@ -251,7 +251,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         UserUtils.buildQueryString(userQuery);
         List<String> userIds = new ArrayList<>();
         log.info("keys:{}", redisTemplate.execute((RedisCallback<Set<String>>) connection -> {
-            ScanOptions scanOptions = ScanOptions.scanOptions().match("*user*").count(1000).build();
+            ScanOptions scanOptions = ScanOptions.scanOptions().match("*user").count(1000).build();
             Cursor<byte[]> scan = connection.scan(scanOptions);
             Set<String> keys = new HashSet<>();
             while (scan.hasNext()) {
