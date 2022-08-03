@@ -253,8 +253,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (StringUtils.isEmpty(userQuery.getResult())) {
             GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(1000, Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(200).sortAscending());
             for (GeoResult<RedisGeoCommands.GeoLocation<String>> result : geoResults.getContent()) {
-                userIds.add(result.getContent().getName());
-                log.info("geo:{}", result.getContent().getName());
+                userIds.add(result.getContent().getName()+"");
             }
         } else {
             userIds = corgiUserMapper.getNearbyUserId(userPosition, userQuery.getResult());
