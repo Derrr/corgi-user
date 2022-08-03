@@ -250,8 +250,20 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userPosition.setUptime(System.currentTimeMillis() - 30 * 24 * 3600 * 1000L);
         UserUtils.buildQueryString(userQuery);
         List<String> userIds = new ArrayList<>();
+        redisTemplate.opsForValue().set("user-try","1",1l,TimeUnit.MINUTES);
         log.info("keys:{}", redisTemplate.execute((RedisCallback<Set<String>>) connection -> {
-            ScanOptions scanOptions = ScanOptions.scanOptions().match("*user").count(1000).build();
+            ScanOptions scanOptions = ScanOptions.scanOptions().match("*user-try").count(1000).build();
+            Cursor<byte[]> scan = connection.scan(scanOptions);
+            Set<String> keys = new HashSet<>();
+            while (scan.hasNext()) {
+                byte[] next = scan.next();
+                keys.add(new String(next));
+            }
+            return keys;
+        }).toString());
+        redisTemplate.delete("user-try");
+        log.info("keys:{}", redisTemplate.execute((RedisCallback<Set<String>>) connection -> {
+            ScanOptions scanOptions = ScanOptions.scanOptions().match("*user-try").count(1000).build();
             Cursor<byte[]> scan = connection.scan(scanOptions);
             Set<String> keys = new HashSet<>();
             while (scan.hasNext()) {
