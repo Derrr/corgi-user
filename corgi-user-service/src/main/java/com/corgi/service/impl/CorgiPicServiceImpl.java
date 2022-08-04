@@ -32,7 +32,6 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     @Autowired
     private CorgiUserMapper corgiUserMapper;
 
-    @Autowired
     private static String SUFFIX = "?x-oss-process=style/mask";
 
     @Override
