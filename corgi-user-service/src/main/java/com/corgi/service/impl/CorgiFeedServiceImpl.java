@@ -321,11 +321,11 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             }
         }
         List<String> tmpIds = new ArrayList<>();
-        try {
+//        try {
             tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
+//        } catch (Exception e) {
+//            log.error(e.getMessage(), e);
+//        }
 //        if (CollectionUtils.isEmpty(tmpIds)) {
 //            tmpIds = new ArrayList<>();
 //            CorgiVlog query = new CorgiVlog();
