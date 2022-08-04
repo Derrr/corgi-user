@@ -31,13 +31,13 @@ import java.util.concurrent.Executors;
 public class CorgiFakeServiceImpl implements CorgiFakeService {
     @Autowired
     private CorgiFakeMapper corgiFakeMapper;
-    @Reference
+    @Autowired
     private CorgiUserFollowService corgiUserFollowService;
-    @Reference
+    @Autowired
     private CorgiLikeService corgiLikeService;
-    @Reference
+    @Autowired
     private CorgiUserService corgiUserService;
-    @Reference
+    @Autowired
     private CorgiPicService corgiPicService;
 
     private static final List<String> PREFIX = Arrays.asList("🍌", "🍑", "🍆", "1", "0", "🐻", "💪", "🐺");
