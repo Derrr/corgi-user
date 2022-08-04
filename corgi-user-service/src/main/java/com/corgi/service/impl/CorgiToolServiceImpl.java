@@ -13,6 +13,7 @@ import com.corgi.user.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -39,7 +40,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     private CorgiToolMapper corgiToolMapper;
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisTemplate<String,String> redisTemplate;
 
     @Reference
     private CorgiActivityService activityService;
