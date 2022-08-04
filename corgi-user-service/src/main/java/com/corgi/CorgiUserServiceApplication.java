@@ -39,7 +39,7 @@ public class CorgiUserServiceApplication {
     @Bean
     public StringRedisTemplate redisTemplate(RedisConnectionFactory factory) {
         StringRedisTemplate redisTemplate = new StringRedisTemplate(factory);
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(String.class);
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
