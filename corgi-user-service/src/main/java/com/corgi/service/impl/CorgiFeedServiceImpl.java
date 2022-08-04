@@ -71,18 +71,18 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         if (result.size() >= size) {
             return result;
         }
-        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size(), index);
-        if (popularFeeds != null) {
-            for (CorgiVlog vlog : popularFeeds) {
-                CorgiFeed feed = new CorgiFeed();
-                feed.setFeed(vlog.getActivityId());
-                feed.setFeedUserId(vlog.getUserId());
-                feed.setUserId(userId);
-                feed.setSource("init");
-                corgiFeedMapper.addFeed(feed, index);
-                result.add(vlog.getActivityId());
-            }
-        }
+//        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size(), index);
+//        if (popularFeeds != null) {
+//            for (CorgiVlog vlog : popularFeeds) {
+//                CorgiFeed feed = new CorgiFeed();
+//                feed.setFeed(vlog.getActivityId());
+//                feed.setFeedUserId(vlog.getUserId());
+//                feed.setUserId(userId);
+//                feed.setSource("init");
+//                corgiFeedMapper.addFeed(feed, index);
+//                result.add(vlog.getActivityId());
+//            }
+//        }
         Integer max = size - result.size();
         if (max > 0) {
             CorgiVlogHot queryHot = new CorgiVlogHot();
