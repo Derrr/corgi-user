@@ -1,7 +1,7 @@
 package com.corgi.service.impl;
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
-import com.alibaba.dubbo.common.utils.StringUtils;
+import org.apache.dubbo.common.utils.CollectionUtils;
+import org.apache.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSONArray;
@@ -16,7 +16,7 @@ import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.user.api.CorgiBillboardService;
 import com.corgi.user.api.CorgiOrderService;
 import com.corgi.user.api.CorgiPicService;
-import com.corgi.user.api.CorgiUserService;
+
 import com.corgi.user.entity.*;
 import com.corgi.user.enums.MerchandiseEnum;
 import lombok.extern.slf4j.Slf4j;

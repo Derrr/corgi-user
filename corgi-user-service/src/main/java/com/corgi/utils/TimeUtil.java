@@ -1,6 +1,6 @@
 package com.corgi.utils;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
+import org.apache.dubbo.common.utils.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

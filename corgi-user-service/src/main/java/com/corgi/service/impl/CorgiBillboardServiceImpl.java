@@ -1,7 +1,5 @@
 package com.corgi.service.impl;
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.ActivityQuery;
@@ -11,6 +9,8 @@ import com.corgi.user.api.CorgiPicService;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.common.utils.CollectionUtils;
+import org.apache.dubbo.common.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
