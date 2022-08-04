@@ -56,7 +56,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             size = 10;
         }
         String index = UserUtils.getIndex(userId);
-        List<String> manuallyIds = getManuallyRecommend(userId, index, 5);
+        List<String> manuallyIds = null;
+                //getManuallyRecommend(userId, index, 5);
 
         if (!CollectionUtils.isEmpty(manuallyIds)) {
             size = size - manuallyIds.size();
@@ -73,18 +74,18 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         if (result.size() >= size) {
             return result;
         }
-        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size(), index);
-        if (popularFeeds != null) {
-            for (CorgiVlog vlog : popularFeeds) {
-                CorgiFeed feed = new CorgiFeed();
-                feed.setFeed(vlog.getActivityId());
-                feed.setFeedUserId(vlog.getUserId());
-                feed.setUserId(userId);
-                feed.setSource("init");
-                corgiFeedMapper.addFeed(feed, index);
-                result.add(vlog.getActivityId());
-            }
-        }
+//        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size(), index);
+//        if (popularFeeds != null) {
+//            for (CorgiVlog vlog : popularFeeds) {
+//                CorgiFeed feed = new CorgiFeed();
+//                feed.setFeed(vlog.getActivityId());
+//                feed.setFeedUserId(vlog.getUserId());
+//                feed.setUserId(userId);
+//                feed.setSource("init");
+//                corgiFeedMapper.addFeed(feed, index);
+//                result.add(vlog.getActivityId());
+//            }
+//        }
         Integer max = size - result.size();
         if (max > 0) {
             CorgiVlogHot queryHot = new CorgiVlogHot();
@@ -207,69 +208,45 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> getFeedByActivityId(String activityId, String userId, Integer page, Integer size) {
-        ActivityQuery query = new ActivityQuery();
-        query.setActivityId(activityId);
-        query.setPageSize(1);
-        List<CorgiActivity> activities = corgiUserActivityMapper.queryActivity(query);
-        if (CollectionUtils.isEmpty(activities)) {
-            return new ArrayList<>();
-        }
-        String category = activities.get(0).getCategory();
+        String key = "feed_activity_" + activityId;
         List<String> activityIds = new ArrayList<>();
-        if (CorgiActivity.CAT_VIDEO.equals(category)) {
-            String key = "video_feed_activity_" + userId;
-            String lastId = redisTemplate.opsForValue().get(key);
-            List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlogByCategory(StringUtils.isEmpty(lastId) ? activityId : "", lastId, size, CorgiActivity.CAT_VIDEO);
-            if (CollectionUtils.isEmpty(vlogs)) {
-                lastId = "";
-                vlogs = corgiVlogMapper.recallHotVlogByCategory("", "", size, CorgiActivity.CAT_VIDEO);
+        try {
+            activityIds = redisTemplate.opsForList().range(key, 0, -1);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        if (!CollectionUtils.isEmpty(activityIds)) {
+            return activityIds;
+        }
+        activityIds = corgiVlogMapper.getUserActivity(activityId, size);
+        if (activityIds.size() < size) {
+            List<String> tmpActivityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, 0, size);
+            for (String activityIdTmp : tmpActivityIds) {
+                if (!activityIds.contains(activityIdTmp)) {
+                    activityIds.add(activityIdTmp);
+                    if (size <= activityIds.size()) {
+                        break;
+                    }
+                }
             }
+        }
+        if (size > activityIds.size()) {
+            CorgiVlog recall = new CorgiVlog();
+            recall.setUserId(userId);
+            recall.setType(CorgiVlogHot.TYPE.AUTO);
+            recall.setStatus("asc");
+            List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(recall, null, size, null);
             for (CorgiVlog vlog : vlogs) {
                 if (!activityIds.contains(vlog.getActivityId())) {
-                    lastId = vlog.getId() + "";
                     activityIds.add(vlog.getActivityId());
                     if (size <= activityIds.size()) {
                         break;
                     }
                 }
             }
-            redisTemplate.opsForValue().set(key, lastId, 24l, TimeUnit.HOURS);
-        } else {
-            String key = "feed_activity_" + activityId;
-            activityIds = redisTemplate.opsForList().range(key, 0, -1);
-            if (!CollectionUtils.isEmpty(activityIds)) {
-                return activityIds;
-            }
-            activityIds = corgiVlogMapper.getUserActivity(activityId, size);
-
-            if (activityIds.size() < size) {
-                List<String> tmpActivityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, 0, size);
-                for (String activityIdTmp : tmpActivityIds) {
-                    if (!activityIds.contains(activityIdTmp)) {
-                        activityIds.add(activityIdTmp);
-                        if (size <= activityIds.size()) {
-                            break;
-                        }
-                    }
-                }
-            }
-            if (size > activityIds.size()) {
-                CorgiVlog recall = new CorgiVlog();
-                recall.setUserId(userId);
-                recall.setStatus("asc");
-                List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(recall, null, size, null);
-                for (CorgiVlog vlog : vlogs) {
-                    if (!activityIds.contains(vlog.getActivityId())) {
-                        activityIds.add(vlog.getActivityId());
-                        if (size <= activityIds.size()) {
-                            break;
-                        }
-                    }
-                }
-            }
-            redisTemplate.opsForList().rightPushAll(key, activityIds);
-            redisTemplate.expire(key, 20L, TimeUnit.HOURS);
         }
+        redisTemplate.opsForList().rightPushAll(key, activityIds);
+        redisTemplate.expire(key, 20L, TimeUnit.HOURS);
         return activityIds;
     }
 
