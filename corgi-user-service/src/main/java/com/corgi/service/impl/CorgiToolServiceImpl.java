@@ -40,7 +40,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     private CorgiToolMapper corgiToolMapper;
 
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Reference
     private CorgiActivityService activityService;
@@ -234,7 +234,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
             ids.addAll(0, onTop);
         }
         redisTemplate.opsForList().rightPushAll(key, ids);
-        redisTemplate.expire(key, 10l, TimeUnit.SECONDS);
+        redisTemplate.expire(key, 30l, TimeUnit.SECONDS);
         return ids;
     }
 
