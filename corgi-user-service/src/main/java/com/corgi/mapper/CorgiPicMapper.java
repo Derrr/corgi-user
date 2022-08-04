@@ -4,7 +4,6 @@ import com.corgi.activity.entity.ActivityPic;
 import com.corgi.entity.CheckPic;
 import com.corgi.user.entity.*;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 

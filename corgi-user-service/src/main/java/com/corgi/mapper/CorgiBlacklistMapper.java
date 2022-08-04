@@ -4,7 +4,6 @@ import com.corgi.entity.CorgiArea;
 import com.corgi.user.entity.CorgiReport;
 import com.corgi.user.entity.UserBasic;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 

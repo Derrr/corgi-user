@@ -1,10 +1,8 @@
 package com.corgi.mapper;
 
-import com.corgi.user.entity.CorgiFeed;
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
