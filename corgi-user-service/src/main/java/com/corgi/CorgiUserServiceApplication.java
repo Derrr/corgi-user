@@ -1,10 +1,10 @@
 package com.corgi;
 
-import com.alibaba.dubbo.spring.boot.annotation.EnableDubboConfiguration;
 import com.corgi.common.CorgiQueueName;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubboConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.amqp.core.Queue;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @MapperScan("com.corgi.mapper")
 @SpringBootApplication
-@EnableDubboConfiguration
+@EnableDubboConfig
 @EnableTransactionManagement
 public class CorgiUserServiceApplication {
 
