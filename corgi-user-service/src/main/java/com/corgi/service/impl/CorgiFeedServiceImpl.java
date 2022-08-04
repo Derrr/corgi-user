@@ -205,7 +205,12 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     @Override
     public List<String> getFeedByActivityId(String activityId, String userId, Integer page, Integer size) {
         String key = "feed_activity_" + activityId;
-        List<String> activityIds = redisTemplate.opsForList().range(key, 0, -1);
+        List<String> activityIds = new ArrayList<>();
+        try {
+            activityIds = redisTemplate.opsForList().range(key, 0, -1);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
         if (!CollectionUtils.isEmpty(activityIds)) {
             return activityIds;
         }
