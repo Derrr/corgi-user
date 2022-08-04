@@ -53,7 +53,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             size = 10;
         }
         String index = UserUtils.getIndex(userId);
-        List<String> manuallyIds = getManuallyRecommend(userId, index, 5);
+        List<String> manuallyIds = null;
+                //getManuallyRecommend(userId, index, 5);
 
         if (!CollectionUtils.isEmpty(manuallyIds)) {
             size = size - manuallyIds.size();
