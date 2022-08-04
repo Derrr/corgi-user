@@ -12,13 +12,11 @@ import com.corgi.user.api.CorgiUserMatchService;
 import com.corgi.user.entity.*;
 import com.corgi.user.enums.MerchandiseEnum;
 import com.corgi.utils.UserUtils;
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
