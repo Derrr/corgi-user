@@ -319,14 +319,14 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             UserQuerySupporter supporter = new UserQuerySupporter(userQuery);
             userIds = corgiUserMapper.getNearByUser(supporter);
         } else {
-            GeoResults<RedisGeoCommands.GeoLocation<String>> geoResults;
+            GeoResults<RedisGeoCommands.GeoLocation<Object>> geoResults;
             if ("distance".equals(userQuery.getType())) {
                 geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(userQuery.getLimit()).sortAscending());
             } else {
                 geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(userQuery.getRange(), Metrics.KILOMETERS)));
             }
             List<String> finalUserIds = userIds;
-            geoResults.forEach(result -> finalUserIds.add(result.getContent().getName().toString()));
+            geoResults.forEach(result -> finalUserIds.add(result.getContent().getName() + ""));
         }
         return userIds;
     }
