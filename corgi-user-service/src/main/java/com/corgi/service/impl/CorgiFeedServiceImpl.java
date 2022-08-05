@@ -52,55 +52,61 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> getUnviewFeed(String userId, Integer size) {
-        if (size == null || size > 10) {
-            size = 10;
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        String index = UserUtils.getIndex(userId);
-        List<String> manuallyIds = getManuallyRecommend(userId, index, 5);
-
-        if (!CollectionUtils.isEmpty(manuallyIds)) {
-            size = size - manuallyIds.size();
-            size = size < 0 ? 0 : size;
-        }
-        List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size, null);
-        if (!CollectionUtils.isEmpty(manuallyIds)) {
-            for (String activityId : manuallyIds) {
-                if (!result.contains(activityId)) {
-                    result.add(0, activityId);
-                }
-            }
-        }
-        if (result.size() >= size) {
-            return result;
-        }
-        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size(), index);
-        if (popularFeeds != null) {
-            for (CorgiVlog vlog : popularFeeds) {
-                CorgiFeed feed = new CorgiFeed();
-                feed.setFeed(vlog.getActivityId());
-                feed.setFeedUserId(vlog.getUserId());
-                feed.setUserId(userId);
-                feed.setSource("init");
-                corgiFeedMapper.addFeed(feed, index);
-                result.add(vlog.getActivityId());
-            }
-        }
-        Integer max = size - result.size();
-        if (max > 0) {
-            CorgiVlogHot queryHot = new CorgiVlogHot();
-            queryHot.setStatus(CorgiVlogHot.STATUS.OPEN);
-            queryHot.setType(CorgiVlogHot.TYPE.AUTO);
-            Integer total = corgiVlogMapper.countVlogHot(queryHot);
-            Random random = new Random();
-            for (int i = 0; i < max; i++) {
-                String activityId = corgiVlogMapper.selectOneHot(random.nextInt(total));
-                if (result.contains(activityId)) {
-                    continue;
-                }
-                result.add(activityId);
-            }
-        }
-        return result;
+        return new ArrayList<>();
+//        if (size == null || size > 10) {
+//            size = 10;
+//        }
+//        String index = UserUtils.getIndex(userId);
+//        List<String> manuallyIds = getManuallyRecommend(userId, index, 5);
+//
+//        if (!CollectionUtils.isEmpty(manuallyIds)) {
+//            size = size - manuallyIds.size();
+//            size = size < 0 ? 0 : size;
+//        }
+//        List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size, null);
+//        if (!CollectionUtils.isEmpty(manuallyIds)) {
+//            for (String activityId : manuallyIds) {
+//                if (!result.contains(activityId)) {
+//                    result.add(0, activityId);
+//                }
+//            }
+//        }
+//        if (result.size() >= size) {
+//            return result;
+//        }
+//        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size(), index);
+//        if (popularFeeds != null) {
+//            for (CorgiVlog vlog : popularFeeds) {
+//                CorgiFeed feed = new CorgiFeed();
+//                feed.setFeed(vlog.getActivityId());
+//                feed.setFeedUserId(vlog.getUserId());
+//                feed.setUserId(userId);
+//                feed.setSource("init");
+//                corgiFeedMapper.addFeed(feed, index);
+//                result.add(vlog.getActivityId());
+//            }
+//        }
+//        Integer max = size - result.size();
+//        if (max > 0) {
+//            CorgiVlogHot queryHot = new CorgiVlogHot();
+//            queryHot.setStatus(CorgiVlogHot.STATUS.OPEN);
+//            queryHot.setType(CorgiVlogHot.TYPE.AUTO);
+//            Integer total = corgiVlogMapper.countVlogHot(queryHot);
+//            Random random = new Random();
+//            for (int i = 0; i < max; i++) {
+//                String activityId = corgiVlogMapper.selectOneHot(random.nextInt(total));
+//                if (result.contains(activityId)) {
+//                    continue;
+//                }
+//                result.add(activityId);
+//            }
+//        }
+//        return result;
     }
 
     @Override
