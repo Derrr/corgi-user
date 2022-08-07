@@ -294,6 +294,9 @@
         </if>
         and c.creator_id != #{vlog.userId}
         and c.category in('image','video','text','business','paying')
+        <if test="vlog.category != null and vlog.category != ''">
+            and c.category = #{vlog.category}
+        </if>
         and c.check_status != 'fail'
         and c.check_status != 'check'
         and c.check_status != 'not_good'
