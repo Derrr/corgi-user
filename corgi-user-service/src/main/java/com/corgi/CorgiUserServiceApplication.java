@@ -36,7 +36,6 @@ public class CorgiUserServiceApplication {
     @Bean
     public StringRedisTemplate redisTemplate(RedisConnectionFactory factory) {
         StringRedisTemplate redisTemplate = new StringRedisTemplate(factory);
-        //设置完这个可以直接将对象以json格式存入redis中，但是取出来的时候要用JSON.parseArray(Json.toJsonString(object),Object.class)解析一下
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         return redisTemplate;

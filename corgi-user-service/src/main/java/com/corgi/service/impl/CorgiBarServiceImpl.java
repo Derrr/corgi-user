@@ -117,7 +117,7 @@ public class CorgiBarServiceImpl implements CorgiBarService {
             Object totalCountObj = redisTemplate.opsForValue().get(key);
             if (totalCountObj == null) {
                 totalCount = (int) corgiActivityService.countCorgiActivity(corgiActivity);
-                redisTemplate.opsForValue().set(key, totalCount+"", 1l, TimeUnit.HOURS);
+                redisTemplate.opsForValue().set(key, totalCount + "", 1l, TimeUnit.HOURS);
             } else {
                 try {
                     totalCount = Integer.valueOf(totalCountObj.toString());

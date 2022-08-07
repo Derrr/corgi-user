@@ -206,8 +206,11 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     @Override
-    public List<String> getFeedByActivityId(String activityId, String userId, Integer page, Integer size) {
-        String key = "feed_activity_" + activityId;
+    public List<String> getFeedByActivityId(String activityId, String category, String userId, Integer page, Integer size) {
+        if (StringUtils.isEmpty(category)) {
+            category = CorgiActivity.CAT_IMAGE;
+        }
+        String key = "feed_activity_" + activityId + "-" + category;
         List<String> activityIds = new ArrayList<>();
 //        try {
             activityIds = redisTemplate.opsForList().range(key, 0, -1);
@@ -217,21 +220,24 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         if (!CollectionUtils.isEmpty(activityIds)) {
             return activityIds;
         }
-        activityIds = corgiVlogMapper.getUserActivity(activityId, size);
-        if (activityIds.size() < size) {
-            List<String> tmpActivityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, 0, size);
-            for (String activityIdTmp : tmpActivityIds) {
-                if (!activityIds.contains(activityIdTmp)) {
-                    activityIds.add(activityIdTmp);
-                    if (size <= activityIds.size()) {
-                        break;
-                    }
-                }
-            }
+        if (CorgiActivity.CAT_IMAGE.equals(category)) {
+            activityIds = corgiVlogMapper.getUserActivity(activityId, size);
         }
+//        if (activityIds.size() < size) {
+//            List<String> tmpActivityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, 0, size);
+//            for (String activityIdTmp : tmpActivityIds) {
+//                if (!activityIds.contains(activityIdTmp)) {
+//                    activityIds.add(activityIdTmp);
+//                    if (size <= activityIds.size()) {
+//                        break;
+//                    }
+//                }
+//            }
+//        }
         if (size > activityIds.size()) {
             CorgiVlog recall = new CorgiVlog();
             recall.setUserId(userId);
+            recall.setCategory(category);
             recall.setType(CorgiVlogHot.TYPE.AUTO);
             recall.setStatus("asc");
             List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(recall, null, size, null);

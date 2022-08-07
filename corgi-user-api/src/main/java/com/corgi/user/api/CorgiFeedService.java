@@ -18,7 +18,7 @@ public interface CorgiFeedService {
 
     List<String> searchFeed(ActivityQuery query);
 
-    List<String> getFeedByActivityId(String activityId, String userId, Integer page, Integer size);
+    List<String> getFeedByActivityId(String activityId, String category, String userId, Integer page, Integer size);
 
     Integer countUnviewFeed(String userId);
 
