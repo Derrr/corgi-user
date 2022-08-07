@@ -213,7 +213,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         String key = "feed_activity_" + activityId + "-" + category;
         List<String> activityIds = new ArrayList<>();
 //        try {
-            activityIds = redisTemplate.opsForList().range(key, 0, -1);
+        activityIds = redisTemplate.opsForList().range(key, 0, -1);
 //        } catch (Exception e) {
 //            log.error(e.getMessage(), e);
 //        }
@@ -235,12 +235,19 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 //            }
 //        }
         if (size > activityIds.size()) {
+            String lastId = null;
+            CorgiVlogHot hot = new CorgiVlogHot();
+            hot.setActivityId(activityId);
+            List<CorgiVlogHot> hots = corgiVlogMapper.getVlogHot(hot, 0, 1);
+            if (!CollectionUtils.isEmpty(hots)) {
+                lastId = hots.get(0).getId() + "";
+            }
             CorgiVlog recall = new CorgiVlog();
             recall.setUserId(userId);
             recall.setCategory(category);
             recall.setType(CorgiVlogHot.TYPE.AUTO);
             recall.setStatus("asc");
-            List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(recall, null, size, null);
+            List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(recall, lastId, size, null);
             for (CorgiVlog vlog : vlogs) {
                 if (!activityIds.contains(vlog.getActivityId())) {
                     activityIds.add(vlog.getActivityId());
@@ -328,7 +335,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         }
         List<String> tmpIds = new ArrayList<>();
 //        try {
-            tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
+        tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
 //        } catch (Exception e) {
 //            log.error(e.getMessage(), e);
 //        }
