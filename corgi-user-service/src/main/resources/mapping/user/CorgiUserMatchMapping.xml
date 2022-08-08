@@ -13,23 +13,22 @@
         from corgi_user_position p
         left join corgi_user_detail d on d.user_id = p.user_id
         where d.date_status != '免打扰'
-        and p.user_id in ('593','173649','2','7','1','8')
-                <!-- p.user_id != #{user.userId} -->
-<!--        <if test="timestamp > 0">-->
-<!--            and p.uptime > #{timestamp}-->
-<!--        </if>-->
-<!--         and not exists (select 1
-         from corgi_user_match m
-         where m.user_id = #{user.userId}
-         and m.match_id = p.user_id
-         and status = '1')
-         and not exists (select 1
-         from corgi_user_match_view v
-         where v.user_id = #{user.userId}
-         and v.match_id = p.user_id
-         and status = '1')
-         order by distance
-        limit #{size}; -->
+        p.user_id != #{user.userId}
+        <if test="timestamp > 0">
+            and p.uptime > #{timestamp}
+        </if>
+        and not exists (select 1
+        from corgi_user_match m
+        where m.user_id = #{user.userId}
+        and m.match_id = p.user_id
+        and status = '1')
+        and not exists (select 1
+        from corgi_user_match_view v
+        where v.user_id = #{user.userId}
+        and v.match_id = p.user_id
+        and status = '1')
+        order by distance
+        limit #{size};
     </select>
 
     <select id="getMatchByQuery" timeout="5" resultType="com.corgi.user.entity.UserMatchItem">
