@@ -257,6 +257,9 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 }
             }
         }
+        if (StringUtils.isEmpty(activityIds)) {
+            return new ArrayList<>();
+        }
         redisTemplate.opsForList().rightPushAll(key, activityIds);
         redisTemplate.expire(key, 20L, TimeUnit.HOURS);
         return activityIds;
