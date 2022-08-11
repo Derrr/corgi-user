@@ -7,9 +7,9 @@
     </sql>
     <insert id="addBarReservation" parameterType="com.corgi.user.entity.BarReservation" useGeneratedKeys="true"
             keyProperty="reserve.id">
-        INSERT INTO `corgi_reservation` (`bar_id`, `user_id`, `date`, `contact`, `people`, `remark`, `name`)
+        INSERT INTO `corgi_reservation` (`bar_id`, `user_id`, `date`, `contact`, `people`, `remark`, `name`,`merch_id`)
         VALUES (#{reserve.barId}, #{reserve.userId}, #{reserve.date}, #{reserve.contact}, #{reserve.people},
-                #{reserve.remark}, #{reserve.name});
+                #{reserve.remark}, #{reserve.name}, #{reserve.merchId});
     </insert>
 
     <update id="updateBarReservation" parameterType="com.corgi.user.entity.BarReservation">

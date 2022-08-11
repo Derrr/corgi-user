@@ -135,6 +135,7 @@
           and c.category != 'video'
           and c.activity_id != #{activityId}
           and c.check_status != 'fail'
+          and c.check_status != 'check'
           and c.check_status != 'not_good'
         order by h.like_count desc
             limit #{size}
@@ -172,6 +173,7 @@
         c.activity_id)
         and c.creator_id in ('${targetId}')
         and c.check_status != 'fail'
+        and c.check_status != 'check'
         and c.check_status != 'not_good'
         and c.category in('image','video','text','business','paying')
         <if test="vlog.ctime == null or vlog.ctime == ''">
