@@ -20,5 +20,9 @@ public interface CorgiReservationMapper {
      */
     List<BarReservation> getAllReservations(@Param("reserve") BarReservation barReservation, @Param("start") Integer start, @Param("limit") Integer limit);
 
+    Integer countAllReservations(@Param("reserve") BarReservation barReservation);
+
     void addBarReservation(@Param("reserve")BarReservation barReservation);
+
+    void updateBarReservation(@Param("reserve")BarReservation barReservation);
 }

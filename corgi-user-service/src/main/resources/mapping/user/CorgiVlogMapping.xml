@@ -145,14 +145,14 @@
         distinct c.creator_id userId, c.activity_id activityId
         from corgi_activity_like l
         join corgi_activity_creator c on l.activity_id = c.activity_id
-        left join corgi_vlog_hot h on h.activity_id = c.activity_id and h.type = 'auto'
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
         and l.type = 'real'
         and l.user_id != #{vlog.userId}
         and c.category in ('image','text','video','business','paying')
         and c.check_status != 'fail'
-        and h.like_count >= 3
+        and c.check_status != 'check'
+        and c.check_status != 'not_good'
         <if test="vlog.type == 'like'">
             and l.like_user_id in (select co_user_id from corgi_user_coordinate where user_id = #{vlog.userId} and
             weight > 0)

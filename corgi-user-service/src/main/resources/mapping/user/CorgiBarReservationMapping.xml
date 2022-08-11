@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiReservationMapper">
+    <sql id="reserve">
+        id
+        , `bar_id` barId, user_id, userId, `status`, `date`, contact, `remark`, `people`, `name`,`merch_id` merchId, trade_no tradeNo
+    </sql>
+    <insert id="addBarReservation" parameterType="com.corgi.user.entity.BarReservation" useGeneratedKeys="true"
+            keyProperty="reserve.id">
+        INSERT INTO `corgi_reservation` (`bar_id`, `user_id`, `date`, `contact`, `people`, `remark`, `name`)
+        VALUES (#{reserve.barId}, #{reserve.userId}, #{reserve.date}, #{reserve.contact}, #{reserve.people},
+                #{reserve.remark}, #{reserve.name});
+    </insert>
 
-   <insert id="addBarReservation" parameterType="com.corgi.user.entity.BarReservation">
-      INSERT INTO `corgi_reservation` (`bar_id`, `user_id`, `date`, `contact`, `people`, `remark`, `name`)
-      VALUES (#{reserve.barId}, #{reserve.userId}, #{reserve.date}, #{reserve.contact}, #{reserve.people}, #{reserve.remark}, #{reserve.name});
-   </insert>
+    <update id="updateBarReservation" parameterType="com.corgi.user.entity.BarReservation">
+        update corgi_reservation
+        <set>
+            <if test="reserve.status != null and reserve.status != ''">
+                `status` = #{reserve.status},
+            </if>
+            <if test="reserve.tradeNo != null and reserve.tradeNo != ''">
+                `trade_no` = #{reserve.tradeNo},
+            </if>
+            <if test="reserve.merchId != null and reserve.merchId != ''">
+                `merch_id` = #{reserve.merchId},
+            </if>
+        </set>
+        where id = #{reserve.id}
+    </update>
+
+    <select id="getAllReservations" resultType="com.corgi.user.entity.BarReservation" parameterType="com.corgi.user.entity.BarReservation">
+        select <include refid="reserve"/> from corgi_reservation
+        order by id desc limit #{start}, #{limit}
+    </select>
+
+    <select id="countAllReservations" resultType="java.lang.Integer" parameterType="com.corgi.user.entity.BarReservation">
+        select count(1) from corgi_reservation
+    </select>
 
 </mapper>
