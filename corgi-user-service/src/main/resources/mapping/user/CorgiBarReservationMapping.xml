@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiReservationMapper">
+
+   <insert id="addBarReservation" parameterType="com.corgi.user.entity.BarReservation">
+      INSERT INTO `corgi_reservation` (`bar_id`, `user_id`, `date`, `contact`, `people`, `remark`, `name`)
+      VALUES (#{reserve.barId}, #{reserve.userId}, #{reserve.date}, #{reserve.contact}, #{reserve.people}, #{reserve.remark}, #{reserve.name});
+   </insert>
+
+</mapper>
