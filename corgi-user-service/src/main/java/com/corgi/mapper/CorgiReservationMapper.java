@@ -25,4 +25,6 @@ public interface CorgiReservationMapper {
     void addBarReservation(@Param("reserve")BarReservation barReservation);
 
     void updateBarReservation(@Param("reserve")BarReservation barReservation);
+
+    BarReservation getReservationById(@Param("id")String id);
 }

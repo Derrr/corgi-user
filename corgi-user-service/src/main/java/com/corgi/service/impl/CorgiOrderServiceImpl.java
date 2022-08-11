@@ -12,6 +12,7 @@ import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.PushMessage;
 import com.corgi.mapper.CorgiOrderMapper;
+import com.corgi.mapper.CorgiReservationMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.user.api.CorgiBillboardService;
 import com.corgi.user.api.CorgiOrderService;
@@ -48,6 +49,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     private CorgiPicService corgiPicService;
     @Autowired
     private CorgiBillboardService corgiBillboardService;
+    @Autowired
+    private CorgiReservationMapper corgiReservationMapper;
     @Autowired
     private CorgiOrderMapper corgiOrderMapper;
     @Autowired
@@ -174,6 +177,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 this.buyActivity(goods, order);
             } else if (CorgiMerchandise.BILLBOARD.equals(merchandise.getType())) {
                 this.buyBillboard(goods, order, merchandise);
+            } else if (CorgiMerchandise.RESERVE.equals(merchandise.getType())) {
+                this.buyReserve(goods, order);
             } else {
                 this.buyGoods(goods, merchandise);
             }
@@ -181,6 +186,21 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             this.unlock(key);
         }
         return null;
+    }
+
+    private void buyReserve(CorgiUserGoods goods, CorgiOrder order) {
+        BarReservation reservation = corgiReservationMapper.getReservationById(order.getMarketId());
+        if (reservation != null) {
+            goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.RESERVE);
+            goods.setGoodsId(reservation.getId());
+            goods.setDesc("购买成功");
+            goods.setMarketId(reservation.getId());
+            goods.setTraderId(reservation.getBarId());
+            corgiOrderMapper.addGoods(goods);
+        } else {
+            order.setResult("reservation can not be found");
+            corgiOrderMapper.addLog(order);
+        }
     }
 
     private void buyBillboard(CorgiUserGoods goods, CorgiOrder order, CorgiMerchandise merchandise) {

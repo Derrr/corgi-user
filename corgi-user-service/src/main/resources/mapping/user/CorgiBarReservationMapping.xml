@@ -30,11 +30,31 @@
 
     <select id="getAllReservations" resultType="com.corgi.user.entity.BarReservation" parameterType="com.corgi.user.entity.BarReservation">
         select <include refid="reserve"/> from corgi_reservation
+        where 1=1
+        <if test="reserve.id != null and reserve.id != ''">
+            and id = #{reserve.id}
+        </if>
+        <if test="reserve.status != null and reserve.status != ''">
+            and status = #{reserve.status}
+        </if>
+
         order by id desc limit #{start}, #{limit}
     </select>
 
     <select id="countAllReservations" resultType="java.lang.Integer" parameterType="com.corgi.user.entity.BarReservation">
         select count(1) from corgi_reservation
+        where 1=1
+        <if test="reserve.id != null and reserve.id != ''">
+            and id = #{reserve.id}
+        </if>
+        <if test="reserve.status != null and reserve.status != ''">
+            and status = #{reserve.status}
+        </if>
+
     </select>
 
+    <select id="getReservationById" resultType="com.corgi.user.entity.BarReservation">
+        select <include refid="reserve"/> from corgi_reservation
+        where id = #{id}
+    </select>
 </mapper>
