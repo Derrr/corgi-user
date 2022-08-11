@@ -197,6 +197,9 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             goods.setMarketId(reservation.getId());
             goods.setTraderId(reservation.getBarId());
             corgiOrderMapper.addGoods(goods);
+            reservation.setTradeNo(order.getTradeNo());
+            reservation.setStatus("paid");
+            corgiReservationMapper.updateBarReservation(reservation);
         } else {
             order.setResult("reservation can not be found");
             corgiOrderMapper.addLog(order);
