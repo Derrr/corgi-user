@@ -3,7 +3,7 @@
 <mapper namespace="com.corgi.mapper.CorgiReservationMapper">
     <sql id="reserve">
         id
-        , `bar_id` barId, user_id, userId, `status`, `date`, contact, `remark`, `people`, `name`,`merch_id` merchId, trade_no tradeNo
+        , `bar_id` barId, user_id userId, `status`, `date`, contact, `remark`, `people`, `name`,`merch_id` merchId, trade_no tradeNo
     </sql>
     <insert id="addBarReservation" parameterType="com.corgi.user.entity.BarReservation" useGeneratedKeys="true"
             keyProperty="reserve.id">
