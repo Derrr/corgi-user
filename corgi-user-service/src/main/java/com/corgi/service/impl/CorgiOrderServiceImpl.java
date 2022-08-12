@@ -169,6 +169,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     .merchId(order.getMerchId())
                     .build();
             CorgiMerchandise merchandise = corgiOrderMapper.getMerchandiseById(order.getMerchId());
+            order.setResult(merchandise.toString() + "=" + order.getMerchId());
+            corgiOrderMapper.addLog(order);
             if (CorgiMerchandise.SUBSCRIBE.equals(merchandise.getType())) {
                 if (!this.buySubscribe(goods, merchandise, order, expiresDate)) {
                     return null;
