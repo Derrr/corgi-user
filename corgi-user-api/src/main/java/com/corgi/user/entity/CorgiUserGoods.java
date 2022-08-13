@@ -15,6 +15,7 @@ public class CorgiUserGoods implements Serializable {
     public interface GOODS_TYPE {
         String SUBSCRIBE = "subscribe";
         String ACTIVITY = "activity";
+        String RESERVE = "reserve";
         String MATCH = "match";
     }
     public interface CURRENCY{
