@@ -1,6 +1,5 @@
 package com.corgi.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiReservationMapper;
 import com.corgi.user.api.*;
@@ -41,5 +40,10 @@ public class CorgiReservationServiceImpl implements CorgiReserveService {
     @Override
     public Integer countReservation(BarReservation reservation) {
         return corgiReservationMapper.countAllReservations(reservation);
+    }
+
+    @Override
+    public BarReservation getReservationById(String id) {
+        return corgiReservationMapper.getReservationById(id);
     }
 }
