@@ -2,6 +2,7 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.activity.api.CorgiMatchService;
 import com.corgi.common.CorgiConstants;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.mapper.CorgiUserMatchMapper;
@@ -38,42 +39,52 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     private CorgiUserMapper userMapper;
     @Reference
     private CorgiOrderService corgiOrderService;
+    @Reference
+    private CorgiMatchService corgiMatchService;
     @Autowired
     private StringRedisTemplate redisTemplate;
 
     @Override
     public List<UserMatchItem> getUserMatchItem(UserQuery userQuery) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, -5);
+        String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
+        List<UserMatchItem> users = corgiMatchService.getMatchItems(userQuery);
         List<String> userIds = new ArrayList<>();
-        UserUtils.buildQueryString(userQuery);
-        List<UserMatchItem> users;
-        if (StringUtils.isEmpty(userQuery.getResult()) && userQuery.getLat() != 0 && userQuery.getLng() != 0) {
-            try {
-                users = this.getUsers(userQuery, calendar, userIds);
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                return new ArrayList<>();
-            }
-        } else {
-            Long nowTime = calendar.getTimeInMillis();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String nowDate = sdf.format(calendar.getTime());
-            try {
-                users = userMatchMapper.getMatchByQuery(userQuery, 6);
-                users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                return new ArrayList<>();
-            }
-        }
-
-        if (users.size() < 6) {
-            return new ArrayList<>();
-        }
+        users = this.buildUsers(users, userIds, calendar.getTimeInMillis(), dateStr, 6);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.add(Calendar.MINUTE, -5);
+//        List<String> userIds = new ArrayList<>();
+//        UserUtils.buildQueryString(userQuery);
+//        List<UserMatchItem> users;
+//        if (StringUtils.isEmpty(userQuery.getResult()) && userQuery.getLat() != 0 && userQuery.getLng() != 0) {
+//            try {
+//                users = this.getUsers(userQuery, calendar, userIds);
+//            } catch (Exception e) {
+//                log.error(e.getMessage(), e);
+//                return new ArrayList<>();
+//            }
+//        } else {
+//            Long nowTime = calendar.getTimeInMillis();
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            String nowDate = sdf.format(calendar.getTime());
+//            try {
+//                users = userMatchMapper.getMatchByQuery(userQuery, 6);
+//                users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
+//            } catch (Exception e) {
+//                log.error(e.getMessage(), e);
+//                return new ArrayList<>();
+//            }
+//        }
+//
+//        if (users.size() < 6) {
+//            return new ArrayList<>();
+//        }
         for (String userId : userIds) {
             userMatchMapper.addMatchView(userQuery.getUserId(), userId);
         }
+        String key = "user_match_view_" + dateStr + userQuery.getUserId();
+        redisTemplate.opsForList().rightPushAll(key, userIds);
+        redisTemplate.expire(key, 1l, TimeUnit.DAYS);
         return users;
     }
 
@@ -159,6 +170,13 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     @Override
     public void addUserMatch(String userId, String matchId, String tradeNo) {
         userMatchMapper.addMatch(userId, matchId, tradeNo);
+        String key = "user_match_" + userId;
+        if (redisTemplate.hasKey(key)) {
+            redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
+        } else {
+            redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
+            redisTemplate.expire(key, 14l, TimeUnit.DAYS);
+        }
     }
 
     @Override
@@ -355,7 +373,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                 item.setAvatarStatus("");
             } else if ("influencer".equals(item.getAvatarStatus())) {
                 item.setAvatarStatus("influencer");
-            } else if (nowTimeDate.compareTo(item.getAvatarStatus()) < 0) {
+            } else if (nowTimeDate.compareTo(item.getAvatarStatus()) <= 0) {
                 item.setAvatarStatus("vip");
             } else {
                 item.setAvatarStatus("");
