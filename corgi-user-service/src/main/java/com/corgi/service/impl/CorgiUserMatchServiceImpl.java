@@ -50,7 +50,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
         List<UserMatchItem> users = corgiMatchService.getMatchItems(userQuery);
         List<String> userIds = new ArrayList<>();
-        users = this.buildUsers(users, userIds, calendar.getTimeInMillis(), dateStr, 6);
+        //users = this.buildUsers(users, userIds, calendar.getTimeInMillis(), dateStr, 6);
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.add(Calendar.MINUTE, -5);
 //        List<String> userIds = new ArrayList<>();
@@ -79,8 +79,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 //        if (users.size() < 6) {
 //            return new ArrayList<>();
 //        }
-        for (String userId : userIds) {
-            userMatchMapper.addMatchView(userQuery.getUserId(), userId);
+        for (UserMatchItem item : users) {
+            userMatchMapper.addMatchView(userQuery.getUserId(), item.getUserId());
+            userIds.add(item.getUserId());
         }
         String key = "user_match_view_" + dateStr + userQuery.getUserId();
         redisTemplate.opsForList().rightPushAll(key, userIds);
