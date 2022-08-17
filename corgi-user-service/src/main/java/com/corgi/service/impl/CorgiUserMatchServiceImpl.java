@@ -73,7 +73,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             return new ArrayList<>();
         }
         String key = "user_match_view_" + dateStr + userQuery.getUserId();
-        redisTemplate.opsForList().rightPushAll(key, userIds);
+        redisTemplate.opsForSet().add(key, (String[])userIds.toArray());
         redisTemplate.expire(key, 1l, TimeUnit.DAYS);
         return users;
     }
@@ -162,9 +162,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         userMatchMapper.addMatch(userId, matchId, tradeNo);
         String key = "user_match_" + userId;
         if (redisTemplate.hasKey(key)) {
-            redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
+            redisTemplate.opsForSet().add(key, matchId + "-" + System.currentTimeMillis());
         } else {
-            redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
+            redisTemplate.opsForSet().add(key, matchId + "-" + System.currentTimeMillis());
             redisTemplate.expire(key, 14l, TimeUnit.DAYS);
         }
     }
