@@ -22,8 +22,6 @@ public interface CorgiUserMatchService {
 
     void addUserMatch(String userId, String matchId, String tradeNo);
 
-    /* -- History Deprecated -- */
-
     Double calculateUserMatch(String userId1, String userId2);
 
     Double calculateUserMatchByDetail(UserDetail userDetail1, UserDetail userDetail2);

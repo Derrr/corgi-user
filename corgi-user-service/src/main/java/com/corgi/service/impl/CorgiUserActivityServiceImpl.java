@@ -231,7 +231,7 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
 
     @Override
     public void deleteActivityCreator(String activityId) {
-        corgiUserActivityMapper.deleteActivityCreator(activityId);
+        corgiUserActivityMapper.changeActivityCreator(activityId,"fail");
         CorgiVlogHot hot = new CorgiVlogHot();
         hot.setStatus("close");
         hot.setActivityId(activityId);

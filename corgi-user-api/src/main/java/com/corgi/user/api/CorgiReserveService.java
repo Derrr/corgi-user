@@ -16,4 +16,6 @@ public interface CorgiReserveService {
     List<BarReservation> listAllReservation(BarReservation reservation,Integer start, Integer size);
 
     Integer countReservation(BarReservation reservation);
+
+    BarReservation getReservationById(String id);
 }

@@ -17,17 +17,17 @@
         <if test="timestamp > 0">
             and p.uptime > #{timestamp}
         </if>
-        and not exists (select 1
-        from corgi_user_match m
-        where m.user_id = #{user.userId}
-        and m.match_id = p.user_id
-        and status = '1')
-        and not exists (select 1
-        from corgi_user_match_view v
-        where v.user_id = #{user.userId}
-        and v.match_id = p.user_id
-        and status = '1')
-        order by distance
+         and not exists (select 1
+         from corgi_user_match m
+         where m.user_id = #{user.userId}
+         and m.match_id = p.user_id
+         and status = '1')
+         and not exists (select 1
+         from corgi_user_match_view v
+         where v.user_id = #{user.userId}
+         and v.match_id = p.user_id
+         and status = '1')
+         order by distance
         limit #{size};
     </select>
 
