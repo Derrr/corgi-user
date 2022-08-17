@@ -74,8 +74,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         String key = "user_match_view_" + dateStr + userQuery.getUserId();
         try {
-            redisTemplate.opsForSet().add(key, (String[]) userIds.toArray());
-            redisTemplate.expire(key, 1l, TimeUnit.DAYS);
+            if (redisTemplate.hasKey(key)) {
+                redisTemplate.opsForList().rightPushAll(key, userIds);
+                redisTemplate.expire(key, 1l, TimeUnit.DAYS);
+            } else {
+                redisTemplate.opsForList().rightPushAll(key, userIds);
+            }
         } catch (Exception e) {
             redisTemplate.delete(key);
         }
@@ -167,9 +171,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         String key = "user_match_" + userId;
         try {
             if (redisTemplate.hasKey(key)) {
-                redisTemplate.opsForSet().add(key, matchId + "-" + System.currentTimeMillis());
+                redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
             } else {
-                redisTemplate.opsForSet().add(key, matchId + "-" + System.currentTimeMillis());
+                redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
                 redisTemplate.expire(key, 14l, TimeUnit.DAYS);
             }
         } catch (Exception e) {
