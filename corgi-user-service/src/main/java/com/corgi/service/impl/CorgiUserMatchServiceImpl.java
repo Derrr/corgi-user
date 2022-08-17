@@ -72,6 +72,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (users.size() < 6) {
             return new ArrayList<>();
         }
+        for (String userId : userIds) {
+            userMatchMapper.addMatchView(userQuery.getUserId(), userId);
+        }
         String key = "user_match_view_" + dateStr + userQuery.getUserId();
         try {
             if (redisTemplate.hasKey(key)) {
