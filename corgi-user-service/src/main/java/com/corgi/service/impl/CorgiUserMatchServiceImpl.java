@@ -84,7 +84,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             userIds.add(item.getUserId());
         }
         String key = "user_match_view_" + dateStr + userQuery.getUserId();
-        redisTemplate.opsForSet().add(key, (String[]) userIds.toArray());
+        redisTemplate.opsForSet().add(key, userIds.toArray(new String[0]));
         redisTemplate.expire(key, 1l, TimeUnit.DAYS);
         return users;
     }
