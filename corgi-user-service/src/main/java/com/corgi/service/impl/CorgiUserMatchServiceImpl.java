@@ -84,8 +84,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
             userIds.add(item.getUserId());
         }
         String key = "user_match_view_" + dateStr + userQuery.getUserId();
-        redisTemplate.opsForList().rightPushAll(key, userIds);
-        redisTemplate.expire(key, 1l, TimeUnit.DAYS);
+        try {
+            redisTemplate.opsForSet().add(key, (String[]) userIds.toArray());
+            redisTemplate.expire(key, 1l, TimeUnit.DAYS);
+        } catch (Exception e) {
+            redisTemplate.delete(key);
+        }
         return users;
     }
 
@@ -172,11 +176,15 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     public void addUserMatch(String userId, String matchId, String tradeNo) {
         userMatchMapper.addMatch(userId, matchId, tradeNo);
         String key = "user_match_" + userId;
-        if (redisTemplate.hasKey(key)) {
-            redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
-        } else {
-            redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
-            redisTemplate.expire(key, 14l, TimeUnit.DAYS);
+        try {
+            if (redisTemplate.hasKey(key)) {
+                redisTemplate.opsForSet().add(key, matchId + "-" + System.currentTimeMillis());
+            } else {
+                redisTemplate.opsForSet().add(key, matchId + "-" + System.currentTimeMillis());
+                redisTemplate.expire(key, 14l, TimeUnit.DAYS);
+            }
+        } catch (Exception e) {
+            redisTemplate.delete(key);
         }
     }
 

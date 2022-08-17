@@ -17,9 +17,9 @@ public enum MerchandiseEnum {
     READ_12("A04", "normal", 0, "付费阅读 ¥12", "付费阅读"),
     READ_18("A05", "normal", 0, "付费阅读 ¥18", "付费阅读"),
     READ_30("A06", "normal", 0, "付费阅读 ¥30", "付费阅读"),
-    MATCH_30("M01", "normal", 0, "15¥", "当日+30次"),
-    MATCH_50("M02", "normal", 0, "25¥", "当日+50次"),
-    MATCH_100("M03", "normal", 0, "45¥", "当日+100次"),
+    MATCH_30("M01", "normal", 30, "15¥", "当日+30次"),
+    MATCH_50("M02", "normal", 50, "25¥", "当日+50次"),
+    MATCH_100("M03", "normal", 100, "45¥", "当日+100次"),
     BILLBOARD("B01", "normal", 0, "上榜一日 198¥", "付费上榜"),
     RESERVE("R01", "normal", 0, "订座50¥", "订座"),
     ;
