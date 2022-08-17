@@ -44,6 +44,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     @Override
     public List<UserMatchItem> getUserMatchItem(UserQuery userQuery) {
         Calendar calendar = Calendar.getInstance();
+        String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
         calendar.add(Calendar.MINUTE, -5);
         List<String> userIds = new ArrayList<>();
         UserUtils.buildQueryString(userQuery);
@@ -71,9 +72,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (users.size() < 6) {
             return new ArrayList<>();
         }
-        for (String userId : userIds) {
-            userMatchMapper.addMatchView(userQuery.getUserId(), userId);
-        }
+        String key = "user_match_view_" + dateStr + userQuery.getUserId();
+        redisTemplate.opsForList().rightPushAll(key, userIds);
+        redisTemplate.expire(key, 1l, TimeUnit.DAYS);
         return users;
     }
 
@@ -159,6 +160,13 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     @Override
     public void addUserMatch(String userId, String matchId, String tradeNo) {
         userMatchMapper.addMatch(userId, matchId, tradeNo);
+        String key = "user_match_" + userId;
+        if (redisTemplate.hasKey(key)) {
+            redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
+        } else {
+            redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
+            redisTemplate.expire(key, 14l, TimeUnit.DAYS);
+        }
     }
 
     @Override
