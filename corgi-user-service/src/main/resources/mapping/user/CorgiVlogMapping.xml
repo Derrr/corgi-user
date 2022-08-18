@@ -139,7 +139,6 @@
           and c.check_status != 'fail'
           and c.check_status != 'check'
           and c.check_status != 'not_good'
-          and c.activity_id is not null
         order by h.like_count desc
             limit #{size}
     </select>
