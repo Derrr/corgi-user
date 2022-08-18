@@ -257,7 +257,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 }
             }
         }
-        if (StringUtils.isEmpty(activityIds)) {
+        if (CollectionUtils.isEmpty(activityIds)) {
             return new ArrayList<>();
         }
         redisTemplate.opsForList().rightPushAll(key, activityIds);
