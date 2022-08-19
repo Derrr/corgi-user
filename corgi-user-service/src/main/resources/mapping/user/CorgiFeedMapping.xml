@@ -35,6 +35,11 @@
         </if>
     </delete>
 
+    <delete id="deleteFeedByUserId" parameterType="com.corgi.user.entity.CorgiFeed">
+        delete from corgi_feed_${index}
+        where user_id = #{userId}
+    </delete>
+
     <delete id="clearFeed" parameterType="com.corgi.user.entity.CorgiFeed">
         delete
         from corgi_feed_${index}
