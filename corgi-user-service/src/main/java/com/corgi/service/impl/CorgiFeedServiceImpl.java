@@ -249,7 +249,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             recall.setStatus("asc");
             List<CorgiVlog> vlogs = corgiVlogMapper.recallHotVlog(recall, lastId, size, null);
             for (CorgiVlog vlog : vlogs) {
-                if (!activityIds.contains(vlog.getActivityId())) {
+                if (!activityIds.contains(vlog.getActivityId()) && !StringUtils.isEmpty(vlog.getActivityId())) {
                     activityIds.add(vlog.getActivityId());
                     if (size <= activityIds.size()) {
                         break;
@@ -257,7 +257,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 }
             }
         }
-        if (StringUtils.isEmpty(activityIds)) {
+        if (CollectionUtils.isEmpty(activityIds)) {
             return new ArrayList<>();
         }
         redisTemplate.opsForList().rightPushAll(key, activityIds);
