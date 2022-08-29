@@ -55,6 +55,11 @@
         values (#{order.tradeNo}, #{order.result});
     </insert>
 
+    <insert id="addAppstoreLog">
+        insert into `appstore_log`(`result`, `transaction_id`, `origin_id`)
+        values (#{result}, #{transactionId}, #{originId});
+    </insert>
+
     <insert id="updateOrder" parameterType="com.corgi.user.entity.CorgiOrder">
         update corgi_order
         <set>

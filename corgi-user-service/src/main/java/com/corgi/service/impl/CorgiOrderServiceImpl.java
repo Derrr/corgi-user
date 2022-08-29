@@ -105,6 +105,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
+    public void addLog(String result, String transactionId, String originId) {
+        corgiOrderMapper.addAppstoreLog(result, transactionId, originId);
+    }
+
+    @Override
     public List<CorgiOrder> getOrderByPage(CorgiOrder order, Integer page, Integer pageSize) {
         return corgiOrderMapper.getOrderByPage(order, (page - 1) * pageSize, pageSize);
     }
