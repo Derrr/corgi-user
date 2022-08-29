@@ -105,6 +105,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
+    public void addLog(String result, String transactionId, String originId) {
+        corgiOrderMapper.addAppstoreLog(result, transactionId, originId);
+    }
+
+    @Override
     public List<CorgiOrder> getOrderByPage(CorgiOrder order, Integer page, Integer pageSize) {
         return corgiOrderMapper.getOrderByPage(order, (page - 1) * pageSize, pageSize);
     }
@@ -301,16 +306,26 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 corgiOrderMapper.addOrder(order);
                 corgiOrderMapper.updateOrder(order);
                 corgiOrderMapper.addLog(order);
-            } else {
+            } else if (StringUtils.isNotEmpty(order.getUserId())) {
                 order.setTradeNo(order.getUserId());
                 order.setResult(finalDate);
                 corgiOrderMapper.addLog(order);
+            } else if (StringUtils.isNotEmpty(order.getOrderId())) {
+                List<CorgiOrder> orders = corgiOrderMapper.getOrderByOrderId(order.getOrderId());
+                for (CorgiOrder order1 : orders) {
+                    if (CorgiOrder.STATUS.SUCCESS.equals(order1.getStatus())) {
+                        order.setUserId(order1.getUserId());
+                        break;
+                    }
+                }
             }
             if (CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
                 if (goods != null) {
                     corgiOrderMapper.addGoods(goods);
                 }
-                corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
+                if (StringUtils.isNotEmpty(order.getUserId())) {
+                    corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
+                }
             }
         } else if ("0".equals(vipStatus)) {
             List<CorgiOrder> orders = corgiOrderMapper.getOrderByOrderId(order.getOrderId());

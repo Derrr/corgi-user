@@ -922,5 +922,9 @@
             </if>
         </set>
         where user_id = #{userId}
+        <if test="vipExpire != null and vipExpire != ''">
+            and (`vip_expire` &lt; #{vipExpire} or vip_expire = '-')
+        </if>
+
     </update>
 </mapper>

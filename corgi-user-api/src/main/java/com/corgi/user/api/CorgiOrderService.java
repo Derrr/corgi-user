@@ -15,6 +15,8 @@ public interface CorgiOrderService {
 
     void updateOrder(CorgiOrder order);
 
+    void addLog(String result, String transationId, String originId);
+
     List<CorgiOrder> getOrderByPage(CorgiOrder order, Integer page, Integer pageSize);
 
     Integer countOrder(CorgiOrder order);

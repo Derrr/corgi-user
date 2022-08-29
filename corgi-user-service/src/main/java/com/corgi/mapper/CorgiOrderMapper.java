@@ -20,6 +20,8 @@ public interface CorgiOrderMapper {
 
     void addLog(@Param("order") CorgiOrder order);
 
+    void addAppstoreLog(@Param("result") String result, @Param("transactionId")String transactionId, @Param("originId")String originId);
+
     void addOrder(@Param("order") CorgiOrder order);
 
     List<CorgiOrder> getOrderByOrderId(@Param("orderId")String orderId);
