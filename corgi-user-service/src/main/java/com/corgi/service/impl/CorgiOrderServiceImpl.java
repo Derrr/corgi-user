@@ -275,13 +275,6 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         if (e != null) {
             String finalDate = "";
             if (StringUtils.isNotEmpty(expiresDate)) {
-                if (expiresDate.equals(expireDate.getTime() + "")) {
-                    CorgiOrder update = new CorgiOrder();
-                    update.setTradeNo(order.getTradeNo());
-                    update.setStatus(CorgiOrder.STATUS.CLOSE);
-                    corgiOrderMapper.updateOrder(update);
-                    return false;
-                }
                 calendar.setTime(new Date(Long.valueOf(expiresDate)));
             } else {
                 calendar.setTime(expireDate);
