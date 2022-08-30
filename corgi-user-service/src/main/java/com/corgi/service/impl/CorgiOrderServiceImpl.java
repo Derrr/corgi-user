@@ -308,6 +308,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 for (CorgiOrder order1 : orders) {
                     if (CorgiOrder.STATUS.SUCCESS.equals(order1.getStatus())) {
                         order.setUserId(order1.getUserId());
+                        order.setStatus(CorgiOrder.STATUS.SUCCESS);
                         break;
                     }
                 }
