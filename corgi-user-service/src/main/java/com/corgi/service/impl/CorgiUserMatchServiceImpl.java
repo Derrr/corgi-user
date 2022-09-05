@@ -10,9 +10,9 @@ import com.corgi.support.MatchSupporter;
 import com.corgi.support.UserQuerySupporter;
 import com.corgi.user.api.CorgiOrderService;
 import com.corgi.user.api.CorgiUserMatchService;
+import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.entity.*;
 import com.corgi.user.enums.MerchandiseEnum;
-import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -41,6 +41,8 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     private CorgiOrderService corgiOrderService;
     @Reference
     private CorgiMatchService corgiMatchService;
+    @Reference
+    private CorgiUserService corgiUserService;
     @Autowired
     private StringRedisTemplate redisTemplate;
 
@@ -150,9 +152,14 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         Calendar calendar = Calendar.getInstance();
         List<UserMatchRemain> remains = new ArrayList<>();
         UserMatchRemain remain0 = new UserMatchRemain();
+        String expireDate = corgiUserService.getUserVipExpire(userId);
+        Integer free = 12;
+        if (!"-".equals(expireDate) && sdf.format(calendar.getTime()).compareTo(expireDate.substring(0, 10)) <= 0) {
+            free = 30;
+        }
         remain0.setUserId(userId);
         remain0.setTradeNo("0");
-        remain0.setRemain(30 - userMatchMapper.countMatch(userId, "0", sdf.format(calendar.getTime())));
+        remain0.setRemain(free - userMatchMapper.countMatch(userId, "0", sdf.format(calendar.getTime())));
         remains.add(remain0);
 
         calendar.add(Calendar.DATE, -1);
