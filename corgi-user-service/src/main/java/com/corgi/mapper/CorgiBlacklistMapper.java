@@ -115,4 +115,23 @@ public interface CorgiBlacklistMapper {
      */
     Integer countBlack(@Param("userId") String userId, @Param("blockId") String blockId);
 
+    /**
+     * 不感兴趣
+     *
+     * @param userId
+     * @param creatorId
+     * @param activityId
+     * @return
+     */
+    Integer addUninterested(@Param("userId") String userId, @Param("activityId") String activityId, @Param("creatorId")String creatorId);
+
+    /**
+     * 不感兴趣
+     *
+     * @param userId
+     * @param ctime
+     * @return
+     */
+    List<String> getUninterestedCreator(@Param("userId") String userId, @Param("ctime") String ctime);
+
 }

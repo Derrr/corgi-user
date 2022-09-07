@@ -159,4 +159,16 @@
         where user_id = #{userId}
           and black_id = #{blockId}
     </select>
+
+    <insert id="addUninterested">
+        insert into corgi_uninteresed(`user_id`, `activity_id`, `creator_id`)
+        values (#{userId}, #{activityId}, #{creatorId})
+    </insert>
+
+    <select id="getUninterestedCreator" resultType="java.lang.String">
+        select distinct creator_id
+        from corgi_uninteresed
+        where user_id = #{userId}
+          and ctime > #{ctime}
+    </select>
 </mapper>
