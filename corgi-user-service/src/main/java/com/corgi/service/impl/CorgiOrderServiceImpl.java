@@ -241,11 +241,17 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         if (market != null) {
             goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.ACTIVITY);
             goods.setGoodsId(market.getSourceId());
-            goods.setDesc("购买成功");
             goods.setMarketId(market.getId());
             goods.setTraderId(market.getUserId());
+            goods.setDesc("购买成功");
             corgiOrderMapper.addGoods(goods);
-            rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildActivityMessage(goods));
+            if (market.getMerchId().equals(order.getMerchId())) {
+                rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildActivityMessage(goods));
+            } else {
+                goods.setDesc("购买价格不是原本定价");
+                goods.setStatus("0");
+                corgiOrderMapper.updateUserGoods(goods);
+            }
         } else {
             order.setResult("user market can not be found");
             corgiOrderMapper.addLog(order);
