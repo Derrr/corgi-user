@@ -125,7 +125,6 @@
         select
         <include refid="like"/>
         from corgi_activity_like
-        where type = 'real'
         order by id desc
         limit #{start}, #{size}
     </select>
