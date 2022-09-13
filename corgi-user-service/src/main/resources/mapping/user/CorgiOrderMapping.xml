@@ -24,6 +24,10 @@
         <if test="merchandise.type != null and merchandise.type != ''">
             and m.type = #{merchandise.type}
         </if>
+        <if test="merchandise.appMerchId != null and merchandise.appMerchId != ''">
+            and m.app_merch_id = #{merchandise.appMerchId}
+        </if>
+
         order by m.order
     </select>
 
@@ -94,6 +98,9 @@
         <set>
             <if test="goods.desc != null and goods.desc != ''">
                 `desc` = #{goods.desc},
+            </if>
+            <if test="goods.status != null and goods.status != ''">
+                `status` = #{goods.status},
             </if>
         </set>
         where trade_no = #{goods.tradeNo}
