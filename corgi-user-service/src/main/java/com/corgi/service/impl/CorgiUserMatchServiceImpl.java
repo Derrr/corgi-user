@@ -155,7 +155,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         String expireDate = corgiUserService.getUserVipExpire(userId);
         Integer free = 12;
         if (!"-".equals(expireDate) && sdf.format(calendar.getTime()).compareTo(expireDate.substring(0, 10)) <= 0) {
-            free = 30;
+            free = 60;
         }
         remain0.setUserId(userId);
         remain0.setTradeNo("0");
