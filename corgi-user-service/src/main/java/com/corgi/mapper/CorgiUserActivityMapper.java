@@ -168,6 +168,7 @@ public interface CorgiUserActivityMapper {
      */
     List<String> getHeadActivityPic(@Param("category") String category,
                                     @Param("date") String date,
+                                    @Param("city")String city,
                                     @Param("start") Integer start,
                                     @Param("size") Integer size,
                                     @Param("topic")String topic,

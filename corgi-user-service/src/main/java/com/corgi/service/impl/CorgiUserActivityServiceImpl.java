@@ -188,7 +188,7 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
         if (!CollectionUtils.isEmpty(hashtags)) {
             hashtag = hashtags.get(0);
         }
-        return corgiUserActivityMapper.getHeadActivityPic(category, date, (page - 1) * pageSize, pageSize, topic, hashtag);
+        return corgiUserActivityMapper.getHeadActivityPic(category, date, corgiActivity.getCity(), (page - 1) * pageSize, pageSize, topic, hashtag);
     }
 
     @Override
@@ -231,7 +231,7 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
 
     @Override
     public void deleteActivityCreator(String activityId) {
-        corgiUserActivityMapper.changeActivityCreator(activityId,"fail");
+        corgiUserActivityMapper.changeActivityCreator(activityId, "fail");
         CorgiVlogHot hot = new CorgiVlogHot();
         hot.setStatus("close");
         hot.setActivityId(activityId);
