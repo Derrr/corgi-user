@@ -25,7 +25,7 @@ public interface CorgiOrderService {
 
     CorgiMerchandise getMerchandiseById(String merchId, String userId);
 
-    String buy(String tradeNo, String expiresDate);
+    String buy(String tradeNo, String merchId, String expiresDate);
 
     void subscribe(CorgiOrder order, CorgiUserGoods goods, String vipStatus, String finalDate);
 
