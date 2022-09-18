@@ -96,7 +96,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             corgiOrderMapper.updateOrder(order);
 
             if (CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
-                this.buy(order.getTradeNo(), expiresDate);
+                this.buy(order.getTradeNo(), order.getMerchId(), expiresDate);
             }
         } catch (Exception e) {
             order.setResult(e.getMessage());
@@ -158,7 +158,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
-    public String buy(String tradeNo, String expiresDate) {
+    public String buy(String tradeNo, String merchId, String expiresDate) {
         String key = "buying_goods_" + tradeNo;
         try {
             this.lock(key);
@@ -166,6 +166,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             if (corgiOrderMapper.countGoodsByTradeNo(tradeNo) > 0) {
                 return null;
             }
+            order.setMerchId(merchId);
             CorgiUserGoods goods = CorgiUserGoods.builder()
                     .userId(order.getUserId())
                     .currency(CorgiUserGoods.CURRENCY.CNY)
