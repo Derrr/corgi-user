@@ -233,6 +233,9 @@ public class CorgiToolServiceImpl implements CorgiToolService {
             List<String> onTop = corgiToolMapper.getActivityIdsByTopic(query, weight, role, group, (page - 1) * size, size);
             ids.addAll(0, onTop);
         }
+        if (CollectionUtils.isEmpty(ids)) {
+            return ids;
+        }
         redisTemplate.opsForList().rightPushAll(key, ids);
         redisTemplate.expire(key, 30l, TimeUnit.SECONDS);
         return ids;
