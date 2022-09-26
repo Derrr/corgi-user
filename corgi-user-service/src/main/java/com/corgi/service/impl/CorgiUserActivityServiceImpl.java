@@ -106,7 +106,7 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     }
 
     @Override
-    public Integer getStatus(String userId, String activityId) {
+    public String getStatus(String userId, String activityId) {
         return corgiUserActivityMapper.getStatus(userId, activityId);
     }
 

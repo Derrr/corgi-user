@@ -39,7 +39,7 @@
         where activity_id = #{activityId}
     </update>
 
-    <select id="getStatus" resultType="java.lang.Integer">
+    <select id="getStatus" resultType="java.lang.String">
         select `check_status`
         from corgi_activity_creator
         where activity_id = #{activityId}

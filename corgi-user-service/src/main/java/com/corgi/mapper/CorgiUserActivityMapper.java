@@ -55,7 +55,7 @@ public interface CorgiUserActivityMapper {
      * @param activityId
      * @return
      */
-    Integer getStatus(@Param("userId") String userId, @Param("activityId") String activityId);
+    String getStatus(@Param("userId") String userId, @Param("activityId") String activityId);
 
     /**
      * 获取所有报名人

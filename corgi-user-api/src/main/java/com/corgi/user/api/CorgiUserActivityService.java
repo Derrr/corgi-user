@@ -25,7 +25,7 @@ public interface CorgiUserActivityService {
 
     void deleteSignUpByActivity(String activityId);
 
-    Integer getStatus(String userId, String activityId);
+    String getStatus(String userId, String activityId);
 
     List<UserProfile> getUsers(String activityId, String userId, String status);
 
