@@ -40,10 +40,9 @@
     </update>
 
     <select id="getStatus" resultType="java.lang.Integer">
-        select `status`
-        from corgi_activity_attender
-        where user_id = #{userId}
-          and activity_id = #{activityId}
+        select `check_status`
+        from corgi_activity_creator
+        where activity_id = #{activityId}
     </select>
     <select id="getUser" resultType="com.corgi.user.entity.UserProfile">
         select
