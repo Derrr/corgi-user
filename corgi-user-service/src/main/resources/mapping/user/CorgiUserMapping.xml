@@ -141,6 +141,7 @@
                d.`desc`,
                d.`role`,
                d.`hide_role`,
+               d.`cime`                               ctime,
                d.`character`,
                d.background,
                d.bg_check_status                      bgCheckStatus,

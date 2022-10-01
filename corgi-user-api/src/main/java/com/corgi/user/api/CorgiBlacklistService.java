@@ -24,4 +24,8 @@ public interface CorgiBlacklistService {
     List<String> getBeBlacked(String userId);
 
     Integer isBlacked(String userId, String targetUserId);
+
+    String addUninterested(String userId,String activityId, String creatorId);
+
+    List<String> getUninterestedCreator(String userId,String ctime);
 }

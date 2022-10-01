@@ -183,7 +183,7 @@ public class CorgiToolServiceImpl implements CorgiToolService {
         String group = "";
         String role = "";
         String keyPrefix = "";
-        String key = "activityTopic-" + query.getTopic() + "_" + page + "_" + size + "-" + query.getActivityId();
+        String key = "activityTopic-" + query.getTopic() + "_" + page + "_" + size + "-" + query.getActivityId() + "-" + query.getCity();
         boolean hasFilter = hasTopicFilter(query);
         if (!hasFilter) {
             List<String> ids = redisTemplate.opsForList().range(key, 0, -1);

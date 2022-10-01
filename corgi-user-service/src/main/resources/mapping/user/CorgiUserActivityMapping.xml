@@ -39,11 +39,10 @@
         where activity_id = #{activityId}
     </update>
 
-    <select id="getStatus" resultType="java.lang.Integer">
-        select `status`
-        from corgi_activity_attender
-        where user_id = #{userId}
-          and activity_id = #{activityId}
+    <select id="getStatus" resultType="java.lang.String">
+        select `check_status`
+        from corgi_activity_creator
+        where activity_id = #{activityId}
     </select>
     <select id="getUser" resultType="com.corgi.user.entity.UserProfile">
         select
@@ -197,6 +196,9 @@
         <if test="topic != null">
             join corgi_activity_topic t on t.activity_id = c.activity_id and t.topic = #{topic}
         </if>
+        <if test="city != null and city != ''">
+            left join corgi_user_position p on p.user_id = c.creator_id
+        </if>
         <if test="hashtag != null">
             join corgi_activity_hashtag h on h.activity_id = c.activity_id and h.hashtag_id = #{hashtag}
         </if>
@@ -205,6 +207,9 @@
         and c.check_status != 'not_good'
         <if test="date != null">
             and c.ctime >= #{date}
+        </if>
+        <if test="city != null and city != ''">
+            and p.city = #{city}
         </if>
         group by c.activity_id
         order by count(l.id) desc

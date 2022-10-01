@@ -140,6 +140,21 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
         return corgiBlacklistMapper.countBlack(userId, targetUserId) + 2 * corgiBlacklistMapper.countBlack(targetUserId, userId);
     }
 
+    @Override
+    public String addUninterested(String userId, String activityId, String creatorId) {
+        Integer result = corgiBlacklistMapper.addUninterested(userId, activityId, creatorId);
+        if (result > 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
+    @Override
+    public List<String> getUninterestedCreator(String userId, String ctime) {
+        return corgiBlacklistMapper.getUninterestedCreator(userId, ctime);
+    }
+
     private void deleteSignUp(String userId, String blackId) {
         int start = 0;
         int size = 500;

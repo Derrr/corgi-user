@@ -308,8 +308,12 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public void deleteFeed(CorgiFeed feed) {
-        for (int i = 0; i < 8; i++) {
-            corgiFeedMapper.deleteFeed(feed, i + "");
+        if (!StringUtils.isEmpty(feed.getUserId())) {
+            corgiFeedMapper.deleteFeedByUserId(feed.getUserId(), UserUtils.getIndex(feed.getUserId()));
+        } else {
+            for (int i = 0; i < 8; i++) {
+                corgiFeedMapper.deleteFeed(feed, i + "");
+            }
         }
     }
 
