@@ -1,10 +1,13 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.ActivityQuery;
 import com.corgi.mapper.*;
 import com.corgi.user.api.CorgiFeedService;
+import com.corgi.user.api.CorgiUserService;
+import com.corgi.user.api.CorgiVlogService;
 import com.corgi.user.entity.CorgiFeed;
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
@@ -36,14 +39,16 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Autowired
     private CorgiFeedMapper corgiFeedMapper;
-
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
     @Autowired
-    private CorgiUserActivityMapper corgiUserActivityMapper;
-
-    @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Reference
+    private CorgiVlogService corgiVlogService;
+    @Reference
+    private CorgiUserService corgiUserService;
+
 
     @Override
     public List<String> getFollowedFeed(String userId, Integer size) {
@@ -74,6 +79,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             return result;
         }
         List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size(), index);
+
         if (popularFeeds != null) {
             for (CorgiVlog vlog : popularFeeds) {
                 CorgiFeed feed = new CorgiFeed();
@@ -179,29 +185,40 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     private List<CorgiVlog> getPopularFeeds(String userId, Integer size, String userIndex) {
-        List<String> popularUserIds = corgiFeedMapper.getPopularUserIds();
-        List<CorgiVlog> vlogs = new ArrayList<>();
-        CorgiVlog recall = new CorgiVlog();
-        recall.setUserId(userId);
-        recall.setType("like");
-        Random random = new Random();
-        for (int i = 0; i < popularUserIds.size(); i++) {
-            if (CollectionUtils.isEmpty(popularUserIds)) {
-                break;
-            }
-            int index = random.nextInt(popularUserIds.size());
-            String popularUserId = popularUserIds.get(index);
-            List<CorgiVlog> vlogList = corgiVlogMapper.recallTargetVlog(popularUserId, recall, 1, userIndex);
-            if (CollectionUtils.isEmpty(vlogList)) {
-                popularUserIds.remove(index);
-                continue;
-            }
-            vlogs.addAll(vlogList);
-            if (vlogs.size() >= size) {
-                break;
-            }
-            popularUserIds.remove(index);
+//        List<String> popularUserIds = corgiFeedMapper.getPopularUserIds();
+//        List<CorgiVlog> vlogs = new ArrayList<>();
+//        CorgiVlog recall = new CorgiVlog();
+//        recall.setUserId(userId);
+//        recall.setType("like");
+//        Random random = new Random();
+//        for (int i = 0; i < popularUserIds.size(); i++) {
+//            if (CollectionUtils.isEmpty(popularUserIds)) {
+//                break;
+//            }
+//            int index = random.nextInt(popularUserIds.size());
+//            String popularUserId = popularUserIds.get(index);
+//            List<CorgiVlog> vlogList = corgiVlogMapper.recallTargetVlog(popularUserId, recall, 1, userIndex);
+//            if (CollectionUtils.isEmpty(vlogList)) {
+//                popularUserIds.remove(index);
+//                continue;
+//            }
+//            vlogs.addAll(vlogList);
+//            if (vlogs.size() >= size) {
+//                break;
+//            }
+//            popularUserIds.remove(index);
+//        }
+        String groups = null;
+        List<String> groupList = corgiUserService.getPreferGroup(userId);
+        if (!CollectionUtils.isEmpty(groupList)) {
+            groups = String.join("','", groupList);
         }
+        CorgiVlog recall = new CorgiVlog();
+        recall.setActivityId(groups);
+        recall.setUserId(userId);
+        recall.setType(CorgiVlogHot.TYPE.AUTO);
+        recall.setStatus("desc");
+        List<CorgiVlog> vlogs = corgiVlogService.recallHotVlog(recall, size);
         return vlogs;
     }
 

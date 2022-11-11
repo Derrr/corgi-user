@@ -226,6 +226,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         query.setTradeNo(order.getTradeNo());
         query.setStatus(PaidBillboard.PAID);
         corgiBillboardService.updatePaiBillboard(query);
+        rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildBillboardMessage(goods));
     }
 
     private void buyGoods(CorgiUserGoods goods, CorgiMerchandise merchandise) {
@@ -370,6 +371,14 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     public Double countIncome(CorgiOrder query) {
         Double result = corgiOrderMapper.sumOrder(query);
         return result == null ? 0.0 : result;
+    }
+
+    private PushMessage buildBillboardMessage(CorgiUserGoods goods) {
+        PushMessage pushMessage = new PushMessage();
+        pushMessage.setSourceUserId("corgihelper");
+        pushMessage.setTargetUserId(goods.getUserId());
+        pushMessage.setMessage("购买成功，您的付费榜单请求，将在几个工作日内，由运营小哥确认后通知你。");
+        return pushMessage;
     }
 
     private PushMessage buildSubscribeMessage(CorgiUserGoods goods, int days, String finalDate) {
