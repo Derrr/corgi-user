@@ -377,7 +377,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         PushMessage pushMessage = new PushMessage();
         pushMessage.setSourceUserId("corgihelper");
         pushMessage.setTargetUserId(goods.getUserId());
-        pushMessage.setMessage("购买成功，您的付费榜单请求，将在几个工作日内，由运营小哥确认后通知你。");
+        pushMessage.setMessage("付费人气榜单已购买成功，您的请求，将在一个工作日内，由咱们的运营小哥哥在后台确认后会由系统通知您哦！");
         return pushMessage;
     }
 
