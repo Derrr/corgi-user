@@ -40,11 +40,18 @@
         from corgi_activity_like l
                  left join corgi_activity_creator c
                            on l.activity_id = c.activity_id
+        left join corgi_activity_topic t on t.activity_id = l.activity_id
         where l.type = 'real'
           and l.ctime > #{query.startTime}
           and c.check_status != 'fail'
-          and c.category in ('image','video')
-        and not exists(select 1 from corgi_activity_billboard b where b.activity_id = l.activity_id)
+          and c.check_status != 'not_good'
+          and c.category in ('image')
+        <if test="query.topic != null and query.topic != ''">
+            and t.topic = #{query.topic}
+        </if>
+        <if test="query.topic == null or query.topic == ''">
+            and not exists(select 1 from corgi_activity_billboard b where b.activity_id = l.activity_id)
+        </if>
         group by l.activity_id
         order by `likeCount` desc
             limit #{size}
