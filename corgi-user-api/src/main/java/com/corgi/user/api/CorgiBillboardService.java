@@ -46,4 +46,12 @@ public interface CorgiBillboardService {
     Integer countPaiBillboard(PaidBillboard paidBillboard);
 
     List<PaidBillboard> queryPaidBillboard(PaidBillboard paidBillboard, Integer page, Integer size);
+
+    List<TopicBillboard> listTopicBillboard(TopicBillboard billboard);
+
+    void deleteTopicBillboard(TopicBillboard billboard);
+
+    void updateTopicBillboard(TopicBillboard billboard);
+
+    void addTopicBillboard(TopicBillboard billboard);
 }

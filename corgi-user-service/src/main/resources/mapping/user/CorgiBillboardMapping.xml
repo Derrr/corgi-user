@@ -324,7 +324,7 @@
 
     <update id="updateTopicBillboard" parameterType="com.corgi.user.entity.TopicBillboard">
         update corgi_topic_billboard
-        set `order` = #{topic.order}
+        set `order` = #{topic.order}, `status` = #{topic.status}
         where topic = #{topic.topic}
           and activity_id = #{topic.activityId}
     </update>

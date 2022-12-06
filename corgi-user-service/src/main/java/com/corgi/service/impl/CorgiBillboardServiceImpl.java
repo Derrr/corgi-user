@@ -187,4 +187,24 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         return corgiBillboardMapper.getPaidBillboard(paidBillboard, (page - 1) * size, size);
     }
 
+    @Override
+    public List<TopicBillboard> listTopicBillboard(TopicBillboard billboard) {
+        return corgiBillboardMapper.listTopicBillboard(billboard);
+    }
+
+    @Override
+    public void deleteTopicBillboard(TopicBillboard billboard) {
+        corgiBillboardMapper.deleteTopicBillboard(billboard);
+    }
+
+    @Override
+    public void updateTopicBillboard(TopicBillboard billboard) {
+        corgiBillboardMapper.updateTopicBillboard(billboard);
+    }
+
+    @Override
+    public void addTopicBillboard(TopicBillboard billboard) {
+        corgiBillboardMapper.addTopicBillboard(billboard);
+    }
+
 }
