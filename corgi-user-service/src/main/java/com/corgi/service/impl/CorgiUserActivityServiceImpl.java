@@ -9,10 +9,7 @@ import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserActivityMapper;
 import com.corgi.mapper.CorgiVlogMapper;
 import com.corgi.user.api.*;
-import com.corgi.user.entity.CorgiFeed;
-import com.corgi.user.entity.CorgiVlogHot;
-import com.corgi.user.entity.UserProfile;
-import com.corgi.user.entity.UserSignUp;
+import com.corgi.user.entity.*;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,6 +32,8 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
     private CorgiUserService corgiUserService;
     @Autowired
     private CorgiPicService corgiPicService;
+    @Autowired
+    private CorgiBillboardService corgiBillboardService;
     @Autowired
     private CorgiToolService corgiToolService;
     @Autowired
@@ -171,24 +170,35 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
 
     @Override
     public List<String> getHeatActivity(CorgiActivity corgiActivity, Integer page, Integer pageSize) {
-        String category;
-        if (corgiActivity.getBarId() != null) {
-            category = corgiActivity.getCategory() + corgiActivity.getBarId();
-        } else {
-            category = "video','image','text";
-        }
-        String date = corgiActivity.getCreateTime();
+//        String category;
+//        if (corgiActivity.getBarId() != null) {
+//            category = corgiActivity.getCategory() + corgiActivity.getBarId();
+//        } else {
+//            category = "video','image','text";
+//        }
+//        String date = corgiActivity.getCreateTime();
         List<String> topics = corgiActivity.getTopics();
         String topic = null;
         if (!CollectionUtils.isEmpty(topics)) {
             topic = topics.get(0);
         }
-        List<String> hashtags = corgiActivity.getHashtags();
-        String hashtag = null;
-        if (!CollectionUtils.isEmpty(hashtags)) {
-            hashtag = hashtags.get(0);
+//        List<String> hashtags = corgiActivity.getHashtags();
+//        String hashtag = null;
+//        if (!CollectionUtils.isEmpty(hashtags)) {
+//            hashtag = hashtags.get(0);
+//        }
+//        return corgiUserActivityMapper.getHeadActivityPic(category, date, corgiActivity.getCity(), (page - 1) * pageSize, pageSize, topic, hashtag);
+        TopicBillboard query = new TopicBillboard();
+        query.setTopic(topic);
+        List<TopicBillboard> billboards = corgiBillboardService.listTopicBillboard(query);
+        List<String> result = new ArrayList<>();
+        for (TopicBillboard billboard : billboards) {
+            if (result.size() >= pageSize) {
+                break;
+            }
+            result.add(billboard.getActivityId());
         }
-        return corgiUserActivityMapper.getHeadActivityPic(category, date, corgiActivity.getCity(), (page - 1) * pageSize, pageSize, topic, hashtag);
+        return result;
     }
 
     @Override
