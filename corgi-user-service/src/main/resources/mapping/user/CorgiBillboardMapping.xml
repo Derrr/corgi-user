@@ -40,7 +40,9 @@
         from corgi_activity_like l
         left join corgi_activity_creator c
         on l.activity_id = c.activity_id
-        left join corgi_activity_topic t on t.activity_id = l.activity_id
+        <if test="query.topic != null and query.topic != ''">
+            left join corgi_activity_topic t on t.activity_id = l.activity_id
+        </if>
         where l.type = 'real'
         and l.ctime > #{query.startTime}
         and c.check_status != 'fail'
