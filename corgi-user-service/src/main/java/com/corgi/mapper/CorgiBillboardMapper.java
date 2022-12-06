@@ -205,4 +205,29 @@ public interface CorgiBillboardMapper {
      * 查询付费榜单
      */
     List<PaidBillboard> getPaidBillboard(@Param("paid") PaidBillboard paidBillboard, @Param("start") Integer start, @Param("size") Integer size);
+
+    /**
+     * 删除话题榜单
+     * @param topic
+     */
+    void deleteTopicBillboard(@Param("topic") TopicBillboard topic);
+
+    /**
+     * 添加话题榜单
+     * @param topic
+     */
+    void addTopicBillboard(@Param("topic") TopicBillboard topic);
+
+    /**
+     * 更新话题榜单
+     * @param topic
+     */
+    void updateTopicBillboard(@Param("topic") TopicBillboard topic);
+
+    /**
+     * 查询话题榜单
+     * @param topic
+     */
+    List<TopicBillboard> listTopicBillboard(@Param("topic") TopicBillboard topic);
+
 }

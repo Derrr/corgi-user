@@ -38,14 +38,14 @@
     <select id="getPopularActivity" resultType="com.corgi.activity.entity.CorgiActivity">
         select l.activity_id id, c.creator_id userId, count(1) likeCount
         from corgi_activity_like l
-                 left join corgi_activity_creator c
-                           on l.activity_id = c.activity_id
+        left join corgi_activity_creator c
+        on l.activity_id = c.activity_id
         left join corgi_activity_topic t on t.activity_id = l.activity_id
         where l.type = 'real'
-          and l.ctime > #{query.startTime}
-          and c.check_status != 'fail'
-          and c.check_status != 'not_good'
-          and c.category in ('image')
+        and l.ctime > #{query.startTime}
+        and c.check_status != 'fail'
+        and c.check_status != 'not_good'
+        and c.category in ('image')
         <if test="query.topic != null and query.topic != ''">
             and t.topic = #{query.topic}
         </if>
@@ -54,7 +54,7 @@
         </if>
         group by l.activity_id
         order by `likeCount` desc
-            limit #{size}
+        limit #{size}
     </select>
 
     <select id="getPassionUsers" resultType="com.corgi.user.entity.UserProfile">
@@ -306,5 +306,30 @@
         </if>
         order by p.id desc
         limit #{start}, #{size}
+    </select>
+
+    <delete id="deleteTopicBillboard" parameterType="com.corgi.user.entity.TopicBillboard">
+        delete from corgi_topic_billboard where topic = #{topic.topic}
+        <if test="topic.activityId != null and topic.activityId != ''">
+            and activity_id = #{topic.activityId}
+        </if>
+    </delete>
+
+    <insert id="addTopicBillboard" parameterType="com.corgi.user.entity.TopicBillboard">
+        insert into corgi_topic_billboard(`topic`, `activity_id`, `order`)
+        values (#{topic.topic}, #{topic.activityId}, #{topic.order})
+    </insert>
+
+    <update id="updateTopicBillboard" parameterType="com.corgi.user.entity.TopicBillboard">
+        update corgi_topic_billboard
+        set `order` = #{topic.order}
+        where topic = #{topic.topic}
+          and activity_id = #{topic.activityId}
+    </update>
+
+    <select id="listTopicBillboard" resultType="com.corgi.user.entity.TopicBillboard">
+        select `topic`, `activity_id` activityId, `order`
+        from corgi_topic_billboard
+        where topic = #{topic.topic} and `status` = '1'
     </select>
 </mapper>
