@@ -8,6 +8,7 @@ import com.corgi.user.api.*;
 import com.corgi.user.entity.CorgiHashtag;
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
+import com.corgi.user.entity.TopicBillboard;
 import com.corgi.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,11 @@ public class CorgiVlogServiceImpl implements CorgiVlogService {
     @Override
     public void addVlogCount(CorgiVlog corgiVlog) {
         corgiVlogMapper.addVlogCount(corgiVlog);
+    }
+
+    @Override
+    public List<CorgiVlog> recallBillboardVlog(TopicBillboard topicBillboard, Integer limit) {
+        return corgiVlogMapper.recallTopicVlog(topicBillboard.getUserId(), topicBillboard.getTopic(), limit, UserUtils.getIndex(topicBillboard.getUserId()));
     }
 
     @Override

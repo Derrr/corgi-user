@@ -3,6 +3,7 @@ package com.corgi.user.api;
 
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
+import com.corgi.user.entity.TopicBillboard;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface CorgiVlogService {
     void addVlog(CorgiVlog corgiVlog);
 
     void addVlogCount(CorgiVlog corgiVlog);
+
+    List<CorgiVlog> recallBillboardVlog(TopicBillboard topicBillboard, Integer limit);
 
     List<CorgiVlog> recallVlog(CorgiVlog corgiVlog, Integer limit);
 

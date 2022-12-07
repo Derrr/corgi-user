@@ -12,4 +12,5 @@ public class TopicBillboard implements Serializable {
     private Integer status;
     private Integer order;
     private String ctime;
+    private String userId;
 }

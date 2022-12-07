@@ -40,6 +40,8 @@ public interface CorgiVlogMapper {
 
     List<CorgiVlog> recallFollowedVlog(@Param("userId") String userId, @Param("size") Integer size, @Param("index") String index);
 
+    List<CorgiVlog> recallTopicVlog(@Param("userId") String userId, @Param("topic") String topic, @Param("size") Integer size, @Param("index") String index);
+
     Integer countActivityVlog(@Param("activityId") String activityId, @Param("userId") String userId);
 
     List<String> recallByActivityId(@Param("activityId") String activityId, @Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size);
@@ -55,6 +57,8 @@ public interface CorgiVlogMapper {
     List<CorgiVlog> getUserVlog(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size, @Param("ctime") String ctime);
 
     List<CorgiVlog> getTopicVlog(@Param("userId") String userId, @Param("start") Integer start, @Param("size") Integer size, @Param("ctime") String ctime);
+
+
 
     void failVlog(@Param("activityId") String activityId);
 
