@@ -214,11 +214,11 @@
              left join corgi_activity_creator c on c.activity_id = t.activity_id
         where c.check_status != 'fail'
         and c.check_status != 'not_good'
-        and c.check_status != 'checK'
+        and c.check_status != 'check'
         and t.topic = #{topic}
         and not exists(select 1 from corgi_feed_${index} f where f.user_id = #{userId} and f.feed =
         c.activity_id)
-        order by t.sort desc limit #{size}
+        order by t.order desc limit #{size}
     </select>
 
 
