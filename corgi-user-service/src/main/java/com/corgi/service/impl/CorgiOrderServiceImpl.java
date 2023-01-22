@@ -187,6 +187,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 this.buyBillboard(goods, order, merchandise);
             } else if (CorgiMerchandise.RESERVE.equals(merchandise.getType())) {
                 this.buyReserve(goods, order);
+            } else if (CorgiMerchandise.LOCATION.equals(merchandise.getType())) {
+                this.buyLocation(goods, order);
             } else {
                 this.buyGoods(goods, merchandise);
             }
@@ -194,6 +196,21 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             this.unlock(key);
         }
         return null;
+    }
+
+    private void buyLocation(CorgiUserGoods goods, CorgiOrder order) {
+        UserPosition position = corgiUserMapper.getUserPosition(order.getMarketId());
+        goods.setGoodsType(CorgiMerchandise.LOCATION);
+        goods.setGoodsId(order.getMarketId());
+        goods.setTraderId("corgi");
+        goods.setMarketId(order.getMarketId());
+        goods.setDesc("购买成功");
+        corgiOrderMapper.addGoods(goods);
+        if (position == null) {
+            position = new UserPosition();
+        }
+        order.setResult("付费定位：".concat(JSONObject.toJSONString(position)));
+        corgiOrderMapper.addLog(order);
     }
 
     private void buyReserve(CorgiUserGoods goods, CorgiOrder order) {
