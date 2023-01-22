@@ -22,6 +22,7 @@ public enum MerchandiseEnum {
     MATCH_100("M03", "normal", 100, "45¥", "当日+100次"),
     BILLBOARD("B01", "normal", 0, "上榜一日 198¥", "付费上榜"),
     RESERVE("R01", "normal", 0, "订座50¥", "订座"),
+    LOCATION("L01", "normal", 0, "付费定位¥3", "付费定位"),
     ;
 
     MerchandiseEnum(String code, String type, Integer days, String desc, String title) {
