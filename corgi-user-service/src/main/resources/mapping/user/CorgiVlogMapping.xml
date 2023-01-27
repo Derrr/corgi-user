@@ -218,7 +218,7 @@
         and t.topic = #{topic}
         and not exists(select 1 from corgi_feed_${index} f where f.user_id = #{userId} and f.feed =
         c.activity_id)
-        order by t.order limit #{size}
+        order by t.order,t.uptime desc limit #{size}
     </select>
 
 
