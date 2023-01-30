@@ -177,7 +177,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             CorgiMerchandise merchandise = corgiOrderMapper.getMerchandiseById(order.getMerchId());
             order.setResult(merchandise.toString() + "=" + order.getMerchId());
             corgiOrderMapper.addLog(order);
-            if (CorgiMerchandise.SUBSCRIBE.equals(merchandise.getType())) {
+            if (merchandise.getType().startsWith(CorgiMerchandise.SUBSCRIBE)) {
                 if (!this.buySubscribe(goods, merchandise, order, expiresDate)) {
                     return null;
                 }
@@ -296,7 +296,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             order.setResult(e.getMessage());
             corgiOrderMapper.addLog(order);
         }
-        MerchandiseEnum e = MerchandiseEnum.getByCode(merchandise.getId());
+        MerchandiseEnum e = MerchandiseEnum.getByCode(merchandise.getId().replaceAll("SA", "S"));
         if (e != null) {
             String finalDate = "";
             if (StringUtils.isNotEmpty(expiresDate)) {
