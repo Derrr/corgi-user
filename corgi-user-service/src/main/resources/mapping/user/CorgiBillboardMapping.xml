@@ -331,10 +331,12 @@
     </update>
 
     <select id="listTopicBillboard" resultType="com.corgi.user.entity.TopicBillboard">
-        select `topic`, `activity_id` activityId, `order`
-        from corgi_topic_billboard
-        where topic = #{topic.topic}
-          and `status` = '1'
-        order by `order`, uptime desc
+        select b.`topic`, b.`activity_id` activityId, b.`order`
+        from corgi_topic_billboard b
+                 left join corgi_activity_creator c on c.activity_id = b.activity_id
+        where b.topic = #{topic.topic}
+          and b.`status` = '1'
+          and c.check_status not in ('fail', 'check', 'not_good')
+        order by b.`order`, b.uptime desc
     </select>
 </mapper>
