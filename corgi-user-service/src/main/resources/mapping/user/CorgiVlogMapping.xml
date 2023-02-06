@@ -119,7 +119,6 @@
         and c.check_status != 'fail'
         and c.check_status != 'not_good'
         and c.check_status != 'check'
-        and h.like_count >= 3
         <if test="vlog.type != '' and vlog.type != null ">
             and (d.group is null or d.group = '' or d.group in ('${vlog.type}'))
         </if>
@@ -178,9 +177,6 @@
         and c.check_status != 'check'
         and c.check_status != 'not_good'
         and c.category in('image','video','text','business','paying')
-        <if test="vlog.ctime == null or vlog.ctime == ''">
-            and h.like_count >= 3
-        </if>
         <if test="vlog.ctime != null or vlog.ctime != ''">
             and c.ctime > #{vlog.ctime}
         </if>
