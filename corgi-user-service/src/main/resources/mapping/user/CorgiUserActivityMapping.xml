@@ -304,7 +304,12 @@
         left join corgi_user_detail d on d.user_id = c.activity_id
         left join corgi_user_position p on p.user_id = c.creator_id
         where c.category in ('image','text','video','paying') and c.check_status != 'fail'
-        and c.activity_id &lt; #{query.activityId}
+        <if test="query.sort == 'desc'">
+            and c.activity_id &lt; #{query.activityId}
+        </if>
+        <if test="query.sort == 'asc'">
+            and c.activity_id > #{query.activityId}
+        </if>
         <if test="query.city != null and query.city != ''">
             and p.city like concat(#{query.city},'%')
         </if>
@@ -323,6 +328,9 @@
         <if test="query.type != null and query.type != ''">
             and d.avatar_check_status = 'verified'
         </if>
-        order by c.activity_id desc limit #{query.pageSize}
+        <if test="query.userId != null and query.userId != ''">
+            and c.creator_id = #{query.userId}
+        </if>
+        order by c.activity_id ${query.sort} limit #{query.pageSize}
     </select>
 </mapper>

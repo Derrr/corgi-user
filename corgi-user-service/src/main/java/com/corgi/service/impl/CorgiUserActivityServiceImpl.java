@@ -14,6 +14,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,6 +61,9 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, query.getEndAge() * -1);
             query.setEndTime(sdf.format(calendar.getTime()));
+        }
+        if (StringUtils.isEmpty(query.getSort())) {
+            query.setSort("desc");
         }
         return corgiUserActivityMapper.searchActivityFeed(query);
     }
