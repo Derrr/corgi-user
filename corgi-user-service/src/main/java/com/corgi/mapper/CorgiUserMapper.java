@@ -388,6 +388,14 @@ public interface CorgiUserMapper {
     void deleteUserPosition(@Param("userId") String userId);
 
     /**
+     * 删除用户粉丝
+     *
+     * @param userId
+     */
+    void deleteUserFans(@Param("userId") String userId);
+
+
+    /**
      * 获取用户基本信息
      */
     List<UserProfile> getUserDetailByPage(@Param("start") Integer start, @Param("size") Integer size, @Param("time") Long time);

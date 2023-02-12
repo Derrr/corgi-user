@@ -519,6 +519,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         detail.setTelNo(userLogin.getTelNo());
         detail.setCtime(userLogin.getCtime());
         corgiUserMapper.addUnregisterUser(detail, userPosition);
+        corgiUserMapper.deleteUserFans(userId);
     }
 
     @Override

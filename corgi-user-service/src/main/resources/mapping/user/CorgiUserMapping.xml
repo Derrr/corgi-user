@@ -866,6 +866,12 @@
         where user_id = #{userId}
     </delete>
 
+    <delete id="deleteUserFans">
+        delete
+        from corgi_user_follow
+        where follow_user_id = #{userId}
+    </delete>
+
     <select id="getUserDetailByPage" resultType="com.corgi.user.entity.UserProfile">
         select d.user_id             userId,
                d.nickname            nickname,
