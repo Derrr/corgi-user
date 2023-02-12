@@ -685,7 +685,12 @@
         <if test="userDetail.avatarCheckStatus != null and userDetail.avatarCheckStatus != ''">
             and d.avatar_check_status = #{userDetail.avatarCheckStatus}
         </if>
-
+        <if test="userDetail.version == 'ios'">
+            and p.channel = 'AppStore'
+        </if>
+        <if test="userDetail.version == 'android'">
+            and p.channel != 'AppStore'
+        </if>
         order by d.user_id
         limit #{start},#{size}
     </select>
