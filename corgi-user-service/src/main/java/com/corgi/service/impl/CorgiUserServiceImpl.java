@@ -284,10 +284,10 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         return !StringUtils.isEmpty(userQuery.getNickname())
                 || !CollectionUtils.isEmpty(userQuery.getGroup())
                 || !CollectionUtils.isEmpty(userQuery.getRole())
-//                || (userQuery.getEndWeight() != null && userQuery.getEndWeight() < 200)
-//                || (userQuery.getStartWeight() != null && userQuery.getStartWeight() > 30)
-//                || (userQuery.getEndHeight() != null && userQuery.getEndHeight() < 200)
-//                || (userQuery.getStartHeight() != null && userQuery.getStartHeight() > 30)
+                || (userQuery.getEndWeight() != null && userQuery.getEndWeight() < 200)
+                || (userQuery.getStartWeight() != null && userQuery.getStartWeight() > 30)
+                || (userQuery.getEndHeight() != null && userQuery.getEndHeight() < 200)
+                || (userQuery.getStartHeight() != null && userQuery.getStartHeight() > 30)
                 || (!StringUtils.isEmpty(userQuery.getFollow()))
                 || !CollectionUtils.isEmpty(userQuery.getRelation());
     }

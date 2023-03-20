@@ -19,12 +19,12 @@ public class UserQuery implements Serializable {
     private String nickname;
     private List<String> role;
     private List<String> group;
-//    private Integer startHeight;
-//    private Integer endHeight;
+    private Integer startHeight;
+    private Integer endHeight;
     private Integer startAge;
     private Integer endAge;
-//    private Integer startWeight;
-//    private Integer endWeight;
+    private Integer startWeight;
+    private Integer endWeight;
     private String follow;
     private String type;
     private Integer limit;
