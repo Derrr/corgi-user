@@ -54,19 +54,19 @@ public class UserQuerySupporter {
             this.beginLng = userQuery.getLng() - dphi;
             this.endLng = userQuery.getLng() + dphi;
         }
-        if (userQuery.getStartHeight() != null) {
-            this.startHeight = userQuery.getStartHeight();
-        }
-        if (userQuery.getEndHeight() != null) {
-            this.endHeight = userQuery.getEndHeight();
-        }
-
-        if (userQuery.getStartWeight() != null) {
-            this.startWeight = userQuery.getStartWeight();
-        }
-        if (userQuery.getEndWeight() != null) {
-            this.endWeight = userQuery.getEndWeight();
-        }
+//        if (userQuery.getStartHeight() != null) {
+//            this.startHeight = userQuery.getStartHeight();
+//        }
+//        if (userQuery.getEndHeight() != null) {
+//            this.endHeight = userQuery.getEndHeight();
+//        }
+//
+//        if (userQuery.getStartWeight() != null) {
+//            this.startWeight = userQuery.getStartWeight();
+//        }
+//        if (userQuery.getEndWeight() != null) {
+//            this.endWeight = userQuery.getEndWeight();
+//        }
 
         if (!StringUtils.isEmpty(userQuery.getFollow())) {
             this.follow = userQuery.getFollow();
