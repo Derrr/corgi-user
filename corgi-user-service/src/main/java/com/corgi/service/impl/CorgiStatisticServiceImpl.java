@@ -4,7 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.entity.CorgiStatistic;
 import com.corgi.mapper.CorgiStatisticMapper;
 import com.corgi.user.api.CorgiStatisticService;
-import com.corgi.user.entity.UserTrace;
+import com.corgi.user.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -153,6 +153,35 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
         } else {
             corgiStatisticMapper.updateCharacter(openId, character);
         }
+    }
+
+    @Override
+    public CorgiBehaviorStatistics getBehaviorData(CorgiBehaviorReq behaviorReq) {
+        if (behaviorReq.isPayType()) {
+            return corgiStatisticMapper.getPayTypeBehavior(behaviorReq);
+        }
+        if (behaviorReq.isActivityType()) {
+            return corgiStatisticMapper.getActivityTypeBehavior(behaviorReq,
+                    CorgiBehaviorReq.ActivityType.valueOf(behaviorReq.getType()).getUser());
+        }
+        return null;
+    }
+
+    @Override
+    public CorgiContentStatistics getContentData(CorgiContentReq contentReq) {
+        switch (contentReq.getType()) {
+            case CorgiContentReq.COMMENT:
+                return corgiStatisticMapper.getMostComment(contentReq);
+            case CorgiContentReq.FOLLOW:
+                return corgiStatisticMapper.getMostFollow(contentReq);
+            case CorgiContentReq.LIKE:
+                return corgiStatisticMapper.getMostLike(contentReq);
+            case CorgiContentReq.SHARE:
+                return corgiStatisticMapper.getMostShare(contentReq);
+            case CorgiContentReq.USER_LIKE:
+                return corgiStatisticMapper.getMostUserLike(contentReq);
+        }
+        return null;
     }
 
 

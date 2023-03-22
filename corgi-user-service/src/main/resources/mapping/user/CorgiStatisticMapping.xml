@@ -3,16 +3,21 @@
 <mapper namespace="com.corgi.mapper.CorgiStatisticMapper">
 
     <insert id="addCount">
-        insert into corgi_statistic_${table} (`date`, `count`) VALUES (#{date}, #{count});
+        insert into corgi_statistic_${table} (`date`, `count`)
+        VALUES (#{date}, #{count});
     </insert>
 
     <delete id="deleteCount">
-        delete from corgi_statistic_${table} where `date` = #{date}
+        delete
+        from corgi_statistic_${table}
+        where `date` = #{date}
     </delete>
 
     <select id="getCount" resultType="com.corgi.entity.CorgiStatistic">
-        select `date`, `count` from corgi_statistic_${table}
-        where `date` >= #{beginDate} and `date` &lt;= #{endDate}
+        select `date`, `count`
+        from corgi_statistic_${table}
+        where `date` >= #{beginDate}
+          and `date` &lt;= #{endDate}
     </select>
 
     <select id="sumCount" resultType="java.lang.Long">
@@ -27,8 +32,16 @@
     </select>
 
     <insert id="initMap">
-        insert ignore into corgi_statistic_${table}
-        (`date`) values (#{date});
+        insert
+        ignore into corgi_statistic_
+        ${table}
+        (
+        `date`
+        )
+        values
+        (
+        #{date}
+        );
     </insert>
 
     <update id="updateMap">
@@ -38,19 +51,34 @@
     </update>
 
     <select id="getMap" resultType="java.util.HashMap">
-        select * from corgi_statistic_${table}
-        where `date` >= #{beginDate} and `date` &lt;= #{endDate}
+        select *
+        from corgi_statistic_${table}
+        where `date` >= #{beginDate}
+          and `date` &lt;= #{endDate}
     </select>
 
     <select id="getList" resultType="com.corgi.entity.CorgiStatistic">
-        select `name`,`date`,`count`
+        select `name`, `date`, `count`
         from corgi_statistic_agg_${table}
-        where `date` >= #{beginDate} and `date` &lt;= #{endDate}
+        where `date` >= #{beginDate}
+          and `date` &lt;= #{endDate}
     </select>
 
     <select id="addList">
-        insert ignore into corgi_statistic_agg_${table}
-        (`date`,`name`,`count`) values(#{date},#{name},#{count})
+        insert
+        ignore into corgi_statistic_agg_
+        ${table}
+        (
+        `date`,
+        `name`,
+        `count`
+        )
+        values
+        (
+        #{date},
+        #{name},
+        #{count}
+        )
     </select>
 
     <delete id="deleteList">
@@ -64,104 +92,130 @@
     <update id="updateList">
         update corgi_statistic_agg_${table}
         set `count` = #{count}
-        where `date` = #{date} and `name` = #{name}
+        where `date` = #{date}
+          and `name` = #{name}
     </update>
 
     <insert id="addUserStay">
-        insert ignore into corgi_statistic_user_stay
+        insert
+        ignore into corgi_statistic_user_stay
         (`login_date`,`stay_date`,`stay_count`,`count`)
-        values(#{registerDate},#{date},#{stayCount},#{count})
+        values(
+        #{registerDate},
+        #{date},
+        #{stayCount},
+        #{count}
+        )
     </insert>
 
     <select id="getUserStay" resultType="java.util.HashMap">
         select login_date loginDate,
-        stay_date stayDate,
-        stay_count stayCount,
-        `count`
+               stay_date  stayDate,
+               stay_count stayCount,
+               `count`
         from corgi_statistic_user_stay
-        where `login_date` >= #{beginDate} and `login_date` &lt;= #{endDate}
-        and stay_count &lt;= ${stayCount}
+        where `login_date` >= #{beginDate}
+          and `login_date` &lt;= #{endDate}
+          and stay_count &lt;= ${stayCount}
     </select>
 
     <select id="getUserTrace" resultType="com.corgi.user.entity.UserTrace">
-        select
-        `id`,
-        user_id userId,
-        `type`,
-        next_type nextType,
-        `ctime`,
-        `uptime`,
-        stay_count stayCount,
-        stay_status stayStatus
+        select `id`,
+               user_id     userId,
+               `type`,
+               next_type   nextType,
+               `ctime`,
+               `uptime`,
+               stay_count  stayCount,
+               stay_status stayStatus
         from corgi_statistic_trace
         where `ctime` >= #{beginDate}
-        and `ctime` &lt;= concat(#{endDate},' 9')
-        and user_id = #{userId}
+          and `ctime` &lt;= concat(#{endDate}, ' 9')
+          and user_id = #{userId}
     </select>
 
     <select id="getLastUserTrace" resultType="com.corgi.user.entity.UserTrace">
-        select
-        `id`,
-        user_id userId,
-        `type`,
-        next_type nextType,
-        `ctime`,
-        `uptime`,
-        stay_count stayCount,
-        stay_status stayStatus
+        select `id`,
+               user_id     userId,
+               `type`,
+               next_type   nextType,
+               `ctime`,
+               `uptime`,
+               stay_count  stayCount,
+               stay_status stayStatus
         from corgi_statistic_trace
         where stay_status = 'staying'
-        and user_id = #{userId}
+          and user_id = #{userId}
         order by id desc
     </select>
 
     <insert id="addUserTrace" parameterType="com.corgi.user.entity.UserTrace">
-        INSERT IGNORE INTO `corgi`.`corgi_statistic_trace` (`user_id`, `type`, `next_type`, `uptime`,`stay_count`,`stay_status`)
-        VALUES (#{userTrace.userId},#{userTrace.type},#{userTrace.nextType}, #{userTrace.uptime},#{userTrace.stayCount},#{userTrace.stayStatus});
+        INSERT
+        IGNORE INTO `corgi`.`corgi_statistic_trace` (`user_id`, `type`, `next_type`, `uptime`,`stay_count`,`stay_status`)
+        VALUES (
+        #{userTrace.userId},
+        #{userTrace.type},
+        #{userTrace.nextType},
+        #{userTrace.uptime},
+        #{userTrace.stayCount},
+        #{userTrace.stayStatus}
+        );
     </insert>
 
     <update id="updateTraceStatus" parameterType="com.corgi.user.entity.UserTrace">
         update corgi_statistic_trace
         set `stay_status` = #{userTrace.stayStauts},
-        `uptime` = #{userTrace.uptime},
-        next_type = #{userTrace.nextType}
+            `uptime`      = #{userTrace.uptime},
+            next_type     = #{userTrace.nextType}
         where id = #{userTrace.id}
     </update>
 
     <update id="updateTraceStay" parameterType="com.corgi.user.entity.UserTrace">
         update corgi_statistic_trace
         set `stay_count` = #{userTrace.stayCount},
-        `uptime` = #{userTrace.uptime}
+            `uptime`     = #{userTrace.uptime}
         where id = #{userTrace.id}
     </update>
 
     <select id="countUserTrace" resultType="java.util.HashMap">
-        select `type`,sum(stay_count)/count(distinct user_id) `time` from corgi_statistic_trace
-        where ctime like concat(#{date},'%')
+        select `type`, sum(stay_count) / count(distinct user_id) `time`
+        from corgi_statistic_trace
+        where ctime like concat(#{date}, '%')
         group by `type`
     </select>
 
     <select id="countTotalUserTrace" resultType="java.lang.Double">
-        select sum(stay_count)/count(distinct user_id) from corgi_statistic_trace
-        where ctime like concat(#{date},'%')
+        select sum(stay_count) / count(distinct user_id)
+        from corgi_statistic_trace
+        where ctime like concat(#{date}, '%')
     </select>
 
     <insert id="addUserTraceSum">
-        insert ignore into corgi_statistic_trace_total
+        insert
+        ignore into corgi_statistic_trace_total
         (`date`,`type`,`time`)
-        values(#{date},#{type},#{time})
+        values(
+        #{date},
+        #{type},
+        #{time}
+        )
     </insert>
 
     <select id="getUserTraceSum" resultType="java.util.HashMap">
-        select `date`,`type`,`time`
+        select `date`, `type`, `time`
         from corgi_statistic_trace_total
-        where `date` >= #{beginDate} and `date` &lt;= #{endDate}
+        where `date` >= #{beginDate}
+          and `date` &lt;= #{endDate}
     </select>
 
     <insert id="addCharacter">
-        insert ignore into corgi_statistic_character
+        insert
+        ignore into corgi_statistic_character
         (`open_id`, `character`)
-        values(#{openId}, #{ctr})
+        values(
+        #{openId},
+        #{ctr}
+        )
     </insert>
 
     <update id="updateCharacter">
@@ -171,8 +225,82 @@
     </update>
 
     <select id="getCharacter" resultType="java.lang.String">
-        select `character` from corgi_statistic_character
+        select `character`
+        from corgi_statistic_character
         where open_id = #{openId}
     </select>
 
+    <select id="getPayTypeBehavior" resultType="com.corgi.user.entity.CorgiBehaviorStatistics">
+        select count(distinct g.user_id) userCount, sum(price) totalSum
+        from corgi_user_goods g
+        where g.ctime > #{behaviorReq.startTime}
+          and g.ctime &lt; #{behaviorReq.endTime}
+          and g.goods_type = #{behaviorReq.type}
+    </select>
+
+    <select id="getActivityTypeBehavior" resultType="com.corgi.user.entity.CorgiBehaviorStatistics">
+        select count(distinct g.${userName}) userCount, count(1) totalSum from corgi_activity_${behaviorReq.type} g
+        where g.ctime > #{behaviorReq.startTime} and g.ctime &lt; #{behaviorReq.endTime}
+        <if test="behaviorReq.type == 'like'">
+            and g.type = 'real'
+        </if>
+        <if test="behaviorReq.type == 'comment'">
+            and g.status != 'fake'
+        </if>
+    </select>
+
+    <select id="getMostComment" resultType="com.corgi.user.entity.CorgiContentStatistics">
+        select g.activity_id contentId, count(g.id) totalCount
+        from corgi_activity_comment g
+                 left join corgi_activity_creator c on c.activity_id = g.activity_id
+        where g.ctime > #{contentReq.startTime}
+          and g.ctime &lt; #{contentReq.endTime}
+          and g.status != 'fake' and c.check_status != 'fail'
+        group by g.activity_id
+        order by totalCount desc limit 1
+    </select>
+
+    <select id="getMostFollow" resultType="com.corgi.user.entity.CorgiContentStatistics">
+        select g.follow_user_id contentId, count(c.user_id) totalCount
+        from corgi_user_follow g
+                 left join corgi_user_detail c on c.user_id = g.follow_user_id
+        where g.ctime > #{contentReq.startTime}
+          and g.ctime &lt; #{contentReq.endTime}
+          and g.type = 'real'
+        group by g.follow_user_id
+        order by totalCount desc limit 1
+    </select>
+
+    <select id="getMostLike" resultType="com.corgi.user.entity.CorgiContentStatistics">
+        select g.activity_id contentId, count(1) totalCount
+        from corgi_activity_like g
+                 left join corgi_activity_creator c on c.activity_id = g.activity_id
+        where g.ctime > #{contentReq.startTime}
+          and g.ctime &lt; #{contentReq.endTime}
+          and g.type = 'real' and c.check_status != 'fail'
+        group by g.activity_id
+        order by totalCount desc limit 1
+    </select>
+
+    <select id="getMostShare" resultType="com.corgi.user.entity.CorgiContentStatistics">
+        select g.activity_id contentId, count(1) totalCount
+        from corgi_activity_share g
+                 left join corgi_activity_creator c on c.activity_id = g.activity_id
+        where g.ctime > #{contentReq.startTime}
+          and g.ctime &lt; #{contentReq.endTime}
+          and g.activity_id != '0' and c.check_status != 'fail'
+        group by g.activity_id
+        order by totalCount desc limit 1
+    </select>
+
+    <select id="getMostUserLike" resultType="com.corgi.user.entity.CorgiContentStatistics">
+        select g.user_id contentId, count(1) totalCount
+        from corgi_activity_like g
+                 left join corgi_user_detail c on c.user_id = g.user_id
+        where g.ctime > #{contentReq.startTime}
+          and g.ctime &lt; #{contentReq.endTime}
+          and g.type = 'real' and c.user_id is not null
+        group by g.user_id
+        order by totalCount desc limit 1
+    </select>
 </mapper>

@@ -2,7 +2,7 @@ package com.corgi.mapper;
 
 import com.corgi.entity.CorgiStatistic;
 import com.corgi.entity.CorgiTopic;
-import com.corgi.user.entity.UserTrace;
+import com.corgi.user.entity.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
@@ -212,6 +212,7 @@ public interface CorgiStatisticMapper {
 
     /**
      * 添加性格
+     *
      * @param openId
      * @param ctr
      */
@@ -219,15 +220,68 @@ public interface CorgiStatisticMapper {
 
     /**
      * 获取性格
+     *
      * @param openId
      * @return
      */
-    String getCharacter(@Param("openId")String openId);
+    String getCharacter(@Param("openId") String openId);
 
     /**
      * 修改性格
+     *
      * @param openId
      * @param ctr
      */
     void updateCharacter(@Param("openId") String openId, @Param("ctr") String ctr);
+
+    /**
+     * 查询付费行为
+     *
+     * @param behaviorReq
+     * @return
+     */
+    CorgiBehaviorStatistics getPayTypeBehavior(@Param("behavior") CorgiBehaviorReq behaviorReq);
+
+    /**
+     * 查询付费行为
+     *
+     * @param behaviorReq
+     * @return
+     */
+    CorgiBehaviorStatistics getActivityTypeBehavior(@Param("behavior") CorgiBehaviorReq behaviorReq, @Param("userName") String userName);
+
+    /**
+     * 获取最多评论
+     * @param contentReq
+     * @return
+     */
+    CorgiContentStatistics getMostComment(@Param("content") CorgiContentReq contentReq);
+
+    /**
+     * 最多涨粉
+     * @param contentReq
+     * @return
+     */
+    CorgiContentStatistics getMostFollow(@Param("content") CorgiContentReq contentReq);
+
+    /**
+     * 最多点赞
+     * @param contentReq
+     * @return
+     */
+    CorgiContentStatistics getMostLike(@Param("content") CorgiContentReq contentReq);
+
+    /**
+     * 最多分享
+     * @param contentReq
+     * @return
+     */
+    CorgiContentStatistics getMostShare(@Param("content") CorgiContentReq contentReq);
+
+    /**
+     * 最多获赞用户
+     * @param contentReq
+     * @return
+     */
+    CorgiContentStatistics getMostUserLike(@Param("content") CorgiContentReq contentReq);
 }

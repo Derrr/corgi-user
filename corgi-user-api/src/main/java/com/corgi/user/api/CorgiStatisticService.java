@@ -1,7 +1,7 @@
 package com.corgi.user.api;
 
 import com.corgi.entity.CorgiStatistic;
-import com.corgi.user.entity.UserTrace;
+import com.corgi.user.entity.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,5 +46,9 @@ public interface CorgiStatisticService {
     List<HashMap> getUserTraceSum(String beginDate, String endDate);
 
     void addCharacter(String openId, String character);
+
+    CorgiBehaviorStatistics getBehaviorData(CorgiBehaviorReq behaviorReq);
+
+    CorgiContentStatistics getContentData(CorgiContentReq contentReq);
 
 }
