@@ -12,6 +12,7 @@ public class CorgiBehaviorReq {
         CREATOR("creator", "creator_id"),
         LIKE("like", "like_user_id"),
         SHARE("share", "share_user_id"),
+        COMMENT("comment", "comment_user_id"),
         ;
 
         public String getType() {
