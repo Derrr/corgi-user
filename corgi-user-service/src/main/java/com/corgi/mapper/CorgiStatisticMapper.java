@@ -255,33 +255,33 @@ public interface CorgiStatisticMapper {
      * @param contentReq
      * @return
      */
-    CorgiContentStatistics getMostComment(@Param("content") CorgiContentReq contentReq);
+    CorgiContentStatistics getMostComment(@Param("contentReq") CorgiContentReq contentReq);
 
     /**
      * 最多涨粉
      * @param contentReq
      * @return
      */
-    CorgiContentStatistics getMostFollow(@Param("content") CorgiContentReq contentReq);
+    CorgiContentStatistics getMostFollow(@Param("contentReq") CorgiContentReq contentReq);
 
     /**
      * 最多点赞
      * @param contentReq
      * @return
      */
-    CorgiContentStatistics getMostLike(@Param("content") CorgiContentReq contentReq);
+    CorgiContentStatistics getMostLike(@Param("contentReq") CorgiContentReq contentReq);
 
     /**
      * 最多分享
      * @param contentReq
      * @return
      */
-    CorgiContentStatistics getMostShare(@Param("content") CorgiContentReq contentReq);
+    CorgiContentStatistics getMostShare(@Param("contentReq") CorgiContentReq contentReq);
 
     /**
      * 最多获赞用户
      * @param contentReq
      * @return
      */
-    CorgiContentStatistics getMostUserLike(@Param("content") CorgiContentReq contentReq);
+    CorgiContentStatistics getMostUserLike(@Param("contentReq") CorgiContentReq contentReq);
 }

@@ -233,18 +233,18 @@
     <select id="getPayTypeBehavior" resultType="com.corgi.user.entity.CorgiBehaviorStatistics">
         select count(distinct g.user_id) userCount, sum(price) totalSum
         from corgi_user_goods g
-        where g.ctime > #{behaviorReq.startTime}
-          and g.ctime &lt; #{behaviorReq.endTime}
-          and g.goods_type = #{behaviorReq.type}
+        where g.ctime > #{behavior.startTime}
+          and g.ctime &lt; #{behavior.endTime}
+          and g.goods_type = #{behavior.type}
     </select>
 
     <select id="getActivityTypeBehavior" resultType="com.corgi.user.entity.CorgiBehaviorStatistics">
-        select count(distinct g.${userName}) userCount, count(1) totalSum from corgi_activity_${behaviorReq.type} g
-        where g.ctime > #{behaviorReq.startTime} and g.ctime &lt; #{behaviorReq.endTime}
-        <if test="behaviorReq.type == 'like'">
+        select count(distinct g.${userName}) userCount, count(1) totalSum from corgi_activity_${behavior.type} g
+        where g.ctime > #{behavior.startTime} and g.ctime &lt; #{behavior.endTime}
+        <if test="behavior.type == 'like'">
             and g.type = 'real'
         </if>
-        <if test="behaviorReq.type == 'comment'">
+        <if test="behavior.type == 'comment'">
             and g.status != 'fake'
         </if>
     </select>
