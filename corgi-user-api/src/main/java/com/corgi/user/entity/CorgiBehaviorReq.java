@@ -2,8 +2,10 @@ package com.corgi.user.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class CorgiBehaviorReq {
+public class CorgiBehaviorReq implements Serializable {
     public enum PayType {
         subscribe, activity, location, match;
     }
