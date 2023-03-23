@@ -2,8 +2,10 @@ package com.corgi.user.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class CorgiContentReq {
+public class CorgiContentReq implements Serializable {
     public static final String LIKE = "like";
     public static final String SHARE = "share";
     public static final String COMMENT = "comment";

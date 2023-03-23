@@ -2,8 +2,10 @@ package com.corgi.user.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class CorgiBehaviorStatistics {
+public class CorgiBehaviorStatistics implements Serializable {
     private Integer userCount;
     private Double totalSum;
     private Double userAvg;
