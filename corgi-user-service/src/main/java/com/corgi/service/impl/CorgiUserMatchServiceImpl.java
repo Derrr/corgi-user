@@ -153,8 +153,12 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         List<UserMatchRemain> remains = new ArrayList<>();
         UserMatchRemain remain0 = new UserMatchRemain();
         String expireDate = corgiUserService.getUserVipExpire(userId);
+        UserDetail userDetail = corgiUserService.getUserDetailBasic(userId);
         Integer free = 12;
         if (!"-".equals(expireDate) && sdf.format(calendar.getTime()).compareTo(expireDate.substring(0, 10)) <= 0) {
+            free = 60;
+        }
+        if ("influencer".equals(userDetail.getAvatarStatus())) {
             free = 60;
         }
         remain0.setUserId(userId);
