@@ -158,7 +158,7 @@
             and c.creator_id = #{query.userId}
         </if>
         <if test="query.activityId != null and query.activityId !=''">
-            and c.activity_id = #{query.activityId}
+            and c.activity_id &lt; #{query.activityId}
         </if>
         <if test="query.endTime != null and query.endTime !=''">
             and c.ctime
