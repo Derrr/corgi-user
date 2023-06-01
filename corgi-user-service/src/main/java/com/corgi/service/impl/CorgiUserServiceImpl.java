@@ -121,9 +121,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             }
         }
         UserPosition userPosition = corgiUserMapper.getUserPosition(userId);
-        userDetail.setLat(userPosition.getLat());
-        userDetail.setLng(userPosition.getLng());
-        userDetail.setCity(userPosition.getCity());
+        if(userPosition != null) {
+            userDetail.setLat(userPosition.getLat());
+            userDetail.setLng(userPosition.getLng());
+            userDetail.setCity(userPosition.getCity());
+        }
         List<String> groups = corgiUserMapper.getPreferGroup(userId);
         userDetail.setPreferGroup(groups);
         userDetail.setTags(corgiUserTagMapper.getUserTag(userId));
