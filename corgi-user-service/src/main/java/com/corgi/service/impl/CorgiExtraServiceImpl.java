@@ -36,6 +36,12 @@ public class CorgiExtraServiceImpl implements CorgiExtraService {
     }
 
     @Override
+    public void updateAim(String userId, String aim) {
+        corgiUserMapper.initUserExtra(userId);
+        corgiUserMapper.updateAim(userId, aim);
+    }
+
+    @Override
     public void updateIncome(String userId, String income) {
         corgiUserMapper.initUserExtra(userId);
         corgiUserMapper.updateIncome(userId, income);

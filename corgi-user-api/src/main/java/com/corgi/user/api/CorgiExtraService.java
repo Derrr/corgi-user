@@ -11,6 +11,8 @@ public interface CorgiExtraService {
 
     void updateXp(String userId, String xp);
 
+    void updateAim(String userId, String aim);
+
     void updateIncome(String userId, String income);
 
     void updateProfession(String userId, String profession);
