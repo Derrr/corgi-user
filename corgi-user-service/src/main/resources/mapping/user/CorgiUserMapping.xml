@@ -497,12 +497,12 @@
     <select id="getNearbyUserId" resultType="java.lang.String">
         select distinct p.user_id
         from corgi_user_position p
-                 left join corgi_user_detail d on p.user_id = d.user_id
+        left join corgi_user_detail d on p.user_id = d.user_id
         where (d.avatar_status = 'influencer' or (
-            d.vip_status = 1 and d.vip_expire > now()
-            ) or p.uptime > #{position.uptime})
-            and p.user_id != #{position.userId}
-            and p.lng &lt; 1000 and p.lat &lt; 1000
+        d.vip_status = 1 and d.vip_expire > now()
+        ) or p.uptime > #{position.uptime})
+        and p.user_id != #{position.userId}
+        and p.lng &lt; 1000 and p.lat &lt; 1000
         <if test="result != ''">
             ${result}
         </if>
@@ -939,4 +939,66 @@
         </if>
 
     </update>
+
+    <insert id="initUserExtra">
+        insert
+        ignore into corgi_user_extra(`user_id`) values (
+        #{userId}
+        );
+    </insert>
+
+    <update id="updateXp">
+        update corgi_user_extra
+        set xp = #{xp}
+        where user_id = #{userId};
+    </update>
+
+    <update id="updateIncome">
+        update corgi_user_extra
+        set income = #{income}
+        where user_id = #{userId};
+    </update>
+
+    <update id="updateProfession">
+        update corgi_user_extra
+        set profession = #{profession}
+        where user_id = #{userId};
+    </update>
+
+    <update id="updateEducation">
+        update corgi_user_extra
+        set education = #{education}
+        where user_id = #{userId};
+    </update>
+
+    <update id="updateAim">
+        update corgi_user_extra
+        set aim = #{aim}
+        where user_id = #{userId};
+    </update>
+
+    <update id="updateInterests">
+        update corgi_user_extra
+        set interests = #{interests}
+        where user_id = #{userId};
+    </update>
+
+    <update id="updateTags">
+        update corgi_user_extra
+        set tags = #{tags}
+        where user_id = #{userId};
+    </update>
+
+    <select id="getUserExtra" resultType="com.corgi.user.entity.UserExtra">
+        select user_id userId,
+               income,
+               profession,
+               education,
+               aim,
+               xp,
+               interests,
+               tags
+        from corgi_user_extra
+        where user_id = #{userId}
+    </select>
 </mapper>

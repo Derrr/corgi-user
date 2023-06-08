@@ -424,4 +424,51 @@ public interface CorgiUserMapper {
      * 更新用户vip状态
      */
     void updateVipExpire(@Param("userId") String userId, @Param("vipStatus") String vipStatus, @Param("vipExpire") String vipExpire);
+
+    /**
+     * 初始化用户额外信息
+     */
+    void initUserExtra(@Param("userId")String userId);
+
+    /**
+     * 更新xp
+     */
+    void updateXp(@Param("userId")String userId, @Param("xp")String xp);
+
+    /**
+     * 更新income
+     */
+    void updateIncome(@Param("userId")String userId, @Param("income")String income);
+
+    /**
+     * 更新profession
+     */
+    void updateProfession(@Param("userId")String userId, @Param("profession")String profession);
+
+    /**
+     * 更新education
+     */
+    void updateEducation(@Param("userId")String userId, @Param("education")String education);
+
+    /**
+     * 更新aim
+     */
+    void updateAim(@Param("userId")String userId, @Param("aim")String aim);
+
+    /**
+     * 更新interests
+     */
+    void updateInterests(@Param("userId")String userId, @Param("interests")String interests);
+
+    /**
+     * 更新tags
+     */
+    void updateTags(@Param("userId")String userId, @Param("tags")String tags);
+
+    /**
+     * 获取用户额外信息
+     * @param userId
+     * @return
+     */
+    UserExtra getUserExtra(@Param("userId")String userId);
 }
