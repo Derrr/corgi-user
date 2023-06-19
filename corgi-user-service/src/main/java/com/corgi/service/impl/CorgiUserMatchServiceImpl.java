@@ -152,38 +152,38 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         Calendar calendar = Calendar.getInstance();
         List<UserMatchRemain> remains = new ArrayList<>();
         UserMatchRemain remain0 = new UserMatchRemain();
-        String expireDate = corgiUserService.getUserVipExpire(userId);
-        UserDetail userDetail = corgiUserService.getUserDetailBasic(userId);
-        Integer free = 12;
-        if (!"-".equals(expireDate) && sdf.format(calendar.getTime()).compareTo(expireDate.substring(0, 10)) <= 0) {
-            free = 60;
-        }
-        if ("influencer".equals(userDetail.getAvatarStatus())) {
-            free = 60;
-        }
+//        String expireDate = corgiUserService.getUserVipExpire(userId);
+//        UserDetail userDetail = corgiUserService.getUserDetailBasic(userId);
+        Integer free = 600;
+//        if (!"-".equals(expireDate) && sdf.format(calendar.getTime()).compareTo(expireDate.substring(0, 10)) <= 0) {
+//            free = 60;
+//        }
+//        if ("influencer".equals(userDetail.getAvatarStatus())) {
+//            free = 60;
+//        }
         remain0.setUserId(userId);
         remain0.setTradeNo("0");
         remain0.setRemain(free - userMatchMapper.countMatch(userId, "0", sdf.format(calendar.getTime())));
         remains.add(remain0);
 
-        calendar.add(Calendar.DATE, -1);
-        CorgiUserGoods query = new CorgiUserGoods();
-        query.setUserId(userId);
-        query.setGoodsType(CorgiUserGoods.GOODS_TYPE.MATCH);
-        query.setCtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime()));
-        query.setStart(0);
-        query.setSize(100);
-        List<CorgiUserGoods> goods = corgiOrderService.getUserGoods(query);
-        if (!CollectionUtils.isEmpty(goods)) {
-            for (CorgiUserGoods goods1 : goods) {
-                UserMatchRemain remain = new UserMatchRemain();
-                remain.setUserId(userId);
-                remain.setTradeNo(goods1.getTradeNo());
-                Integer total = MerchandiseEnum.getByCode(goods1.getMerchId()).getDays();
-                remain.setRemain(total - userMatchMapper.countMatch(userId, goods1.getTradeNo(), null));
-                remains.add(1, remain);
-            }
-        }
+//        calendar.add(Calendar.DATE, -1);
+//        CorgiUserGoods query = new CorgiUserGoods();
+//        query.setUserId(userId);
+//        query.setGoodsType(CorgiUserGoods.GOODS_TYPE.MATCH);
+//        query.setCtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime()));
+//        query.setStart(0);
+//        query.setSize(100);
+//        List<CorgiUserGoods> goods = corgiOrderService.getUserGoods(query);
+//        if (!CollectionUtils.isEmpty(goods)) {
+//            for (CorgiUserGoods goods1 : goods) {
+//                UserMatchRemain remain = new UserMatchRemain();
+//                remain.setUserId(userId);
+//                remain.setTradeNo(goods1.getTradeNo());
+//                Integer total = MerchandiseEnum.getByCode(goods1.getMerchId()).getDays();
+//                remain.setRemain(total - userMatchMapper.countMatch(userId, goods1.getTradeNo(), null));
+//                remains.add(1, remain);
+//            }
+//        }
         return remains;
     }
 
