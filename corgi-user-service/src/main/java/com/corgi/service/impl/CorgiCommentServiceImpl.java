@@ -99,6 +99,12 @@ public class CorgiCommentServiceImpl implements CorgiCommentService {
     }
 
     @Override
+    public List<ActivityComment> getUserActivityComment(String activityId, String userId) {
+        List<ActivityComment> comments = corgiCommentMapper.getUserComment(activityId, userId);
+        return buildComments(comments, userId);
+    }
+
+    @Override
     public List<ActivityComment> getActivityComment(String activityId, Integer commentId, Integer size, String userId) {
         if (size != null && size > 0) {
             List<ActivityComment> comments = corgiCommentMapper.getParentComment(activityId, commentId, size);
