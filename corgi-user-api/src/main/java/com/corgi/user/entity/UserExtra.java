@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Data
 public class UserExtra implements Serializable {
-    private String xp = "";
+    private String xp = "[]";
     private String income = "";
     private String profession = "";
     private String education = "";
