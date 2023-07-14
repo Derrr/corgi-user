@@ -81,10 +81,10 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 //        if (users.size() < 6) {
 //            return new ArrayList<>();
 //        }
-        for (UserMatchItem item : users) {
-            userMatchMapper.addMatchView(userQuery.getUserId(), item.getUserId());
-            userIds.add(item.getUserId());
-        }
+//        for (UserMatchItem item : users) {
+//            userMatchMapper.addMatchView(userQuery.getUserId(), item.getUserId());
+//            userIds.add(item.getUserId());
+//        }
         String key = "user_match_view_" + dateStr + userQuery.getUserId();
         try {
             if (redisTemplate.hasKey(key)) {
