@@ -30,4 +30,11 @@ public class UserQuery implements Serializable {
     private Integer limit;
     private String city;
     private String result;
+    private List<String> income;
+    private List<String> profession;
+    private List<String> education;
+    private List<String> interests;
+    private List<String> tags;
+    private List<String> aim;
+    private List<String> xp;
 }
