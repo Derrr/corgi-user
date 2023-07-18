@@ -1,6 +1,5 @@
 package com.corgi.user.entity;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import lombok.Data;
 
 import java.io.Serializable;
