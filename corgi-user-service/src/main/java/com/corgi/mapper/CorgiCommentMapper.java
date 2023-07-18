@@ -35,6 +35,14 @@ public interface CorgiCommentMapper {
     List<ActivityComment> getActivityComment(@Param("activityId") String activityId);
 
     /**
+     * 获取用户评论
+     *
+     * @param activityId
+     * @return
+     */
+    List<ActivityComment> getUserComment(@Param("activityId") String activityId, @Param("userId")String userId);
+
+    /**
      * 获取父活动评论
      *
      * @param activityId

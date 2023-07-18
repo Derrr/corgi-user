@@ -30,11 +30,11 @@
         INSERT INTO `corgi`.`corgi_activity_comment` (`comment_id`, `comment_user_id`, `comment_user_name`,
                                                       `comment_user_avatar`, `reply_user_id`, `reply_user_name`,
                                                       `reply_user_avatar`, `activity_id`, `parent_comment_id`,
-                                                      `content`, `user_id`,`status`)
+                                                      `content`, `user_id`, `status`)
         VALUES (#{comment.commentId}, #{comment.commentUserId}, #{comment.commentUserName},
                 #{comment.commentUserAvatar}, #{comment.replyUserId}, #{comment.replyUserName},
                 #{comment.replyUserAvatar}, #{comment.activityId}, #{comment.parentCommentId}, #{comment.content},
-                #{comment.userId},#{comment.status});
+                #{comment.userId}, #{comment.status});
     </insert>
 
     <delete id="deleteActivityComment">
@@ -49,6 +49,17 @@
         from corgi_activity_comment c
         left join corgi_comment_like l on l.comment_id = c.comment_id and l.status = '1'
         where c.activity_id = #{activityId}
+        group by c.comment_id
+        order by c.id desc
+    </select>
+
+    <select id="getUserComment" resultType="com.corgi.user.entity.ActivityComment">
+        select
+        <include refid="comment"/>
+        from corgi_activity_comment c
+        left join corgi_comment_like l on l.comment_id = c.comment_id and l.status = '1'
+        where c.activity_id = #{activityId}
+        and (c.user_id = #{userId} or c.comment_user_id = #{userId} or c.reply_user_id = #{userId})
         group by c.comment_id
         order by c.id desc
     </select>
