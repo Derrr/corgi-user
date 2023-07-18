@@ -162,6 +162,39 @@
         where d.user_id = #{userId}
     </select>
 
+    <select id="getUserDetailByIds" resultType="com.corgi.user.entity.UserDetail">
+        select d.`user_id`                            userId,
+               d.`nickname`,
+               d.`avatar`,
+               d.avatar_status                        avatarStatus,
+               d.avatar_check_status                  avatarCheckStatus,
+               d.avatar_data_id                       avatarDataId,
+               d.`height`,
+               d.`weight`,
+               d.`desc`,
+               d.`role`,
+               d.`hide_role`,
+               d.`cime`                               ctime,
+               d.`character`,
+               d.background,
+               d.bg_check_status                      bgCheckStatus,
+               d.bg_data_id                           bgDataId,
+               d.`group`,
+               d.`hide_group`,
+               d.`birthday`,
+               d.`con`,
+               d.`relation`,
+               p.`city`,
+               p.lat                                  lat,
+               p.lng                                  lng,
+               if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
+               `check_status`                         checkStatus,
+               `date_status`                          dateStatus
+        from corgi_user_detail d
+                 left join corgi_user_position p on p.user_id = d.user_id
+        where d.user_id in ('${userId}')
+    </select>
+
     <insert id="addPreferGroup">
         insert into corgi_prefer_group (`user_id`, `group`)
         values (#{userId}, #{group})

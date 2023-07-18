@@ -23,6 +23,8 @@ public interface CorgiUserService {
 
     UserDetail getUserDetailBasic(String userId);
 
+    List<UserDetail> getUserDetailBasics(String userIds);
+
     String updatePreferGroup(String userId, List<String> groups);
 
     long countPreferGroup(String group);

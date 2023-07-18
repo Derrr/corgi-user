@@ -135,7 +135,6 @@ public interface CorgiUserMapper {
      */
     void deleteUserAvatar(@Param("dataId") String dataId);
 
-
     /**
      * 获取用户资料
      *
@@ -143,6 +142,14 @@ public interface CorgiUserMapper {
      * @return
      */
     UserDetail getUserDetail(@Param("userId") String userId);
+
+    /**
+     * 获取用户资料
+     *
+     * @param userIds
+     * @return
+     */
+    List<UserDetail> getUserDetailByIds(@Param("userIds") String userIds);
 
     /**
      * 删除喜欢类型

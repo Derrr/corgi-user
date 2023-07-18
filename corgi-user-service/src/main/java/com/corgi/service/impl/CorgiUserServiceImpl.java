@@ -163,6 +163,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     }
 
     @Override
+    public List<UserDetail> getUserDetailBasics(String userIds) {
+        return corgiUserMapper.getUserDetailByIds(userIds);
+    }
+
+    @Override
     public String updatePreferGroup(String userId, List<String> groups) {
         if (StringUtils.isEmpty(userId)) {
             return "user id is null";
