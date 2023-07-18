@@ -1,5 +1,6 @@
 package com.corgi.user.entity;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,4 +18,21 @@ public class UserExtra implements Serializable {
     private String aim = "";
     private String interests = "";
     private String tags = "";
+
+
+    public String getInterests() {
+        if(interests != null) {
+            return interests.replaceAll("[\\]\\[]", "");
+        }
+        return "";
+    }
+
+    public String getTags() {
+        if(tags != null) {
+            return tags.replaceAll("[\\]\\[]", "");
+        }
+        return "";
+
+    }
+
 }
