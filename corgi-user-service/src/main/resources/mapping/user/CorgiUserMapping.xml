@@ -192,7 +192,7 @@
                `date_status`                          dateStatus
         from corgi_user_detail d
                  left join corgi_user_position p on p.user_id = d.user_id
-        where d.user_id in ('${userId}')
+        where d.user_id in ('${userIds}')
     </select>
 
     <insert id="addPreferGroup">
