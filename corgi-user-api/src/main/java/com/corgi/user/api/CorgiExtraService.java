@@ -9,7 +9,7 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiExtraService {
-    List<UserExtra> getUsersExtra(Integer page, Integer size);
+    List<String> getExtraUserIds(Integer page, Integer size);
 
     UserExtra getUserExtra(String userId);
 

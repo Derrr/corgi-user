@@ -485,6 +485,6 @@ public interface CorgiUserMapper {
      * @param size
      * @return
      */
-    List<UserExtra> getUserExtraByPage(@Param("start")Integer start, @Param("size")Integer size);
+    List<String> getExtraUserIdByPage(@Param("start")Integer start, @Param("size")Integer size);
 
 }

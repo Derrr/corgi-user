@@ -23,8 +23,8 @@ public class CorgiExtraServiceImpl implements CorgiExtraService {
 
 
     @Override
-    public List<UserExtra> getUsersExtra(Integer page, Integer size) {
-        return corgiUserMapper.getUserExtraByPage((page - 1) * size, size);
+    public List<String> getExtraUserIds(Integer page, Integer size) {
+        return corgiUserMapper.getExtraUserIdByPage((page - 1) * size, size);
     }
 
     @Override
