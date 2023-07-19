@@ -478,4 +478,13 @@ public interface CorgiUserMapper {
      * @return
      */
     UserExtra getUserExtra(@Param("userId")String userId);
+
+    /**
+     * 分野获取用户额外信息
+     * @param start
+     * @param size
+     * @return
+     */
+    List<UserExtra> getUserExtraByPage(@Param("start")Integer start, @Param("size")Integer size);
+
 }

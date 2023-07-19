@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author tairanliu
  */
@@ -19,6 +21,11 @@ public class CorgiExtraServiceImpl implements CorgiExtraService {
     @Autowired
     private CorgiUserMapper corgiUserMapper;
 
+
+    @Override
+    public List<UserExtra> getUsersExtra(Integer page, Integer size) {
+        return corgiUserMapper.getUserExtraByPage((page - 1) * size, size);
+    }
 
     @Override
     public UserExtra getUserExtra(String userId) {

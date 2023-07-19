@@ -2,11 +2,15 @@ package com.corgi.user.api;
 
 import com.corgi.user.entity.*;
 
+import java.util.List;
+
 
 /**
  * @author tairanliu
  */
 public interface CorgiExtraService {
+    List<UserExtra> getUsersExtra(Integer page, Integer size);
+
     UserExtra getUserExtra(String userId);
 
     void updateXp(String userId, String xp);

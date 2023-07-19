@@ -1034,4 +1034,17 @@
         from corgi_user_extra
         where user_id = #{userId}
     </select>
+
+    <select id="getUserExtraByPage" resultType="com.corgi.user.entity.UserExtra">
+        select user_id userId,
+               income,
+               profession,
+               education,
+               aim,
+               xp,
+               interests,
+               tags
+        from corgi_user_extra
+        limit #{start},#{size}
+    </select>
 </mapper>

@@ -50,9 +50,7 @@ public class CorgiBlacklistServiceImpl implements CorgiBlacklistService {
         if (result > 0) {
             corgiUserFollowMapper.removeFollowUser(userId, blackId);
             corgiUserFollowMapper.removeFollowUser(blackId, userId);
-            deleteSignUp(userId, blackId);
-            deleteSignUp(blackId, userId);
-            corgiBlackActivityService.deleteFavorActivity(userId, blackId);
+            //corgiBlackActivityService.deleteFavorActivity(userId, blackId);
             return "success";
         } else {
             return "fail";
