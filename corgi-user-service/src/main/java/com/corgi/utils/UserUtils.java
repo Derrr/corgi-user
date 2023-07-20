@@ -60,6 +60,50 @@ public class UserUtils {
         return "";
     }
 
+    public static boolean hasQuery(UserQuery query) {
+        if (!CollectionUtils.isEmpty(query.getDateStatus())) {
+            return true;
+        }
+        if (!CollectionUtils.isEmpty(query.getGroup())) {
+            return true;
+        }
+        if (!CollectionUtils.isEmpty(query.getRole())) {
+            return true;
+        }
+        if (query.getStartAge() != null && query.getStartAge() > 18) {
+            return true;
+        }
+        if (query.getEndAge() != null && query.getEndAge() < 70) {
+            return true;
+        }
+        if ("verify".equals(query.getType())) {
+            return true;
+        }
+        if(!CollectionUtils.isEmpty(query.getInterests())){
+            return true;
+        }
+        if(!CollectionUtils.isEmpty(query.getTags())){
+            return true;
+        }
+        if(!CollectionUtils.isEmpty(query.getXp())){
+            return true;
+        }
+        if(!CollectionUtils.isEmpty(query.getAim())){
+            return true;
+        }
+        if(!CollectionUtils.isEmpty(query.getEducation())){
+            return true;
+        }
+        if(!CollectionUtils.isEmpty(query.getIncome())){
+            return true;
+        }
+        if(!CollectionUtils.isEmpty(query.getProfession())){
+            return true;
+        }
+
+        return false;
+    }
+
     public static void buildQueryString(UserQuery query) {
         StringBuilder sb = new StringBuilder();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");

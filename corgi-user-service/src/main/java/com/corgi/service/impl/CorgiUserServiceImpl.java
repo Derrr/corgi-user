@@ -1,6 +1,8 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.activity.api.CorgiMatchService;
 import com.corgi.common.CorgiConstants;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.MatchRefresher;
@@ -47,11 +49,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Autowired
     private CorgiUserFollowService corgiUserFollowService;
     @Autowired
-    private CorgiUserTagMapper corgiUserTagMapper;
-    @Autowired
     private CorgiBlacklistMapper corgiBlacklistMapper;
-    @Autowired
-    private CorgiUserDateService corgiUserDateService;
+    @Reference
+    private CorgiMatchService corgiMatchService;
     @Autowired
     private AmqpTemplate rabbitTemplate;
     @Autowired
@@ -132,9 +132,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
         List<String> groups = corgiUserMapper.getPreferGroup(userId);
         userDetail.setPreferGroup(groups);
-        userDetail.setTags(corgiUserTagMapper.getUserTag(userId));
-        userDetail.setInterests(corgiUserTagMapper.getUserInterests(userId));
-        userDetail.setDate(corgiUserDateService.getDateByUserId(userId));
+//        userDetail.setDate(corgiUserDateService.getDateByUserId(userId));
         if (UserDetail.INFLUENCER.equals(userDetail.getAvatarStatus())) {
             userDetail.setVip(true);
         } else {
@@ -262,16 +260,15 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         userPosition.setUserId(userQuery.getUserId());
         userPosition.setLng(userQuery.getLng());
         userPosition.setLat(userQuery.getLat());
-        userPosition.setUptime(System.currentTimeMillis() - 30 * 24 * 3600 * 1000L);
-        UserUtils.buildQueryString(userQuery);
         List<String> userIds = new ArrayList<>();
-        if (StringUtils.isEmpty(userQuery.getResult())) {
+        if (!UserUtils.hasQuery(userQuery)) {
             GeoResults<RedisGeoCommands.GeoLocation<Object>> geoResults = redisTemplate.opsForGeo().radius("user", new Circle(new Point(userQuery.getLng(), userQuery.getLat()), new Distance(1000, Metrics.KILOMETERS)), RedisGeoCommands.GeoRadiusCommandArgs.newGeoRadiusArgs().limit(200).sortAscending());
             for (GeoResult<RedisGeoCommands.GeoLocation<Object>> result : geoResults.getContent()) {
                 userIds.add(result.getContent().getName() + "");
             }
         } else {
-            userIds = corgiUserMapper.getNearbyUserId(userPosition, userQuery.getResult());
+            //userIds = corgiUserMapper.getNearbyUserId(userPosition, userQuery.getResult());
+            userIds = corgiMatchService.getNearbyUserIds(userQuery);
         }
         List<String> beBlockUserIds = corgiBlacklistMapper.getBeBlacklist(userQuery.getUserId());
         List<String> blockUserIds = corgiBlacklistMapper.getBlacklist(userQuery.getUserId()).stream().map(basic -> basic.getUserId()).collect(Collectors.toList());
