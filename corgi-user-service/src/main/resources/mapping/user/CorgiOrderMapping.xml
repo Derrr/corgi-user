@@ -13,7 +13,7 @@
         .
         trade_no
         tradeNo
-        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId,o.order_id orderId, o.buyer_id buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.pay_time payTime,o.status,o.ctime,o.desc,o.result
+        , o.merch_id merchId, o.pay_type payType, o.user_id userId,o.market_id marketId,o.order_id orderId, o.buyer_id buyerId,o.seller_id sellerId,o.pay_amount payAmount,o.pay_time payTime,o.status,o.ctime,o.desc,o.result,o.package_name packageName
     </sql>
 
     <select id="searchMerchandise" resultType="com.corgi.user.entity.CorgiMerchandise">
@@ -49,9 +49,9 @@
 
     <insert id="addOrder" parameterType="com.corgi.user.entity.CorgiOrder">
         INSERT INTO `corgi_order` (`trade_no`, `merch_id`, `pay_type`, `user_id`, `market_id`, `seller_id`,
-                                   `pay_amount`, `order_id`, `desc`)
+                                   `pay_amount`, `order_id`, `desc`, `package_name`)
         VALUES (#{order.tradeNo}, #{order.merchId}, #{order.payType}, #{order.userId}, #{order.marketId},
-                #{order.sellerId}, #{order.payAmount}, #{order.orderId}, #{order.desc});
+                #{order.sellerId}, #{order.payAmount}, #{order.orderId}, #{order.desc}, #{order.packageName});
     </insert>
 
     <insert id="addLog" parameterType="com.corgi.user.entity.CorgiOrder">
