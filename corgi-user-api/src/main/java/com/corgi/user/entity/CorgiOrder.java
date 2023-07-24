@@ -42,6 +42,7 @@ public class CorgiOrder implements Serializable {
     private String payTime;
     private String desc;
     private String orderId;
+    private String packageName;
     private String status;
     private String ctime;
 }
