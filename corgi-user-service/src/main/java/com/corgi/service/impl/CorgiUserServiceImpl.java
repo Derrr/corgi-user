@@ -125,7 +125,6 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             userDetail.setLat(userPosition.getLat());
             userDetail.setLng(userPosition.getLng());
             userDetail.setCity(userPosition.getCity());
-            userDetail.setOnlineTime((userPosition.getOnlineTime() / 6) / 10.0);
         } else {
             userDetail.setLat(0.0);
             userDetail.setLng(0.0);
