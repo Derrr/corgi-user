@@ -236,6 +236,12 @@ public interface CorgiUserMapper {
     void updateUserPositionUptime(@Param("position") UserPosition userPosition);
 
     /**
+     * 更新用户在线时常
+     */
+    void updateUserOnline(@Param("position") UserPosition userPosition);
+
+
+    /**
      * 获取周围人信息
      *
      * @param supporter

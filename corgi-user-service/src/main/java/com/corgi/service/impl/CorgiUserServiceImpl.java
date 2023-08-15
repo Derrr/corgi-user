@@ -214,6 +214,11 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         } else {
             corgiUserMapper.updateUserPositionUptime(userPosition);
         }
+        String key = "online_time_key-" + userPosition.getUserId();
+        if (redisTemplate.opsForValue().setIfAbsent(key, System.currentTimeMillis() + "")) {
+            corgiUserMapper.updateUserOnline(userPosition);
+            redisTemplate.expire(key, 50l, TimeUnit.SECONDS);
+        }
         return CorgiConstants.SUCCESS;
     }
 

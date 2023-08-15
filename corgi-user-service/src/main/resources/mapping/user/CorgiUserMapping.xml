@@ -483,6 +483,12 @@
         where user_id = #{position.userId}
     </update>
 
+    <update id="updateUserOnline" parameterType="com.corgi.user.entity.UserPosition">
+        update corgi_user_position
+        set online_time = online_time + 1
+        where user_id = #{position.userId}
+    </update>
+
     <select id="getNearByUser" resultType="java.lang.String">
         select p.user_id from corgi_user_position p
         left join corgi_user_detail d on p.user_id = d.user_id
