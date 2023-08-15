@@ -413,7 +413,8 @@
                city,
                province,
                channel,
-               version
+               version,
+               online_time onlineTime
         from corgi_user_position
         where user_id = #{userId}
     </select>

@@ -22,6 +22,7 @@ public class UserPosition implements Serializable {
 
     private Long uptime;
     private String channel;
+    private Long onlineTime;
 
     public String getLocateType() {
         if (locateType == null || "".equals(locateType)) {
