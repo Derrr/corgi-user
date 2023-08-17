@@ -257,12 +257,26 @@
         <if test="goods.ctime != null and goods.ctime != ''">
             and `ctime` > #{goods.ctime}
         </if>
-
         and status = '1'
         <if test="goods.userId != null and goods.userId != ''">
             and user_id = #{goods.userId}
         </if>
         order by id desc limit #{goods.start}, #{goods.size}
+    </select>
+
+    <select id="getHotGoods" resultType="com.corgi.user.entity.CorgiUserGoods">
+        select `user_id` userId,
+        `goods_type` goodsType,
+        `merch_id` merchId,
+        `goods_id` goodsId,
+        sum(price) price,
+        currency,
+        `status`
+        from corgi_user_goods
+        where goods_type = #{goods.goodsType}
+        and status = '1'
+        group by goods_id
+        order by price desc limit #{goods.start}, #{goods.size}
     </select>
 
     <select id="getMarketById" resultType="com.corgi.user.entity.CorgiUserMarket">

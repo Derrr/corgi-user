@@ -380,6 +380,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
+    public List<CorgiUserGoods> getHotGoods(CorgiUserGoods goods) {
+        return corgiOrderMapper.getUserGoods(goods);
+    }
+
+    @Override
     public void updateUserGoods(CorgiUserGoods goods) {
         corgiOrderMapper.updateUserGoods(goods);
     }
