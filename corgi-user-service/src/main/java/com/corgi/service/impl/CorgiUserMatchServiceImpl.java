@@ -189,7 +189,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
 
     @Override
     public void addUserMatch(String userId, String matchId, String tradeNo) {
-        userMatchMapper.addMatch(userId, matchId, tradeNo);
+        //userMatchMapper.addMatch(userId, matchId, tradeNo);
         String key = "user_match_" + userId;
         try {
             if (redisTemplate.hasKey(key)) {
