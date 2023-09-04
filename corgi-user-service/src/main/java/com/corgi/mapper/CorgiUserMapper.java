@@ -441,56 +441,63 @@ public interface CorgiUserMapper {
     /**
      * 初始化用户额外信息
      */
-    void initUserExtra(@Param("userId")String userId);
+    void initUserExtra(@Param("userId") String userId);
 
     /**
      * 更新xp
      */
-    void updateXp(@Param("userId")String userId, @Param("xp")String xp);
+    void updateXp(@Param("userId") String userId, @Param("xp") String xp);
 
     /**
      * 更新income
      */
-    void updateIncome(@Param("userId")String userId, @Param("income")String income);
+    void updateIncome(@Param("userId") String userId, @Param("income") String income);
 
     /**
      * 更新profession
      */
-    void updateProfession(@Param("userId")String userId, @Param("profession")String profession);
+    void updateProfession(@Param("userId") String userId, @Param("profession") String profession);
 
     /**
      * 更新education
      */
-    void updateEducation(@Param("userId")String userId, @Param("education")String education);
+    void updateEducation(@Param("userId") String userId, @Param("education") String education);
 
     /**
      * 更新aim
      */
-    void updateAim(@Param("userId")String userId, @Param("aim")String aim);
+    void updateAim(@Param("userId") String userId, @Param("aim") String aim);
 
     /**
      * 更新interests
      */
-    void updateInterests(@Param("userId")String userId, @Param("interests")String interests);
+    void updateInterests(@Param("userId") String userId, @Param("interests") String interests);
 
     /**
      * 更新tags
      */
-    void updateTags(@Param("userId")String userId, @Param("tags")String tags);
+    void updateTags(@Param("userId") String userId, @Param("tags") String tags);
+
+    /**
+     * 更新hide参数
+     */
+    void updateHideExtra(@Param("type") String type, @Param("userId") String userId, @Param("value") String value);
 
     /**
      * 获取用户额外信息
+     *
      * @param userId
      * @return
      */
-    UserExtra getUserExtra(@Param("userId")String userId);
+    UserExtra getUserExtra(@Param("userId") String userId);
 
     /**
      * 分野获取用户额外信息
+     *
      * @param start
      * @param size
      * @return
      */
-    List<String> getExtraUserIdByPage(@Param("start")Integer start, @Param("size")Integer size);
+    List<String> getExtraUserIdByPage(@Param("start") Integer start, @Param("size") Integer size);
 
 }

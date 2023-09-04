@@ -26,4 +26,7 @@ public interface CorgiExtraService {
     void updateInterests(String userId, String interests);
 
     void updateTags(String userId, String tags);
+
+    void updateHide(String type, String userId, String value);
+
 }

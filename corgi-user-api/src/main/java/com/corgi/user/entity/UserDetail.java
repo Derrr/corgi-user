@@ -52,7 +52,6 @@ public class UserDetail implements Serializable {
     private Boolean vip;
     private String dateStatus;
     private CorgiDate date;
-    private String hideExtra;
 
     List<String> preferGroup;
 

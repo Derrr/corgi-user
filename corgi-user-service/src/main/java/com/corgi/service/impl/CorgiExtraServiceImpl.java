@@ -77,4 +77,10 @@ public class CorgiExtraServiceImpl implements CorgiExtraService {
         corgiUserMapper.initUserExtra(userId);
         corgiUserMapper.updateTags(userId, tags);
     }
+
+    @Override
+    public void updateHide(String type, String userId, String value) {
+        corgiUserMapper.initUserExtra(userId);
+        corgiUserMapper.updateHideExtra(type, userId, value);
+    }
 }
