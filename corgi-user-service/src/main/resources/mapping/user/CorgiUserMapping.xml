@@ -156,7 +156,8 @@
                p.lng                                  lng,
                if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
                `check_status`                         checkStatus,
-               `date_status`                          dateStatus
+               `date_status`                          dateStatus,
+               `hide_extra`                           hide_extra
         from corgi_user_detail d
                  left join corgi_user_position p on p.user_id = d.user_id
         where d.user_id = #{userId}
@@ -189,7 +190,8 @@
                p.lng                                  lng,
                if(p.fuptime > 0, p.fuptime, p.uptime) `time`,
                `check_status`                         checkStatus,
-               `date_status`                          dateStatus
+               `date_status`                          dateStatus,
+               `hide_extra`                           hideExtra
         from corgi_user_detail d
                  left join corgi_user_position p on p.user_id = d.user_id
         where d.user_id in ('${userIds}')
@@ -296,6 +298,10 @@
             <if test="userDetail.dateStatus != null and userDetail.dateStatus != ''">
                 `date_status` = #{userDetail.dateStatus},
             </if>
+            <if test="userDetail.dateStatus != null and userDetail.dateStatus != ''">
+                `hide_extra` = #{userDetail.hideExtra},
+            </if>
+
         </set>
         where user_id = #{userDetail.userId}
     </update>
