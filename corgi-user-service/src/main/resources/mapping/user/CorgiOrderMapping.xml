@@ -278,7 +278,7 @@
         and g.status = '1'
         and c.check_status not in ('fail','not_good')
         <if test="goods.ctime != null and goods.ctime != ''">
-            and ctime &lt; #{goods.ctime}
+            and g.ctime &lt; #{goods.ctime}
         </if>
         group by goods_id
         order by price desc limit #{goods.start}, #{goods.size}
