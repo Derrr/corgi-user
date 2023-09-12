@@ -285,7 +285,7 @@
             and c.category in('${vlog.videoId}')
         </if>
         <if test="vlog.ctime != null and vlog.ctime!= ''">
-            and c.ctime &lt; #{ctime}
+            and c.ctime &lt; #{vlog.ctime}
         </if>
         order by h.id desc
         limit #{start}, #{size}

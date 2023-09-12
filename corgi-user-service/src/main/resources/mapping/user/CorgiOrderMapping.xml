@@ -276,7 +276,7 @@
         where goods_type = #{goods.goodsType}
         and status = '1'
         <if test="goods.ctime != null and goods.ctime != ''">
-            and ctime &lt; #{ctime}
+            and ctime &lt; #{goods.ctime}
         </if>
         group by goods_id
         order by price desc desc limit #{goods.start}, #{goods.size}
