@@ -279,7 +279,7 @@
             and ctime &lt; #{goods.ctime}
         </if>
         group by goods_id
-        order by price desc desc limit #{goods.start}, #{goods.size}
+        order by price desc limit #{goods.start}, #{goods.size}
     </select>
 
     <select id="getMarketById" resultType="com.corgi.user.entity.CorgiUserMarket">
