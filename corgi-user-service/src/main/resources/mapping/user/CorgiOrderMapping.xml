@@ -265,16 +265,18 @@
     </select>
 
     <select id="getHotGoods" resultType="com.corgi.user.entity.CorgiUserGoods">
-        select `user_id` userId,
-        `goods_type` goodsType,
-        `merch_id` merchId,
-        `goods_id` goodsId,
+        select g.`user_id` userId,
+        g.`goods_type` goodsType,
+        g.`merch_id` merchId,
+        g.`goods_id` goodsId,
         sum(price) price,
         currency,
-        `status`
-        from corgi_user_goods
+        g.`status`
+        from corgi_user_goods g
+        left join corgi_activity_creator c on c.activity_id = g.goods_id
         where goods_type = #{goods.goodsType}
-        and status = '1'
+        and g.status = '1'
+        and c.check_status not in ('fail','not_good')
         <if test="goods.ctime != null and goods.ctime != ''">
             and ctime &lt; #{goods.ctime}
         </if>
