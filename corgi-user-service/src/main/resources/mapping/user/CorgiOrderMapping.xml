@@ -276,6 +276,9 @@
         left join corgi_activity_creator c on c.activity_id = g.goods_id
         where goods_type = #{goods.goodsType}
         and g.status = '1'
+        <if test="goods.traderId != null and goods.traderId != ''">
+            and g.traderId = #{goods.traderId}
+        </if>
         and c.check_status not in ('fail','not_good')
         <if test="goods.ctime != null and goods.ctime != ''">
             and g.ctime &lt; #{goods.ctime}

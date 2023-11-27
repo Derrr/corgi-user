@@ -52,37 +52,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
         List<UserMatchItem> users = corgiMatchService.getMatchItems(userQuery);
         List<String> userIds = new ArrayList<>();
-        //users = this.buildUsers(users, userIds, calendar.getTimeInMillis(), dateStr, 6);
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.add(Calendar.MINUTE, -5);
-//        List<String> userIds = new ArrayList<>();
-//        UserUtils.buildQueryString(userQuery);
-//        List<UserMatchItem> users;
-//        if (StringUtils.isEmpty(userQuery.getResult()) && userQuery.getLat() != 0 && userQuery.getLng() != 0) {
-//            try {
-//                users = this.getUsers(userQuery, calendar, userIds);
-//            } catch (Exception e) {
-//                log.error(e.getMessage(), e);
-//                return new ArrayList<>();
-//            }
-//        } else {
-//            Long nowTime = calendar.getTimeInMillis();
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//            String nowDate = sdf.format(calendar.getTime());
-//            try {
-//                users = userMatchMapper.getMatchByQuery(userQuery, 6);
-//                users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
-//            } catch (Exception e) {
-//                log.error(e.getMessage(), e);
-//                return new ArrayList<>();
-//            }
-//        }
-//
-//        if (users.size() < 6) {
-//            return new ArrayList<>();
-//        }
         for (UserMatchItem item : users) {
-//            userMatchMapper.addMatchView(userQuery.getUserId(), item.getUserId());
             userIds.add(item.getUserId());
         }
         String key = "user_match_view_" + dateStr + userQuery.getUserId();
@@ -98,35 +68,6 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         }
         return users;
     }
-
-    private List<UserMatchItem> getUsers(UserQuery userQuery, Calendar calendar, List<String> userIds) {
-        if (StringUtils.isEmpty(userQuery.getUserId())) {
-            return new ArrayList<>();
-        }
-        List<UserMatchItem> users = new ArrayList<>();
-        try {
-            Long nowTime = calendar.getTimeInMillis();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String nowDate = sdf.format(calendar.getTime());
-            users = userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6);
-            users = this.buildUsers(users, userIds, nowTime, nowDate, 6);
-            if (users.size() < 6) {
-                calendar.add(Calendar.DATE, -7);
-                users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
-                        userIds, nowTime, nowDate, 6 - users.size()));
-            }
-            if (users.size() < 6) {
-                userMatchMapper.updateMatchViewByDate(null, userQuery.getUserId());
-                users.addAll(this.buildUsers(userMatchMapper.getMatchByTime(userQuery, calendar.getTimeInMillis(), 6),
-                        userIds, nowTime, nowDate, 6 - users.size()));
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return new ArrayList<>();
-        }
-        return users;
-    }
-
 
     @Override
     public Integer countAllMatcher(UserQuery userQuery) {
@@ -152,44 +93,16 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         Calendar calendar = Calendar.getInstance();
         List<UserMatchRemain> remains = new ArrayList<>();
         UserMatchRemain remain0 = new UserMatchRemain();
-//        String expireDate = corgiUserService.getUserVipExpire(userId);
-//        UserDetail userDetail = corgiUserService.getUserDetailBasic(userId);
         Integer free = 600;
-//        if (!"-".equals(expireDate) && sdf.format(calendar.getTime()).compareTo(expireDate.substring(0, 10)) <= 0) {
-//            free = 60;
-//        }
-//        if ("influencer".equals(userDetail.getAvatarStatus())) {
-//            free = 60;
-//        }
         remain0.setUserId(userId);
         remain0.setTradeNo("0");
         remain0.setRemain(free - userMatchMapper.countMatch(userId, "0", sdf.format(calendar.getTime())));
         remains.add(remain0);
-
-//        calendar.add(Calendar.DATE, -1);
-//        CorgiUserGoods query = new CorgiUserGoods();
-//        query.setUserId(userId);
-//        query.setGoodsType(CorgiUserGoods.GOODS_TYPE.MATCH);
-//        query.setCtime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar.getTime()));
-//        query.setStart(0);
-//        query.setSize(100);
-//        List<CorgiUserGoods> goods = corgiOrderService.getUserGoods(query);
-//        if (!CollectionUtils.isEmpty(goods)) {
-//            for (CorgiUserGoods goods1 : goods) {
-//                UserMatchRemain remain = new UserMatchRemain();
-//                remain.setUserId(userId);
-//                remain.setTradeNo(goods1.getTradeNo());
-//                Integer total = MerchandiseEnum.getByCode(goods1.getMerchId()).getDays();
-//                remain.setRemain(total - userMatchMapper.countMatch(userId, goods1.getTradeNo(), null));
-//                remains.add(1, remain);
-//            }
-//        }
         return remains;
     }
 
     @Override
     public void addUserMatch(String userId, String matchId, String tradeNo) {
-        //userMatchMapper.addMatch(userId, matchId, tradeNo);
         String key = "user_match_" + userId;
         try {
             if (redisTemplate.hasKey(key)) {
