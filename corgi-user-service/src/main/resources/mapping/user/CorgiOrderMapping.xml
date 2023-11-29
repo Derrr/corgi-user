@@ -274,7 +274,7 @@
         where goods_type = #{goods.goodsType}
         and g.status = '1'
         <if test="goods.traderId != null and goods.traderId != ''">
-            and g.traderId = #{goods.traderId}
+            and g.trader_id = #{goods.traderId}
         </if>
         and c.check_status not in ('fail','not_good')
         <if test="goods.ctime != null and goods.ctime != ''">
@@ -282,9 +282,6 @@
         </if>
         <if test="goods.uptime != null and goods.uptime != ''">
             and g.ctime > #{goods.uptime}
-        </if>
-        <if test="goods.userId != null and goods.userId != ''">
-            and g.userId != #{goods.userId}
         </if>
         group by goods_id
         order by price desc limit #{goods.start}, #{goods.size}
