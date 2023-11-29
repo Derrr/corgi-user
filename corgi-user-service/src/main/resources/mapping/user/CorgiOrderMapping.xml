@@ -286,7 +286,9 @@
         <if test="goods.uptime != null and goods.uptime != ''">
             and g.ctime > #{goods.uptime}
         </if>
-
+        <if test="goods.userId != null and goods.userId != ''">
+            and g.userId != #{goods.userId}
+        </if>
         group by goods_id
         order by price desc limit #{goods.start}, #{goods.size}
     </select>
