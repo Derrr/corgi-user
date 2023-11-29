@@ -258,9 +258,6 @@
             and `ctime` > #{goods.ctime}
         </if>
         and status = '1'
-        <if test="goods.userId != null and goods.userId != ''">
-            and user_id = #{goods.userId}
-        </if>
         order by id desc limit #{goods.start}, #{goods.size}
     </select>
 
