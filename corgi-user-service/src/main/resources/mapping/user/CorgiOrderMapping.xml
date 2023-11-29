@@ -257,6 +257,9 @@
         <if test="goods.ctime != null and goods.ctime != ''">
             and `ctime` > #{goods.ctime}
         </if>
+        <if test="goods.userId != null and goods.userId != ''">
+            and user_id = #{goods.userId}
+        </if>
         and status = '1'
         order by id desc limit #{goods.start}, #{goods.size}
     </select>
