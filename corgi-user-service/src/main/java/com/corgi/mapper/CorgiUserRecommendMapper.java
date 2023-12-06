@@ -1,5 +1,6 @@
 package com.corgi.mapper;
 
+import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserProfile;
 import org.apache.ibatis.annotations.Param;
 
@@ -131,6 +132,43 @@ public interface CorgiUserRecommendMapper {
      * @param recId
      */
     void addRecommendActivity(@Param("userId") String userId, @Param("recId") String recId);
+
+    /**
+     * 添加身材权重
+     *
+     */
+    void addGroupCoordinate(@Param("userId")String userId, @Param("group")String group);
+
+    /**
+     * 更新身材权重
+     *
+     */
+    void updateGroupCoordinate(@Param("userId")String userId, @Param("group")String group, @Param("weight")Double weight);
+
+    /**
+     * 获取身材权重
+     *
+     */
+    List<UserDetail> getGroupCoordinate(@Param("userId")String userId);
+
+    /**
+     * 添加身材权重
+     *
+     */
+    void addPreferCoordinate(@Param("userId")String userId, @Param("group")String group);
+
+    /**
+     * 更新身材权重
+     *
+     */
+    void updatePreferCoordinate(@Param("userId")String userId, @Param("group")String group, @Param("weight")Double weight);
+
+    /**
+     * 获取身材权重
+     *
+     */
+    List<UserDetail> getPreferCoordinate(@Param("userId")String userId);
+
 
     /**
      * 添加推荐权重

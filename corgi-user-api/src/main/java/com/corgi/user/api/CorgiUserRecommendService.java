@@ -2,6 +2,7 @@ package com.corgi.user.api;
 
 import com.corgi.user.entity.UserProfile;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,5 +38,17 @@ public interface CorgiUserRecommendService {
     void clearRecActivity(String userId);
 
     void addRecActivity(String userId, String recId, Double weight);
+
+    void addGroupCor(String userId, String group);
+
+    void updateGroupCor(String userId, String group, Double weight);
+
+    HashMap<String,Double> getGroupCor(String userId);
+
+    void addPreferCor(String userId, String group);
+
+    void updatePreferCor(String userId, String group, Double weight);
+
+    HashMap<String,Double> getPreferCor(String userId);
 
 }

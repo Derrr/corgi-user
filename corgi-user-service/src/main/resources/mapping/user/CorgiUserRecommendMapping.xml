@@ -246,11 +246,51 @@
         )
     </insert>
 
+    <insert id="addGroupCoordinate">
+        insert into corgi_group_coordinate(`user_id`, `group`)
+        values (
+        #{userId},
+        #{group}
+        )
+    </insert>
+
+    <update id="updateGroupCoordinate">
+        update corgi_group_coordinate
+        set `weight` = #{weight}
+        where user_id = #{userId}
+          and `group` = #{group}
+    </update>
+
+    <select id="getGroupCoordinate" resultType="com.corgi.user.entity.UserDetail">
+        select `group`,`weight` `match` from corgi_group_coordinate
+        where user_id = #{userId}
+    </select>
+
     <update id="updateRecommendActivity">
         update corgi_user_coordinate
         set `weight` = `weight` + #{weight}
         where user_id = #{userId}
           and co_user_id = #{recId}
     </update>
+
+    <insert id="addPreferCoordinate">
+        insert into corgi_prefer_group_coordinate(`user_id`, `group`)
+        values (
+                   #{userId},
+                   #{group}
+               )
+    </insert>
+
+    <update id="updatePreferCoordinate">
+        update corgi_prefer_group_coordinate
+        set `weight` = #{weight}
+        where user_id = #{userId}
+          and `group` = #{group}
+    </update>
+
+    <select id="getPreferCoordinate" resultType="com.corgi.user.entity.UserDetail">
+        select `group`,`weight` `match` from corgi_prefer_group_coordinate
+        where user_id = #{userId}
+    </select>
 
 </mapper>

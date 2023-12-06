@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiFeedMapper;
 import com.corgi.mapper.CorgiUserRecommendMapper;
 import com.corgi.user.api.CorgiUserRecommendService;
+import com.corgi.user.entity.UserDetail;
 import com.corgi.user.entity.UserPosition;
 import com.corgi.user.entity.UserProfile;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -126,14 +128,52 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
 
     @Override
     public void clearRecActivity(String userId) {
-        log.info("testing... clear rec activity:{} ", userId);
         corgiUserRecommendMapper.clearRecActivity(userId);
     }
 
     @Override
     public void addRecActivity(String userId, String recId, Double weight) {
-        log.info("testing... add rec activity:{},{},{} ", userId, recId, weight);
         corgiUserRecommendMapper.addRecommendActivity(userId, recId);
         corgiUserRecommendMapper.updateRecommendActivity(userId, recId, weight);
+    }
+
+    @Override
+    public void addGroupCor(String userId, String group) {
+        corgiUserRecommendMapper.addGroupCoordinate(userId, group);
+    }
+
+    @Override
+    public void updateGroupCor(String userId, String group, Double weight) {
+        corgiUserRecommendMapper.updateGroupCoordinate(userId, group, weight);
+    }
+
+    @Override
+    public HashMap<String, Double> getGroupCor(String userId) {
+        HashMap<String, Double> result = new HashMap<>();
+        List<UserDetail> cors = corgiUserRecommendMapper.getGroupCoordinate(userId);
+        for (UserDetail cor : cors) {
+            result.put(cor.getGroup(), cor.getMatch());
+        }
+        return result;
+    }
+
+    @Override
+    public void addPreferCor(String userId, String group) {
+        corgiUserRecommendMapper.addPreferCoordinate(userId, group);
+    }
+
+    @Override
+    public void updatePreferCor(String userId, String group, Double weight) {
+        corgiUserRecommendMapper.updatePreferCoordinate(userId, group, weight);
+    }
+
+    @Override
+    public HashMap<String, Double> getPreferCor(String userId) {
+        HashMap<String, Double> result = new HashMap<>();
+        List<UserDetail> cors = corgiUserRecommendMapper.getPreferCoordinate(userId);
+        for (UserDetail cor : cors) {
+            result.put(cor.getGroup(), cor.getMatch());
+        }
+        return result;
     }
 }
