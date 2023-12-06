@@ -158,6 +158,7 @@
                p.uptime              `time`,
                d.nickname            `nickname`,
                d.avatar              avatar,
+               d.avatar_status       avatarStatus,
                d.avatar_check_status avatarCheckStatus,
                d.role                role,
                d.group               `group`,
