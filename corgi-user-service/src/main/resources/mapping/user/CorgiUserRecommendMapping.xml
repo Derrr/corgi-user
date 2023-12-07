@@ -274,7 +274,7 @@
     </update>
 
     <insert id="addPreferCoordinate">
-        insert into corgi_prefer_group_coordinate(`user_id`, `group`)
+        insert into corgi_prefer_group_coordinate(`user_id`, `prefer_group`)
         values (
                    #{userId},
                    #{group}
@@ -285,11 +285,11 @@
         update corgi_prefer_group_coordinate
         set `weight` = #{weight}
         where user_id = #{userId}
-          and `group` = #{group}
+          and `prefer_group` = #{group}
     </update>
 
     <select id="getPreferCoordinate" resultType="com.corgi.user.entity.UserDetail">
-        select `group`,`weight` `match` from corgi_prefer_group_coordinate
+        select `prefer_group` `group`,`weight` `match` from corgi_prefer_group_coordinate
         where user_id = #{userId}
     </select>
 
