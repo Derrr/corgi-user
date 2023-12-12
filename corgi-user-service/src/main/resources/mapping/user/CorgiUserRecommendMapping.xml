@@ -248,10 +248,8 @@
 
     <insert id="addGroupCoordinate">
         insert into corgi_group_coordinate(`user_id`, `group`)
-        values (
-        #{userId},
-        #{group}
-        )
+        values (#{userId},
+                #{group})
     </insert>
 
     <update id="updateGroupCoordinate">
@@ -262,7 +260,8 @@
     </update>
 
     <select id="getGroupCoordinate" resultType="com.corgi.user.entity.UserDetail">
-        select `group`,`weight` `match` from corgi_group_coordinate
+        select `group`, `weight` `match`
+        from corgi_group_coordinate
         where user_id = #{userId}
     </select>
 
@@ -275,10 +274,8 @@
 
     <insert id="addPreferCoordinate">
         insert into corgi_prefer_group_coordinate(`user_id`, `prefer_group`)
-        values (
-                   #{userId},
-                   #{group}
-               )
+        values (#{userId},
+                #{group})
     </insert>
 
     <update id="updatePreferCoordinate">
@@ -289,8 +286,21 @@
     </update>
 
     <select id="getPreferCoordinate" resultType="com.corgi.user.entity.UserDetail">
-        select `prefer_group` `group`,`weight` `match` from corgi_prefer_group_coordinate
+        select `prefer_group` `group`, `weight` `match`
+        from corgi_prefer_group_coordinate
         where user_id = #{userId}
     </select>
 
+    <update id="clearPreferGroupCoordinate">
+        update corgi_prefer_group_coordinate
+        set weight = 0
+        where user_id in (
+            select user_id
+            from (select user_id
+                  from `corgi_prefer_group_coordinate`
+                  group by user_id
+                  having sum(weight) > 0
+                     and var_samp(weight) / sum(weight) / sum(weight) &lt; 0.01
+                     and count(1) = 6) a)
+    </update>
 </mapper>

@@ -51,4 +51,6 @@ public interface CorgiUserRecommendService {
 
     HashMap<String,Double> getPreferCor(String userId);
 
+    void clearPreferCor(String param);
+
 }

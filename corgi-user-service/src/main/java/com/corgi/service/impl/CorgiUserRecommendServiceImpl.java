@@ -176,4 +176,9 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
         }
         return result;
     }
+
+    @Override
+    public void clearPreferCor(String param) {
+        corgiUserRecommendMapper.clearPreferGroupCoordinate();
+    }
 }

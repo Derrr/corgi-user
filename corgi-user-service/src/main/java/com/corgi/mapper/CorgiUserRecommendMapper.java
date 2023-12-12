@@ -135,39 +135,33 @@ public interface CorgiUserRecommendMapper {
 
     /**
      * 添加身材权重
-     *
      */
-    void addGroupCoordinate(@Param("userId")String userId, @Param("group")String group);
+    void addGroupCoordinate(@Param("userId") String userId, @Param("group") String group);
 
     /**
      * 更新身材权重
-     *
      */
-    void updateGroupCoordinate(@Param("userId")String userId, @Param("group")String group, @Param("weight")Double weight);
+    void updateGroupCoordinate(@Param("userId") String userId, @Param("group") String group, @Param("weight") Double weight);
 
     /**
      * 获取身材权重
-     *
      */
-    List<UserDetail> getGroupCoordinate(@Param("userId")String userId);
+    List<UserDetail> getGroupCoordinate(@Param("userId") String userId);
 
     /**
      * 添加身材权重
-     *
      */
-    void addPreferCoordinate(@Param("userId")String userId, @Param("group")String group);
+    void addPreferCoordinate(@Param("userId") String userId, @Param("group") String group);
 
     /**
      * 更新身材权重
-     *
      */
-    void updatePreferCoordinate(@Param("userId")String userId, @Param("group")String group, @Param("weight")Double weight);
+    void updatePreferCoordinate(@Param("userId") String userId, @Param("group") String group, @Param("weight") Double weight);
 
     /**
      * 获取身材权重
-     *
      */
-    List<UserDetail> getPreferCoordinate(@Param("userId")String userId);
+    List<UserDetail> getPreferCoordinate(@Param("userId") String userId);
 
 
     /**
@@ -178,5 +172,8 @@ public interface CorgiUserRecommendMapper {
      */
     void updateRecommendActivity(@Param("userId") String userId, @Param("recId") String recId, @Param("weight") Double weight);
 
-
+    /**
+     * 清理prefer权重
+     */
+    void clearPreferGroupCoordinate();
 }
