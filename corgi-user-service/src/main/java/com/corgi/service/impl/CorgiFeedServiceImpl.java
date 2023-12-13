@@ -6,9 +6,11 @@ import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.ActivityQuery;
 import com.corgi.mapper.*;
 import com.corgi.user.api.CorgiFeedService;
+import com.corgi.user.api.CorgiOrderService;
 import com.corgi.user.api.CorgiUserService;
 import com.corgi.user.api.CorgiVlogService;
 import com.corgi.user.entity.CorgiFeed;
+import com.corgi.user.entity.CorgiUserGoods;
 import com.corgi.user.entity.CorgiVlog;
 import com.corgi.user.entity.CorgiVlogHot;
 import com.corgi.utils.UserUtils;
@@ -42,12 +44,16 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     @Autowired
     private CorgiVlogMapper corgiVlogMapper;
     @Autowired
+    private CorgiUserActivityMapper corgiUserActivityMapper;
+    @Autowired
     private StringRedisTemplate redisTemplate;
 
     @Reference
     private CorgiVlogService corgiVlogService;
     @Reference
     private CorgiUserService corgiUserService;
+    @Reference
+    private CorgiOrderService corgiOrderService;
 
 
     @Override
@@ -134,14 +140,6 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
 
     @Override
     public List<String> searchFeed(ActivityQuery query) {
-//        List<String> oldResult = corgiFeedMapper.getUnviewFeed(query.getUserId(), UserUtils.getIndex(query.getUserId()), query.getPageSize(), "search");
-//        if (oldResult.size() >= query.getPageSize()) {
-//            return oldResult;
-//        }
-//        if (oldResult == null) {
-//            oldResult = new ArrayList<>();
-//        }
-//        query.setPageSize(query.getPageSize() - oldResult.size());
         CorgiVlog vlogQuery = new CorgiVlog();
         vlogQuery.setStatus("1".equals(query.getType()) ? "verify" : query.getType());
         vlogQuery.setType(CorgiVlogHot.TYPE.AUTO);
@@ -185,29 +183,6 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
     }
 
     private List<CorgiVlog> getPopularFeeds(String userId, Integer size, String userIndex) {
-//        List<String> popularUserIds = corgiFeedMapper.getPopularUserIds();
-//        List<CorgiVlog> vlogs = new ArrayList<>();
-//        CorgiVlog recall = new CorgiVlog();
-//        recall.setUserId(userId);
-//        recall.setType("like");
-//        Random random = new Random();
-//        for (int i = 0; i < popularUserIds.size(); i++) {
-//            if (CollectionUtils.isEmpty(popularUserIds)) {
-//                break;
-//            }
-//            int index = random.nextInt(popularUserIds.size());
-//            String popularUserId = popularUserIds.get(index);
-//            List<CorgiVlog> vlogList = corgiVlogMapper.recallTargetVlog(popularUserId, recall, 1, userIndex);
-//            if (CollectionUtils.isEmpty(vlogList)) {
-//                popularUserIds.remove(index);
-//                continue;
-//            }
-//            vlogs.addAll(vlogList);
-//            if (vlogs.size() >= size) {
-//                break;
-//            }
-//            popularUserIds.remove(index);
-//        }
         String groups = null;
         List<String> groupList = corgiUserService.getPreferGroup(userId);
         if (!CollectionUtils.isEmpty(groupList)) {
@@ -229,28 +204,35 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         }
         String key = "feed_activity_" + activityId + "-" + category;
         List<String> activityIds = new ArrayList<>();
-//        try {
         activityIds = redisTemplate.opsForList().range(key, 0, -1);
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//        }
         if (!CollectionUtils.isEmpty(activityIds)) {
             return activityIds;
         }
         if (CorgiActivity.CAT_IMAGE.equals(category)) {
+            String creatorId = corgiUserActivityMapper.getCreator(activityId);
+            CorgiUserGoods goods = new CorgiUserGoods();
+            goods.setGoodsType(CorgiUserGoods.GOODS_TYPE.ACTIVITY);
+            goods.setSize(3);
+            goods.setTraderId(creatorId);
+            List<CorgiUserGoods> userGoods = corgiOrderService.getHotGoods(goods);
             activityIds = corgiVlogMapper.getUserActivity(activityId, size);
+            if (!CollectionUtils.isEmpty(userGoods)) {
+                List<String> goodsIds = userGoods.stream().map(g -> g.getGoodsId()).collect(Collectors.toList());
+                redisTemplate.delete(key);
+                redisTemplate.opsForList().leftPushAll(key, activityIds);
+                redisTemplate.expire(key, 1l, TimeUnit.DAYS);
+                if (!CollectionUtils.isEmpty(activityIds)) {
+                    Iterator<String> it = activityIds.iterator();
+                    while (it.hasNext()) {
+                        String activityId1 = it.next();
+                        if (goodsIds.contains(activityId1)) {
+                            it.remove();
+                        }
+                    }
+                    activityIds.addAll(0, goodsIds);
+                }
+            }
         }
-//        if (activityIds.size() < size) {
-//            List<String> tmpActivityIds = corgiVlogMapper.recallActivityVlog(activityId, userId, 0, size);
-//            for (String activityIdTmp : tmpActivityIds) {
-//                if (!activityIds.contains(activityIdTmp)) {
-//                    activityIds.add(activityIdTmp);
-//                    if (size <= activityIds.size()) {
-//                        break;
-//                    }
-//                }
-//            }
-//        }
         if (size > activityIds.size()) {
             String lastId = null;
             CorgiVlogHot hot = new CorgiVlogHot();

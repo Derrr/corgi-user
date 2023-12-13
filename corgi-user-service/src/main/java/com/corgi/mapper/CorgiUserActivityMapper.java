@@ -241,4 +241,9 @@ public interface CorgiUserActivityMapper {
      * @return
      */
     List<String> searchActivityFeed(@Param("query")ActivityQuery query);
+
+    /**
+     * 获取创建者
+     */
+    String getCreator(@Param("activityId")String activityId);
 }

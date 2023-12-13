@@ -334,4 +334,11 @@
         </if>
         order by c.activity_id ${query.sort} limit #{query.pageSize}
     </select>
+
+    <select id="getCreator" resultType="java.lang.String">
+        select c.creator_id
+        from corgi_activity_creator c
+        where activity_id = #{activityId}
+    </select>
+
 </mapper>
