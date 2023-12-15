@@ -36,7 +36,7 @@
         from corgi_vlog v left join corgi_user_detail d on d.user_id = v.user_id
         where v.ctime &lt;=#{ctime} and v.user_id != #{userId}
         <if test="userId != null">
-            and d.group in (select `group` from user_prefer_group where user_id = #{userId})
+            and d.hide_group in (select `group` from user_prefer_group where user_id = #{userId})
         </if>
         order by like_count desc limit 20
     </select>
@@ -55,9 +55,8 @@
           and h.expect_view > h.view_count
           and h.status = 'open'
           and h.type = 'auto'
-          and (d.group is null or d.group = ''
-            or not exists(select `group` from corgi_prefer_group where user_id = #{userId})
-            or d.group in (select `group` from corgi_prefer_group where user_id = #{userId}))
+          and (not exists(select `group` from corgi_prefer_group where user_id = #{userId})
+            or d.hide_group in (select `group` from corgi_prefer_group where user_id = #{userId}))
         order by h.like_count desc limit #{size}
     </select>
 
@@ -115,12 +114,13 @@
         </if>
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
+        and h.status = 'open'
         and c.creator_id != #{vlog.userId}
         and c.check_status != 'fail'
         and c.check_status != 'not_good'
         and c.check_status != 'check'
         <if test="vlog.type != '' and vlog.type != null ">
-            and (d.group is null or d.group = '' or d.group in ('${vlog.type}'))
+            and (d.hide_group = '0' or d.hide_group in ('${vlog.type}'))
         </if>
         <if test="city != null and city != ''">
             and p.city = #{city}
@@ -134,6 +134,7 @@
                  left join corgi_vlog_hot h on h.activity_id = c.activity_id and h.type = 'auto'
         where c.creator_id = (select creator_id from corgi_activity_creator where activity_id = #{activityId})
           and c.category != 'video'
+          and h.status = 'open'
           and c.activity_id != #{activityId}
           and c.check_status != 'fail'
           and c.check_status != 'check'
@@ -172,6 +173,7 @@
         left join corgi_vlog_hot h on h.activity_id = c.activity_id and h.type = 'auto'
         where not exists(select 1 from corgi_feed_${index} f where f.user_id = #{vlog.userId} and f.feed =
         c.activity_id)
+        and h.status = 'open'
         and c.creator_id in ('${targetId}')
         and c.check_status != 'fail'
         and c.check_status != 'check'
@@ -321,7 +323,7 @@
             and h.id &lt; #{id}
         </if>
         <if test="vlog.activityId != '' and vlog.activityId != null ">
-            and (d.group is null or d.group = '' or d.group in ('${vlog.activityId}'))
+            and (d.hide_group in ('${vlog.activityId}'))
         </if>
         <if test="vlog.videoId != '' and vlog.videoId != null ">
             and (d.role is null or d.role = '' or d.role in ('${vlog.videoId}'))
