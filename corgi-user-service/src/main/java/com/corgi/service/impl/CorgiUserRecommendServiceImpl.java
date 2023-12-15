@@ -150,6 +150,13 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     @Override
     public HashMap<String, Double> getGroupCor(String userId) {
         HashMap<String, Double> result = new HashMap<>();
+        if ("all".equals(userId)) {
+            List<UserDetail> cors = corgiUserRecommendMapper.getTotalGroupCoordinate(userId);
+            for (UserDetail cor : cors) {
+                result.put(cor.getGroup(), cor.getMatch());
+            }
+            return result;
+        }
         List<UserDetail> cors = corgiUserRecommendMapper.getGroupCoordinate(userId);
         for (UserDetail cor : cors) {
             result.put(cor.getGroup(), cor.getMatch());

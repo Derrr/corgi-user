@@ -265,6 +265,12 @@
         where user_id = #{userId}
     </select>
 
+    <select id="getTotalGroupCoordinate" resultType="com.corgi.user.entity.UserDetail">
+        select `group`, sum(weight) `match`
+        from corgi_group_coordinate group by `group`
+    </select>
+
+
     <update id="updateRecommendActivity">
         update corgi_user_coordinate
         set `weight` = `weight` + #{weight}
