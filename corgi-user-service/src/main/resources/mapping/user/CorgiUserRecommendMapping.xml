@@ -306,7 +306,7 @@
                   from `corgi_prefer_group_coordinate`
                   group by user_id
                   having sum(weight) > 0
-                     and var_samp(weight) / sum(weight) / sum(weight) &lt; 0.01
+                     and var_samp(weight) / sum(weight) / sum(weight) &lt; 0.001
                      and count(1) = 6) a)
     </update>
 </mapper>
