@@ -297,7 +297,9 @@
             <if test="userDetail.dateStatus != null and userDetail.dateStatus != ''">
                 `date_status` = #{userDetail.dateStatus},
             </if>
-
+            <if test="userDetail.uptime != null and userDetail.uptime != ''">
+                `uptime` = uptime,
+            </if>
         </set>
         where user_id = #{userDetail.userId}
     </update>
