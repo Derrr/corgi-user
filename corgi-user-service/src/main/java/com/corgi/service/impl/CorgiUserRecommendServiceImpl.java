@@ -188,4 +188,12 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     public void clearPreferCor(String param) {
         corgiUserRecommendMapper.clearPreferGroupCoordinate();
     }
+
+    @Override
+    public Double getGroupWeight(Integer limit, String group) {
+        if (limit == 0) {
+            return corgiUserRecommendMapper.countTotalGroup() * 1.0;
+        }
+        return corgiUserRecommendMapper.getGroupWeight(limit, group);
+    }
 }

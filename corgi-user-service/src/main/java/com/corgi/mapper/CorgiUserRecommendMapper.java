@@ -182,4 +182,19 @@ public interface CorgiUserRecommendMapper {
      * 清理prefer权重
      */
     void clearPreferGroupCoordinate();
+
+    /**
+     * 获取group人数
+     *
+     * @return
+     */
+    Long countTotalGroup();
+
+    /**
+     * 获取group人数
+     *
+     * @return
+     */
+    Double getGroupWeight(@Param("limit") Integer limit, @Param("group") String group);
+
 }

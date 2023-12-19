@@ -53,4 +53,5 @@ public interface CorgiUserRecommendService {
 
     void clearPreferCor(String param);
 
+    Double getGroupWeight(Integer limit, String group);
 }

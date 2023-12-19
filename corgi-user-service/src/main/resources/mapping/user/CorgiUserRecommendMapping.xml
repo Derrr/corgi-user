@@ -309,4 +309,17 @@
                      and var_samp(weight) / sum(weight) / sum(weight) &lt; 0.01
                      and count(1) = 6) a)
     </update>
+
+    <select id="countTotalGroup" resultType="java.lang.Long">
+        select count(distinct user_id)
+        from corgi_group_coordinate
+        where weight > 0
+    </select>
+
+    <select id="getGroupWeight" resultType="java.lang.Double">
+        select weight
+        from corgi_group_coordinate
+        where `group` = #{group} limit #{limit},1
+    </select>
+
 </mapper>
