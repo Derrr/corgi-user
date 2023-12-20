@@ -249,10 +249,6 @@
             <if test="userDetail.desc != null">
                 `desc` = #{userDetail.desc},
             </if>
-            <if test="userDetail.checkNickname != null and userDetail.checkNickname != ''">
-                `check_nickname` = #{userDetail.checkNickname},
-            </if>
-
             <if test="userDetail.checkDesc != null">
                 `check_desc` = #{userDetail.checkDesc},
             </if>
