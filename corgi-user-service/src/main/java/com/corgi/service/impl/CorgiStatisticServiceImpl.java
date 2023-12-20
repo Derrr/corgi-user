@@ -38,6 +38,12 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
 
     @Override
     public long sumCount(String table, String beginDate, String endDate) {
+        if ("follow".equals(table)) {
+            return corgiStatisticMapper.getRealFollow(beginDate);
+        }
+        if ("fans".equals(table)) {
+            return corgiStatisticMapper.getRealFans(beginDate);
+        }
         Long count = corgiStatisticMapper.sumCount(table, beginDate, endDate);
         if (count == null) {
             count = 0L;

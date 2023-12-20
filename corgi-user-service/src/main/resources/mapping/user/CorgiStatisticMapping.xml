@@ -303,4 +303,13 @@
         group by g.user_id
         order by totalCount desc limit 1
     </select>
+
+    <select id="getRealFollow" resultType="java.lang.Integer">
+        select count(1) from corgi_user_follow where user_id = #{userId} and is_deleted = '0' and type = 'real'
+    </select>
+
+    <select id="getRealFans" resultType="java.lang.Integer">
+        select count(1) from corgi_user_follow where follow_user_id = #{userId} and is_deleted = '0' and type = 'real'
+    </select>
+
 </mapper>

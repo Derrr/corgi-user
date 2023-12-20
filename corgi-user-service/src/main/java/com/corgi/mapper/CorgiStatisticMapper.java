@@ -284,4 +284,15 @@ public interface CorgiStatisticMapper {
      * @return
      */
     CorgiContentStatistics getMostUserLike(@Param("contentReq") CorgiContentReq contentReq);
+
+    /**
+     * 获取真实关注数
+     */
+    Integer getRealFollow(@Param("userId")String userId);
+
+    /**
+     * 获取真实粉丝数
+     */
+    Integer getRealFans(@Param("userId")String userId);
+
 }
