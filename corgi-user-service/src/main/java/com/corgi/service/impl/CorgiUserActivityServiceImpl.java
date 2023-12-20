@@ -169,6 +169,10 @@ public class CorgiUserActivityServiceImpl implements CorgiUserActivityService {
 
     @Override
     public List<String> queryHotActivity(ActivityQuery query) {
+        if (query.getPage() == null) {
+            query.setPage(1);
+        }
+        query.setPage((query.getPage() - 1) * query.getPageSize());
         return corgiUserActivityMapper.queryHotActivity(query);
     }
 
