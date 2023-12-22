@@ -318,8 +318,8 @@
 
     <select id="getGroupWeight" resultType="java.lang.Double">
         select sum(if(`group` = #{group},weight,0))/sum(weight) ratio
-        from corgi_group_coordinate
-        group by user_id having sum(weight) > 0 order by ratio desc limit #{limit},1
+        from corgi_group_coordinate where weight > 0
+        group by user_id order by ratio desc limit #{limit},1
     </select>
 
 </mapper>
