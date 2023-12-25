@@ -9,10 +9,12 @@ import com.corgi.user.entity.UserPosition;
 import com.corgi.user.entity.UserProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +29,10 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     private CorgiUserRecommendMapper corgiUserRecommendMapper;
     @Autowired
     private CorgiFeedMapper corgiFeedMapper;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    private static List<String> groupOrder = Arrays.asList("匀称", "肉壮", "肌肉", "偏胖", "精壮", "偏瘦");
 
 
     @Override
@@ -194,6 +200,25 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
         if (limit == 0) {
             return corgiUserRecommendMapper.countTotalGroup() * 1.0;
         }
-        return corgiUserRecommendMapper.getGroupWeight(limit, group);
+        String having = "";
+        if (!"匀称".equals(group)) {
+            having = "having";
+            for (String key : groupOrder) {
+                if (key.equals(group)) {
+                    break;
+                }
+                Double weight = Double.valueOf(redisTemplate.opsForHash().get("group_weight", key).toString());
+                String havingGroup = " sum(if(`group` = '" + key + "',weight,0))/sum(weight) <= " + weight;
+                if (!"肉壮".equals(key)) {
+                    havingGroup = " and" + havingGroup;
+                }
+                having += havingGroup;
+            }
+        }
+        Double result = corgiUserRecommendMapper.getGroupWeight(limit, group, having, "desc");
+        if (result == null) {
+            result = corgiUserRecommendMapper.getGroupWeight(0, group, having, "asc");
+        }
+        return result;
     }
 }
