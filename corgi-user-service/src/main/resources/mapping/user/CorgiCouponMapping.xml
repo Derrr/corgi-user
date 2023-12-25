@@ -1,59 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiCouponMapper">
-    <insert id="insertCoupon" parameterType="com.corgi.user.entity.CorgiCoupon">
-        insert into corgi_coupon(bar_id, detail, status)
-        values(#{coupon.barId}, #{coupon.detail}, #{coupon.status})
+    <insert id="insertCoupon" useGeneratedKeys="true" keyProperty="coupon.id"
+            parameterType="com.corgi.user.entity.CorgiCoupon">
+        insert into corgi_coupon(bar_id, detail, content, background, auto_content, `time`, address, title, `price`)
+        values (#{coupon.barId}, #{coupon.detail}, #{coupon.content}, #{coupon.background},
+                #{coupon.autoContent}, #{coupon.time}, #{coupon.address}, #{coupon.title}, #{coupon.price})
     </insert>
 
     <update id="updateCoupon" parameterType="com.corgi.user.entity.CorgiCoupon">
         update corgi_coupon
         <set>
-            <if test="coupon.detail != null and coupon.detail != ''">
+            <if test="coupon.detail != null">
                 `detail` = #{coupon.detail},
             </if>
-            <if test="coupon.status != null and coupon.status != ''">
-                `status` = #{coupon.status},
+            <if test="coupon.content != null">
+                `content` = #{coupon.content},
+            </if>
+            <if test="coupon.background != null and coupon.background != ''">
+                `background` = #{coupon.background},
+            </if>
+            <if test="coupon.autoContent != null">
+                `auto_content` = #{coupon.autoContent},
+            </if>
+            <if test="coupon.time != null">
+                `time` = #{coupon.time},
+            </if>
+            <if test="coupon.address != null">
+                `address` = #{coupon.address},
+            </if>
+            <if test="coupon.title != null">
+                `title` = #{coupon.title},
+            </if>
+            <if test="coupon.price != null">
+                `price` = #{coupon.price},
             </if>
         </set>
         where id = #{coupon.id}
-        and bar_id = #{coupon.barId}
     </update>
 
     <delete id="deleteCoupon">
-        delete from corgi_coupon
+        update corgi_coupon
+        set status = '0'
         where id = #{id}
-        and bar_id = #{barId}
     </delete>
-
-    <select id="getBarCoupon" resultType="com.corgi.user.entity.CorgiCoupon">
-        SELECT
-        id,
-        detail,
-        `status`,
-        bar_id barId
+    <select id="listCoupon" resultType="com.corgi.user.entity.CorgiCoupon">
+        SELECT id,
+               detail,
+               bar_id       barId,
+               auto_content autoContent,
+               `price`,
+               title,
+               address,
+               `time`,
+               content,
+               background
         from corgi_coupon
-        where bar_id = #{barId}
-        <if test="status != null and status != ''">
-            and `status` = #{status}
+        where `status` = '1'
+            limit #{start}
+            , #{size}
+    </select>
+
+    <select id="countCoupon" resultType="java.lang.Integer">
+        SELECT count(1)
+        from corgi_coupon
+        where `status` = '1'
+        <if test="barId != null and barId != ''">
+            and `bar_id` = #{barId}
         </if>
     </select>
 
+    <select id="getBarCoupon" resultType="com.corgi.user.entity.CorgiCoupon">
+        SELECT id,
+               detail,
+               bar_id       barId,
+               auto_content autoContent,
+               `price`,
+               title,
+               address,
+               `time`,
+               content,
+               background
+        from corgi_coupon
+        where bar_id = #{barId}
+          and `status` = '1'
+    </select>
+
+    <select id="getCouponPic" resultType="java.lang.String">
+        SELECT image_url
+        from corgi_coupon_pic
+        where coupon_id = #{couponId}
+          and `status` = '1'
+    </select>
+
     <insert id="addActivityCoupon">
-        insert ignore into corgi_activity_coupon(activity_id, coupon_id)
-        values(#{activityId}, #{couponId})
+        insert
+        ignore into corgi_activity_coupon(activity_id, coupon_id)
+        values(
+        #{activityId},
+        #{couponId}
+        )
     </insert>
 
+    <insert id="addCouponPic">
+        insert into corgi_coupon_pic(`coupon_id`, `image_url`)
+        values (#{couponId}, #{url});
+    </insert>
+
+    <update id="deleteCouponPic">
+        update corgi_coupon_pic
+        set status = '0'
+        where coupon_id = #{couponId}
+    </update>
+
     <delete id="deleteActivityCoupon">
-        delete from corgi_activity_coupon ac
+        delete
+        from corgi_activity_coupon ac
         where activity_id = #{activityId}
     </delete>
 
     <delete id="deleteActivityCouponId">
-        delete ac.* from corgi_activity_coupon ac
+        delete
+        ac.* from corgi_activity_coupon ac
         left join corgi_coupon c on c.id = ac.coupon_id
-        where ac.coupon_id = #{couponId}
-        and c.bar_id = #{barId}
+        where ac.coupon_id =
+        #{couponId}
+        and
+        c
+        .
+        bar_id
+        =
+        #{barId}
     </delete>
 
     <select id="getActivityCoupon" resultType="com.corgi.user.entity.CorgiCoupon">

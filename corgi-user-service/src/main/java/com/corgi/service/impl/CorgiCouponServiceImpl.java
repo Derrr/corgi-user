@@ -7,7 +7,9 @@ import com.corgi.user.entity.CorgiCoupon;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,18 +24,43 @@ public class CorgiCouponServiceImpl implements CorgiCouponService {
     private CorgiCouponMapper corgiCouponMapper;
 
     @Override
-    public List<CorgiCoupon> getCoupon(String barId, String status) {
-        return corgiCouponMapper.getBarCoupon(barId, status);
+    public List<CorgiCoupon> getCoupon(String barId, Integer page, Integer size) {
+        List<CorgiCoupon> coupons;
+        if (StringUtils.isEmpty(barId)) {
+            coupons = corgiCouponMapper.listCoupon((page - 1) * size, size);
+        } else {
+            coupons = corgiCouponMapper.getBarCoupon(barId);
+        }
+        for (CorgiCoupon coupon : coupons) {
+            coupon.setPics(corgiCouponMapper.getCouponPic(coupon.getId()));
+        }
+        return coupons;
+    }
+
+    @Override
+    public Integer countCoupon(String barId) {
+        return corgiCouponMapper.countCoupon(barId);
     }
 
     @Override
     public void addCoupon(CorgiCoupon corgiCoupon) {
         corgiCouponMapper.insertCoupon(corgiCoupon);
+        if (corgiCoupon.getPics() != null) {
+            for (String pic : corgiCoupon.getPics()) {
+                corgiCouponMapper.addCouponPic(corgiCoupon.getId(), pic);
+            }
+        }
     }
 
     @Override
     public void updateCoupon(CorgiCoupon corgiCoupon) {
         corgiCouponMapper.updateCoupon(corgiCoupon);
+        if (corgiCoupon.getPics() != null) {
+            corgiCouponMapper.deleteCouponPic(corgiCoupon.getId());
+            for (String pic : corgiCoupon.getPics()) {
+                corgiCouponMapper.addCouponPic(corgiCoupon.getId(), pic);
+            }
+        }
     }
 
     @Override
