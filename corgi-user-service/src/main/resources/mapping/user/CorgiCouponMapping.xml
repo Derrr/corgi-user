@@ -57,7 +57,10 @@
                background
         from corgi_coupon
         where `status` = '1'
-            limit #{start}
+        <if test="barId != null and barId != ''">
+            and `bar_id` = #{barId}
+        </if>
+        limit #{start}
             , #{size}
     </select>
 

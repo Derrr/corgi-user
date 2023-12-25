@@ -25,12 +25,7 @@ public class CorgiCouponServiceImpl implements CorgiCouponService {
 
     @Override
     public List<CorgiCoupon> getCoupon(String barId, Integer page, Integer size) {
-        List<CorgiCoupon> coupons;
-        if (StringUtils.isEmpty(barId)) {
-            coupons = corgiCouponMapper.listCoupon((page - 1) * size, size);
-        } else {
-            coupons = corgiCouponMapper.getBarCoupon(barId);
-        }
+        List<CorgiCoupon> coupons = corgiCouponMapper.listCoupon(barId, (page - 1) * size, size);
         for (CorgiCoupon coupon : coupons) {
             coupon.setPics(corgiCouponMapper.getCouponPic(coupon.getId()));
         }
@@ -65,8 +60,8 @@ public class CorgiCouponServiceImpl implements CorgiCouponService {
 
     @Override
     public void deleteCoupon(Integer id, String barId) {
-        corgiCouponMapper.deleteCoupon(id, barId);
-        corgiCouponMapper.deleteActivityCouponId(id, barId);
+        corgiCouponMapper.deleteCoupon(id);
+        corgiCouponMapper.deleteCouponPic(id);
     }
 
     @Override

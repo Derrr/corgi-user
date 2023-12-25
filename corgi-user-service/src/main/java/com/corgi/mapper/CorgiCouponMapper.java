@@ -27,9 +27,8 @@ public interface CorgiCouponMapper {
      * 删除优惠券
      *
      * @param id
-     * @param barId
      */
-    void deleteCoupon(@Param("id") Integer id, @Param("barId") String barId);
+    void deleteCoupon(@Param("id") Integer id);
 
     /**
      * 列出优惠券
@@ -37,7 +36,7 @@ public interface CorgiCouponMapper {
      * @param start
      * @param size
      */
-    List<CorgiCoupon> listCoupon(@Param("start")Integer start, @Param("size")Integer size);
+    List<CorgiCoupon> listCoupon(@Param("barId")String barId, @Param("start")Integer start, @Param("size")Integer size);
 
     /**
      * 统计优惠券
