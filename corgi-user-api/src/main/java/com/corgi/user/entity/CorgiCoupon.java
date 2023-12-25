@@ -9,6 +9,7 @@ import java.util.List;
 public class CorgiCoupon implements Serializable{
     private Integer id;
     private String detail;
+    private String barName;
     private String content;
     private String autoContent;
     private String background;

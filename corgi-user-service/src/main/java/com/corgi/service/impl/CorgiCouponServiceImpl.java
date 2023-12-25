@@ -1,8 +1,10 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.mapper.CorgiBarMapper;
 import com.corgi.mapper.CorgiCouponMapper;
 import com.corgi.user.api.CorgiCouponService;
+import com.corgi.user.entity.BarProfile;
 import com.corgi.user.entity.CorgiCoupon;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +24,18 @@ public class CorgiCouponServiceImpl implements CorgiCouponService {
 
     @Autowired
     private CorgiCouponMapper corgiCouponMapper;
+    @Autowired
+    private CorgiBarMapper corgiBarMapper;
 
     @Override
     public List<CorgiCoupon> getCoupon(String barId, Integer page, Integer size) {
         List<CorgiCoupon> coupons = corgiCouponMapper.listCoupon(barId, (page - 1) * size, size);
         for (CorgiCoupon coupon : coupons) {
             coupon.setPics(corgiCouponMapper.getCouponPic(coupon.getId()));
+            BarProfile barProfile = corgiBarMapper.getBar(coupon.getBarId());
+            if (barProfile != null) {
+                coupon.setBarName(barProfile.getBarName());
+            }
         }
         return coupons;
     }
