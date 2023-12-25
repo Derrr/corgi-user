@@ -209,7 +209,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
                 }
                 Double weight = Double.valueOf(redisTemplate.opsForHash().get("group_weight", key).toString());
                 String havingGroup = " sum(if(`group` = '" + key + "',weight,0))/sum(weight) <= " + weight;
-                if (!"肉壮".equals(key)) {
+                if (!"匀称".equals(key)) {
                     havingGroup = " and" + havingGroup;
                 }
                 having += havingGroup;
