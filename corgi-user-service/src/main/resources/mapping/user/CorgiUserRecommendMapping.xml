@@ -267,7 +267,8 @@
 
     <select id="getTotalGroupCoordinate" resultType="com.corgi.user.entity.UserDetail">
         select `group`, sum(weight) `match`
-        from corgi_group_coordinate group by `group`
+        from corgi_group_coordinate
+        group by `group`
     </select>
 
 
@@ -317,9 +318,11 @@
     </select>
 
     <select id="getGroupWeight" resultType="java.lang.Double">
-        select sum(if(`group` = #{group},weight,0))/sum(weight) ratio
-        from corgi_group_coordinate where weight > 0
-        group by user_id order by ratio desc limit #{limit},1
+        select sum(if(`group` = #{group}, weight, 0)) / sum(weight) ratio
+        from corgi_group_coordinate
+        where weight > 0
+        group by user_id ${having}
+        order by ratio ${sort} limit #{limit}, 1
     </select>
 
 </mapper>

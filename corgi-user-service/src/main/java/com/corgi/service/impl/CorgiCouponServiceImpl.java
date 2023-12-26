@@ -1,13 +1,17 @@
 package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.corgi.mapper.CorgiBarMapper;
 import com.corgi.mapper.CorgiCouponMapper;
 import com.corgi.user.api.CorgiCouponService;
+import com.corgi.user.entity.BarProfile;
 import com.corgi.user.entity.CorgiCoupon;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,26 +24,52 @@ public class CorgiCouponServiceImpl implements CorgiCouponService {
 
     @Autowired
     private CorgiCouponMapper corgiCouponMapper;
+    @Autowired
+    private CorgiBarMapper corgiBarMapper;
 
     @Override
-    public List<CorgiCoupon> getCoupon(String barId, String status) {
-        return corgiCouponMapper.getBarCoupon(barId, status);
+    public List<CorgiCoupon> getCoupon(String barId, Integer page, Integer size) {
+        List<CorgiCoupon> coupons = corgiCouponMapper.listCoupon(barId, (page - 1) * size, size);
+        for (CorgiCoupon coupon : coupons) {
+            coupon.setPics(corgiCouponMapper.getCouponPic(coupon.getId()));
+            BarProfile barProfile = corgiBarMapper.getBar(coupon.getBarId());
+            if (barProfile != null) {
+                coupon.setBarName(barProfile.getBarName());
+            }
+        }
+        return coupons;
+    }
+
+    @Override
+    public Integer countCoupon(String barId) {
+        return corgiCouponMapper.countCoupon(barId);
     }
 
     @Override
     public void addCoupon(CorgiCoupon corgiCoupon) {
         corgiCouponMapper.insertCoupon(corgiCoupon);
+        if (corgiCoupon.getPics() != null) {
+            for (String pic : corgiCoupon.getPics()) {
+                corgiCouponMapper.addCouponPic(corgiCoupon.getId(), pic);
+            }
+        }
     }
 
     @Override
     public void updateCoupon(CorgiCoupon corgiCoupon) {
         corgiCouponMapper.updateCoupon(corgiCoupon);
+        if (corgiCoupon.getPics() != null) {
+            corgiCouponMapper.deleteCouponPic(corgiCoupon.getId());
+            for (String pic : corgiCoupon.getPics()) {
+                corgiCouponMapper.addCouponPic(corgiCoupon.getId(), pic);
+            }
+        }
     }
 
     @Override
     public void deleteCoupon(Integer id, String barId) {
-        corgiCouponMapper.deleteCoupon(id, barId);
-        corgiCouponMapper.deleteActivityCouponId(id, barId);
+        corgiCouponMapper.deleteCoupon(id);
+        corgiCouponMapper.deleteCouponPic(id);
     }
 
     @Override

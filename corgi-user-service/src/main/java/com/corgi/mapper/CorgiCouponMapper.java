@@ -27,18 +27,49 @@ public interface CorgiCouponMapper {
      * 删除优惠券
      *
      * @param id
-     * @param barId
      */
-    void deleteCoupon(@Param("id") Integer id, @Param("barId") String barId);
+    void deleteCoupon(@Param("id") Integer id);
+
+    /**
+     * 列出优惠券
+     *
+     * @param start
+     * @param size
+     */
+    List<CorgiCoupon> listCoupon(@Param("barId")String barId, @Param("start")Integer start, @Param("size")Integer size);
+
+    /**
+     * 统计优惠券
+     *
+     */
+    Integer countCoupon(@Param("barId")String barId);
 
     /**
      * 获取商户优惠券
      *
      * @param barId
-     * @param status
      * @return
      */
-    List<CorgiCoupon> getBarCoupon(@Param("barId") String barId, @Param("status") String status);
+    List<CorgiCoupon> getBarCoupon(@Param("barId") String barId);
+
+    /**
+     * 获取优惠券图片
+     * @param id
+     * @return
+     */
+    List<String> getCouponPic(@Param("couponId")Integer id);
+
+    /**
+     * 添加优惠券图片
+     * @param id
+     */
+    void addCouponPic(@Param("couponId")Integer id, @Param("url") String imageUrl);
+
+    /**
+     * 删除优惠券图片
+     * @param id
+     */
+    void deleteCouponPic(@Param("couponId")Integer id);
 
     /**
      * 获取活动优惠券

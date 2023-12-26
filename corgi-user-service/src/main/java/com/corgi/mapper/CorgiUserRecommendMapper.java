@@ -195,6 +195,6 @@ public interface CorgiUserRecommendMapper {
      *
      * @return
      */
-    Double getGroupWeight(@Param("limit") Integer limit, @Param("group") String group);
+    Double getGroupWeight(@Param("limit") Integer limit, @Param("group") String group, @Param("having") String having, @Param("sort") String sort);
 
 }

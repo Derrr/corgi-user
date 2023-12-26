@@ -9,7 +9,9 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiCouponService {
-    List<CorgiCoupon> getCoupon(String barId, String status);
+    List<CorgiCoupon> getCoupon(String barId, Integer page, Integer size);
+
+    Integer countCoupon(String barId);
 
     void addCoupon(CorgiCoupon corgiCoupon);
 
