@@ -32,7 +32,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    private static List<String> groupOrder = Arrays.asList("匀称", "肉壮", "肌肉", "偏胖", "精壮", "偏瘦");
+    private static List<String> groupOrder = Arrays.asList("偏瘦", "肌肉", "偏胖", "肉壮", "精壮", "匀称");
 
 
     @Override
@@ -201,7 +201,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
             return corgiUserRecommendMapper.countTotalGroup() * 1.0;
         }
         String having = "";
-        if (!"匀称".equals(group)) {
+        if (!groupOrder.get(0).equals(group)) {
             having = "having";
             for (String key : groupOrder) {
                 if (key.equals(group)) {
@@ -209,7 +209,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
                 }
                 Double weight = Double.valueOf(redisTemplate.opsForHash().get("group_weight", key).toString());
                 String havingGroup = " sum(if(`group` = '" + key + "',weight,0))/sum(weight) <= " + weight;
-                if (!"匀称".equals(key)) {
+                if (!groupOrder.get(0).equals(key)) {
                     havingGroup = " and" + havingGroup;
                 }
                 having += havingGroup;
