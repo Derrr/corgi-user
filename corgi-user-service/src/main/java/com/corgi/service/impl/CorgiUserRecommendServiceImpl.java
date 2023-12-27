@@ -32,7 +32,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    private static List<String> groupOrder = Arrays.asList("偏瘦", "肌肉", "偏胖", "肉壮", "精壮", "匀称");
+    private static List<String> groupOrder = Arrays.asList("偏瘦", "偏胖", "肌肉", "肉壮", "精壮", "匀称");
 
 
     @Override
