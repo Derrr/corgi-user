@@ -181,6 +181,9 @@
         <if test="query.startTime != null and query.startTime !=''">
             and c.ctime > #{query.startTime}
         </if>
+        <if test="query.endTime != null and query.endTime !=''">
+            and c.ctime &lt; #{query.endTime}
+        </if>
         <if test="query.topic != null and query.topic !=''">
             and t.topic = #{query.type}
         </if>
