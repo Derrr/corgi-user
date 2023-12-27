@@ -271,6 +271,11 @@
         group by `group`
     </select>
 
+    <select id="getTotalPreferCoordinate" resultType="com.corgi.user.entity.UserDetail">
+        select `prefer_group` `group`, sum(weight) `match`
+        from corgi_prefer_group_coordinate
+        group by `prefer_group`
+    </select>
 
     <update id="updateRecommendActivity">
         update corgi_user_coordinate
