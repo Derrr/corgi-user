@@ -153,6 +153,10 @@ public interface CorgiUserRecommendMapper {
      */
     List<UserDetail> getTotalGroupCoordinate(@Param("userId") String userId);
 
+    /**
+     * 获取喜好权重统计
+     */
+    List<UserDetail> getTotalPreferCoordinate(@Param("userId") String userId);
 
     /**
      * 添加身材权重

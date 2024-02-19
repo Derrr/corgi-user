@@ -170,7 +170,7 @@
     <select id="queryHotActivity" resultType="java.lang.String">
         select c.activity_id id
         from corgi_activity_creator c
-        left join corgi_activity_like l on l.activity_id = c.activity_id
+        left join corgi_activity_like l on l.activity_id = c.activity_id and l.is_deleted = '0'
         <if test="query.topic != null and query.topic !=''">
             left join corgi_activity_topic t on t.activity_id = c.activity_id
         </if>
@@ -188,7 +188,7 @@
             and t.topic = #{query.type}
         </if>
         group by c.activity_id
-        order by count(1)
+        order by count(l.id)
         <if test="query.sort == null or query.sort == ''">
             desc
         </if>
