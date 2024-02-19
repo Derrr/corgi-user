@@ -257,7 +257,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public MapUserProfile getMapUser(UserQuery userQuery) {
         MapUserProfile mapUserProfile = new MapUserProfile();
-        if (userQuery.getLat() == null || userQuery.getLng() == null) {
+        if (userQuery.getLat() == null || userQuery.getLng() == null
+                || userQuery.getLat() > 200 || userQuery.getLng() > 200) {
             mapUserProfile.setUserIds(new ArrayList<>());
             return mapUserProfile;
         }
