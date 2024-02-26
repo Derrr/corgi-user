@@ -189,6 +189,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 this.buyReserve(goods, order);
             } else if (CorgiMerchandise.LOCATION.equals(merchandise.getType())) {
                 this.buyLocation(goods, order);
+            } else if (CorgiMerchandise.LOCATIONMONTH.equals(merchandise.getType())) {
+                this.buyLocationMonth(goods, order);
             } else {
                 this.buyGoods(goods, merchandise);
             }
@@ -196,6 +198,36 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             this.unlock(key);
         }
         return null;
+    }
+
+    private boolean buyLocationMonth(CorgiUserGoods goods, CorgiOrder order) {
+        goods.setGoodsType(CorgiMerchandise.LOCATIONMONTH);
+        goods.setGoodsId("-");
+        goods.setTraderId("corgi");
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String locationExpireDate = corgiOrderMapper.getLocationExpireDate(order.getUserId());
+        Date expireDate;
+        try {
+            if (StringUtils.isEmpty(locationExpireDate) || (expireDate = sdf.parse(locationExpireDate)).compareTo(new Date()) <= 0) {
+                expireDate = new Date();
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            expireDate = new Date();
+            order.setResult(e.getMessage());
+            corgiOrderMapper.addLog(order);
+        }
+        String finalDate = "";
+        calendar.setTime(expireDate);
+        calendar.add(Calendar.DATE, 30);
+        finalDate = sdf.format(calendar.getTime());
+        corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
+        goods.setDesc("购买成功，日期截止至 " + finalDate);
+        goods.setMarketId(finalDate);
+        corgiOrderMapper.addGoods(goods);
+        rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildLocationMonthMessage(goods, finalDate.substring(0, 10)));
+        return true;
     }
 
     private void buyLocation(CorgiUserGoods goods, CorgiOrder order) {
@@ -395,6 +427,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         return result == null ? 0.0 : result;
     }
 
+    @Override
+    public String getUserLocationExpireDate(String userId) {
+        return corgiOrderMapper.getLocationExpireDate(userId);
+    }
+
     private PushMessage buildBillboardMessage(CorgiUserGoods goods) {
         PushMessage pushMessage = new PushMessage();
         pushMessage.setSourceUserId("corgihelper");
@@ -415,6 +452,14 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         extra.put("type", "907");
         extra.put("content", content);
         pushMessage.setExtra(extra);
+        return pushMessage;
+    }
+
+    private PushMessage buildLocationMonthMessage(CorgiUserGoods goods, String finalDate) {
+        PushMessage pushMessage = new PushMessage();
+        pushMessage.setSourceUserId("corgihelper");
+        pushMessage.setTargetUserId(goods.getUserId());
+        pushMessage.setMessage("Corgi定位包月查看服务开通成功通知\n恭喜您已开通 30 天定位包月查看服务，目前有效期至" + finalDate);
         return pushMessage;
     }
 

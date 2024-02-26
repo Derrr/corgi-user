@@ -42,4 +42,6 @@ public interface CorgiOrderService {
     void updateUserGoods(CorgiUserGoods goods);
 
     Double countIncome(CorgiOrder query);
+
+    String getUserLocationExpireDate(String userId);
 }

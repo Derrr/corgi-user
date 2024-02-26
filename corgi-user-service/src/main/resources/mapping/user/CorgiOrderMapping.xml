@@ -314,4 +314,9 @@
             and user_id = #{order.userId}
         </if>
     </select>
+
+    <select id="getLocationExpireDate" resultType="java.lang.String">
+        select max(market_id) from corgi_user_goods
+        where status = 1 and user_id = #{userId}
+    </select>
 </mapper>
