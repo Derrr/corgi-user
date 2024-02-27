@@ -2,6 +2,7 @@ package com.corgi.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSONObject;
 import com.corgi.activity.api.CorgiMatchService;
 import com.corgi.common.CorgiConstants;
 import com.corgi.mapper.CorgiUserMapper;
@@ -51,12 +52,20 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         Calendar calendar = Calendar.getInstance();
         String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
         List<UserMatchItem> users = corgiMatchService.getMatchItems(userQuery);
+        UserDetail userDetail = corgiUserService.getUserDetailBasic(userQuery.getUserId());
+        UserExtra userExtra = userMapper.getUserExtra(userQuery.getUserId());
         List<String> userIds = new ArrayList<>();
         for (UserMatchItem item : users) {
-            userIds.add(item.getUserId());
+            if (this.checkMatchItem(item, userDetail, userExtra)) {
+                userIds.add(item.getUserId());
+            }
+            if (userIds.size() >= 6) {
+                break;
+            }
         }
         String key = "user_match_view_" + dateStr + userQuery.getUserId();
         try {
+            this.refreshMatchQuery(userQuery);
             if (redisTemplate.hasKey(key)) {
                 redisTemplate.opsForList().rightPushAll(key, userIds);
                 redisTemplate.expire(key, 1l, TimeUnit.DAYS);
@@ -260,6 +269,145 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     public List<HashMap> updateMatchFactor(String table, String cn1, String cv1, String cn2, String cv2, Integer match) {
         userMatchMapper.updateMatchFactor(table, cn1, cv1, cn2, cv2, match);
         return null;
+    }
+
+    @Override
+    public UserQuery getUserQuery(String userId) {
+        MatchQuery matchQuery = userMatchMapper.getUserMatchQuery(userId);
+        if (matchQuery == null || "0".equals(matchQuery.getStatus())) {
+            return null;
+        }
+        try {
+            return JSONObject.parseObject(matchQuery.getQuery(), UserQuery.class);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    private void refreshMatchQuery(UserQuery userQuery) {
+        MatchQuery matchQuery = userMatchMapper.getUserMatchQuery(userQuery.getUserId());
+        if (userQuery.getStartAge() == null && matchQuery != null && "1".equals(matchQuery.getStatus())) {
+            userMatchMapper.updateMatchQuery(userQuery.getUserId(), "", "0");
+        }
+        if (userQuery.getStartAge() != null) {
+            String query = JSONObject.toJSONString(userQuery);
+            if (matchQuery == null) {
+                userMatchMapper.addMatchQuery(userQuery.getUserId(), query);
+            } else if ("0".equals(matchQuery.getStatus()) || !query.equals(matchQuery.getQuery())) {
+                userMatchMapper.updateMatchQuery(userQuery.getUserId(), query, "1");
+            }
+        }
+    }
+
+    private boolean checkMatchItem(UserMatchItem item, UserDetail userDetail, UserExtra userExtra) {
+        UserQuery query = item.getQuery();
+        if (query == null) {
+            return true;
+        }
+        if (query.getRange() != null) {
+            String distance = item.getDistance().replaceAll("km", "");
+            Double range = query.getRange();
+            if (distance.startsWith(">")) {
+                if (range < 100) {
+                    return false;
+                }
+            } else {
+                try {
+                    Integer dis = Integer.valueOf(distance);
+                    if (range < dis) {
+                        return false;
+                    }
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        }
+        if ("verify".equals(query.getType())
+                && !"verified".equals(userDetail.getAvatarCheckStatus())) {
+            return false;
+        }
+        if (query.getStartAge() != null && query.getEndAge() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, -1 * query.getStartAge());
+            String endYear = sdf.format(calendar.getTime());
+            calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, -1 * query.getEndAge());
+            String startYear = sdf.format(calendar.getTime());
+            String birthDay = userDetail.getBirthday();
+            if (!StringUtils.isEmpty(birthDay) &&
+                    (startYear.compareTo(userDetail.getBirthday()) > 0
+                            || endYear.compareTo(userDetail.getBirthday()) < 0)) {
+                return false;
+            }
+        }
+        if (query.getStartHeight() != null && query.getEndHeight() != null) {
+            int height = userDetail.getHeight();
+            if (height < query.getStartHeight() || height > query.getEndHeight()) {
+                return false;
+            }
+        }
+        if (query.getStartWeight() != null && query.getEndWeight() != null) {
+            int weight = userDetail.getWeight();
+            if (weight < query.getStartWeight() || weight > query.getEndWeight()) {
+                return false;
+            }
+        }
+        if (!CollectionUtils.isEmpty(query.getRole())
+                && !query.getRole().contains(userDetail.getRole())) {
+            return false;
+        }
+        if (!CollectionUtils.isEmpty(query.getGroup())
+                && !query.getGroup().contains(userDetail.getHideGroup())) {
+            return false;
+        }
+        if (userExtra != null && !CollectionUtils.isEmpty(query.getAim())
+                && !StringUtils.isEmpty(userExtra.getAim())
+                && !query.getAim().contains(userExtra.getAim())) {
+            return false;
+        }
+        if (userExtra != null && !CollectionUtils.isEmpty(query.getEducation())
+                && !StringUtils.isEmpty(userExtra.getEducation())
+                && !query.getEducation().contains(userExtra.getEducation())) {
+            return false;
+        }
+        if (userExtra != null && !CollectionUtils.isEmpty(query.getIncome())
+                && !StringUtils.isEmpty(userExtra.getIncome())
+                && !query.getIncome().contains(userExtra.getIncome())) {
+            return false;
+        }
+        if (userExtra != null && !CollectionUtils.isEmpty(query.getProfession())
+                && !StringUtils.isEmpty(userExtra.getProfession())
+                && !query.getProfession().contains(userExtra.getProfession())) {
+            return false;
+        }
+        if (userExtra != null && !CollectionUtils.isEmpty(query.getInterests())
+                && !StringUtils.isEmpty(userExtra.getInterests())) {
+            List<String> interests = Arrays.asList(userExtra.getInterests().split(","));
+            query.getInterests().retainAll(interests);
+            if (query.getInterests().size() == 0) {
+                return false;
+            }
+        }
+        if (userExtra != null && !CollectionUtils.isEmpty(query.getXp())
+                && !StringUtils.isEmpty(userExtra.getXp())) {
+            List<String> xps = Arrays.asList(userExtra.getXp().split(","));
+            query.getXp().retainAll(xps);
+            if (query.getXp().size() == 0) {
+                return false;
+            }
+        }
+        if (userExtra != null && !CollectionUtils.isEmpty(query.getTags())
+                && !StringUtils.isEmpty(userExtra.getTags())) {
+            List<String> tags = Arrays.asList(userExtra.getTags().split(","));
+            query.getTags().retainAll(tags);
+            if (query.getTags().size() == 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private Double getRatios(String key, Map factors) {

@@ -37,4 +37,6 @@ public interface CorgiUserMatchService {
     List<HashMap> getMatchFactor(String table);
 
     List<HashMap> updateMatchFactor(String table, String cn1, String cv1, String cn2, String cv2, Integer match);
+
+    UserQuery getUserQuery(String userId);
 }

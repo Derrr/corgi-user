@@ -1,6 +1,7 @@
 package com.corgi.mapper;
 
 import com.corgi.support.UserQuerySupporter;
+import com.corgi.user.entity.MatchQuery;
 import com.corgi.user.entity.UserMatch;
 import com.corgi.user.entity.UserMatchItem;
 import com.corgi.user.entity.UserQuery;
@@ -123,5 +124,22 @@ public interface CorgiUserMatchMapper {
      * @param match
      */
     void updateMatchFactor(@Param("table") String table, @Param("cn1") String cn1, @Param("cv1") String cv1, @Param("cn2") String cn2, @Param("cv2") String cv2, @Param("match") Integer match);
+
+    /**
+     * 添加用户搜索项
+     */
+    void addMatchQuery(@Param("userId")String userId, @Param("query")String query);
+
+    /**
+     * 编辑用户搜索项
+     */
+    void updateMatchQuery(@Param("userId")String userId, @Param("query")String query, @Param("status")String status);
+
+    /**
+     * 获取用户搜索项
+     * @param userId
+     * @return
+     */
+    MatchQuery getUserMatchQuery(@Param("userId")String userId);
 
 }

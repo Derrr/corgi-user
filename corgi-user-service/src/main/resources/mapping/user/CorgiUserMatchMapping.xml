@@ -17,17 +17,17 @@
         <if test="timestamp > 0">
             and p.uptime > #{timestamp}
         </if>
-         and not exists (select 1
-         from corgi_user_match m
-         where m.user_id = #{user.userId}
-         and m.match_id = p.user_id
-         and status = '1')
-         and not exists (select 1
-         from corgi_user_match_view v
-         where v.user_id = #{user.userId}
-         and v.match_id = p.user_id
-         and status = '1')
-         order by distance
+        and not exists (select 1
+        from corgi_user_match m
+        where m.user_id = #{user.userId}
+        and m.match_id = p.user_id
+        and status = '1')
+        and not exists (select 1
+        from corgi_user_match_view v
+        where v.user_id = #{user.userId}
+        and v.match_id = p.user_id
+        and status = '1')
+        order by distance
         limit #{size};
     </select>
 
@@ -180,4 +180,32 @@
         where ${cn1} = #{cv1}
           and ${cn2} = #{cv2}
     </update>
+
+    <insert id="addMatchQuery">
+        insert
+        ignore into corgi_match_query(`user_id`, `query`)
+        values (
+        #{userId},
+        #{query}
+        )
+    </insert>
+
+    <update id="updateMatchQuery">
+        update corgi_match_query
+        <set>
+            <if test="query != null and query != ''">
+                query = #{query},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <select id="getUserMatchQuery" resultType="com.corgi.user.entity.MatchQuery">
+        select user_id userId, query, status
+        from corgi_match_query
+        where user_id = #{userId}
+    </select>
 </mapper>

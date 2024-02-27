@@ -16,5 +16,5 @@ public class UserMatchItem implements Serializable{
     private String distance;
     private String avatarStatus;
     private String nickname;
-
+    private UserQuery query;
 }
