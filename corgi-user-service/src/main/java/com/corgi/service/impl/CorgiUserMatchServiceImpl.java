@@ -51,31 +51,43 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     public List<UserMatchItem> getUserMatchItem(UserQuery userQuery) {
         Calendar calendar = Calendar.getInstance();
         String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime());
-        List<UserMatchItem> users = corgiMatchService.getMatchItems(userQuery);
+        this.refreshMatchQuery(userQuery);
         UserDetail userDetail = corgiUserService.getUserDetailBasic(userQuery.getUserId());
         UserExtra userExtra = userMapper.getUserExtra(userQuery.getUserId());
-        List<String> userIds = new ArrayList<>();
-        for (UserMatchItem item : users) {
-            if (this.checkMatchItem(item, userDetail, userExtra)) {
-                userIds.add(item.getUserId());
+        String key = "user_match_view_" + dateStr + userQuery.getUserId();
+        List<UserMatchItem> result = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            List<UserMatchItem> users = corgiMatchService.getMatchItems(userQuery);
+            if (CollectionUtils.isEmpty(users)) {
+                break;
             }
-            if (userIds.size() >= 6) {
+            List<String> userIds = new ArrayList<>();
+            for (UserMatchItem item : users) {
+                if (this.checkMatchItem(item, userDetail, userExtra)) {
+                    userIds.add(item.getUserId());
+                    result.add(item);
+                }
+                if (result.size() >= 6) {
+                    break;
+                }
+            }
+            if (!CollectionUtils.isEmpty(userIds)) {
+                try {
+                    if (redisTemplate.hasKey(key)) {
+                        redisTemplate.opsForList().rightPushAll(key, userIds);
+                        redisTemplate.expire(key, 1l, TimeUnit.DAYS);
+                    } else {
+                        redisTemplate.opsForList().rightPushAll(key, userIds);
+                    }
+                } catch (Exception e) {
+                    redisTemplate.delete(key);
+                }
+            }
+            if (result.size() >= 6) {
                 break;
             }
         }
-        String key = "user_match_view_" + dateStr + userQuery.getUserId();
-        try {
-            this.refreshMatchQuery(userQuery);
-            if (redisTemplate.hasKey(key)) {
-                redisTemplate.opsForList().rightPushAll(key, userIds);
-                redisTemplate.expire(key, 1l, TimeUnit.DAYS);
-            } else {
-                redisTemplate.opsForList().rightPushAll(key, userIds);
-            }
-        } catch (Exception e) {
-            redisTemplate.delete(key);
-        }
-        return users;
+        return result;
     }
 
     @Override
@@ -286,17 +298,21 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
     }
 
     private void refreshMatchQuery(UserQuery userQuery) {
-        MatchQuery matchQuery = userMatchMapper.getUserMatchQuery(userQuery.getUserId());
-        if (userQuery.getStartAge() == null && matchQuery != null && "1".equals(matchQuery.getStatus())) {
-            userMatchMapper.updateMatchQuery(userQuery.getUserId(), "", "0");
-        }
-        if (userQuery.getStartAge() != null) {
-            String query = JSONObject.toJSONString(userQuery);
-            if (matchQuery == null) {
-                userMatchMapper.addMatchQuery(userQuery.getUserId(), query);
-            } else if ("0".equals(matchQuery.getStatus()) || !query.equals(matchQuery.getQuery())) {
-                userMatchMapper.updateMatchQuery(userQuery.getUserId(), query, "1");
+        try {
+            MatchQuery matchQuery = userMatchMapper.getUserMatchQuery(userQuery.getUserId());
+            if (userQuery.getStartAge() == null && matchQuery != null && "1".equals(matchQuery.getStatus())) {
+                userMatchMapper.updateMatchQuery(userQuery.getUserId(), "", "0");
             }
+            if (userQuery.getStartAge() != null) {
+                String query = JSONObject.toJSONString(userQuery);
+                if (matchQuery == null) {
+                    userMatchMapper.addMatchQuery(userQuery.getUserId(), query);
+                } else if ("0".equals(matchQuery.getStatus()) || !query.equals(matchQuery.getQuery())) {
+                    userMatchMapper.updateMatchQuery(userQuery.getUserId(), query, "1");
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
     }
 

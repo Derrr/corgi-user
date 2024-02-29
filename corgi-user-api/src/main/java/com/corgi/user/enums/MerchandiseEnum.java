@@ -23,6 +23,8 @@ public enum MerchandiseEnum {
     BILLBOARD("B01", "normal", 0, "上榜一日 198¥", "付费上榜"),
     RESERVE("R01", "normal", 0, "订座50¥", "订座"),
     LOCATION("L01", "normal", 0, "付费定位¥3", "付费定位"),
+    LOCATIONMONTH("L02", "normal", 0, "包月¥18", "定位查看"),
+    BILLBOARD_YEAR("B02", "year", 0, "免费", "年费会员免费上榜"),
     ;
 
     MerchandiseEnum(String code, String type, Integer days, String desc, String title) {

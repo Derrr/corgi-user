@@ -2,43 +2,60 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiInfluencerApplyMapper">
     <sql id="apply">
-        corgi_nickname
-        corgiNickname,
-        wechat_nickname wechatNickname,
-        height,
-        weight,
-        age,
-        city,
-        pic1,
-        pic2,
-        tiktok,
-        instagram,
-        weibo,
-        snapshot1,
-        desc1,
-        snapshot2,
-        desc2,
-        `source`,
-        detail,
+        id
+        ,
+        user_id
+        userId,
+        nickname,
         wechat,
-        ctime
+        avatar,
+        status,
+        ctime,
+        uptime
     </sql>
     <insert id="addApply" parameterType="com.corgi.user.entity.InfluencerApply">
-        INSERT INTO `corgi_influencer_apply` (`corgi_nickname`, `wechat_nickname`, `height`, `weight`, `age`, `city`,
-                                              `pic1`, `pic2`, `tiktok`, `instagram`, `weibo`, `snapshot1`, `desc1`,
-                                              `snapshot2`, `desc2`, `source`, `detail`, `wechat`)
-        VALUES (#{apply.corgiNickname}, #{apply.wechatNickname}, #{apply.height}, #{apply.weight}, #{apply.age},
-                #{apply.city}, #{apply.pic1}, #{apply.pic2}, #{apply.tiktok}, #{apply.instagram}, #{apply.weibo},
-                #{apply.snapshot1}, #{apply.desc1}, #{apply.snapshot2}, #{apply.desc2}, #{apply.source},
-                #{apply.detail}, #{apply.wechat});
+        INSERT INTO `corgi_influencer_apply` (`user_id`, `nickname`, `wechat`, `avatar`)
+        VALUES (#{apply.userId}, #{apply.nickname}, #{apply.wechat}, #{apply.avatar});
+    </insert>
+
+    <insert id="updateApply" parameterType="com.corgi.user.entity.InfluencerApply">
+        update corgi_influencer_apply
+        <set>
+            <if test="apply.status != null and apply.status != ''">
+                `status` = #{apply.status},
+            </if>
+            <if test="apply.wechat != null and apply.wechat != ''">
+                `wechat` = #{apply.wechat},
+            </if>
+        </set>
+        where id = #{apply.id}
     </insert>
 
     <select id="getApplies" resultType="com.corgi.user.entity.InfluencerApply">
         select
         <include refid="apply"/>
         from corgi_influencer_apply
-        where status = '1'
+        where 1=1
+        <if test="apply.status != null and apply.status != ''">
+            and status = #{apply.status}
+        </if>
+        <if test="apply.userId != null and apply.userId != ''">
+            and user_id = #{apply.userId}
+        </if>
         order by id desc limit #{start}, #{size}
+    </select>
+
+    <select id="countApplies" resultType="java.lang.Integer">
+        select
+        count(1)
+        from corgi_influencer_apply
+        where 1=1
+        <if test="apply.status != null and apply.status != ''">
+            and status = #{apply.status}
+        </if>
+        <if test="apply.userId != null and apply.userId != ''">
+            and user_id = #{apply.userId}
+        </if>
     </select>
 
 </mapper>

@@ -27,7 +27,9 @@
         <if test="merchandise.appMerchId != null and merchandise.appMerchId != ''">
             and m.app_merch_id = #{merchandise.appMerchId}
         </if>
-
+        <if test="merchandise.disReason != null and merchandise.disReason != ''">
+            and m.dis_reason = #{merchandise.disReason}
+        </if>
         order by m.order
     </select>
 
@@ -236,7 +238,7 @@
         ctime,
         uptime
         from corgi_user_goods
-        where goods_type = #{goods.goodsType}
+        where status = '1'
         <if test="goods.goodsId != null and goods.goodsId != ''">
             and goods_id = #{goods.goodsId}
         </if>
@@ -249,6 +251,9 @@
         <if test="goods.goodsType != null and goods.goodsType != ''">
             and goods_type = #{goods.goodsType}
         </if>
+        <if test="goods.merchId != null and goods.merchId != ''">
+            and merch_id = #{goods.merchId}
+        </if>
         <if test="goods.desc != null and goods.desc != ''">
             and `desc` != #{goods.desc}
         </if>
@@ -258,7 +263,6 @@
         <if test="goods.userId != null and goods.userId != ''">
             and user_id = #{goods.userId}
         </if>
-        and status = '1'
         order by id desc limit #{goods.start}, #{goods.size}
     </select>
 

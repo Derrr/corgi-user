@@ -11,5 +11,9 @@ import java.util.List;
 public interface CorgiInfluencerApplyService {
     void addApply(InfluencerApply apply);
 
-    List<InfluencerApply> getApplies(Integer page, Integer size);
+    void updateApply(InfluencerApply apply);
+
+    List<InfluencerApply> getApplies(InfluencerApply apply, Integer page, Integer size);
+
+    Integer countApplies(InfluencerApply apply);
 }

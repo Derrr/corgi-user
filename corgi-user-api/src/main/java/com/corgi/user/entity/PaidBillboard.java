@@ -7,6 +7,7 @@ import java.io.Serializable;
 @Data
 public class PaidBillboard implements Serializable {
     public static final String CREATED = "created";
+    public static final String FREE = "free";
     public static final String PAID = "paid";
     public static final String PASS = "pass";
     public static final String FAIL = "fail";
@@ -18,4 +19,5 @@ public class PaidBillboard implements Serializable {
     private String date;
     private String status;
     private String tradeNo;
+    private String ctime;
 }

@@ -11,5 +11,10 @@ import java.util.List;
 public interface CorgiInfluencerApplyMapper {
     void addApply(@Param("apply") InfluencerApply apply);
 
-    List<InfluencerApply> getApplies(@Param("start") Integer start, @Param("size") Integer size);
+    void updateApply(@Param("apply") InfluencerApply apply);
+
+    List<InfluencerApply> getApplies(@Param("apply")InfluencerApply apply, @Param("start") Integer start, @Param("size") Integer size);
+
+    Integer countApplies(@Param("apply")InfluencerApply apply);
+
 }

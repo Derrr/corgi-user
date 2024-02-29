@@ -29,7 +29,17 @@ public class CorgiInfluencerApplyServiceImpl implements CorgiInfluencerApplyServ
     }
 
     @Override
-    public List<InfluencerApply> getApplies(Integer page, Integer size) {
-        return corgiInfluencerApplyMapper.getApplies((page - 1) * size, size);
+    public void updateApply(InfluencerApply apply) {
+        corgiInfluencerApplyMapper.updateApply(apply);
+    }
+
+    @Override
+    public List<InfluencerApply> getApplies(InfluencerApply apply, Integer page, Integer size) {
+        return corgiInfluencerApplyMapper.getApplies(apply,(page - 1) * size, size);
+    }
+
+    @Override
+    public Integer countApplies(InfluencerApply apply) {
+        return corgiInfluencerApplyMapper.countApplies(apply);
     }
 }
