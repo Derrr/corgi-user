@@ -282,7 +282,7 @@
     </update>
 
     <select id="countPaidBillboard" resultType="java.lang.Integer" parameterType="com.corgi.user.entity.PaidBillboard">
-        select count(1) from corgi_paid_billboard
+        select count(1) from corgi_paid_billboard p
         where 1 = 1
         <if test="billboard.date != null and billboard.date != ''">
             and p.`date` = #{billboard.date}
@@ -300,7 +300,7 @@
             and p.`user_id` = #{billboard.userId}
         </if>
         <if test="billboard.activityId != null and billboard.activityId != ''">
-            and activity_id = #{billboard.activityId}
+            and p.activity_id = #{billboard.activityId}
         </if>
     </select>
 
@@ -325,7 +325,7 @@
             and p.`user_id` = #{billboard.userId}
         </if>
         <if test="billboard.activityId != null and billboard.activityId != ''">
-            and activity_id = #{billboard.activityId}
+            and p.activity_id = #{billboard.activityId}
         </if>
         order by p.id desc
         limit #{start}, #{size}
