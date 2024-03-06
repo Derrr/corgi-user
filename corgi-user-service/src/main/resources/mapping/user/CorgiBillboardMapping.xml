@@ -284,14 +284,23 @@
     <select id="countPaidBillboard" resultType="java.lang.Integer" parameterType="com.corgi.user.entity.PaidBillboard">
         select count(1) from corgi_paid_billboard
         where 1 = 1
-        <if test="paid.date != null and paid.date != ''">
-            and `date` = #{paid.date}
+        <if test="billboard.date != null and billboard.date != ''">
+            and p.`date` = #{billboard.date}
         </if>
-        <if test="paid.status != null and paid.status != ''">
-            and `status` = #{paid.status}
+        <if test="billboard.status != null and billboard.status != '' and billboard.status != 'paid'">
+            and p.`status` = #{billboard.status}
         </if>
-        <if test="paid.activityId != null and paid.activityId != ''">
-            and activity_id = #{paid.activityId}
+        <if test="billboard.status != null and billboard.status = 'paid'">
+            and (p.`status` = 'paid' or p.`status` = 'free')
+        </if>
+        <if test="billboard.ctime != null and billboard.ctime != ''">
+            and p.`ctime` >= #{billboard.ctime}
+        </if>
+        <if test="billboard.userId != null and billboard.userId != ''">
+            and p.`user_id` = #{billboard.userId}
+        </if>
+        <if test="billboard.activityId != null and billboard.activityId != ''">
+            and activity_id = #{billboard.activityId}
         </if>
     </select>
 
@@ -300,20 +309,23 @@
         from corgi_paid_billboard p
         left join corgi_order o on o.trade_no = p.trade_no
         where 1=1
-        <if test="paid.date != null and paid.date != ''">
-            and p.`date` = #{paid.date}
+        <if test="billboard.date != null and billboard.date != ''">
+            and p.`date` = #{billboard.date}
         </if>
-        <if test="paid.status != null and paid.status != '' and paid.status != 'paid'">
-            and p.`status` = #{paid.status}
+        <if test="billboard.status != null and billboard.status != '' and billboard.status != 'paid'">
+            and p.`status` = #{billboard.status}
         </if>
-        <if test="paid.status != null and paid.status = 'paid'">
-            and (p.`status` = #{paid.status} or p.`status` = 'free')
+        <if test="billboard.status != null and billboard.status = 'paid'">
+            and (p.`status` = 'paid' or p.`status` = 'free')
         </if>
-        <if test="paid.ctime != null and paid.ctime != ''">
-            and p.`ctime` >= #{paid.ctime}
+        <if test="billboard.ctime != null and billboard.ctime != ''">
+            and p.`ctime` >= #{billboard.ctime}
         </if>
-        <if test="paid.userId != null and paid.userId != ''">
-            and p.`user_id` = #{paid.userId}
+        <if test="billboard.userId != null and billboard.userId != ''">
+            and p.`user_id` = #{billboard.userId}
+        </if>
+        <if test="billboard.activityId != null and billboard.activityId != ''">
+            and activity_id = #{billboard.activityId}
         </if>
         order by p.id desc
         limit #{start}, #{size}

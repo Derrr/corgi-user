@@ -199,12 +199,12 @@ public interface CorgiBillboardMapper {
     /**
      * 统计付费
      */
-    Integer countPaidBillboard(@Param("paid") PaidBillboard paidBillboard);
+    Integer countPaidBillboard(@Param("billboard") PaidBillboard paidBillboard);
 
     /**
      * 查询付费榜单
      */
-    List<PaidBillboard> getPaidBillboard(@Param("paid") PaidBillboard paidBillboard, @Param("start") Integer start, @Param("size") Integer size);
+    List<PaidBillboard> getPaidBillboard(@Param("billboard") PaidBillboard paidBillboard, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
      * 删除话题榜单
