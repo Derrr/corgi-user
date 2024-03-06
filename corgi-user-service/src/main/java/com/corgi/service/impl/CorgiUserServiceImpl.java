@@ -164,6 +164,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     @Override
     public UserDetail getUserDetailBasic(String userId) {
         UserDetail userDetail = corgiUserMapper.getUserDetail(userId);
+        if (userDetail == null) {
+            return null;
+        }
         if (!StringUtils.isEmpty(userDetail.getAvatar())) {
             userDetail.setAvatar(userDetail.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
         }
@@ -177,6 +180,9 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     public List<UserDetail> getUserDetailBasics(String userIds) {
         List<UserDetail> userDetails = corgiUserMapper.getUserDetailByIds(userIds);
         for (UserDetail userDetail : userDetails) {
+            if (userDetail == null) {
+                continue;
+            }
             if (!StringUtils.isEmpty(userDetail.getAvatar())) {
                 userDetail.setAvatar(userDetail.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
             }
@@ -302,6 +308,8 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         List<String> blockUserIds = corgiBlacklistMapper.getBlacklist(userQuery.getUserId()).stream().map(basic -> basic.getUserId()).collect(Collectors.toList());
         List<String> result = new ArrayList<>();
         for (String userId : userIds) {
+            userId = userId.replaceAll("\"","");
+            userId = userId.replaceAll("\\\\","");
             if (!userPosition.getUserId().equals(userId) && !beBlockUserIds.contains(userId) && !blockUserIds.contains(userId)) {
                 result.add(userId);
             }
