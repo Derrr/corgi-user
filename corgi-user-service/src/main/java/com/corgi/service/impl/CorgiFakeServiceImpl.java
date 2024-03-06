@@ -70,7 +70,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
                     return;
                 }
                 detail.setAvatarStatus(avatarStatus);
-                detail.setBackground(CheckPic.getDefaultBackground());
+                detail.setBackground(CheckPic.getDefaultBackground().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
                 detail.setAvatarCheckStatus(UserDetail.NO_FACE);
                 UserLogin userLogin = new UserLogin();
                 userLogin.setTelNo("3" + detail.getTelNo());

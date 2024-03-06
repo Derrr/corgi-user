@@ -58,9 +58,6 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     @Override
     public List<UserProfile> getBillboard(String date) {
         List<UserProfile> userProfiles = corgiBillboardMapper.getBillboardUsers(date);
-//        for (UserProfile userProfile : userProfiles) {
-//            userProfile.setPics(corgiPicService.getUserPic(userProfile.getUserId()));
-//        }
         return userProfiles;
     }
 

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,6 +96,12 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
             List<UserProfile> nationalProfiles = corgiUserRecommendMapper.getNotCityInfluencer(city, userId, size - userProfiles.size());
             userProfiles.addAll(nationalProfiles);
         }
+        for (UserProfile profile : userProfiles) {
+            if (StringUtils.isEmpty(profile.getAvatar())) {
+                continue;
+            }
+            profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+        }
         return userProfiles;
     }
 
@@ -102,7 +109,15 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
     public List<UserProfile> getCityPopulate(String userId, String city, Integer page, Integer size) {
         Long time = System.currentTimeMillis();
         time -= 3 * 24 * 3600 * 1000;
-        return corgiUserRecommendMapper.getCityPopulate(city, userId, time, (page - 1) * size, size);
+        List<UserProfile> userProfiles =  corgiUserRecommendMapper.getCityPopulate(city, userId, time, (page - 1) * size, size);
+        for (UserProfile profile : userProfiles) {
+            if (StringUtils.isEmpty(profile.getAvatar())) {
+                continue;
+            }
+            profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+        }
+        return userProfiles;
+
     }
 
     @Override

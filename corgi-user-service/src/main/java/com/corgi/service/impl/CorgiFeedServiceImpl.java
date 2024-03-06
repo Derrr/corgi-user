@@ -203,8 +203,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             category = CorgiActivity.CAT_IMAGE;
         }
         String key = "feed_activity_" + activityId + "-" + category;
-        List<String> activityIds = new ArrayList<>();
-        activityIds = redisTemplate.opsForList().range(key, 0, -1);
+        List<String> activityIds = redisTemplate.opsForList().range(key, 0, -1);
         if (!CollectionUtils.isEmpty(activityIds)) {
             return activityIds;
         }
@@ -216,21 +215,19 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             goods.setTraderId(creatorId);
             List<CorgiUserGoods> userGoods = corgiOrderService.getHotGoods(goods);
             activityIds = corgiVlogMapper.getUserActivity(activityId, size);
-            if (!CollectionUtils.isEmpty(userGoods)) {
+            if (!CollectionUtils.isEmpty(userGoods) && !CollectionUtils.isEmpty(activityIds)) {
                 List<String> goodsIds = userGoods.stream().map(g -> g.getGoodsId()).collect(Collectors.toList());
                 redisTemplate.delete(key);
                 redisTemplate.opsForList().leftPushAll(key, activityIds);
                 redisTemplate.expire(key, 1l, TimeUnit.DAYS);
-                if (!CollectionUtils.isEmpty(activityIds)) {
-                    Iterator<String> it = activityIds.iterator();
-                    while (it.hasNext()) {
-                        String activityId1 = it.next();
-                        if (goodsIds.contains(activityId1)) {
-                            it.remove();
-                        }
+                Iterator<String> it = activityIds.iterator();
+                while (it.hasNext()) {
+                    String activityId1 = it.next();
+                    if (goodsIds.contains(activityId1)) {
+                        it.remove();
                     }
-                    activityIds.addAll(0, goodsIds);
                 }
+                activityIds.addAll(0, goodsIds);
             }
         }
         if (size > activityIds.size()) {

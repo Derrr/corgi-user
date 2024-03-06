@@ -67,9 +67,9 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     @Override
     public List<ActivityPic> getActivityPic(String activityId) {
         List<ActivityPic> activityPics = corgiPicMapper.getActivityPic(activityId);
-//        if (activityPics != null) {
-//            activityPics.stream().forEach(pic -> addSuffix(pic));
-//        }
+        if (activityPics != null) {
+            activityPics.stream().forEach(pic -> addSuffix(pic));
+        }
         return activityPics;
     }
 
@@ -174,12 +174,10 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     }
 
     private CorgiPic addSuffix(CorgiPic corgiPic) {
-        if (corgiPic == null) {
+        if (corgiPic == null || StringUtils.isEmpty(corgiPic.getPicUrl())) {
             return null;
         }
-        if (CorgiPic.NEED_CHECK.equals(corgiPic.getStatus())) {
-            corgiPic.setPicUrl(corgiPic.getPicUrl() + SUFFIX);
-        }
+        corgiPic.setPicUrl(corgiPic.getPicUrl().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
         return corgiPic;
     }
 
