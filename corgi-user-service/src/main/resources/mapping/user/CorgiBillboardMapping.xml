@@ -290,7 +290,7 @@
         <if test="billboard.status != null and billboard.status != '' and billboard.status != 'paid'">
             and p.`status` = #{billboard.status}
         </if>
-        <if test="billboard.status != null and billboard.status = 'paid'">
+        <if test="billboard.status != null and billboard.status == 'paid'">
             and (p.`status` = 'paid' or p.`status` = 'free')
         </if>
         <if test="billboard.ctime != null and billboard.ctime != ''">
@@ -315,7 +315,7 @@
         <if test="billboard.status != null and billboard.status != '' and billboard.status != 'paid'">
             and p.`status` = #{billboard.status}
         </if>
-        <if test="billboard.status != null and billboard.status = 'paid'">
+        <if test="billboard.status != null and billboard.status == 'paid'">
             and (p.`status` = 'paid' or p.`status` = 'free')
         </if>
         <if test="billboard.ctime != null and billboard.ctime != ''">
