@@ -39,7 +39,7 @@ public class CorgiLikeServiceImpl implements CorgiLikeService {
         if ("-1".equals(userId) || StringUtils.isEmpty(userId)) {
             userId = "1";
         }
-        UserDetail userDetail = corgiUserService.getUserDetail(userId, null);
+        UserDetail userDetail = corgiUserService.getUserDetailBasic(userId);
         activityLike.setLikeUserName(userDetail.getNickname());
         activityLike.setLikeUserAvatar(userDetail.getAvatar());
 

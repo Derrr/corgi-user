@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +107,9 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
         }
         for (UserProfile profile : profiles) {
             profile.setIsFollowed(corgiUserFollowService.isFollowed(userId, profile.getUserId()));
+            if (!StringUtils.isEmpty(profile.getAvatar())) {
+                profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+            }
         }
         return profiles;
     }
