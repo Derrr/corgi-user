@@ -177,7 +177,7 @@ public class CorgiPicServiceImpl implements CorgiPicService {
         if (corgiPic == null || StringUtils.isEmpty(corgiPic.getPicUrl())) {
             return null;
         }
-        corgiPic.setPicUrl(corgiPic.getPicUrl().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+        corgiPic.setPicUrl(corgiPic.getPicUrl().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
         return corgiPic;
     }
 
