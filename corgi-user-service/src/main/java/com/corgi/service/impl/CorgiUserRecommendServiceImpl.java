@@ -100,7 +100,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
             if (StringUtils.isEmpty(profile.getAvatar())) {
                 continue;
             }
-            profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+            profile.setAvatar(profile.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
         }
         return userProfiles;
     }
@@ -114,7 +114,7 @@ public class CorgiUserRecommendServiceImpl implements CorgiUserRecommendService 
             if (StringUtils.isEmpty(profile.getAvatar())) {
                 continue;
             }
-            profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+            profile.setAvatar(profile.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
         }
         return userProfiles;
 

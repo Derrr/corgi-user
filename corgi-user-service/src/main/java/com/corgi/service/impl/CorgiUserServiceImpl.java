@@ -109,10 +109,10 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return null;
         }
         if (!StringUtils.isEmpty(userDetail.getAvatar())) {
-            userDetail.setAvatar(userDetail.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+            userDetail.setAvatar(userDetail.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
         }
         if (!StringUtils.isEmpty(userDetail.getBackground())) {
-            userDetail.setBackground(userDetail.getBackground().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+            userDetail.setBackground(userDetail.getBackground().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
         }
         if (!StringUtils.isEmpty(loginUserId)) {
             Integer countBeBlock = corgiBlacklistMapper.countBlack(userId, loginUserId);
@@ -168,10 +168,10 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             return null;
         }
         if (!StringUtils.isEmpty(userDetail.getAvatar())) {
-            userDetail.setAvatar(userDetail.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+            userDetail.setAvatar(userDetail.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
         }
         if (!StringUtils.isEmpty(userDetail.getBackground())) {
-            userDetail.setBackground(userDetail.getBackground().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+            userDetail.setBackground(userDetail.getBackground().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
         }
         return userDetail;
     }
@@ -184,10 +184,10 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                 continue;
             }
             if (!StringUtils.isEmpty(userDetail.getAvatar())) {
-                userDetail.setAvatar(userDetail.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+                userDetail.setAvatar(userDetail.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
             }
             if (!StringUtils.isEmpty(userDetail.getBackground())) {
-                userDetail.setBackground(userDetail.getBackground().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+                userDetail.setBackground(userDetail.getBackground().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
             }
         }
         return userDetails;
@@ -377,7 +377,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             if (StringUtils.isEmpty(profile.getAvatar())) {
                 continue;
             }
-            profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+            profile.setAvatar(profile.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
         }
         return userProfiles;
     }
@@ -420,7 +420,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             if (StringUtils.isEmpty(profile.getAvatar())) {
                 continue;
             }
-            profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+            profile.setAvatar(profile.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
         }
         return userProfiles;
 
@@ -484,7 +484,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                     String userId2 = userProfile.getUserId();
                     int count = corgiUserFollowService.isFollowed(userId, userId2);
                     if (StringUtils.isEmpty(userProfile.getAvatar())) {
-                        userProfile.setAvatar(userProfile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+                        userProfile.setAvatar(userProfile.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
                     }
                     userProfile.setIsFollowed(count);
                 } catch (Exception e) {
@@ -560,7 +560,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             if (StringUtils.isEmpty(profile.getAvatar())) {
                 continue;
             }
-            profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+            profile.setAvatar(profile.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
         }
         return userProfiles;
     }
@@ -695,7 +695,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                     continue;
                 }
                 if (!StringUtils.isEmpty(profile.getAvatar())) {
-                    profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn"));
+                    profile.setAvatar(profile.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
                 }
                 if (CorgiPic.NORMAL.equals(profile.getAvatarCheckStatus()) && profile.getTime() != null && profile.getTime() > lastTime) {
                     userProfiles.add(profile);
