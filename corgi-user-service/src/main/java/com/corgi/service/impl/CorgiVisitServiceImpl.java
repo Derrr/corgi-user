@@ -108,7 +108,7 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
         for (UserProfile profile : profiles) {
             profile.setIsFollowed(corgiUserFollowService.isFollowed(userId, profile.getUserId()));
             if (!StringUtils.isEmpty(profile.getAvatar())) {
-                profile.setAvatar(profile.getAvatar().replaceAll("https://corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "http://image.corgi.org.cn"));
+                profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://","http://"));
             }
         }
         return profiles;
