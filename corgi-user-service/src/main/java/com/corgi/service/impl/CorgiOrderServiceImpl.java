@@ -18,6 +18,7 @@ import com.corgi.user.api.CorgiBillboardService;
 import com.corgi.user.api.CorgiOrderService;
 import com.corgi.user.api.CorgiPicService;
 
+import com.corgi.user.api.CorgiUserWechatService;
 import com.corgi.user.entity.*;
 import com.corgi.user.enums.MerchandiseEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     private CorgiPicService corgiPicService;
     @Autowired
     private CorgiBillboardService corgiBillboardService;
+    @Autowired
+    private CorgiUserWechatService corgiUserWechatService;
     @Autowired
     private CorgiReservationMapper corgiReservationMapper;
     @Autowired
@@ -191,6 +194,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 this.buyLocation(goods, order);
             } else if (CorgiMerchandise.LOCATIONMONTH.equals(merchandise.getType())) {
                 this.buyLocationMonth(goods, order);
+            } else if (CorgiMerchandise.WECHAT.equals(merchandise.getType())) {
+                this.buyWechat(goods, order);
             } else {
                 this.buyGoods(goods, merchandise);
             }
@@ -198,6 +203,25 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
             this.unlock(key);
         }
         return null;
+    }
+
+    private boolean buyWechat(CorgiUserGoods goods, CorgiOrder order) {
+        UserWechat wechat = corgiUserWechatService.getUserWechat(order.getSellerId());
+        if (wechat != null) {
+            goods.setGoodsType(CorgiMerchandise.WECHAT);
+            goods.setGoodsId(wechat.getWechat());
+            goods.setMarketId(wechat.getId());
+            goods.setTraderId(order.getSellerId());
+            goods.setDesc("购买成功");
+            corgiOrderMapper.addGoods(goods);
+            rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildWechatMessage(goods));
+            rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildWechatReplyMessage(goods, wechat.getReply()));
+            return true;
+        } else {
+            order.setResult("该用户微信不存在");
+            corgiOrderMapper.addLog(order);
+            return false;
+        }
     }
 
     private boolean buyLocationMonth(CorgiUserGoods goods, CorgiOrder order) {
@@ -460,6 +484,24 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         pushMessage.setSourceUserId("corgihelper");
         pushMessage.setTargetUserId(goods.getUserId());
         pushMessage.setMessage("Corgi定位包月查看服务开通成功通知\n恭喜您已开通 30 天定位包月查看服务，目前有效期至" + finalDate);
+        return pushMessage;
+    }
+
+    private PushMessage buildWechatMessage(CorgiUserGoods goods) {
+        PushMessage pushMessage = new PushMessage();
+        pushMessage.setSourceUserId("corgi" + goods.getUserId());
+        pushMessage.setTargetUserId(goods.getTraderId());
+        UserDetail userDetail = corgiUserMapper.getUserDetail(goods.getUserId());
+        pushMessage.setMessage("我是" + userDetail.getNickname() + "，我已支付" + goods.getPrice() + "元，成功购买了你的微信！");
+        return pushMessage;
+    }
+
+
+    private PushMessage buildWechatReplyMessage(CorgiUserGoods goods, String reply) {
+        PushMessage pushMessage = new PushMessage();
+        pushMessage.setSourceUserId("corgi" + goods.getTraderId());
+        pushMessage.setTargetUserId(goods.getUserId());
+        pushMessage.setMessage(reply);
         return pushMessage;
     }
 

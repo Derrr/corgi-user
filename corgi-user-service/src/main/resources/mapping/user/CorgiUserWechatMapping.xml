@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiUserWechatMapper">
+
+    <sql id="wechat">
+        w
+        .
+        id
+        ,w.wechat,w.nickname,w.user_id userId, w.wechat_shot wechatShot,w.status, w.ctime,w.uptime,w.merch_id merchId,w.reply
+    </sql>
+    <select id="getUserWechat" resultType="com.corgi.user.entity.UserWechat">
+        select
+        <include refid="wechat"/>
+        from corgi_user_wechat w
+        where w.user_id = #{userId}
+    </select>
+
+    <select id="queryWechat" resultType="com.corgi.user.entity.UserWechat">
+        select
+        <include refid="wechat"/>
+        from corgi_user_wechat w
+        where status = 1
+        <if test="wechat.id != null and wechat.id != ''">
+            and id &lt; #{wechat.id}
+        </if>
+        order by id desc limit
+        <if test="start > 0">
+            #{start},
+        </if>
+        #{size}
+    </select>
+
+    <select id="countWechat" resultType="java.lang.Integer">
+        select
+        count(1)
+        from corgi_user_wechat
+        where status = 1
+    </select>
+
+    <select id="listPaidWechats" resultType="com.corgi.user.entity.UserWechat">
+        select
+        <include refid="wechat"/>
+        from corgi_user_goods g left join corgi_user_wechat w on g.trader_id = w.user_id
+        where g.user_id = #{userId} and g.status = '1'
+    </select>
+
+    <insert id="addUserWechat" parameterType="com.corgi.user.entity.UserWechat" useGeneratedKeys="true"
+            keyProperty="wechat.id">
+        insert into corgi_user_wechat(`wechat`, `nickname`, `user_id`, `wechat_shot`, `merch_id`, `reply`)
+        values (#{wechat.wechat}, #{wechat.nickname}, #{wechat.userId}, #{wechat.wechatShot}, #{wechat.merchId},
+                #{wechat.reply})
+    </insert>
+
+    <update id="updateUserWechat" parameterType="com.corgi.user.entity.UserWechat">
+        update corgi_user_wechat
+        <set>
+            <if test="wechat.nickanme != null and wechat.nickanme != ''">
+                `nickanme` = #{wechat.nickanme},
+            </if>
+            <if test="wechat.avatar != null and wechat.avatar != ''">
+                `avatar` = #{wechat.avatar},
+            </if>
+            <if test="wechat.wechat != null and wechat.wechat != ''">
+                `wechat` = #{wechat.wechat},
+            </if>
+            <if test="wechat.wechatShot != null and wechat.wechatShot != ''">
+                `wechat_shot` = #{wechat.wechatShot},
+            </if>
+            <if test="wechat.merchId != null and wechat.merchId != ''">
+                `merch_id` = #{wechat.merchId},
+            </if>
+            <if test="wechat.reply != null and wechat.reply != ''">
+                `reply` = #{wechat.reply},
+            </if>
+            <if test="wechat.status != null and wechat.status != ''">
+                `status` = #{wechat.status},
+            </if>
+        </set>
+        where user_id = #{wechat.userId}
+    </update>
+</mapper>
