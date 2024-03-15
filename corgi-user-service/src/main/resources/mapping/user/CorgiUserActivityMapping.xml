@@ -271,8 +271,8 @@
     <select id="countUserActivity" resultType="java.lang.Integer">
         select count(1)
         from corgi_activity_creator c
-        where c.category in ('image', 'video')
-          and check_status != 'fail'
+        where c.category in ('image', 'video', 'paying')
+          and check_status != 'fail' and check_status != 'check'
           and creator_id = #{userId}
     </select>
 

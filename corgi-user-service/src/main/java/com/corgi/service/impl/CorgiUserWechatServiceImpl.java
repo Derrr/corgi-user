@@ -1,5 +1,6 @@
 package com.corgi.service.impl;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.corgi.mapper.CorgiUserWechatMapper;
 import com.corgi.user.api.CorgiUserWechatService;
@@ -22,13 +23,18 @@ public class CorgiUserWechatServiceImpl implements CorgiUserWechatService {
     private CorgiUserWechatMapper corgiUserWechatMapper;
 
     @Override
-    public String addUserWechat(UserWechat userWechat) {
-        corgiUserWechatMapper.addUserWechat(userWechat);
-        return userWechat.getId();
-    }
-
-    @Override
     public void updateUserWechat(UserWechat userWechat) {
+        UserWechat wechat = corgiUserWechatMapper.getUserWechat(userWechat.getUserId());
+        if (wechat == null) {
+            if (StringUtils.isEmpty(userWechat.getStatus())) {
+                userWechat.setStatus("1");
+            }
+            corgiUserWechatMapper.addUserWechat(userWechat);
+            return;
+        }
+        if (StringUtils.isEmpty(userWechat.getStatus())) {
+            userWechat.setStatus("1");
+        }
         corgiUserWechatMapper.updateUserWechat(userWechat);
     }
 
@@ -38,8 +44,8 @@ public class CorgiUserWechatServiceImpl implements CorgiUserWechatService {
     }
 
     @Override
-    public List<UserWechat> listUserPaidWechats(String userId) {
-        return corgiUserWechatMapper.listPaidWechats(userId);
+    public List<UserWechat> listUserPaidWechats(String userId, Integer page, Integer pageSize) {
+        return corgiUserWechatMapper.listPaidWechats(userId, (page - 1) * pageSize, pageSize);
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface CorgiUserWechatMapper {
 
     void addUserWechat(@Param("wechat")UserWechat userWechat);
 
-    List<UserWechat> listPaidWechats(@Param("userId")String userId);
+    List<UserWechat> listPaidWechats(@Param("userId")String userId,@Param("start")Integer start, @Param("size")Integer size);
 
     List<UserWechat> queryWechat(@Param("wechat")UserWechat userWechat,@Param("start")Integer start, @Param("size")Integer size);
 

@@ -31,8 +31,7 @@
     </select>
 
     <select id="countWechat" resultType="java.lang.Integer">
-        select
-        count(1)
+        select count(1)
         from corgi_user_wechat
         where status = 1
     </select>
@@ -41,14 +40,14 @@
         select
         <include refid="wechat"/>
         from corgi_user_goods g left join corgi_user_wechat w on g.trader_id = w.user_id
-        where g.user_id = #{userId} and g.status = '1'
+        where g.user_id = #{userId} and g.status = '1' limit #{start},#{size}
     </select>
 
     <insert id="addUserWechat" parameterType="com.corgi.user.entity.UserWechat" useGeneratedKeys="true"
             keyProperty="wechat.id">
-        insert into corgi_user_wechat(`wechat`, `nickname`, `user_id`, `wechat_shot`, `merch_id`, `reply`)
+        insert into corgi_user_wechat(`wechat`, `nickname`, `user_id`, `wechat_shot`, `merch_id`, `reply`, `status`)
         values (#{wechat.wechat}, #{wechat.nickname}, #{wechat.userId}, #{wechat.wechatShot}, #{wechat.merchId},
-                #{wechat.reply})
+                #{wechat.reply}, #{wechat.status})
     </insert>
 
     <update id="updateUserWechat" parameterType="com.corgi.user.entity.UserWechat">

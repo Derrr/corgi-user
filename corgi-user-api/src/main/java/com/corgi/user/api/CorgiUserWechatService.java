@@ -9,13 +9,11 @@ import java.util.List;
  * @author tairanliu
  */
 public interface CorgiUserWechatService {
-    String addUserWechat(UserWechat userWechat);
-
     void updateUserWechat(UserWechat userWechat);
 
     UserWechat getUserWechat(String userId);
 
-    List<UserWechat> listUserPaidWechats(String userId);
+    List<UserWechat> listUserPaidWechats(String userId, Integer page, Integer pageSize);
 
     List<UserWechat> queryWechat(UserWechat userWechat, Integer page, Integer pageSize);
 

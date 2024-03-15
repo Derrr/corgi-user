@@ -97,9 +97,17 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 }
             }
             corgiOrderMapper.updateOrder(order);
-
             if (CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
+                String preExpireTime = corgiUserMapper.getVipExpire(order.getUserId());
+
                 this.buy(order.getTradeNo(), order.getMerchId(), expiresDate);
+
+                String afterExpireTime = corgiUserMapper.getVipExpire(order.getUserId());
+                //购买vip更新昵称更改时间
+                if (!StringUtils.isEmpty(afterExpireTime) && !"-".equals(afterExpireTime)
+                        && (StringUtils.isEmpty(preExpireTime) || "-".equals(preExpireTime))) {
+                    redisTemplate.delete("update_nickname_" + order.getUserId());
+                }
             }
         } catch (Exception e) {
             order.setResult(e.getMessage());
@@ -209,7 +217,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         UserWechat wechat = corgiUserWechatService.getUserWechat(order.getSellerId());
         if (wechat != null) {
             goods.setGoodsType(CorgiMerchandise.WECHAT);
-            goods.setGoodsId(wechat.getWechat());
+            goods.setGoodsId(order.getSellerId());
             goods.setMarketId(wechat.getId());
             goods.setTraderId(order.getSellerId());
             goods.setDesc("购买成功");
@@ -491,11 +499,9 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         PushMessage pushMessage = new PushMessage();
         pushMessage.setSourceUserId("corgi" + goods.getUserId());
         pushMessage.setTargetUserId(goods.getTraderId());
-        UserDetail userDetail = corgiUserMapper.getUserDetail(goods.getUserId());
-        pushMessage.setMessage("我是" + userDetail.getNickname() + "，我已支付" + goods.getPrice() + "元，成功购买了你的微信！");
+        pushMessage.setMessage("Hey~我已支付" + goods.getPrice() + "元，成功购买了你的微信~很期待与你有更多的认识呢~");
         return pushMessage;
     }
-
 
     private PushMessage buildWechatReplyMessage(CorgiUserGoods goods, String reply) {
         PushMessage pushMessage = new PushMessage();
