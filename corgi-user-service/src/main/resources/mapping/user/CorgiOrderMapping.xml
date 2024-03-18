@@ -306,16 +306,25 @@
     </select>
 
     <select id="sumOrder" resultType="java.lang.Double">
-        select sum(pay_amount) from corgi_order
-        where status = #{order.status}
+        select sum(pay_amount) from corgi_order o
+        <if test="order.merchType != null and order.merchType != ''">
+            left join corgi_merchandise m on m.merch_code = o.merch_id
+        </if>
+        where o.status = #{order.status}
         <if test="order.sellerId != null and order.sellerId != ''">
-            and seller_id = #{order.sellerId}
+            and o.seller_id = #{order.sellerId}
+        </if>
+        <if test="order.merchType != null and order.merchType != ''">
+            and m.type = #{order.merchType}
         </if>
         <if test="order.payType != null and order.payType != ''">
-            and pay_type = #{order.payType}
+            and o.pay_type = #{order.payType}
         </if>
         <if test="order.userId != null and order.userId != ''">
-            and user_id = #{order.userId}
+            and o.user_id = #{order.userId}
+        </if>
+        <if test="order.ctime != null and order.ctime != ''">
+            and o.ctime > #{order.ctime}
         </if>
     </select>
 
