@@ -25,7 +25,7 @@ public enum MerchandiseEnum {
     BILLBOARD("B01", "normal", 0, "上榜一日 198¥", "付费上榜"),
     RESERVE("R01", "normal", 0, "订座50¥", "订座"),
     LOCATION("L01", "normal", 0, "付费定位¥3", "付费定位"),
-    LOCATIONMONTH("L02", "normal", 0, "包月¥18", "定位查看"),
+    LOCATION_MONTH("L02", "normal", 0, "包月¥18", "定位查看"),
     BILLBOARD_YEAR("B02", "year", 0, "免费", "年费会员免费上榜"),
     WECHAT_1("W01", "normal", 0, "解锁微信 ¥19", "微信解锁"),
     WECHAT_2("W02", "normal", 0, "解锁微信 ¥29", "微信解锁"),

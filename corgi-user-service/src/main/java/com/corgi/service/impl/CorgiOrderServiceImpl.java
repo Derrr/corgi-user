@@ -198,7 +198,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                 this.buyReserve(goods, order);
             } else if (CorgiMerchandise.LOCATION.equals(merchandise.getType())) {
                 this.buyLocation(goods, order);
-            } else if (CorgiMerchandise.LOCATIONMONTH.equals(merchandise.getType())) {
+            } else if (CorgiMerchandise.LOCATION_MONTH.equals(merchandise.getType())) {
                 this.buyLocationMonth(goods, order);
             } else if (CorgiMerchandise.WECHAT.equals(merchandise.getType())) {
                 this.buyWechat(goods, order);
@@ -231,7 +231,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     private boolean buyLocationMonth(CorgiUserGoods goods, CorgiOrder order) {
-        goods.setGoodsType(CorgiMerchandise.LOCATIONMONTH);
+        goods.setGoodsType(CorgiMerchandise.LOCATION_MONTH);
         goods.setGoodsId("-");
         goods.setTraderId("corgi");
         Calendar calendar = Calendar.getInstance();

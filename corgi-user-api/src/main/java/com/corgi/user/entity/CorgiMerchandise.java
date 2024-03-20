@@ -12,7 +12,7 @@ public class CorgiMerchandise implements Serializable {
     public static final String RESERVE = "reserve";
     public static final String MATCH = "match";
     public static final String LOCATION = "location";
-    public static final String LOCATIONMONTH = "locationmonth";
+    public static final String LOCATION_MONTH = "locationmonth";
     public static final String WECHAT = "wechat";
 
 
