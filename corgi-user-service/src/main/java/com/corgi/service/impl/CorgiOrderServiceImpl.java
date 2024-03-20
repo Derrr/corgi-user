@@ -408,8 +408,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     String nowDate = corgiUserMapper.getVipExpire(order.getUserId());
                     if (!"-".equals(nowDate) && StringUtils.isNotEmpty(nowDate)
                             && nowDate.compareTo(finalDate) > 0) {
-                        corgiOrderMapper.getUserGoodsByMerchIds(order.getUserId(),
-                                String.join("','",Arrays.asList("SA01","SA02","SA03","SA04","SA05","SA06","SA06","SA08","BS01")));
+                        List<CorgiUserGoods> oldGoods = corgiOrderMapper.getUserGoodsByMerchIds(order.getUserId(),
+                                String.join("','", Arrays.asList("SA01", "SA02", "SA03", "SA04", "SA05", "SA06", "SA06", "SA08", "BS01")));
+                        if (!CollectionUtils.isEmpty(oldGoods)) {
+                            return;
+                        }
                     }
                     corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
                 }
