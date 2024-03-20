@@ -48,6 +48,8 @@ public interface CorgiOrderMapper {
 
     List<CorgiUserGoods> getUserGoods(@Param("goods") CorgiUserGoods goods);
 
+    List<CorgiUserGoods> getUserGoodsByMerchIds(@Param("userId") String userId, @Param("merchIds")String merchIds);
+
     List<CorgiUserGoods> getHotGoods(@Param("goods") CorgiUserGoods goods);
 
     CorgiUserMarket getMarketById(@Param("marketId") String marketId);

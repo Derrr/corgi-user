@@ -22,16 +22,14 @@ import com.corgi.user.api.CorgiUserWechatService;
 import com.corgi.user.entity.*;
 import com.corgi.user.enums.MerchandiseEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -407,6 +405,12 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     corgiOrderMapper.addGoods(goods);
                 }
                 if (StringUtils.isNotEmpty(order.getUserId())) {
+                    String nowDate = corgiUserMapper.getVipExpire(order.getUserId());
+                    if (!"-".equals(nowDate) && StringUtils.isNotEmpty(nowDate)
+                            && nowDate.compareTo(finalDate) > 0) {
+                        corgiOrderMapper.getUserGoodsByMerchIds(order.getUserId(),
+                                String.join("','",Arrays.asList("SA01","SA02","SA03","SA04","SA05","SA06","SA06","SA08","BS01")));
+                    }
                     corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
                 }
             }

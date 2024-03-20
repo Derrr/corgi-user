@@ -266,6 +266,25 @@
         order by id desc limit #{goods.start}, #{goods.size}
     </select>
 
+    <select id="getUserGoodsByMerchIds" resultType="com.corgi.user.entity.CorgiUserGoods">
+        select `user_id` userId,
+        `goods_type` goodsType,
+        `merch_id` merchId,
+        `goods_id` goodsId,
+        price,
+        currency,
+        trader_id traderId,
+        trade_no tradeNo,
+        `desc`
+        `status`,
+        ctime,
+        uptime
+        from corgi_user_goods
+        where status = '1' and user_id = #{userId}
+        and merch_id in ('${merchIds}')
+        order by id desc
+    </select>
+
     <select id="getHotGoods" resultType="com.corgi.user.entity.CorgiUserGoods">
         select g.`user_id` userId,
         g.`goods_type` goodsType,
