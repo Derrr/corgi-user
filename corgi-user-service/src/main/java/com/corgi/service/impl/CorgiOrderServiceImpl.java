@@ -468,7 +468,12 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
 
     @Override
     public String getUserLocationExpireDate(String userId) {
-        return corgiOrderMapper.getLocationExpireDate(userId);
+        String locationExpire = corgiOrderMapper.getLocationExpireDate(userId);
+        if(StringUtils.isNotEmpty(locationExpire) && new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
+                .compareTo(locationExpire) < 0){
+            return locationExpire;
+        }
+        return "";
     }
 
     private PushMessage buildBillboardMessage(CorgiUserGoods goods) {
