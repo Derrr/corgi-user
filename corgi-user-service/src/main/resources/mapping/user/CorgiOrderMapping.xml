@@ -349,6 +349,6 @@
 
     <select id="getLocationExpireDate" resultType="java.lang.String">
         select max(market_id) from corgi_user_goods
-        where status = 1 and user_id = #{userId}
+        where status = 1 and user_id = #{userId} and merch_id = 'L02'
     </select>
 </mapper>
