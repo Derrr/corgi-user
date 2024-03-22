@@ -84,7 +84,8 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         if (result.size() >= size) {
             return result;
         }
-        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size(), index);
+
+        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size());
 
         if (popularFeeds != null) {
             for (CorgiVlog vlog : popularFeeds) {
@@ -182,7 +183,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         return resultVlogs.stream().map(v -> v.getActivityId()).collect(Collectors.toList());
     }
 
-    private List<CorgiVlog> getPopularFeeds(String userId, Integer size, String userIndex) {
+    private List<CorgiVlog> getPopularFeeds(String userId, Integer size) {
         String groups = null;
         List<String> groupList = corgiUserService.getPreferGroup(userId);
         if (!CollectionUtils.isEmpty(groupList)) {
@@ -336,25 +337,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 userFeeds = "";
             }
         }
-        List<String> tmpIds = new ArrayList<>();
-//        try {
-        tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//        }
-//        if (CollectionUtils.isEmpty(tmpIds)) {
-//            tmpIds = new ArrayList<>();
-//            CorgiVlog query = new CorgiVlog();
-//            query.setUserId(userId);
-//            query.setType(CorgiVlogHot.TYPE.MANUAL);
-//            query.setStatus("asc");
-//            List<CorgiVlog> corgiVlogs = corgiVlogMapper.recallHotVlog(query, null, size, index);
-//            if (!CollectionUtils.isEmpty(corgiVlogs)) {
-//                for (CorgiVlog vlog : corgiVlogs) {
-//                    tmpIds.add(vlog.getActivityId() + "-" + vlog.getUserId());
-//                }
-//            }
-//        }
+        List<String> tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
         List<String> manualIds = new ArrayList<>();
         if (!CollectionUtils.isEmpty(tmpIds)) {
             for (String activity : tmpIds) {
