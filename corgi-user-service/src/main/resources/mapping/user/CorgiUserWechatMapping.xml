@@ -6,7 +6,7 @@
         w
         .
         id
-        ,w.wechat,w.nickname,w.user_id userId, w.wechat_shot wechatShot,w.status, w.ctime,w.uptime,w.merch_id merchId,w.reply
+        ,w.wechat,w.avatar,w.nickname,w.user_id userId, w.wechat_shot wechatShot,w.status, w.ctime,w.uptime,w.merch_id merchId,w.reply
     </sql>
     <select id="getUserWechat" resultType="com.corgi.user.entity.UserWechat">
         select
