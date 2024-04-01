@@ -447,6 +447,12 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
 
     @Override
     public List<CorgiUserGoods> getUserGoods(CorgiUserGoods goods) {
+        if (goods.getStart() == null) {
+            goods.setStart(0);
+        }
+        if (goods.getSize() == null) {
+            goods.setSize(1);
+        }
         return corgiOrderMapper.getUserGoods(goods);
     }
 
@@ -469,8 +475,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     @Override
     public String getUserLocationExpireDate(String userId) {
         String locationExpire = corgiOrderMapper.getLocationExpireDate(userId);
-        if(StringUtils.isNotEmpty(locationExpire) && new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
-                .compareTo(locationExpire) < 0){
+        if (StringUtils.isNotEmpty(locationExpire) && new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
+                .compareTo(locationExpire) < 0) {
             return locationExpire;
         }
         return "";

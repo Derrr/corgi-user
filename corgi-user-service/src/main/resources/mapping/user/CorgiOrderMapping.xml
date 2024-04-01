@@ -267,21 +267,22 @@
     </select>
 
     <select id="getUserGoodsByMerchIds" resultType="com.corgi.user.entity.CorgiUserGoods">
-        select `user_id` userId,
-        `goods_type` goodsType,
-        `merch_id` merchId,
-        `goods_id` goodsId,
-        price,
-        currency,
-        trader_id traderId,
-        trade_no tradeNo,
-        `desc`
-        `status`,
-        ctime,
-        uptime
+        select `user_id`    userId,
+               `goods_type` goodsType,
+               `merch_id`   merchId,
+               `goods_id`   goodsId,
+               price,
+               currency,
+               trader_id    traderId,
+               trade_no     tradeNo,
+               `desc`
+                            `status`,
+               ctime,
+               uptime
         from corgi_user_goods
-        where status = '1' and user_id = #{userId}
-        and merch_id in ('${merchIds}')
+        where status = '1'
+          and user_id = #{userId}
+          and merch_id in ('${merchIds}')
         order by id desc
     </select>
 
@@ -348,7 +349,10 @@
     </select>
 
     <select id="getLocationExpireDate" resultType="java.lang.String">
-        select max(market_id) from corgi_user_goods
-        where status = 1 and user_id = #{userId} and merch_id = 'L02'
+        select max(market_id)
+        from corgi_user_goods
+        where status = 1
+          and user_id = #{userId}
+          and merch_id = 'L02'
     </select>
 </mapper>
