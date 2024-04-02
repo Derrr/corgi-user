@@ -11,6 +11,7 @@ import com.corgi.activity.entity.ActivityPic;
 import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.common.CorgiQueueName;
 import com.corgi.common.messages.PushMessage;
+import com.corgi.mapper.CorgiInviteUserMapper;
 import com.corgi.mapper.CorgiOrderMapper;
 import com.corgi.mapper.CorgiReservationMapper;
 import com.corgi.mapper.CorgiUserMapper;
@@ -22,7 +23,6 @@ import com.corgi.user.api.CorgiUserWechatService;
 import com.corgi.user.entity.*;
 import com.corgi.user.enums.MerchandiseEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -56,6 +56,8 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     private CorgiOrderMapper corgiOrderMapper;
     @Autowired
     private CorgiUserMapper corgiUserMapper;
+    @Autowired
+    private CorgiInviteUserMapper corgiInviteUserMapper;
     @Autowired
     private StringRedisTemplate redisTemplate;
     @Autowired
@@ -430,6 +432,81 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
+    public void invite(String userId, String inviteId) {
+        UserLogin userLogin = corgiUserMapper.getUserLogin(inviteId);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -3);
+        boolean isOldUser = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime())
+                .compareTo(userLogin.getCtime()) > 0;
+        if (isOldUser) {
+            return;
+        }
+        if (corgiInviteUserMapper.countInviteTel(userLogin.getTelNo()) > 0) {
+            return;
+        }
+        corgiInviteUserMapper.addInvite(userId, inviteId, userLogin.getTelNo());
+        String messageKey = "invite-" + inviteId + "-inviter-" + userId;
+        if (redisTemplate.opsForValue().setIfAbsent(messageKey, inviteId)) {
+            rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildInvitedMessage(userId, inviteId));
+        }
+        String lockKey = "invite-" + userId;
+        try {
+            for (int i = 0; i < 10; i++) {
+                if (redisTemplate.opsForValue().setIfAbsent(lockKey, inviteId)) {
+                    MerchandiseEnum e = MerchandiseEnum.BONUS_SUBSCRIBE;
+                    List<CorgiUserGoods> gotGoods = corgiOrderMapper.getUserGoods(CorgiUserGoods.builder()
+                            .userId(userId)
+                            .merchId(e.getCode())
+                            .start(0)
+                            .size(20)
+                            .build());
+                    if (gotGoods.size() >= 12) {
+                        return;
+                    }
+                    Integer inviteCount = corgiInviteUserMapper.countInvite(userId);
+                    Integer shouldBonus = inviteCount / 10 > 12 ? 12 : inviteCount / 10;
+                    for (int j = 0; j < shouldBonus - gotGoods.size(); j++) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String vipExpireDate = corgiUserMapper.getVipExpire(userId);
+                        Date expireDate = new Date();
+                        try {
+                            if ("-".equals(vipExpireDate) || (expireDate = sdf.parse(vipExpireDate)).compareTo(new Date()) <= 0) {
+                                expireDate = new Date();
+                            }
+                        } catch (Exception ex) {
+                            log.error(ex.getMessage(), ex);
+                        }
+                        String finalDate = "";
+                        calendar.setTime(expireDate);
+                        calendar.add(Calendar.DATE, e.getDays());
+                        finalDate = sdf.format(calendar.getTime());
+                        corgiUserMapper.updateVipExpire(userId, "1", finalDate);
+                        corgiOrderMapper.addGoods(CorgiUserGoods.builder()
+                                .goodsType("bonusSubscribe")
+                                .userId(userId)
+                                .currency(CorgiUserGoods.CURRENCY.CNY)
+                                .merchId(e.getCode())
+                                .desc(e.getDesc())
+                                .price(0.0)
+                                .tradeNo("-")
+                                .traderId("corgi")
+                                .marketId("-")
+                                .goodsId(e.getCode())
+                                .build());
+                    }
+                    rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildBonusMessage(userId));
+                    return;
+                }
+                Thread.sleep(100l);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            redisTemplate.delete(lockKey);
+        }
+    }
+
+    @Override
     public void updateReceipt(String tradeNo, String receipt) {
         corgiOrderMapper.updateReceipt(tradeNo, receipt);
     }
@@ -490,13 +567,41 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         return pushMessage;
     }
 
+    private PushMessage buildBonusMessage(String userId){
+        PushMessage pushMessage = new PushMessage();
+        pushMessage.setSourceUserId("corgihelper");
+        pushMessage.setTargetUserId(userId);
+        pushMessage.setMessage("您已成功获得30天Corgi会员奖励！");
+        return pushMessage;
+    }
+
+    private PushMessage buildInvitedMessage(String userId, String inviteId){
+        UserDetail userDetail = corgiUserMapper.getUserDetail(inviteId);
+        PushMessage pushMessage = new PushMessage();
+        pushMessage.setSourceUserId("corgihelper");
+        pushMessage.setTargetUserId(userId);
+        pushMessage.setMessage("邀请成功通知");
+        JSONArray content = new JSONArray();
+        content.add(new JSONObject().fluentPut("text", "恭喜你邀请"+userDetail.getNickname()+"成功"));
+        content.add(new JSONObject().fluentPut("text", " 去和他打声招呼吧 >>").fluentPut("url", inviteId).fluentPut("urlType", "5"));
+        HashMap<String, Object> extra = new HashMap<>();
+        extra.put("type", "907");
+        extra.put("content", content);
+        pushMessage.setExtra(extra);
+        return pushMessage;
+    }
+
     private PushMessage buildSubscribeMessage(CorgiUserGoods goods, int days, String finalDate) {
         PushMessage pushMessage = new PushMessage();
         pushMessage.setSourceUserId("corgihelper");
         pushMessage.setTargetUserId(goods.getUserId());
         pushMessage.setMessage("Corgi会员服务开通成功通知");
         JSONArray content = new JSONArray();
-        content.add(new JSONObject().fluentPut("text", "Corgi会员服务开通成功通知\n恭喜您已开通 " + days + "天会员服务，目前有效期至" + finalDate + "\n更多会员权益可前往"));
+        String yearMember = "";
+        if (days > 300) {
+            yearMember = "并享有一次上榜体验权益（年费会员专享）,";
+        }
+        content.add(new JSONObject().fluentPut("text", "Corgi会员服务开通成功通知\n恭喜您已开通 " + days + "天会员服务，" + yearMember + "目前有效期至" + finalDate + "\n更多会员权益可前往"));
         content.add(new JSONObject().fluentPut("text", "会员页面查看 >").fluentPut("urlType", "9"));
         HashMap<String, Object> extra = new HashMap<>();
         extra.put("type", "907");

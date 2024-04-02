@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiInviteUserMapper">
+    <select id="countInvite" resultType="java.lang.Integer">
+        select count(1) from corgi_invite_user where user_id = #{userId}
+    </select>
+
+    <select id="countInviteTel" resultType="java.lang.Integer">
+        select count(1) from corgi_invite_user where invite_tel = #{tel}
+    </select>
+
+    <insert id="addInvite">
+        insert ignore into corgi_invite_user(`user_id`,`invite_id`,`invite_tel`)
+        value(#{userId}, #{inviteId}, #{inviteTel})
+    </insert>
+</mapper>

@@ -11,7 +11,7 @@ public enum MerchandiseEnum {
     HALF_YEAR("S06", "normal", 181, "VIP/半年 ¥249", "连续包半年"),
     SEASON("S07", "normal", 90, "VIP/季 ¥124", "连续包季"),
     MONTH("S08", "normal", 30, "VIP/月 ¥41", "连续包月"),
-    BONUS("BS01", "normal", 7, "免费", "奖励VIP"),
+    BONUS_SUBSCRIBE("SB01", "normal", 30, "Corgi会员30天", "邀请10位新用户得月度会员"),
     READ_1("A01", "normal", 0, "付费阅读 ¥1", "付费阅读"),
     READ_3("A02", "normal", 0, "付费阅读 ¥3", "付费阅读"),
     READ_6("A03", "normal", 0, "付费阅读 ¥6", "付费阅读"),
@@ -63,6 +63,10 @@ public enum MerchandiseEnum {
 
     public String getDesc() {
         return desc;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public static boolean isFirst(String code) {
