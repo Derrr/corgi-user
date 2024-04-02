@@ -85,24 +85,25 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             return result;
         }
 
-        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size());
-
-        if (popularFeeds != null) {
-            for (CorgiVlog vlog : popularFeeds) {
-                CorgiFeed feed = new CorgiFeed();
-                feed.setFeed(vlog.getActivityId());
-                feed.setFeedUserId(vlog.getUserId());
-                feed.setUserId(userId);
-                feed.setSource("init");
-                corgiFeedMapper.addFeed(feed, index);
-                result.add(vlog.getActivityId());
-            }
-        }
+//        List<CorgiVlog> popularFeeds = this.getPopularFeeds(userId, size - result.size());
+//
+//        if (popularFeeds != null) {
+//            for (CorgiVlog vlog : popularFeeds) {
+//                CorgiFeed feed = new CorgiFeed();
+//                feed.setFeed(vlog.getActivityId());
+//                feed.setFeedUserId(vlog.getUserId());
+//                feed.setUserId(userId);
+//                feed.setSource("init");
+//                corgiFeedMapper.addFeed(feed, index);
+//                result.add(vlog.getActivityId());
+//            }
+//        }
         Integer max = size - result.size();
         if (max > 0) {
             CorgiVlogHot queryHot = new CorgiVlogHot();
             queryHot.setStatus(CorgiVlogHot.STATUS.OPEN);
             queryHot.setType(CorgiVlogHot.TYPE.AUTO);
+            queryHot.setLikeCount(120);
             Integer total = corgiVlogMapper.countVlogHot(queryHot);
             Random random = new Random();
             for (int i = 0; i < max; i++) {
@@ -110,7 +111,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 if (result.contains(activityId)) {
                     continue;
                 }
-                result.add(activityId);
+                result.add(0, activityId);
             }
         }
         return result;

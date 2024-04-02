@@ -414,10 +414,12 @@
     </select>
 
     <select id="selectOneHot" resultType="java.lang.String">
-        select activity_id
-        from corgi_vlog_hot v
-        where status = 'open'
-          and type = 'auto'
+        select v.activity_id
+        from corgi_vlog_hot v left join corgi_activity_creator c on c.activity_id = v.activity_id
+        where v.status = 'open'
+          and c.check_status != 'fail'
+          and v.type = 'auto'
+          and v.like_count > 120
             limit #{start}
             , 1
     </select>
@@ -483,13 +485,16 @@
 
     <select id="countVlogHot" resultType="java.lang.Integer">
         select count(1)
-        from corgi_vlog_hot h
-        where 1=1
+        from corgi_vlog_hot h left join corgi_activity_creator c on c.activity_id = h.activity_id
+        where c.check_status != 'fail'
         <if test="vlog.type != null">
             and h.type = #{vlog.type}
         </if>
         <if test="vlog.status != null">
             and h.status = #{vlog.status}
+        </if>
+        <if test="vlog.likeCount != null and vlog.likeCount > 0">
+            and h.like_count > #{vlog.likeCount}
         </if>
         <if test="vlog.activityId != null">
             and h.activity_id = #{vlog.activityId}
