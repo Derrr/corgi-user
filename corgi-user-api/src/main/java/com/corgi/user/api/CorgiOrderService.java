@@ -29,6 +29,8 @@ public interface CorgiOrderService {
 
     void subscribe(CorgiOrder order, CorgiUserGoods goods, String vipStatus, String finalDate);
 
+    Integer countInvited(String userId, String type);
+
     void invite(String userId, String inviteId);
 
     void updateReceipt(String tradeNo, String receipt);

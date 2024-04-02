@@ -432,6 +432,11 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
+    public Integer countInvited(String userId, String type) {
+        return corgiInviteUserMapper.countInvite(userId);
+    }
+
+    @Override
     public void invite(String userId, String inviteId) {
         UserLogin userLogin = corgiUserMapper.getUserLogin(inviteId);
         Calendar calendar = Calendar.getInstance();
