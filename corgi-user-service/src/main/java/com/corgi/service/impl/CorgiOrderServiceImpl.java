@@ -254,7 +254,6 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         calendar.setTime(expireDate);
         calendar.add(Calendar.DATE, 30);
         finalDate = sdf.format(calendar.getTime());
-        corgiUserMapper.updateVipExpire(order.getUserId(), "1", finalDate);
         goods.setDesc("购买成功，日期截止至 " + finalDate);
         goods.setMarketId(finalDate);
         corgiOrderMapper.addGoods(goods);
