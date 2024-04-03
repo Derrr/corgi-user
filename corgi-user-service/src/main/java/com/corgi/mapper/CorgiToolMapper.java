@@ -5,6 +5,7 @@ import com.corgi.entity.CorgiTopic;
 import com.corgi.user.entity.ActivityMessage;
 import com.corgi.user.entity.CorgiHashtag;
 import com.corgi.user.entity.DateType;
+import com.corgi.user.entity.WechatInvite;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
@@ -316,19 +317,19 @@ public interface CorgiToolMapper {
     void readActivityMessageByType(@Param("userId") String userId, @Param("type") String type);
 
     /**
-     * 绑定微信ID
+     * 邀请微信
      *
-     * @param wechatId
-     * @param corgiId
+     * @param wechatInvite
      */
-    void bindWechatId(@Param("wechatId") String wechatId, @Param("corgiId") String corgiId);
+    void inviteWechat(@Param("invite")WechatInvite wechatInvite);
 
     /**
-     * 根据wechat id获取ID
+     * 根据userId获取Invite
      *
+     * @param userId
      * @param wechatId
      * @return
      */
-    String getIdByWechat(@Param("wechatId") String wechatId);
+    List<WechatInvite> getInviteByUserId(@Param("userId") String userId, @Param("wechatId")String wechatId);
 
 }

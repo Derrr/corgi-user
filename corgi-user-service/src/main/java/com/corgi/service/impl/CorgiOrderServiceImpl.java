@@ -451,7 +451,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         }
         corgiInviteUserMapper.addInvite(userId, inviteId, userLogin.getTelNo());
         String messageKey = "invite-" + inviteId + "-inviter-" + userId;
-        if (redisTemplate.opsForValue().setIfAbsent(messageKey, inviteId)) {
+        if (redisTemplate.opsForValue().setIfAbsent(messageKey, inviteId, 1L, TimeUnit.HOURS)) {
             rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildInvitedMessage(userId, inviteId));
         }
         String lockKey = "invite-" + userId;
@@ -587,7 +587,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         pushMessage.setTargetUserId(userId);
         pushMessage.setMessage("邀请成功通知");
         JSONArray content = new JSONArray();
-        content.add(new JSONObject().fluentPut("text", "恭喜你邀请"+userDetail.getNickname()+"成功"));
+        content.add(new JSONObject().fluentPut("text", "恭喜你邀请 "+userDetail.getNickname()+" 成功啦"));
         content.add(new JSONObject().fluentPut("text", " 去和他打声招呼吧 >>").fluentPut("url", inviteId).fluentPut("urlType", "5"));
         HashMap<String, Object> extra = new HashMap<>();
         extra.put("type", "907");

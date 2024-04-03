@@ -357,13 +357,16 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
-    public void bindWechat(String wechatId, String corgiId) {
-        corgiToolMapper.bindWechatId(wechatId, corgiId);
+    public void inviteWechat(WechatInvite wechatInvite) {
+        if (CollectionUtils.isEmpty(
+                corgiToolMapper.getInviteByUserId(wechatInvite.getUserId(), wechatInvite.getWechatId()))) {
+            corgiToolMapper.inviteWechat(wechatInvite);
+        }
     }
 
     @Override
-    public String getIdByWechatId(String wechatId) {
-        return corgiToolMapper.getIdByWechat(wechatId);
+    public List<WechatInvite> getInviteByUserId(String userId) {
+        return corgiToolMapper.getInviteByUserId(userId, "");
     }
 
     private boolean hasTopicFilter(ActivityQuery query) {

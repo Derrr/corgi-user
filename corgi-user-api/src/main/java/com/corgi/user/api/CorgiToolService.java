@@ -91,7 +91,7 @@ public interface CorgiToolService {
 
     void deleteActivityMessage(String userId, Long time);
 
-    void bindWechat(String wechatId, String corgiId);
+    void inviteWechat(WechatInvite wechatInvite);
 
-    String getIdByWechatId(String wechatId);
+    List<WechatInvite> getInviteByUserId(String userId);
 }
