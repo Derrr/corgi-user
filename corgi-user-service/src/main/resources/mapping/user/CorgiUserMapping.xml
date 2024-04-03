@@ -294,7 +294,7 @@
             <if test="userDetail.bgDataId != null">
                 `bg_data_id` = #{userDetail.bgDataId},
             </if>
-            <if test="userDetail.dateStatus != null and userDetail.dateStatus != ''">
+            <if test="userDetail.dateStatus != null">
                 `date_status` = #{userDetail.dateStatus},
             </if>
             <if test="userDetail.uptime != null and userDetail.uptime != ''">
