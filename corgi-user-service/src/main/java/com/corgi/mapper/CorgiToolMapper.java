@@ -324,6 +324,13 @@ public interface CorgiToolMapper {
     void inviteWechat(@Param("invite")WechatInvite wechatInvite);
 
     /**
+     * 绑定微信
+     *
+     * @param wechatInvite
+     */
+    void bindWechat(@Param("invite")WechatInvite wechatInvite);
+
+    /**
      * 根据userId获取Invite
      *
      * @param userId

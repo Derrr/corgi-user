@@ -365,6 +365,11 @@ public class CorgiToolServiceImpl implements CorgiToolService {
     }
 
     @Override
+    public void bindWechat(WechatInvite wechatInvite) {
+        corgiToolMapper.bindWechat(wechatInvite);
+    }
+
+    @Override
     public List<WechatInvite> getInviteByUserId(String userId) {
         return corgiToolMapper.getInviteByUserId(userId, "");
     }

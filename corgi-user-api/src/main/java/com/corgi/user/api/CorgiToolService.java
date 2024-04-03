@@ -93,5 +93,7 @@ public interface CorgiToolService {
 
     void inviteWechat(WechatInvite wechatInvite);
 
+    void bindWechat(WechatInvite wechatInvite);
+
     List<WechatInvite> getInviteByUserId(String userId);
 }

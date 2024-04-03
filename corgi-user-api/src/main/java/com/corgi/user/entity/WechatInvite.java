@@ -10,5 +10,7 @@ public class WechatInvite implements Serializable {
     private String wechatId;
     private String wechatName;
     private String headimgurl;
+    private String corgiId;
+    private String status;
     private String ctime;
 }

@@ -437,17 +437,17 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
-    public void invite(String userId, String inviteId) {
+    public Boolean invite(String userId, String inviteId) {
         UserLogin userLogin = corgiUserMapper.getUserLogin(inviteId);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -3);
         boolean isOldUser = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime())
                 .compareTo(userLogin.getCtime()) > 0;
         if (isOldUser) {
-            return;
+            return false;
         }
         if (corgiInviteUserMapper.countInviteTel(userLogin.getTelNo()) > 0) {
-            return;
+            return false;
         }
         corgiInviteUserMapper.addInvite(userId, inviteId, userLogin.getTelNo());
         String messageKey = "invite-" + inviteId + "-inviter-" + userId;
@@ -466,7 +466,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                             .size(20)
                             .build());
                     if (gotGoods.size() >= 12) {
-                        return;
+                        return false;
                     }
                     Integer inviteCount = corgiInviteUserMapper.countInvite(userId);
                     Integer shouldBonus = inviteCount / 10 > 12 ? 12 : inviteCount / 10;
@@ -500,7 +500,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                                 .build());
                     }
                     rabbitTemplate.convertAndSend(CorgiQueueName.PUSH_MESSAGE_QUEUE, this.buildBonusMessage(userId));
-                    return;
+                    return true;
                 }
                 Thread.sleep(100l);
             }
@@ -509,6 +509,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         } finally {
             redisTemplate.delete(lockKey);
         }
+        return false;
     }
 
     @Override

@@ -414,7 +414,7 @@
 
     <insert id="inviteWechat">
         insert
-        ignore into corgi_wechat_bind(wechat_id, user_id, wechat_name)
+        ignore into corgi_wechat_invite(wechat_id, user_id, wechat_name)
         values(
         #{wechatId},
         #{userId},
@@ -422,9 +422,14 @@
         )
     </insert>
 
+    <update id="bindWechat" parameterType="com.corgi.user.entity.WechatInvite">
+        update corgi_wechat_invite set corgi_id = #{invite.corgiId}, status = #{invite.status}
+        where user_id = #{invite.userId} and wechat_id = #{invite.wechat_id}
+    </update>
     <select id="getInviteByUserId" resultType="com.corgi.user.entity.WechatInvite">
-        select user_id userId, wechat_id wechatId, wechat_name wechatName, headimgurl, ctime
-        from corgi_wechat_bind
+        select user_id userId, wechat_id wechatId, wechat_name wechatName,
+               headimgurl, corgi_id corgiId, ctime, status
+        from corgi_wechat_invite
         where user_id = #{user_id}
         <if test="wechatId != null and wechatId != ''">
             and wechat_id = #{wechatId}

@@ -31,7 +31,7 @@ public interface CorgiOrderService {
 
     Integer countInvited(String userId, String type);
 
-    void invite(String userId, String inviteId);
+    Boolean invite(String userId, String inviteId);
 
     void updateReceipt(String tradeNo, String receipt);
 
