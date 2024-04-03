@@ -457,7 +457,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         String lockKey = "invite-" + userId;
         try {
             for (int i = 0; i < 10; i++) {
-                if (redisTemplate.opsForValue().setIfAbsent(lockKey, inviteId)) {
+                if (redisTemplate.opsForValue().setIfAbsent(lockKey, inviteId, 1L, TimeUnit.MINUTES)) {
                     MerchandiseEnum e = MerchandiseEnum.BONUS_SUBSCRIBE;
                     List<CorgiUserGoods> gotGoods = corgiOrderMapper.getUserGoods(CorgiUserGoods.builder()
                             .userId(userId)
