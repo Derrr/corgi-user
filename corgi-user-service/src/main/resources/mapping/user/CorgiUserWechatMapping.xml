@@ -53,8 +53,8 @@
     <update id="updateUserWechat" parameterType="com.corgi.user.entity.UserWechat">
         update corgi_user_wechat
         <set>
-            <if test="wechat.nickanme != null and wechat.nickanme != ''">
-                `nickanme` = #{wechat.nickanme},
+            <if test="wechat.nickname != null and wechat.nickname != ''">
+                `nickname` = #{wechat.nickname},
             </if>
             <if test="wechat.avatar != null and wechat.avatar != ''">
                 `avatar` = #{wechat.avatar},
