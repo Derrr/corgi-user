@@ -412,13 +412,13 @@
           and message_type = #{type}
     </update>
 
-    <insert id="inviteWechat">
+    <insert id="inviteWechat" parameterType="com.corgi.user.entity.WechatInvite">
         insert
         ignore into corgi_wechat_invite(wechat_id, user_id, wechat_name)
         values(
-        #{wechatId},
-        #{userId},
-        #{wechatName}
+        #{invite.wechatId},
+        #{invite.userId},
+        #{invite.wechatName}
         )
     </insert>
 
