@@ -430,7 +430,7 @@
         select user_id userId, wechat_id wechatId, wechat_name wechatName,
                headimgurl, corgi_id corgiId, ctime, status
         from corgi_wechat_invite
-        where user_id = #{user_id}
+        where user_id = #{userId}
         <if test="wechatId != null and wechatId != ''">
             and wechat_id = #{wechatId}
         </if>
