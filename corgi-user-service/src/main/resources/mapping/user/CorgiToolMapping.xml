@@ -414,10 +414,11 @@
 
     <insert id="inviteWechat" parameterType="com.corgi.user.entity.WechatInvite">
         insert
-        ignore into corgi_wechat_invite(wechat_id, user_id, wechat_name)
+        ignore into corgi_wechat_invite(wechat_id, user_id, headimgurl, wechat_name)
         values(
         #{invite.wechatId},
         #{invite.userId},
+        #{invite.headimgurl},
         #{invite.wechatName}
         )
     </insert>
