@@ -632,10 +632,19 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     private PushMessage buildWechatReplyMessage(CorgiUserGoods goods, String reply) {
+        HashMap<String, Object> extra = new HashMap<>();
+        extra.put("type", "907");
+        JSONArray content = new JSONArray();
+        content.add(new JSONObject().fluentPut("text", reply));
+        extra.put("content", content);
+        extra.put("bottomText", "微信交友需谨慎，投诉请点击>>");
+        extra.put("bottomUrlType", "16");
+        extra.put("alertTitle", "成功解锁微信");
+
         PushMessage pushMessage = new PushMessage();
         pushMessage.setSourceUserId("corgi" + goods.getTraderId());
         pushMessage.setTargetUserId(goods.getUserId());
-        pushMessage.setMessage(reply);
+        pushMessage.setExtra(extra);
         return pushMessage;
     }
 
