@@ -358,10 +358,10 @@ public class CorgiToolServiceImpl implements CorgiToolService {
 
     @Override
     public void inviteWechat(WechatInvite wechatInvite) {
-        if (CollectionUtils.isEmpty(
-                corgiToolMapper.getInviteByUserId(wechatInvite.getUserId(), wechatInvite.getWechatId()))) {
+//        if (CollectionUtils.isEmpty(
+//                corgiToolMapper.getInviteByUserId(wechatInvite.getUserId(), wechatInvite.getWechatId()))) {
             corgiToolMapper.inviteWechat(wechatInvite);
-        }
+//        }
     }
 
     @Override
