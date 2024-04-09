@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiInviteUserMapper">
     <select id="countInvite" resultType="java.lang.Integer">
-        select count(1) from corgi_invite_user where user_id = #{userId}
+        select count(1) from corgi_invite_user where user_id = #{userId} and status = '1'
     </select>
 
     <select id="countInviteTel" resultType="java.lang.Integer">
