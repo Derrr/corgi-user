@@ -442,12 +442,12 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         calendar.add(Calendar.DATE, -3);
         boolean isOldUser = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime())
                 .compareTo(userLogin.getCtime()) > 0;
-        if (isOldUser) {
-            return false;
-        }
-        if (corgiInviteUserMapper.countInviteTel(userLogin.getTelNo()) > 0) {
-            return false;
-        }
+//        if (isOldUser) {
+//            return false;
+//        }
+//        if (corgiInviteUserMapper.countInviteTel(userLogin.getTelNo()) > 0) {
+//            return false;
+//        }
         corgiInviteUserMapper.addInvite(userId, inviteId, userLogin.getTelNo());
         String messageKey = "invite-" + inviteId + "-inviter-" + userId;
         if (redisTemplate.opsForValue().setIfAbsent(messageKey, inviteId, 1L, TimeUnit.HOURS)) {
@@ -468,7 +468,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                         return false;
                     }
                     Integer inviteCount = corgiInviteUserMapper.countInvite(userId);
-                    Integer shouldBonus = inviteCount / 10 > 12 ? 12 : inviteCount / 10;
+                    Integer shouldBonus = inviteCount / 1 > 12 ? 12 : inviteCount / 1;
                     for (int j = 0; j < shouldBonus - gotGoods.size(); j++) {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String vipExpireDate = corgiUserMapper.getVipExpire(userId);
