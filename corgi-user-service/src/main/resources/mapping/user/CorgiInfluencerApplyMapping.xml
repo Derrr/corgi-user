@@ -42,6 +42,12 @@
         <if test="apply.userId != null and apply.userId != ''">
             and user_id = #{apply.userId}
         </if>
+        <if test="apply.nickname != null and apply.nickname != ''">
+            and nickname = #{apply.nickname}
+        </if>
+        <if test="apply.wechat != null and apply.wechat != ''">
+            and wechat = #{apply.wechat}
+        </if>
         order by id desc limit #{start}, #{size}
     </select>
 

@@ -439,7 +439,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     public Boolean invite(String userId, String inviteId) {
         UserLogin userLogin = corgiUserMapper.getUserLogin(inviteId);
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -3);
+        calendar.add(Calendar.DATE, -1);
         boolean isOldUser = new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime())
                 .compareTo(userLogin.getCtime()) > 0;
 //        if (isOldUser) {
