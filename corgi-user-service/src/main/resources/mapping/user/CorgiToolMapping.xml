@@ -425,7 +425,7 @@
 
     <update id="bindWechat" parameterType="com.corgi.user.entity.WechatInvite">
         update corgi_wechat_invite set corgi_id = #{invite.corgiId}, status = #{invite.status}
-        where user_id = #{invite.userId} and wechat_id = #{invite.wechat_id}
+        where user_id = #{invite.userId} and wechat_id = #{invite.wechatId}
     </update>
     <select id="getInviteByUserId" resultType="com.corgi.user.entity.WechatInvite">
         select user_id userId, wechat_id wechatId, wechat_name wechatName,
