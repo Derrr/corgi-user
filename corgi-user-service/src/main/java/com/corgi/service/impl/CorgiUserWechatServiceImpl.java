@@ -55,6 +55,6 @@ public class CorgiUserWechatServiceImpl implements CorgiUserWechatService {
 
     @Override
     public Integer countWechat(UserWechat userWechat) {
-        return corgiUserWechatMapper.countWechat();
+        return corgiUserWechatMapper.countWechat(userWechat);
     }
 }

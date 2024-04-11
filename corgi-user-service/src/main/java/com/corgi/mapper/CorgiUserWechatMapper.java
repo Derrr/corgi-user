@@ -21,5 +21,5 @@ public interface CorgiUserWechatMapper {
 
     List<UserWechat> queryWechat(@Param("wechat")UserWechat userWechat,@Param("start")Integer start, @Param("size")Integer size);
 
-    Integer countWechat();
+    Integer countWechat(@Param("wechat")UserWechat userWechat);
 }
