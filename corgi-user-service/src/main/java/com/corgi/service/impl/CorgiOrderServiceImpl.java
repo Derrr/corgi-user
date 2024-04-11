@@ -572,7 +572,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         return pushMessage;
     }
 
-    private PushMessage buildBonusMessage(String userId){
+    private PushMessage buildBonusMessage(String userId) {
         PushMessage pushMessage = new PushMessage();
         pushMessage.setSourceUserId("corgihelper");
         pushMessage.setTargetUserId(userId);
@@ -580,14 +580,15 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         return pushMessage;
     }
 
-    private PushMessage buildInvitedMessage(String userId, String inviteId){
+    private PushMessage buildInvitedMessage(String userId, String inviteId) {
         UserDetail userDetail = corgiUserMapper.getUserDetail(inviteId);
         PushMessage pushMessage = new PushMessage();
+        pushMessage.setType(PushMessage.DEFAULT);
         pushMessage.setSourceUserId("corgihelper");
         pushMessage.setTargetUserId(userId);
         pushMessage.setMessage("邀请成功通知");
         JSONArray content = new JSONArray();
-        content.add(new JSONObject().fluentPut("text", "恭喜你邀请 "+userDetail.getNickname()+" 成功啦"));
+        content.add(new JSONObject().fluentPut("text", "恭喜你邀请 " + userDetail.getNickname() + " 成功啦"));
         content.add(new JSONObject().fluentPut("text", " 去和他打声招呼吧 >>").fluentPut("url", inviteId).fluentPut("urlType", "5"));
         HashMap<String, Object> extra = new HashMap<>();
         extra.put("type", "907");
@@ -637,8 +638,9 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         JSONArray content = new JSONArray();
         content.add(new JSONObject().fluentPut("text", reply));
         extra.put("content", content);
-        extra.put("bottomText", "微信交友需谨慎，投诉请点击>>");
-        extra.put("bottomUrlType", "16");
+        extra.put("bottomText", "查看微信>>");
+        extra.put("bottomUrlType", "17");
+        extra.put("bottomUrl", goods.getTraderId());
         extra.put("alertTitle", "成功解锁微信");
 
         PushMessage pushMessage = new PushMessage();
