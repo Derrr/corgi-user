@@ -642,8 +642,10 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
         extra.put("alertTitle", "成功解锁微信");
 
         PushMessage pushMessage = new PushMessage();
+        pushMessage.setType(PushMessage.DEFAULT);
         pushMessage.setSourceUserId("corgi" + goods.getTraderId());
         pushMessage.setTargetUserId(goods.getUserId());
+        pushMessage.setMessage("感谢购买");
         pushMessage.setExtra(extra);
         return pushMessage;
     }
