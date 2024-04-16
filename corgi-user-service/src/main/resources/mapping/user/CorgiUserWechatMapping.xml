@@ -44,7 +44,7 @@
         from corgi_user_wechat
         where status = 1
         <if test="wechat.userId != null and wechat.userId != ''">
-            and userId = #{wechat.userId}
+            and user_id = #{wechat.userId}
         </if>
         <if test="wechat.nickname != null and wechat.nickname != ''">
             and nickname = #{wechat.nickname}
