@@ -75,9 +75,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                 try {
                     if (redisTemplate.hasKey(key)) {
                         redisTemplate.opsForList().rightPushAll(key, userIds);
-                        redisTemplate.expire(key, 1l, TimeUnit.DAYS);
                     } else {
                         redisTemplate.opsForList().rightPushAll(key, userIds);
+                        redisTemplate.expire(key, 1l, TimeUnit.DAYS);
                     }
                 } catch (Exception e) {
                     redisTemplate.delete(key);
@@ -127,6 +127,18 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         String key = "user_match_" + userId;
         try {
             if (redisTemplate.hasKey(key)) {
+                String threshold = (System.currentTimeMillis() - 14 * 24 * 3600 * 1000) + "";
+                List<String> oldMatches = redisTemplate.opsForList().range(key, 0, -1);
+                for (String oldMatch : oldMatches) {
+                    if (!StringUtils.isEmpty(oldMatch) && oldMatch.split("-").length > 1) {
+                        String addTime = oldMatch.split("-")[1];
+                        if (threshold.compareTo(addTime) > 0) {
+                            redisTemplate.opsForList().leftPop(key);
+                        } else {
+                            break;
+                        }
+                    }
+                }
                 redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
             } else {
                 redisTemplate.opsForList().rightPush(key, matchId + "-" + System.currentTimeMillis());
