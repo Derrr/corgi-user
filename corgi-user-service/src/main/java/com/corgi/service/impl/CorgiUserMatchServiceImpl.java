@@ -71,18 +71,18 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                     break;
                 }
             }
-            if (!CollectionUtils.isEmpty(userIds)) {
-                try {
-                    if (redisTemplate.hasKey(key)) {
-                        redisTemplate.opsForList().rightPushAll(key, userIds);
-                    } else {
-                        redisTemplate.opsForList().rightPushAll(key, userIds);
-                        redisTemplate.expire(key, 1l, TimeUnit.DAYS);
-                    }
-                } catch (Exception e) {
-                    redisTemplate.delete(key);
-                }
-            }
+//            if (!CollectionUtils.isEmpty(userIds)) {
+//                try {
+//                    if (redisTemplate.hasKey(key)) {
+//                        redisTemplate.opsForList().rightPushAll(key, userIds);
+//                    } else {
+//                        redisTemplate.opsForList().rightPushAll(key, userIds);
+//                        redisTemplate.expire(key, 1l, TimeUnit.DAYS);
+//                    }
+//                } catch (Exception e) {
+//                    redisTemplate.delete(key);
+//                }
+//            }
             if (result.size() >= 6) {
                 break;
             }
