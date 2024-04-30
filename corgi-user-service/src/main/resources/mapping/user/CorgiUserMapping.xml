@@ -4,7 +4,7 @@
     <select id="getUserLoginByTelNo" resultType="com.corgi.user.entity.UserLogin">
         select id userId, tel_no telNo, im_id imId, ctime
         from corgi_user_login
-        where tel_no = #{telNo} limit 1
+        where tel_no = #{telNo} order by id desc limit 1
     </select>
 
     <select id="getUserLogin" resultType="com.corgi.user.entity.UserLogin">
