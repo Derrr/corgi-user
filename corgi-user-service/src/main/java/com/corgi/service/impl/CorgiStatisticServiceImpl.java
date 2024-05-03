@@ -164,6 +164,9 @@ public class CorgiStatisticServiceImpl implements CorgiStatisticService {
     @Override
     public CorgiBehaviorStatistics getBehaviorData(CorgiBehaviorReq behaviorReq) {
         if (behaviorReq.isPayType()) {
+            if ("match".equals(behaviorReq.getType())) {
+                behaviorReq.setType("wechat");
+            }
             return corgiStatisticMapper.getPayTypeBehavior(behaviorReq);
         }
         if (behaviorReq.isActivityType()) {

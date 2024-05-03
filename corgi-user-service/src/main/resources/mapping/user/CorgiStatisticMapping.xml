@@ -235,7 +235,11 @@
         from corgi_user_goods g
         where g.ctime > #{behavior.startTime}
           and g.ctime &lt; #{behavior.endTime}
-          and g.goods_type = #{behavior.type}
+          and (g.goods_type = #{behavior.type}
+              <if test = "behavior.type = 'location'">
+                  or g.goods_type = 'locationmonth'
+              </if>
+            )
     </select>
 
     <select id="getActivityTypeBehavior" resultType="com.corgi.user.entity.CorgiBehaviorStatistics">
