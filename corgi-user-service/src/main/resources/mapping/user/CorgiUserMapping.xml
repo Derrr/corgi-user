@@ -133,7 +133,9 @@
         select d.`user_id`                            userId,
                d.`nickname`,
                d.`check_nickname`                     checkNickname,
-               d.`avatar`,
+               if(d.avatar_check_status =
+                  'check','https://corgi-pic.oss-cn-beijing.aliyuncs.com/default-avatar/corgi-butt.png',
+                   d.`avatar`)                        avatar,
                d.avatar_status                        avatarStatus,
                d.avatar_check_status                  avatarCheckStatus,
                d.avatar_data_id                       avatarDataId,
