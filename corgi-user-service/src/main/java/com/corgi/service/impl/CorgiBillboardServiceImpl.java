@@ -58,6 +58,11 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
     @Override
     public List<UserProfile> getBillboard(String date) {
         List<UserProfile> userProfiles = corgiBillboardMapper.getBillboardUsers(date);
+        for (UserProfile userProfile : userProfiles) {
+            if (StringUtils.isNotEmpty(userProfile.getAvatar()) && !"check".equals(userProfile.getAvatarCheckStatus())) {
+                userProfile.setAvatar(userProfile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://","http://"));
+            }
+        }
         return userProfiles;
     }
 

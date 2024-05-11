@@ -167,7 +167,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         if (userDetail == null) {
             return null;
         }
-        if (!StringUtils.isEmpty(userDetail.getAvatar())) {
+        if (!StringUtils.isEmpty(userDetail.getAvatar()) && !"check".equals(userDetail.getAvatarCheckStatus())) {
             userDetail.setAvatar(userDetail.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://","http://"));
         }
         if (!StringUtils.isEmpty(userDetail.getBackground())) {
@@ -183,7 +183,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
             if (userDetail == null) {
                 continue;
             }
-            if (!StringUtils.isEmpty(userDetail.getAvatar())) {
+            if (!StringUtils.isEmpty(userDetail.getAvatar()) && !"check".equals(userDetail.getAvatarCheckStatus())) {
                 userDetail.setAvatar(userDetail.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://","http://"));
             }
             if (!StringUtils.isEmpty(userDetail.getBackground())) {
@@ -374,7 +374,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
     public List<UserProfile> getAllUsers(String userId, Integer pageSize) {
         List<UserProfile> userProfiles = corgiUserMapper.getUserProfileByPage(userId, pageSize);
         for (UserProfile profile : userProfiles) {
-            if (StringUtils.isEmpty(profile.getAvatar())) {
+            if (StringUtils.isEmpty(profile.getAvatar()) || "check".equals(profile.getAvatarCheckStatus())) {
                 continue;
             }
             profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://","http://"));
@@ -417,7 +417,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
         }
         List<UserProfile> userProfiles = corgiUserMapper.queryInfluencerByHeat(userDetail, page < 1 ? 0 : (page - 1) * pageSize, pageSize);
         for (UserProfile profile : userProfiles) {
-            if (StringUtils.isEmpty(profile.getAvatar())) {
+            if (StringUtils.isEmpty(profile.getAvatar()) || "check".equals(userDetail.getAvatarCheckStatus())) {
                 continue;
             }
             profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://","http://"));
@@ -483,7 +483,7 @@ public class CorgiUserServiceImpl implements CorgiUserService {
                     }
                     String userId2 = userProfile.getUserId();
                     int count = corgiUserFollowService.isFollowed(userId, userId2);
-                    if (StringUtils.isEmpty(userProfile.getAvatar())) {
+                    if (StringUtils.isEmpty(userProfile.getAvatar()) && !"check".equals(userProfile.getAvatarCheckStatus())) {
                         userProfile.setAvatar(userProfile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://","http://"));
                     }
                     userProfile.setIsFollowed(count);
