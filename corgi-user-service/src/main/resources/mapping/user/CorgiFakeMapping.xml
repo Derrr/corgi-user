@@ -154,4 +154,10 @@
         select count(1)
         from corgi_fake_comment
     </select>
+
+    <update id="updateUserOnline">
+        update corgi_user_position
+        set online_time = online_time + 10
+        where user_id = #{userId}
+    </update>
 </mapper>

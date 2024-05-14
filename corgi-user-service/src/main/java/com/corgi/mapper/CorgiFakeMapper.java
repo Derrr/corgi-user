@@ -47,4 +47,6 @@ public interface CorgiFakeMapper {
     String getFakeComment(@Param("limit")Integer limit);
 
     Integer countFakeComment();
+
+    void updateUserOnline(@Param("userId")String userId);
 }

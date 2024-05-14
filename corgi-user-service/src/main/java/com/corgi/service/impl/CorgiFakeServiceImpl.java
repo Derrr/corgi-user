@@ -7,6 +7,7 @@ import com.corgi.activity.entity.CorgiActivity;
 import com.corgi.entity.CheckPic;
 import com.corgi.mapper.CorgiBarMapper;
 import com.corgi.mapper.CorgiFakeMapper;
+import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.user.api.*;
 import com.corgi.user.entity.*;
 import lombok.extern.slf4j.Slf4j;
@@ -158,6 +159,7 @@ public class CorgiFakeServiceImpl implements CorgiFakeService {
     @Override
     public void updateFakeTime(String userId) {
         corgiFakeMapper.updateFakeUserPosition(userId, System.currentTimeMillis());
+        corgiFakeMapper.updateUserOnline(userId);
     }
 
     @Override
