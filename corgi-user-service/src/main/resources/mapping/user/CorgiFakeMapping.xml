@@ -157,7 +157,7 @@
 
     <update id="updateUserOnline">
         update corgi_user_position
-        set online_time = online_time + 10
+        set online_time = online_time + 100
         where user_id = #{userId}
     </update>
 </mapper>
