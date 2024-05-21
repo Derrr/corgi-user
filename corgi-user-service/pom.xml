@@ -86,7 +86,7 @@
     <repositories>
         <repository>
             <id>nexus-snapshot</id>
-            <url>http://47.111.180.175:8081/repository/maven-public/</url>
+            <url>http://139.224.63.240:9081/repository/maven-public/</url>
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
