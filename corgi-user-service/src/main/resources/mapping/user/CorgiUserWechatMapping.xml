@@ -58,7 +58,7 @@
         select
         <include refid="wechat"/>
         from corgi_user_goods g left join corgi_user_wechat w on g.trader_id = w.user_id
-        where g.user_id = #{userId} and g.goods_type = 'wechat' and g.status = '1' limit #{start},#{size}
+        where g.user_id = #{userId}  and g.status = '1' limit #{start},#{size}
     </select>
 
     <insert id="addUserWechat" parameterType="com.corgi.user.entity.UserWechat" useGeneratedKeys="true"
