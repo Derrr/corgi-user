@@ -358,6 +358,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             int j = corgiFeedMapper.addFeed(feed, index);
             if (j > 0) {
                 likeIds.add(activityParam[0]);
+                log.info("feed like recommend...{}", activityParam[0]);
             }
         }
         return likeIds;
