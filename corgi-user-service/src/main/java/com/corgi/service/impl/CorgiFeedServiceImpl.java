@@ -315,6 +315,11 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         }
     }
 
+    @Override
+    public Integer countFeed(String activityId, String userId) {
+        return corgiFeedMapper.countActivityFeed(activityId, userId, UserUtils.getIndex(userId));
+    }
+
     private CorgiFeed buildFeed(CorgiVlog vlog, String userId) {
         CorgiFeed feed = new CorgiFeed();
         feed.setFeed(vlog.getActivityId());

@@ -47,6 +47,12 @@
           and view_count = '0'
     </delete>
 
+    <select id="countActivityFeed" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_feed_${index}
+        where user_id = #{userId}
+          and feed = #{activityId}
+    </select>
 
     <select id="countUnviewFeed" resultType="java.lang.Integer">
         select count(1)

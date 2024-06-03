@@ -31,4 +31,6 @@ public interface CorgiFeedService {
     Integer countViewFeed(String date);
 
     void deleteFeed(CorgiFeed feed);
+
+    Integer countFeed(String activityId, String userId);
 }

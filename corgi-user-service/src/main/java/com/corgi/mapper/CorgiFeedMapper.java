@@ -69,6 +69,15 @@ public interface CorgiFeedMapper {
     void deleteFeed(@Param("feed") CorgiFeed corgiFeed, @Param("index") String index);
 
     /**
+     * 统计feed
+     *
+     * @param activityId
+     * @param userId
+     * @param index
+     */
+    Integer countActivityFeed(@Param("activityId") String activityId, @Param("userId")String userId, @Param("index") String index);
+
+    /**
      * 删除用户feed
      *
      * @param userId
