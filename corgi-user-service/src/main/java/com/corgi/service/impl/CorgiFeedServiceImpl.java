@@ -67,7 +67,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             size = 10;
         }
         String index = UserUtils.getIndex(userId);
-        List<String> manuallyIds = getManuallyRecommend(userId, index, 3);
+        List<String> manuallyIds = getManuallyRecommend(userId, index, 5);
         if (!CollectionUtils.isEmpty(manuallyIds)) {
             size = size - manuallyIds.size();
             if (size < 0) {
@@ -76,7 +76,7 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         } else {
             manuallyIds = new ArrayList<>();
         }
-        List<String> likeIds = getLikeRecommend(userId, index, 5);
+        List<String> likeIds = getLikeRecommend(userId, index, 3);
         if (!CollectionUtils.isEmpty(likeIds)) {
             size = size - likeIds.size();
             manuallyIds.addAll(likeIds);
