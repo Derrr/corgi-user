@@ -67,23 +67,27 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             size = 10;
         }
         String index = UserUtils.getIndex(userId);
-        List<String> manuallyIds = getManuallyRecommend(userId, index, 5);
-        if (!CollectionUtils.isEmpty(manuallyIds)) {
-            size = size - manuallyIds.size();
-            if (size < 0) {
-                return manuallyIds;
-            }
-        } else {
-            manuallyIds = new ArrayList<>();
-        }
-        List<String> likeIds = getLikeRecommend(userId, index, 3);
+        List<String> likeIds = getLikeRecommend(userId, index, 5);
         if (!CollectionUtils.isEmpty(likeIds)) {
             size = size - likeIds.size();
-            manuallyIds.addAll(likeIds);
             if (size < 0) {
-                return manuallyIds;
+                return likeIds;
+            }
+        }else{
+            likeIds = new ArrayList<>();
+        }
+        List<String> manuallyIds = new ArrayList<>();
+        if(likeIds.size() < 8) {
+            manuallyIds = getManuallyRecommend(userId, index, 8 - likeIds.size());
+            if (!CollectionUtils.isEmpty(manuallyIds)) {
+                size = size - manuallyIds.size();
+                manuallyIds.addAll(likeIds);
+                if (size < 0) {
+                    return manuallyIds;
+                }
             }
         }
+
         List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size, null);
         if (!CollectionUtils.isEmpty(manuallyIds)) {
             for (String activityId : manuallyIds) {
