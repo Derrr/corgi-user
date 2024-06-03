@@ -67,11 +67,22 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             size = 10;
         }
         String index = UserUtils.getIndex(userId);
-        List<String> manuallyIds = getManuallyRecommend(userId, index, 5);
-
+        List<String> manuallyIds = getManuallyRecommend(userId, index, 3);
         if (!CollectionUtils.isEmpty(manuallyIds)) {
             size = size - manuallyIds.size();
-            size = size < 0 ? 0 : size;
+            if (size < 0) {
+                return manuallyIds;
+            }
+        } else {
+            manuallyIds = new ArrayList<>();
+        }
+        List<String> likeIds = getLikeRecommend(userId, index, 5);
+        if (!CollectionUtils.isEmpty(likeIds)) {
+            size = size - likeIds.size();
+            manuallyIds.addAll(likeIds);
+            if (size < 0) {
+                return manuallyIds;
+            }
         }
         List<String> result = corgiFeedMapper.getUnviewFeed(userId, index, size, null);
         if (!CollectionUtils.isEmpty(manuallyIds)) {
@@ -328,6 +339,30 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
         return feed;
     }
 
+    private List<String> getLikeRecommend(String userId, String index, Integer size) {
+        String likeKey = userId + "-recommend-activity";
+        List<String> likeIds = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            String activity = redisTemplate.opsForList().rightPop(likeKey);
+            if (StringUtils.isEmpty(activity)) {
+                break;
+            }
+            String[] activityParam = activity.split("-");
+            CorgiFeed feed = new CorgiFeed();
+            feed.setFeed(activityParam[0]);
+            if (activityParam.length > 1) {
+                feed.setFeedUserId(activityParam[1]);
+            }
+            feed.setUserId(userId);
+            feed.setSource("likeRecommend");
+            int j = corgiFeedMapper.addFeed(feed, index);
+            if (j > 0) {
+                likeIds.add(activityParam[0]);
+            }
+        }
+        return likeIds;
+    }
+
     private List<String> getManuallyRecommend(String userId, String index, Integer size) {
         String userFeeds = redisTemplate.opsForValue().get("vip_feed_" + userId);
         if (!StringUtils.isEmpty(userFeeds)) {
@@ -343,23 +378,24 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
                 userFeeds = "";
             }
         }
-        List<String> tmpIds = redisTemplate.opsForList().range("manual_feed_" + userId, 0, -1);
+        String manualKey = "manual_feed_" + userId;
         List<String> manualIds = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(tmpIds)) {
-            for (String activity : tmpIds) {
-                String[] activityParam = activity.split("-");
-                CorgiFeed feed = new CorgiFeed();
-                feed.setFeed(activityParam[0]);
-
-                if (activityParam.length > 1) {
-                    feed.setFeedUserId(activityParam[1]);
-                }
-                feed.setUserId(userId);
-                feed.setSource("manual");
-                int i = corgiFeedMapper.addFeed(feed, index);
-                if (i > 0) {
-                    manualIds.add(activityParam[0]);
-                }
+        for (int i = 0; i < size; i++) {
+            String activity = redisTemplate.opsForList().leftPop(manualKey);
+            if (StringUtils.isEmpty(activity)) {
+                break;
+            }
+            String[] activityParam = activity.split("-");
+            CorgiFeed feed = new CorgiFeed();
+            feed.setFeed(activityParam[0]);
+            if (activityParam.length > 1) {
+                feed.setFeedUserId(activityParam[1]);
+            }
+            feed.setUserId(userId);
+            feed.setSource("manual");
+            int j = corgiFeedMapper.addFeed(feed, index);
+            if (j > 0) {
+                manualIds.add(activityParam[0]);
             }
         }
         if (!StringUtils.isEmpty(userFeeds)) {
