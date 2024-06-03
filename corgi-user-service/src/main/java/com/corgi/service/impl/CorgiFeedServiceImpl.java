@@ -73,12 +73,12 @@ public class CorgiFeedServiceImpl implements CorgiFeedService {
             if (size < 0) {
                 return likeIds;
             }
-        }else{
+        } else {
             likeIds = new ArrayList<>();
         }
         List<String> manuallyIds = new ArrayList<>();
-        if(likeIds.size() < 8) {
-            manuallyIds = getManuallyRecommend(userId, index, 8 - likeIds.size());
+        if (likeIds.size() < 8) {
+            manuallyIds = getManuallyRecommend(userId, index, 8 - likeIds.size() > 5 ? 5 : 8 - likeIds.size());
             if (!CollectionUtils.isEmpty(manuallyIds)) {
                 size = size - manuallyIds.size();
                 manuallyIds.addAll(likeIds);
