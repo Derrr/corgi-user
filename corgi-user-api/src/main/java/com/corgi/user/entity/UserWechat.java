@@ -17,4 +17,5 @@ public class UserWechat implements Serializable {
     private String merchId;
     private String ctime;
     private String uptime;
+    private Integer sort;
 }

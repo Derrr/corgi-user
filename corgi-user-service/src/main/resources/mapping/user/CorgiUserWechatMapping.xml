@@ -6,7 +6,7 @@
         w
         .
         id
-        ,w.wechat,w.avatar,w.nickname,w.user_id userId, w.wechat_shot wechatShot,w.status, w.ctime,w.uptime,w.merch_id merchId,w.reply
+        ,w.wechat,w.avatar,w.nickname,w.user_id userId, w.wechat_shot wechatShot,w.status, w.ctime,w.uptime,w.merch_id merchId,w.reply,w.weight sort
     </sql>
     <select id="getUserWechat" resultType="com.corgi.user.entity.UserWechat">
         select
@@ -21,7 +21,7 @@
         from corgi_user_wechat w
         where status = 1
         <if test="wechat.id != null and wechat.id != ''">
-            and id &lt; #{wechat.id}
+            and weight &lt; #{wechat.id}
         </if>
         <if test="wechat.userId != null and wechat.userId != ''">
             and user_id = #{wechat.userId}
@@ -32,7 +32,7 @@
         <if test="wechat.wechat != null and wechat.wechat != ''">
             and wechat = #{wechat.wechat}
         </if>
-        order by id desc limit
+        order by `weight` desc limit
         <if test="start > 0">
             #{start},
         </if>
