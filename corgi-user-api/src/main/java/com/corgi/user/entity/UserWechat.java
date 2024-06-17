@@ -15,9 +15,6 @@ public class UserWechat implements Serializable {
     private String reply;
     private String status;
     private String merchId;
-    private Integer count;
-    private Integer week;
-    private Integer weight;
     private String ctime;
     private String uptime;
 }

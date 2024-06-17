@@ -11,6 +11,8 @@ import java.util.List;
 public interface CorgiUserWechatService {
     void updateUserWechat(UserWechat userWechat);
 
+    void updateUserWechatCount(String userId, Integer total, Integer period, Integer weight);
+
     UserWechat getUserWechat(String userId);
 
     List<UserWechat> listUserPaidWechats(String userId, Integer page, Integer pageSize);

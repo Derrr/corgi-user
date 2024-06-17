@@ -15,6 +15,10 @@ public interface CorgiUserWechatMapper {
 
     void updateUserWechat(@Param("wechat")UserWechat userWechat);
 
+    void updateUserWechatCount(@Param("userId")String userId,
+                               @Param("total")Integer total, @Param("period")Integer period,
+                               @Param("weight")Integer weight);
+
     void addUserWechat(@Param("wechat")UserWechat userWechat);
 
     List<UserWechat> listPaidWechats(@Param("userId")String userId,@Param("start")Integer start, @Param("size")Integer size);

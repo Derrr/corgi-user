@@ -39,6 +39,11 @@ public class CorgiUserWechatServiceImpl implements CorgiUserWechatService {
     }
 
     @Override
+    public void updateUserWechatCount(String userId, Integer total, Integer period, Integer weight) {
+
+    }
+
+    @Override
     public UserWechat getUserWechat(String userId) {
         return corgiUserWechatMapper.getUserWechat(userId);
     }

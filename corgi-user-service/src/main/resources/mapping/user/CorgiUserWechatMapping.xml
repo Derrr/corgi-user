@@ -95,4 +95,10 @@
         </set>
         where user_id = #{wechat.userId}
     </update>
+
+    <update id="updateUserWechatCount">
+        update corgi_user_wechat
+        set `total` = #{total}, `period` = #{period}, `weight` = #{weight}
+        where user_id = #{userId}
+    </update>
 </mapper>
