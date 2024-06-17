@@ -82,8 +82,13 @@
     <select id="countLikeByUser" resultType="java.lang.Long" parameterType="com.corgi.user.entity.UserDetail">
         select count(1)
         from corgi_activity_like l
-        where l.ctime > #{user.ctime}
-          and l.user_id = #{user.userId}
+        where l.user_id = #{user.userId}
+        <if test="user.ctime != null and user.ctime != ''">
+            and l.ctime > #{user.ctime}
+        </if>
+        <if test="user.checkStatus != null and user.checkStatus != ''">
+            and l.type = #{user.checkStatus}
+        </if>
     </select>
 
     <select id="countLikeUserByDate" resultType="java.lang.Long">
@@ -101,7 +106,8 @@
                `like_user_name`   likeUserName,
                `like_user_avatar` likeUserAvatar
         from corgi_activity_like l
-                 join corgi_user_follow f on f.follow_user_id = l.like_user_id and f.user_id = #{userId} and f.is_deleted = '0'
+                 join corgi_user_follow f
+                      on f.follow_user_id = l.like_user_id and f.user_id = #{userId} and f.is_deleted = '0'
         where activity_id = #{activityId}
         order by l.id desc limit 3
     </select>
@@ -112,13 +118,14 @@
         left join corgi_activity_creator c on c.activity_id = l.activity_id
         where l.like_user_id = #{userId}
         <if test="activityId != null and activityId != ''">
-            and l.id &lt; (select id from corgi_activity_like where like_user_id = #{userId} and activity_id = #{activityId})
+            and l.id &lt; (select id from corgi_activity_like where like_user_id = #{userId} and activity_id =
+            #{activityId})
         </if>
         <if test="category != null and category != ''">
             and c.category = #{category}
         </if>
         order by l.id DESC
-            limit #{start}, #{size}
+        limit #{start}, #{size}
     </select>
 
     <select id="getLikeByPage" resultType="com.corgi.user.entity.ActivityLike">
