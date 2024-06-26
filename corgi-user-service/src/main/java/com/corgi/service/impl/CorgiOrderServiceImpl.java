@@ -74,6 +74,44 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
     }
 
     @Override
+    public void buyWithCoupon(CorgiOrder order) {
+        try {
+            if (CorgiOrder.STATUS.SUCCESS.equals(order.getStatus())) {
+                String tradeNo = order.getTradeNo();
+                String key = "buying_goods_" + tradeNo;
+                try {
+                    this.lock(key);
+                    if (corgiOrderMapper.countGoodsByTradeNo(tradeNo) > 0) {
+                        return;
+                    }
+                    CorgiMerchandise merchandise = this.getMerchandiseById(order.getMerchId(), order.getUserId());
+                    if (merchandise == null) {
+                        return;
+                    }
+                    CorgiUserGoods goods = CorgiUserGoods.builder()
+                            .userId(order.getUserId())
+                            .currency(CorgiUserGoods.CURRENCY.CNY)
+                            .price(merchandise.getPrice())
+                            .tradeNo(order.getTradeNo())
+                            .merchId(order.getMerchId())
+                            .build();
+                    order.setResult(merchandise + "=" + order.getMerchId());
+                    corgiOrderMapper.addLog(order);
+                    if (CorgiMerchandise.ACTIVITY.equals(merchandise.getType())) {
+                        this.buyActivity(goods, order);
+                    }
+                    corgiOrderMapper.updateOrder(order);
+                } finally {
+                    this.unlock(key);
+                }
+            }
+        } catch (Exception e) {
+            order.setResult(e.getMessage());
+            corgiOrderMapper.addLog(order);
+        }
+    }
+
+    @Override
     public void updateOrder(CorgiOrder order) {
         try {
             corgiOrderMapper.addLog(order);

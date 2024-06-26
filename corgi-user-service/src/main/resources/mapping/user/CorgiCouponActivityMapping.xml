@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.CorgiCouponActivityMapper">
+    <sql id="coupon">
+        c.id, c.user_id userId, c.value, c.status, c.ctime, c.expire_date expireDate, c.used_activity userdActivity
+    </sql>
+    <select id="getCouponList" resultType="com.corgi.user.entity.CouponActivity">
+        select <include refid="coupon"/>
+        from corgi_coupon_activity c
+        where c.status >= '0'
+        <if test="coupon.userId != null and coupon.userId != ''">
+            and c.user_id = #{coupon.userId}
+        </if>
+        order by c.status desc, c.uptime desc
+        limit #{start}, #{size}
+    </select>
+
+    <select id="getCoupon" resultType="com.corgi.user.entity.CouponActivity">
+        select <include refid="coupon"/>
+        from corgi_coupon_activity c
+        where c.id = #{couponId}
+    </select>
+
+    <insert id="addCouponActivity" parameterType="com.corgi.user.entity.CouponActivity">
+        insert into `corgi`.`corgi_coupon_activity` (`user_id`, `value`, `expire_date`)
+        values (#{coupon.userId}, #{coupon.value}, #{coupon.expireDate});
+    </insert>
+
+    <update id="updateCouponActivity" parameterType="com.corgi.user.entity.CouponActivity">
+        update corgi_coupon_activity c
+        <set>
+            <if test="coupon.value != null and coupon.value >= 0">
+                c.value = #{coupon.value}
+            </if>
+            <if test="coupon.status != null and coupon.status != ''">
+                c.status = #{coupon.status}
+            </if>
+            <if test="coupon.expireDate != null and coupon.expireDate != ''">
+                c.expire_date = #{coupon.expireDate}
+            </if>
+            <if test="coupon.usedActivity != null and coupon.usedActivity != ''">
+                c.used_activity = #{coupon.usedActivity}
+            </if>
+        </set>
+        where c.id = #{coupon.id}
+    </update>
+
+    <update id="expireCouponActivity">
+        update corgi_coupon_activity c set status = '0'
+        where status = '1' and expire_date &lt; #{coupon.expireDate}
+        <if test = "coupon.userId != null and coupon.userId != ''">
+            and user_id = #{coupon.userId}
+        </if>
+    </update>
+</mapper>

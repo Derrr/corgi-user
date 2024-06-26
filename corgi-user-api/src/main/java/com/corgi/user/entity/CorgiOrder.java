@@ -18,6 +18,7 @@ public class CorgiOrder implements Serializable {
         String IN_APP = "inApp";
         String PAY = "pay";
         String WITHDRAW = "withdraw";
+        String COUPON = "coupon";
     }
 
     public interface STATUS {

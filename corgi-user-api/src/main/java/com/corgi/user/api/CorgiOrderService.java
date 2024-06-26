@@ -13,6 +13,8 @@ public interface CorgiOrderService {
 
     void addOrder(CorgiOrder order);
 
+    void buyWithCoupon(CorgiOrder order);
+
     void updateOrder(CorgiOrder order);
 
     void addLog(String result, String transationId, String originId);
