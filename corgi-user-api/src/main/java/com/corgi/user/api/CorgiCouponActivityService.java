@@ -12,6 +12,8 @@ public interface CorgiCouponActivityService {
 
     CouponActivity getCouponActivity(String couponId);
 
+    Integer countCoupon(CouponActivity couponActivity);
+
     void updateCouponActivity(CouponActivity couponActivity);
 
     void expireCouponActivity(CouponActivity couponActivity);

@@ -96,6 +96,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                             .merchId(order.getMerchId())
                             .build();
                     order.setResult(merchandise + "=" + order.getMerchId());
+                    corgiOrderMapper.updateOrder(order);
                     corgiOrderMapper.addLog(order);
                     if (CorgiMerchandise.ACTIVITY.equals(merchandise.getType())) {
                         this.buyActivity(goods, order);

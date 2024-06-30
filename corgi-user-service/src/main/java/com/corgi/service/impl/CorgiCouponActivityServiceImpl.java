@@ -33,6 +33,11 @@ public class CorgiCouponActivityServiceImpl implements CorgiCouponActivityServic
     }
 
     @Override
+    public Integer countCoupon(CouponActivity couponActivity) {
+        return couponActivityMapper.countCoupon(couponActivity);
+    }
+
+    @Override
     public void updateCouponActivity(CouponActivity couponActivity) {
         couponActivityMapper.updateCouponActivity(couponActivity);
     }

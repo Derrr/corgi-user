@@ -12,7 +12,7 @@ public class CorgiBehaviorReq implements Serializable {
 
     public enum ActivityType {
         creator("creator", "creator_id"),
-        like("like", "like_user_id"),
+        //like("like", "like_user_id"),
         share("share", "share_user_id"),
         comment("comment", "comment_user_id"),
         ;
