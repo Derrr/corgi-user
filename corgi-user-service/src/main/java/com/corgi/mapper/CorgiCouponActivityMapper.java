@@ -15,7 +15,7 @@ public interface CorgiCouponActivityMapper {
 
     CouponActivity getCoupon(@Param("couponId")String couponId);
 
-    Integer countCoupon(@Param("coupon")CouponActivity couponActivity);
+    Integer countCoupon(@Param("coupon")CouponActivity couponActivity, @Param("date")String date);
 
     void updateCouponActivity(@Param("coupon")CouponActivity couponActivity);
 
