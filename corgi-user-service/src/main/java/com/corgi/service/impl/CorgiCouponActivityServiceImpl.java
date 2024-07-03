@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class CorgiCouponActivityServiceImpl implements CorgiCouponActivityServic
 
     @Override
     public List<CouponActivity> getCouponList(CouponActivity couponActivity, Integer page, Integer pageSize) {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -60);
+        couponActivity.setExpireDate(new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
         return couponActivityMapper.getCouponList(couponActivity, (page - 1) * pageSize, pageSize);
     }
 
@@ -34,6 +38,9 @@ public class CorgiCouponActivityServiceImpl implements CorgiCouponActivityServic
 
     @Override
     public Integer countCoupon(CouponActivity couponActivity) {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -60);
+        couponActivity.setExpireDate(new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
         return couponActivityMapper.countCoupon(couponActivity);
     }
 
