@@ -20,6 +20,8 @@ public class CorgiUserGoods implements Serializable {
     }
     public interface CURRENCY{
         String CNY = "cny";
+        String CORGI = "corgi";
+        String COUPON = "coupon";
     }
 
     private String id;

@@ -230,4 +230,20 @@ public interface CorgiBillboardMapper {
      */
     List<TopicBillboard> listTopicBillboard(@Param("topic") TopicBillboard topic);
 
+    /**
+     * 收入最高用户
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    List<String> getTopIncomeUsers(@Param("startDate") String startDate, @Param("endDate")String endDate);
+
+    /**
+     * 付款最多用户
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    List<String> getTopPayUsers(@Param("startDate") String startDate, @Param("endDate")String endDate);
+
 }

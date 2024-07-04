@@ -209,4 +209,14 @@ public class CorgiBillboardServiceImpl implements CorgiBillboardService {
         corgiBillboardMapper.addTopicBillboard(billboard);
     }
 
+    @Override
+    public List<String> getTopIncomeUsers(String startDate, String endDate) {
+        return corgiBillboardMapper.getTopIncomeUsers(startDate, endDate);
+    }
+
+    @Override
+    public List<String> getTopPayUsers(String startDate, String endDate) {
+        return corgiBillboardMapper.getTopPayUsers(startDate, endDate);
+    }
+
 }

@@ -360,4 +360,19 @@
           and c.check_status not in ('fail', 'check', 'not_good')
         order by b.`order`, b.uptime desc
     </select>
+
+    <select id="getTopIncomeUsers" resultType="java.lang.String">
+        select concat(trader_id,'-',sum(price)) from corgi_user_goods
+        where ctime > #{startDate} and ctime &lt; #{endDate}
+          and trader_id != 'corgi' and currency != 'coupon'
+        group by trader_id order by sum(price) desc limit 20
+    </select>
+
+    <select id="getTopPayUsers" resultType="java.lang.String">
+        select concat(user_id,'-',sum(price)) from corgi_user_goods
+        where ctime > #{startDate} and ctime &lt; #{endDate}
+          and trader_id != 'corgi' and currency != 'coupon'
+        group by user_id order by sum(price) desc limit 20
+    </select>
+
 </mapper>

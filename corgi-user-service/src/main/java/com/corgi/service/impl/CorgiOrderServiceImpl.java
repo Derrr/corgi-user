@@ -90,7 +90,7 @@ public class CorgiOrderServiceImpl implements CorgiOrderService {
                     }
                     CorgiUserGoods goods = CorgiUserGoods.builder()
                             .userId(order.getUserId())
-                            .currency(CorgiUserGoods.CURRENCY.CNY)
+                            .currency(CorgiUserGoods.CURRENCY.COUPON)
                             .price(merchandise.getPrice())
                             .tradeNo(order.getTradeNo())
                             .merchId(order.getMerchId())

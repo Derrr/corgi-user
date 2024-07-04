@@ -54,4 +54,8 @@ public interface CorgiBillboardService {
     void updateTopicBillboard(TopicBillboard billboard);
 
     void addTopicBillboard(TopicBillboard billboard);
+
+    List<String> getTopIncomeUsers(String startDate, String endDate);
+
+    List<String> getTopPayUsers(String startDate, String endDate);
 }
