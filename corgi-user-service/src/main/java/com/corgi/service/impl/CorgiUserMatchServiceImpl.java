@@ -58,6 +58,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         List<UserMatchItem> result = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             List<UserMatchItem> users = corgiMatchService.getMatchItems(userQuery);
+            log.info("user item size:{}", users.size());
             if (CollectionUtils.isEmpty(users)) {
                 break;
             }
