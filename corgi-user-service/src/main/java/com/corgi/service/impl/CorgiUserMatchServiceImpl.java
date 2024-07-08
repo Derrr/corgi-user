@@ -58,7 +58,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         List<UserMatchItem> result = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             List<UserMatchItem> users = corgiMatchService.getMatchItems(userQuery);
-            log.info("user item size:{}", users.size());
+            log.info("query user item size:{}", users.size());
             if (CollectionUtils.isEmpty(users)) {
                 break;
             }
@@ -67,6 +67,9 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
                 if (this.checkMatchItem(item, userDetail, userExtra)) {
                     userIds.add(item.getUserId());
                     result.add(item);
+                }else{
+                    log.info("query user not match");
+                    userIds.add(item.getUserId());
                 }
                 if (result.size() >= 6) {
                     break;
@@ -322,6 +325,7 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (query == null) {
             return true;
         }
+        log.info("query user:{}",query);
         if (query.getRange() != null) {
             String distance = item.getDistance().replaceAll("km", "");
             Double range = query.getRange();
