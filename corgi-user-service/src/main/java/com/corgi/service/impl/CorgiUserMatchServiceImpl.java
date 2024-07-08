@@ -325,7 +325,6 @@ public class CorgiUserMatchServiceImpl implements CorgiUserMatchService {
         if (query == null) {
             return true;
         }
-        log.info("query user:{}",query);
         if (query.getRange() != null) {
             String distance = item.getDistance().replaceAll("km", "");
             Double range = query.getRange();
