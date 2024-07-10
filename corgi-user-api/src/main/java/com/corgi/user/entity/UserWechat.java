@@ -9,6 +9,7 @@ public class UserWechat implements Serializable {
     private String id;
     private String userId;
     private String nickname;
+    private String title;
     private String avatar;
     private String wechat;
     private String wechatShot;

@@ -6,7 +6,7 @@
         w
         .
         id
-        ,w.wechat,w.avatar,w.nickname,w.user_id userId, w.wechat_shot wechatShot,w.status, w.ctime,w.uptime,w.merch_id merchId,w.reply,w.weight sort
+        ,w.wechat,w.avatar,w.nickname,w.user_id userId, w.wechat_shot wechatShot,w.status, w.ctime,w.uptime,w.merch_id merchId,w.reply,w.weight sort,w.title
     </sql>
     <select id="getUserWechat" resultType="com.corgi.user.entity.UserWechat">
         select
@@ -63,9 +63,9 @@
 
     <insert id="addUserWechat" parameterType="com.corgi.user.entity.UserWechat" useGeneratedKeys="true"
             keyProperty="wechat.id">
-        insert into corgi_user_wechat(`wechat`, `nickname`, `avatar`, `user_id`, `wechat_shot`, `merch_id`, `reply`, `status`)
+        insert into corgi_user_wechat(`wechat`, `nickname`, `avatar`, `user_id`, `wechat_shot`, `merch_id`, `reply`, `status`, `title`)
         values (#{wechat.wechat}, #{wechat.nickname}, #{wechat.avatar}, #{wechat.userId}, #{wechat.wechatShot}, #{wechat.merchId},
-                #{wechat.reply}, #{wechat.status})
+                #{wechat.reply}, #{wechat.status}, #{wechat.title})
     </insert>
 
     <update id="updateUserWechat" parameterType="com.corgi.user.entity.UserWechat">
@@ -92,6 +92,10 @@
             <if test="wechat.status != null and wechat.status != ''">
                 `status` = #{wechat.status},
             </if>
+            <if test="wechat.title != null and wechat.title != ''">
+                `title` = #{wechat.title},
+            </if>
+
         </set>
         where user_id = #{wechat.userId}
     </update>
