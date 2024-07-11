@@ -7,11 +7,14 @@
     <select id="getCouponList" resultType="com.corgi.user.entity.CouponActivity">
         select <include refid="coupon"/>
         from corgi_coupon_activity c
-        where (c.status = 2 or c.expire_date &lt; #{coupon.expireDate})
-        <if test="coupon.userId != null and coupon.userId != ''">
-            and c.user_id = #{coupon.userId}
+        where c.user_id = #{coupon.userId}
+        <if test="coupon.status != null and coupon.status != ''">
+            and c.status = #{coupon.status}
         </if>
-        order by c.status desc, c.uptime desc
+        <if test="coupon.status != null and coupon.status != '2'">
+            and c.expire_date &lt; #{coupon.expireDate}
+        </if>
+        order by c.expire_date
         limit #{start}, #{size}
     </select>
 
