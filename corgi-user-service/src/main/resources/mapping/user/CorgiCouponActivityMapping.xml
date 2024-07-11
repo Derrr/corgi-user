@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiCouponActivityMapper">
     <sql id="coupon">
-        c.id, c.user_id userId, c.value, c.status, c.ctime, c.expire_date expireDate, c.used_activity userdActivity
+        c.id, c.user_id userId, c.value, c.status, c.ctime, c.expire_date expireDate, c.used_activity userdActivity,c.title
     </sql>
     <select id="getCouponList" resultType="com.corgi.user.entity.CouponActivity">
         select <include refid="coupon"/>
@@ -34,14 +34,17 @@
     </select>
 
     <insert id="addCouponActivity" parameterType="com.corgi.user.entity.CouponActivity">
-        insert into `corgi`.`corgi_coupon_activity` (`user_id`, `value`, `expire_date`)
-        values (#{coupon.userId}, #{coupon.value}, #{coupon.expireDate});
+        insert into `corgi`.`corgi_coupon_activity` (`user_id`, `value`, `expire_date`,`title`)
+        values (#{coupon.userId}, #{coupon.value}, #{coupon.expireDate}, #{coupon.title});
     </insert>
 
     <update id="updateCouponActivity" parameterType="com.corgi.user.entity.CouponActivity">
         update corgi_coupon_activity c
         <set>
             <if test="coupon.value != null and coupon.value >= 0">
+                c.value = #{coupon.value}
+            </if>
+            <if test="coupon.title != null and coupon.title != ''">
                 c.value = #{coupon.value}
             </if>
             <if test="coupon.status != null and coupon.status != ''">
