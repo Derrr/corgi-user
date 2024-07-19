@@ -49,7 +49,7 @@
                 c.value = #{coupon.value},
             </if>
             <if test="coupon.title != null and coupon.title != ''">
-                c.value = #{coupon.value},
+                c.title = #{coupon.title},
             </if>
             <if test="coupon.status != null and coupon.status != ''">
                 c.status = #{coupon.status},
