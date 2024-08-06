@@ -27,12 +27,12 @@ public enum MerchandiseEnum {
     LOCATION("L01", "normal", 0, "付费定位¥3", "付费定位"),
     LOCATION_MONTH("L02", "normal", 0, "包月¥18", "定位查看"),
     BILLBOARD_YEAR("B02", "year", 0, "免费", "年费会员免费上榜"),
-    WECHAT_1("W01", "normal", 0, "解锁微信 ¥19", "微信解锁"),
-    WECHAT_2("W02", "normal", 0, "解锁微信 ¥29", "微信解锁"),
-    WECHAT_3("W03", "normal", 0, "解锁微信 ¥49", "微信解锁"),
-    WECHAT_4("W04", "normal", 0, "解锁微信 ¥69", "微信解锁"),
-    WECHAT_5("W05", "normal", 0, "解锁微信 ¥89", "微信解锁"),
-    WECHAT_6("W06", "normal", 0, "解锁微信 ¥109", "微信解锁"),
+    WECHAT_1("W01", "normal", 0, "解锁微信 ¥18", "微信解锁"),
+    WECHAT_2("W02", "normal", 0, "解锁微信 ¥38", "微信解锁"),
+    WECHAT_3("W03", "normal", 0, "解锁微信 ¥58", "微信解锁"),
+    WECHAT_4("W04", "normal", 0, "解锁微信 ¥78", "微信解锁"),
+    WECHAT_5("W05", "normal", 0, "解锁微信 ¥98", "微信解锁"),
+    WECHAT_6("W06", "normal", 0, "解锁微信 ¥128", "微信解锁"),
     ;
 
     MerchandiseEnum(String code, String type, Integer days, String desc, String title) {
