@@ -235,6 +235,7 @@
         from corgi_user_goods g
         where g.ctime > #{behavior.startTime}
           and g.ctime &lt; #{behavior.endTime}
+          and g.user_id != '593'
           and (g.goods_type = #{behavior.type}
               <if test = "behavior.type == 'location'">
                   or g.goods_type = 'locationmonth'
