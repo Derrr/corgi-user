@@ -11,6 +11,7 @@ import com.corgi.entity.CorgiPic;
 import com.corgi.mapper.CorgiPicMapper;
 import com.corgi.mapper.CorgiUserMapper;
 import com.corgi.user.api.CorgiPicService;
+import com.corgi.user.api.CorgiUserActivityService;
 import com.corgi.user.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     private CorgiPicMapper corgiPicMapper;
     @Autowired
     private CorgiUserMapper corgiUserMapper;
+    @Autowired
+    private CorgiUserActivityService corgiUserActivityService;
 
     private static String SUFFIX = "?x-oss-process=style/mask";
 
@@ -82,7 +85,12 @@ public class CorgiPicServiceImpl implements CorgiPicService {
     @Override
     public String failCheckPic(CheckPic checkPic) {
         if (CheckPic.ACTIVITY.equals(checkPic.getType())) {
+            ActivityPic pic = corgiPicMapper.getActivityPicByDataId(checkPic.getDataId());
             corgiPicMapper.deleteActivityPicByDataId(checkPic.getDataId());
+            List<ActivityPic> pics = corgiPicMapper.getActivityPic(pic.getActivityId());
+            if (CollectionUtils.isEmpty(pics)) {
+                corgiUserActivityService.deleteActivityCreator(pic.getActivityId());
+            }
         } else if (CheckPic.USER.equals(checkPic.getType())) {
             corgiPicMapper.deleteUserPicByDataId(checkPic.getDataId());
         } else if (CheckPic.AVATAR.equals(checkPic.getType())) {
@@ -177,7 +185,7 @@ public class CorgiPicServiceImpl implements CorgiPicService {
         if (corgiPic == null || StringUtils.isEmpty(corgiPic.getPicUrl())) {
             return null;
         }
-        corgiPic.setPicUrl(corgiPic.getPicUrl().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://","http://"));
+        corgiPic.setPicUrl(corgiPic.getPicUrl().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://", "http://"));
         return corgiPic;
     }
 
