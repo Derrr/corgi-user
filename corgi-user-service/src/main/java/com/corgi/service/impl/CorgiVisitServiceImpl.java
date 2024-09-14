@@ -44,15 +44,7 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
             page = 1;
         }
         List<UserProfile> profiles = corgiVisitMapper.getVisitor(userId, (page - 1) * limit, limit);
-        String expire = corgiUserService.getUserVipExpire(userId);
-        if (!"-".equals(expire)) {
-            corgiVisitMapper.readVisit(userId);
-        } else {
-            UserDetail detail = corgiUserService.getUserDetailBasic(userId);
-            if (UserDetail.INFLUENCER.equals(detail.getAvatarStatus())) {
-                corgiVisitMapper.readVisit(userId);
-            }
-        }
+        corgiVisitMapper.readVisit(userId);
         return convert(profiles, userId);
     }
 

@@ -34,11 +34,13 @@
                d.weight,
                d.height,
                d.birthday,
+               p.city,
                v.count               activityCount,
                v.uptime              followTime,
                v.read                isRead
         from corgi_visit v
                  join corgi_user_detail d on d.user_id = v.visitor_id
+        left join corgi_user_position p on p.user_id = v.visitor_id
         where v.user_id = #{userId}
         order by v.uptime desc, v.count desc limit #{start}, #{limit}
     </select>
