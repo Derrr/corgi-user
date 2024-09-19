@@ -44,7 +44,9 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
             page = 1;
         }
         List<UserProfile> profiles = corgiVisitMapper.getVisitor(userId, (page - 1) * limit, limit);
-        corgiVisitMapper.readVisit(userId);
+        if (page > 1 || limit > 1) {
+            corgiVisitMapper.readVisit(userId);
+        }
         return convert(profiles, userId);
     }
 
@@ -100,7 +102,7 @@ public class CorgiVisitServiceImpl implements CorgiVisitService {
         for (UserProfile profile : profiles) {
             profile.setIsFollowed(corgiUserFollowService.isFollowed(userId, profile.getUserId()));
             if (!StringUtils.isEmpty(profile.getAvatar()) && !"check".equals(profile.getAvatarCheckStatus())) {
-                profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://","http://"));
+                profile.setAvatar(profile.getAvatar().replaceAll("corgi-pic\\.oss-cn-beijing\\.aliyuncs\\.com", "image.corgi.org.cn").replaceAll("https://", "http://"));
             }
         }
         return profiles;
