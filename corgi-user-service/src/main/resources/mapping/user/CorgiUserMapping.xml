@@ -961,7 +961,7 @@
     </insert>
 
     <select id="getVipExpire" resultType="java.lang.String">
-        select if(vip_status = 1 and vip_expire &lt; DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), vip_expire, '-')
+        select if(vip_status = 1 and vip_expire > DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), vip_expire, '-')
         from corgi_user_detail
         where user_id = #{userId}
     </select>
