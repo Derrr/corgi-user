@@ -15,4 +15,6 @@ public interface TlxActivityService {
     void updateActivity(TlxActivity tlxActivity);
 
     void updateStatus(String id, String status);
+
+    void refreshStatus(String version);
 }

@@ -44,4 +44,10 @@ public interface TlxActivityMapper {
      */
     void updateStatus(@Param("id")String id, @Param("status")String status);
 
+    /**
+     * 刷新状态
+     * @param version
+     */
+    void deleteActivityByVersion(@Param("version")String version);
+
 }

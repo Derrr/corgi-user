@@ -45,4 +45,9 @@ public class TlxActivityServiceImpl implements TlxActivityService {
     public void updateStatus(String id, String status) {
         tlxActivityMapper.updateStatus(id, status);
     }
+
+    @Override
+    public void refreshStatus(String version) {
+        tlxActivityMapper.deleteActivityByVersion(version);
+    }
 }
