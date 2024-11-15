@@ -22,6 +22,7 @@ public class TlxActivity implements Serializable {
     private String expenseDetail;
     private String note;
     private String version;
+    private String hot;
     private String ctime;
     private String uptime;
 }

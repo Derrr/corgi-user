@@ -1,6 +1,7 @@
 package com.corgi.user.api;
 
 import com.corgi.user.entity.TlxActivity;
+import com.corgi.user.entity.UserDetail;
 
 import java.util.List;
 
@@ -17,4 +18,12 @@ public interface TlxActivityService {
     void updateStatus(String id, String status);
 
     void refreshStatus(String version);
+
+    Integer countActivityUser(String id);
+
+    List<UserDetail> getActivityUsers(String id);
+
+    void addActivityUser(String id, String userId);
+
+    void deleteActivityUser(String id, String userId);
 }

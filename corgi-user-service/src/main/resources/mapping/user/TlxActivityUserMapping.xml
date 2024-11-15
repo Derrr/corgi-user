@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.corgi.mapper.TlxActivityUserMapper">
+    <select id="getActivityUsers" resultType="com.corgi.user.entity.UserDetail">
+        select d.user_id,d.nickname,d.avatar,d.weight,d.height,d.birthday
+        from tlx_activity_user u left join corgi_user_detail d on d.user_id = u.user_id
+        where u.status = 1
+        and u.activity_id = #{activityId}
+        order by u.id desc limit 200;
+    </select>
+
+    <select id="countActivityUser" resultType="java.lang.Integer">
+        select count(distinct u.user_id)
+        from tlx_activity_user u
+        where u.status = 1
+          and u.activity_id = #{activityId}
+    </select>
+
+
+    <insert id="addActivityUser">
+        insert into `corgi`.`tlx_activity_user` (`activity_id`,`user_id`)
+        values (#{activityId}, #{userId});
+    </insert>
+
+    <update id="deleteActivityUser">
+        update tlx_activity_user set
+                                status = 0
+        where activity_id = #{activityId} and user_id = #{userId} and status = 1
+    </update>
+
+</mapper>
