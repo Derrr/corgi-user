@@ -22,6 +22,14 @@ public interface CorgiSystemMessageMapper {
     List<SystemMessage> getSystemMessageByPage(@Param("filterTitle") String filterTitle, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
+     * 统计message
+     *
+     * @param filterTitle
+     * @return
+     */
+    Integer countSystemMessage(@Param("filterTitle") String filterTitle);
+
+    /**
      * 获取message
      *
      * @param messageId

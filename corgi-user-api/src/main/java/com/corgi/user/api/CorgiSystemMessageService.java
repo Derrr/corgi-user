@@ -13,6 +13,8 @@ import java.util.List;
 public interface CorgiSystemMessageService {
     List<SystemMessage> getSystemMessageByPage(String filterTitle, Integer page, Integer pageSize);
 
+    Integer countSystemMessage(String filterTitle);
+
     SystemMessage getMessageDetail(String messageId);
 
     List<SystemMessage> getSystemMessagesByTime(Long time);

@@ -42,6 +42,11 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
     }
 
     @Override
+    public Integer countSystemMessage(String filterTitle) {
+        return corgiSystemMessageMapper.countSystemMessage(filterTitle);
+    }
+
+    @Override
     public SystemMessage getMessageDetail(String messageId) {
         SystemMessage systemMessage = corgiSystemMessageMapper.getSystemMessageById(messageId);
         List<MessageRule> messageRules = corgiSystemMessageMapper.getMessageRuleById(messageId);
