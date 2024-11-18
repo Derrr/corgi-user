@@ -50,4 +50,10 @@ public interface TlxActivityMapper {
      */
     void deleteActivityByVersion(@Param("version")String version);
 
+    /**
+     * 统计活动
+     * @param tlxActivity
+     */
+    Integer countActivity(@Param("activity") TlxActivity tlxActivity);
+
 }

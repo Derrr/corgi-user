@@ -62,4 +62,14 @@
         update tlx_activity set `status` = #{status} where id = #{id}
     </update>
 
+    <select id="countActivity" resultType="java.lang.Integer">
+        select count(1) from tlx_activity
+        where 1=1
+        <if test="activity.status != null and activity.status != ''">
+            and `status` = #{activity.status}
+        </if>
+        <if test="activity.city != null and activity.city != ''">
+            and `city` = #{activity.city}
+        </if>
+    </select>
 </mapper>

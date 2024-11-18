@@ -30,8 +30,8 @@ public class TlxActivityServiceImpl implements TlxActivityService {
     @Override
     public List<TlxActivity> getActivityList(Integer page, Integer pageSize, TlxActivity activity) {
         List<TlxActivity> results = tlxActivityMapper.getActivityList(activity, (page - 1) * pageSize, pageSize);
-        for(TlxActivity tlx:results){
-            tlx.setHot(tlxActivityUserMapper.countActivityUser(tlx.getId())+"");
+        for (TlxActivity tlx : results) {
+            tlx.setHot(tlxActivityUserMapper.countActivityUser(tlx.getId()) + "");
         }
         return results;
     }
@@ -62,6 +62,11 @@ public class TlxActivityServiceImpl implements TlxActivityService {
     @Override
     public Integer countActivityUser(String id) {
         return tlxActivityUserMapper.countActivityUser(id);
+    }
+
+    @Override
+    public Integer countActivity(TlxActivity tlxActivity) {
+        return tlxActivityMapper.countActivity(tlxActivity);
     }
 
     @Override
