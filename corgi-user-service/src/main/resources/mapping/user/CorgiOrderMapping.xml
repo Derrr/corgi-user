@@ -162,7 +162,7 @@
     <select id="countOrder" resultType="java.lang.Integer">
         select
         count(1)
-        from corgi_order
+        from corgi_order o
         <if test="order.merchType != null and order.merchType != ''">
             left join corgi_merchandise m on m.merch_code = o.merch_id
         </if>
