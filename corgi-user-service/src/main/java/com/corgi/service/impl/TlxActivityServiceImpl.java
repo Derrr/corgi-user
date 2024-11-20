@@ -76,6 +76,7 @@ public class TlxActivityServiceImpl implements TlxActivityService {
 
     @Override
     public void addActivityUser(String id, String userId) {
+        tlxActivityUserMapper.deleteActivityUser(id, userId);
         tlxActivityUserMapper.addActivityUser(id, userId);
     }
 

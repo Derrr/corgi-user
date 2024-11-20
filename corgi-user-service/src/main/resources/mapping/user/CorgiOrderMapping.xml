@@ -176,7 +176,7 @@
         <if test="order.status != null and order.status != ''">
             and o.status = #{order.status}
         </if>
-        <if test="order.status != null and order.status != ''">
+        <if test="order.payType != null and order.payType != ''">
             and o.pay_type = #{order.payType}
         </if>
         <if test="order.merchType != null and order.merchType != ''">
