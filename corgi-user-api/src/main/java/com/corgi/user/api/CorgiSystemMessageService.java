@@ -33,6 +33,8 @@ public interface CorgiSystemMessageService {
 
     List<MessageRecord> getMessageRecordByMessageId(Integer page, Integer pageSize, String messageId);
 
+    Integer countMessageRecordByMessageId(String messageId);
+
     List<MessageRecord> searchMessageRecordList(MessageRecord messageRecord);
 
     String addMessageRecord(MessageRecord messageRecord);

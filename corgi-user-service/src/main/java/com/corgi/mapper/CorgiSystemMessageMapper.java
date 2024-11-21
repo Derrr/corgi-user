@@ -102,6 +102,14 @@ public interface CorgiSystemMessageMapper {
     List<MessageRecord> getMessageRecordByMessageId(@Param("messageId") String messageId, @Param("start") Integer start, @Param("size") Integer size);
 
     /**
+     * 统计消息下推送记录
+     *
+     * @param messageId
+     * @return
+     */
+    Integer countMessageRecordByMessageId(@Param("messageId") String messageId);
+
+    /**
      * 添加记录
      *
      * @param messageRecord

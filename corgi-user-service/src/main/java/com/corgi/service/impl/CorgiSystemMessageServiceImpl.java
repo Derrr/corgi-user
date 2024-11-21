@@ -112,6 +112,11 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
     }
 
     @Override
+    public Integer countMessageRecordByMessageId(String messageId) {
+        return null;
+    }
+
+    @Override
     public List<MessageRecord> searchMessageRecordList(MessageRecord messageRecord) {
         return corgiSystemMessageMapper.searchMessageRecord(messageRecord, 0, 1000);
     }

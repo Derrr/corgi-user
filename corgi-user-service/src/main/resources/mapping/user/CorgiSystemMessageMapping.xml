@@ -149,6 +149,12 @@
             limit #{start}, #{size}
     </select>
 
+    <select id="countMessageRecordByMessageId" resultType="java.lang.Integer">
+        select count(1)
+        from corgi_message_record
+        where message_id = #{messageId}
+    </select>
+
     <insert id="addMessageRecord" useGeneratedKeys="true" keyProperty="record.id"
             parameterType="com.corgi.user.entity.MessageRecord">
         INSERT INTO `corgi_message_record` (`message_id`, `user_id`, `nickname`, `status`, `reason`)
