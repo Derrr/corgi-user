@@ -113,7 +113,7 @@ public class CorgiSystemMessageServiceImpl implements CorgiSystemMessageService 
 
     @Override
     public Integer countMessageRecordByMessageId(String messageId) {
-        return null;
+        return corgiSystemMessageMapper.countSystemMessage(messageId);
     }
 
     @Override
