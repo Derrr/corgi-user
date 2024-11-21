@@ -5,8 +5,9 @@
         c.id, c.user_id userId, c.value, c.status, c.ctime, c.expire_date expireDate, c.used_activity userdActivity,c.title
     </sql>
     <select id="getCouponList" resultType="com.corgi.user.entity.CouponActivity">
-        select <include refid="coupon"/>
+        select <include refid="coupon"/>,d.nickname
         from corgi_coupon_activity c
+        left join corgi_user_detail d on d.user_id = c.user_id
         where c.user_id = #{coupon.userId}
         <if test="coupon.status != null and coupon.status != ''">
             and c.status = #{coupon.status}

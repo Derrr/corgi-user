@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class CouponActivity implements Serializable {
     private Integer id;
     private String userId;
+    private String nickname;
     private String title;
     private Double value;
     private String status;
