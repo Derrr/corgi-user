@@ -2,25 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.corgi.mapper.CorgiCouponActivityMapper">
     <sql id="coupon">
-        c.id, c.user_id userId, c.value, c.status, c.ctime, c.expire_date expireDate, c.used_activity userdActivity,c.title
+        c
+        .
+        id
+        , c.user_id userId, c.value, c.status, c.ctime, c.expire_date expireDate, c.used_activity userdActivity,c.title
     </sql>
     <select id="getCouponList" resultType="com.corgi.user.entity.CouponActivity">
-        select <include refid="coupon"/>,d.nickname
+        select<include refid="coupon"/>,d.nickname
         from corgi_coupon_activity c
         left join corgi_user_detail d on d.user_id = c.user_id
-        where c.user_id = #{coupon.userId}
-        <if test="coupon.status != null and coupon.status != ''">
-            and c.status = #{coupon.status}
+        <if test="coupon.userId != null and coupon.userId != ''">
+            where c.user_id = #{coupon.userId}
+            <if test="coupon.status != null and coupon.status != ''">
+                and c.status = #{coupon.status}
+            </if>
+            <if test="coupon.status != null and coupon.status != '2'">
+                and c.expire_date > #{coupon.expireDate}
+            </if>
+            order by c.expire_date
         </if>
-        <if test="coupon.status != null and coupon.status != '2'">
-            and c.expire_date > #{coupon.expireDate}
+        <if test="coupon.userId == null or coupon.userId == ''">
+            order by c.id desc
         </if>
-        order by c.expire_date
         limit #{start}, #{size}
     </select>
 
     <select id="getCoupon" resultType="com.corgi.user.entity.CouponActivity">
-        select <include refid="coupon"/>
+        select
+        <include refid="coupon"/>
         from corgi_coupon_activity c
         where c.id = #{couponId}
     </select>
@@ -28,18 +37,19 @@
     <select id="countCoupon" resultType="java.lang.Integer">
         select count(1)
         from corgi_coupon_activity c
-        where c.user_id = #{coupon.userId} and c.expire_date > #{coupon.expireDate}
-        <if test="coupon.status != null and coupon.status != ''">
-            and c.status = #{coupon.status}
+        <if test="coupon.userId != null and coupon.userId != ''">
+            where c.user_id = #{coupon.userId} and c.expire_date > #{coupon.expireDate}
+            <if test="coupon.status != null and coupon.status != ''">
+                and c.status = #{coupon.status}
+            </if>
+            <if test="coupon.value != null and coupon.value > 0">
+                and (c.value >= #{coupon.value} or c.value = 0)
+            </if>
         </if>
-        <if test="coupon.value != null and coupon.value > 0">
-            and (c.value >= #{coupon.value} or c.value = 0)
-        </if>
-
     </select>
 
     <insert id="addCouponActivity" parameterType="com.corgi.user.entity.CouponActivity">
-        insert into `corgi`.`corgi_coupon_activity` (`user_id`, `value`, `expire_date`,`title`)
+        insert into `corgi`.`corgi_coupon_activity` (`user_id`, `value`, `expire_date`, `title`)
         values (#{coupon.userId}, #{coupon.value}, #{coupon.expireDate}, #{coupon.title});
     </insert>
 
@@ -68,7 +78,7 @@
     <update id="expireCouponActivity">
         update corgi_coupon_activity c set status = '0'
         where status = '2' and expire_date &lt; #{coupon.expireDate}
-        <if test = "coupon.userId != null and coupon.userId != ''">
+        <if test="coupon.userId != null and coupon.userId != ''">
             and user_id = #{coupon.userId}
         </if>
     </update>

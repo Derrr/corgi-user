@@ -25,11 +25,9 @@ public class CorgiCouponActivityServiceImpl implements CorgiCouponActivityServic
 
     @Override
     public List<CouponActivity> getCouponList(CouponActivity couponActivity, Integer page, Integer pageSize) {
-        if (!"0".equals(couponActivity.getExpireDate())) {
-            Calendar c = Calendar.getInstance();
-            c.add(Calendar.DATE, -60);
-            couponActivity.setExpireDate(new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
-        }
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -60);
+        couponActivity.setExpireDate(new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
         return couponActivityMapper.getCouponList(couponActivity, (page - 1) * pageSize, pageSize);
     }
 
@@ -40,11 +38,9 @@ public class CorgiCouponActivityServiceImpl implements CorgiCouponActivityServic
 
     @Override
     public Integer countCoupon(CouponActivity couponActivity) {
-        if (!"0".equals(couponActivity.getExpireDate())) {
-            Calendar c = Calendar.getInstance();
-            c.add(Calendar.DATE, -60);
-            couponActivity.setExpireDate(new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
-        }
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -60);
+        couponActivity.setExpireDate(new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
         return couponActivityMapper.countCoupon(couponActivity);
     }
 
