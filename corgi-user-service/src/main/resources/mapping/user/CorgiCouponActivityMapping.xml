@@ -18,8 +18,11 @@
             </if>
             <if test="coupon.status != null and coupon.status != '2'">
                 and c.expire_date > #{coupon.expireDate}
+                order by c.expire_date
             </if>
-            order by c.expire_date desc
+            <if test="coupon.status === null or coupon.status == '2'">
+                order by c.id desc
+            </if>
         </if>
         <if test="coupon.userId == null or coupon.userId == ''">
             order by c.id desc
