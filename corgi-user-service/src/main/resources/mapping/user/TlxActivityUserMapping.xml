@@ -16,6 +16,15 @@
           and u.activity_id = #{activityId}
     </select>
 
+    <select id="countUserActivity" resultType="java.lang.Integer">
+        select count(1)
+        from tlx_activity_user u
+        where u.status = 1
+          and u.activity_id = #{activityId}
+          and u.user_id = #{userId}
+    </select>
+
+
 
     <insert id="addActivityUser">
         insert into `corgi`.`tlx_activity_user` (`activity_id`,`user_id`)

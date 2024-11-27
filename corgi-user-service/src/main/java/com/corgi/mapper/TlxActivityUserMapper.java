@@ -39,4 +39,11 @@ public interface TlxActivityUserMapper {
      */
     Integer countActivityUser(@Param("activityId") String activityId);
 
+    /**
+     * 统计活动人员
+     * @param activityId
+     */
+    Integer countUserActivity(@Param("activityId") String activityId, @Param("userId")String userId);
+
+
 }

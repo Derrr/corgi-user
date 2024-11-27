@@ -21,6 +21,8 @@ public interface TlxActivityService {
 
     Integer countActivityUser(String id);
 
+    Integer countUserActivity(String id, String userId);
+
     Integer countActivity(TlxActivity tlxActivity);
 
     List<UserDetail> getActivityUsers(String id);

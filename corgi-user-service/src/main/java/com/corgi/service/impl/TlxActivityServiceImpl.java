@@ -65,6 +65,11 @@ public class TlxActivityServiceImpl implements TlxActivityService {
     }
 
     @Override
+    public Integer countUserActivity(String id, String userId) {
+        return tlxActivityUserMapper.countUserActivity(id, userId);
+    }
+
+    @Override
     public Integer countActivity(TlxActivity tlxActivity) {
         return tlxActivityMapper.countActivity(tlxActivity);
     }

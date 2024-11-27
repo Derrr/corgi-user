@@ -4,7 +4,7 @@
     <select id="getActivityList" resultType="com.corgi.user.entity.TlxActivity">
         select `id`,`city`, `longtitle`, `shorttitle`,
         `header_image` headerImage,`poster_image` posterImage,`meeting_point` meetingPoint,`days`,`departdate`,`status`,`price`,`body`,
-        `trip_content` tripContent,`expense_detail` expenseDetail,version,`note`,ctime,uptime
+        `trip_content` tripContent,`expense_detail` expenseDetail,version,`note`,ctime,uptime,`period`
         from tlx_activity
         where 1=1
         <if test="activity.status != null and activity.status != ''">
@@ -19,7 +19,7 @@
     <select id="getActivity" resultType="com.corgi.user.entity.TlxActivity">
         select `id`,`city`, `longtitle`, `shorttitle`,
         `header_image` headerImage,`poster_image` posterImage,`meeting_point` meetingPoint,`days`,`departdate`,`status`,`price`,`body`,
-        `trip_content` tripContent,`expense_detail` expenseDetail,`note`,version,ctime,uptime
+        `trip_content` tripContent,`expense_detail` expenseDetail,`note`,version,ctime,uptime,`period`
         from tlx_activity
         where id = #{id}
     </select>
@@ -28,11 +28,11 @@
     <insert id="addActivity" parameterType="com.corgi.user.entity.TlxActivity">
         insert ignore into `corgi`.`tlx_activity` (`id`,`city`, `longtitle`, `shorttitle`,
 `header_image`,`poster_image`,`meeting_point`,`days`,`departdate`,`price`,`body`,
-`trip_content`,`expense_detail`,`note`,version)
+`trip_content`,`expense_detail`,`note`,version, `period`)
         values (#{activity.id}, #{activity.city}, #{activity.longtitle}, #{activity.shorttitle},
 #{activity.headerImage},#{activity.posterImage},#{activity.meetingPoint},
         #{activity.days},#{activity.departdate},#{activity.price},
-        #{activity.body},#{activity.tripContent},#{activity.expenseDetail},#{activity.note},#{activity.version});
+        #{activity.body},#{activity.tripContent},#{activity.expenseDetail},#{activity.note},#{activity.version},#{activity.period});
     </insert>
 
     <update id="updateActivity">
@@ -50,6 +50,7 @@
                                 trip_content = #{activity.tripContent},
                                 expense_detail = #{activity.expenseDetail},
                                 `version` = #{activity.version},
+                                `period` = #{activity.period},
             `note` = #{activity.note}
         where id = #{activity.id}
     </update>
