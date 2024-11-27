@@ -14,6 +14,7 @@ public class TlxActivity implements Serializable {
     private String meetingPoint;
     private Integer days;
     private String departdate;
+    private String period;
     private String status;
     private Integer price;
     private String longtitle;
