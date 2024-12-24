@@ -12,11 +12,11 @@ public class TlxActivity implements Serializable {
     private String headerImage;
     private String posterImage;
     private String meetingPoint;
-    private Double days;
+    private String days;
     private String departdate;
     private String period;
     private String status;
-    private Double price;
+    private String price;
     private String longtitle;
     private String body;
     private String tripContent;
